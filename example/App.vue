@@ -7,6 +7,14 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
+	<m-cell-group title="MVI移动端框架" :border="true">
+	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
+	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
+	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
+	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
+	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
+	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
+	</m-cell-group>
 	<div class="a" style="position: relative;height: 3rem;">
 		<!-- <m-image-preview mount-el="#app" v-model:show="show" :images="images"></m-image-preview> -->
 		<!-- <m-dropdown  active-color="#ff3300" inactive-color="#333" mount-el="#app" v-model:value="value" v-model:show="show" :options="options"></m-dropdown> -->

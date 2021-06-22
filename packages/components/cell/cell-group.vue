@@ -43,6 +43,6 @@
 	}
 	
 	.mvi-cell-group-border:deep(.mvi-cell.mvi-cell-border:last-child::after){
-		height: 0px;
+		border: none;
 	}
 </style>

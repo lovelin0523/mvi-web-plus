@@ -624,7 +624,6 @@
 		width: calc(~'100% - @{mp-xs}*2');
 		height: 0;
 		border-bottom: 1px solid @border-color;
-		background-color: @border-color;
 		box-sizing: content-box;
 	}
 
