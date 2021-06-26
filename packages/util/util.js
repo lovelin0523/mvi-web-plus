@@ -1,4 +1,19 @@
 const util = {
+	
+	/**
+	 * 文字复制方法
+	 */
+	copyText(text){
+		let el = this.string2dom('<div>'+text+'</div>');
+		document.body.appendChild(el);
+		const range = document.createRange();
+		range.selectNode(el);
+		const selection = window.getSelection();
+		if(selection.rangeCount > 0) selection.removeAllRanges();
+		selection.addRange(range);
+		document.execCommand('copy');
+		document.body.removeChild(el);
+	},
 
 	/**
 	 * 获取元素距离可视窗口的位置
