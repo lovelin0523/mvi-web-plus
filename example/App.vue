@@ -7,14 +7,7 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-cell-group title="MVI移动端框架" :border="true">
-	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
-	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
-	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
-	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
-	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
-	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
-	</m-cell-group>
+	<m-table ref="table" :sort-icon="['angle-up', 'angle-down']" sort-active-color="#ff3300" :data="data" :columns="columns"></m-table>
 	<div class="a" style="position: relative;height: 3rem;">
 		<!-- <m-image-preview mount-el="#app" v-model:show="show" :images="images"></m-image-preview> -->
 		<!-- <m-dropdown  active-color="#ff3300" inactive-color="#333" mount-el="#app" v-model:value="value" v-model:show="show" :options="options"></m-dropdown> -->
@@ -68,48 +61,38 @@ export default {
 				'https://www.mvi-web.cn/resources/blogImages/MLPDRICUjWWSWDW3OcLtRQ_p.jfif',
 				'https://www.mvi-web.cn/resources/blogImages/oQmx45AeZhuaAvrnTLBn6V6p.jfif'
 			],
-			data: [
+			data:[
 				{
-					name: '张三',
-					age: 24,
-					sex: '男'
+					id:4,
+					name:'张三',
+					age:12
 				},
 				{
-					name: '李四',
-					age: 20,
-					checkDisabled: false,
-					sex: '男',
-					hidden: true
+					id:12,
+					name:'李四',
+					age:22
 				},
 				{
-					name: '王红',
-					age: 22,
-					sex: '女'
-				},
-				{
-					name: '赵钱',
-					age: 30,
-					sex: '男'
+					id:11,
+					name:'王婆',
+					age:45
 				}
 			],
-			columns: [
+			columns:[
 				{
-					key: 'checkbox',
-					value: '全选'
+					key:'id',
+					value:'ID',
+					sortable:true
 				},
 				{
-					key: 'name',
-					value: '姓名',
-					sortable: true
+					key:'name',
+					value:'姓名',
+					sortable:true
 				},
 				{
-					key: 'age',
-					value: '年龄',
-					sortable: true
-				},
-				{
-					key: 'sex',
-					value: '性别'
+					key:'age',
+					value:'年龄',
+					sortable:true
 				}
 			],
 			page: 1,
@@ -138,6 +121,7 @@ export default {
 	methods: {
 		change(e) {
 			console.log(e)
+			this.$refs.table.resetSortActive()
 		}
 	}
 };

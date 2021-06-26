@@ -5,7 +5,7 @@
 			 :spin="iconSpin" :size="iconSize" :color="iconColor"/>
 			<div :class="'mvi-cell-title'+(noWrap?' mvi-cell-nowrap':'')">
 				<slot name="title" v-if="$slots.title"></slot>
-				<span v-else v-text="title" :class="(titleClass?' '+titleClass:'')"></span>
+				<span v-else v-text="title" :class="titleClass?titleClass:''"></span>
 			</div>
 			<div :class="'mvi-cell-content'+(noWrap?' mvi-cell-nowrap':'')" v-if="$slots.content || content">
 				<slot name="content" v-if="$slots.content"></slot>
