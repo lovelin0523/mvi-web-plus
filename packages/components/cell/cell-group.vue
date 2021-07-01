@@ -42,7 +42,7 @@
 		padding:@mp-md @mp-sm;
 	}
 	
-	.mvi-cell-group-border:deep(.mvi-cell.mvi-cell-border:last-child::after){
+	.mvi-cell-group-border ::v-deep .mvi-cell.mvi-cell-border:last-child::after{
 		border: none;
 	}
 </style>

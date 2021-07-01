@@ -7,7 +7,9 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-editor v-model:value="value" paste-text :menus="{codeView:true}"></m-editor>
+	<m-cell-group >
+		<m-cell title="标题"></m-cell>
+	</m-cell-group>
 	<div class="a" style="position: relative;height: 3rem;">
 		<!-- <m-image-preview mount-el="#app" v-model:show="show" :images="images"></m-image-preview> -->
 		<!-- <m-dropdown  active-color="#ff3300" inactive-color="#333" mount-el="#app" v-model:value="value" v-model:show="show" :options="options"></m-dropdown> -->
