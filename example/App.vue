@@ -7,7 +7,7 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-table ref="table" :sort-icon="['angle-up', 'angle-down']" sort-active-color="#ff3300" :data="data" :columns="columns"></m-table>
+	<m-editor v-model:value="value" paste-text :menus="{codeView:true}"></m-editor>
 	<div class="a" style="position: relative;height: 3rem;">
 		<!-- <m-image-preview mount-el="#app" v-model:show="show" :images="images"></m-image-preview> -->
 		<!-- <m-dropdown  active-color="#ff3300" inactive-color="#333" mount-el="#app" v-model:value="value" v-model:show="show" :options="options"></m-dropdown> -->

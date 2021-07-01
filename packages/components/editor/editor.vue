@@ -19,6 +19,7 @@
 				ref="codeView"
 				@input="codeViewInput"
 				@keydown="tabDown"
+				@paste="codeViewPaste"
 			></div>
 			<div
 				v-else
@@ -34,6 +35,7 @@
 				:style="contentStyle"
 				v-html="initalHtml"
 				:data-placeholder="placeholder"
+				@paste="contentPaste"
 			></div>
 		</div>
 	</div>
@@ -586,6 +588,11 @@ export default {
 		activeColor:{
 			type:String,
 			default:'#0b73de'
+		},
+		//纯文本粘贴
+		pasteText:{
+			type:Boolean,
+			default:false
 		}
 	},
 	computed: {
@@ -1130,6 +1137,42 @@ export default {
 				this.html = this.$refs.codeView.innerText;
 				let el = $util.string2dom(`<div>${this.$refs.codeView.innerText}</div>`);
 				this.text = el.innerText;
+			}
+		},
+		//代码视图粘贴事件
+		codeViewPaste(event) {
+			event.preventDefault();
+			this.doPasetText();
+		},
+		//编辑器粘贴事件
+		contentPaste(e) {
+			if(this.pasteText){
+				event.preventDefault();
+				this.doPasetText();
+			}
+		},
+		//纯文本粘贴处理
+		doPasetText(){
+			let text = '';
+			let clip = (event.originalEvent || event).clipboardData;
+			//兼容针对于opera ie等浏览器
+			if (clip === undefined || clip === null) {
+				text = window.clipboardData.getData('text') || '';
+				if (text !== '') {
+					if (window.getSelection) {
+						let newNode = document.createElement('span');
+						newNode.innerHTML = text;
+						window.getSelection().getRangeAt(0).insertNode(newNode);
+					} else {
+						document.selection.createRange().pasteHTML(text);
+					}
+				}
+			} else {
+				// 兼容chorme或hotfire
+				text = clip.getData('text/plain') || '';
+				if (text !== '') {
+					document.execCommand('insertText', false, text);
+				}
 			}
 		}
 	}
