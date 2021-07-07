@@ -1,7 +1,7 @@
 <template>
 	<div :disabled="disabled || null" :class="computedClass" :style="computedStyle" @click="setActive">
 		<div class="mvi-tabbar-item-child">
-			<span class="mvi-tabbar-icon" v-if="iconType || iconUrl" :style="'margin-bottom:'+(name?'':'0px')">
+			<span class="mvi-tabbar-icon" v-if="iconType || iconUrl" :style="{marginBottom:(name?'':'0px')}">
 				<m-icon :type="iconType" :url="iconUrl" :spin="iconSpin" :size="iconSize" :color="iconColor"/>
 			</span>
 			<span :class="['mvi-tabbar-name',(iconType || iconUrl)?'mvi-tabbar-name-small':'']" v-text="name"></span>
@@ -45,10 +45,10 @@
 			iconType() {
 				let t = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.type) == "string") {
+					if (typeof this.icon.type == "string") {
 						t = this.icon.type;
 					}
-				} else if (typeof(this.icon) == "string") {
+				} else if (typeof this.icon == "string") {
 					t = this.icon;
 				}
 				return t;
@@ -56,7 +56,7 @@
 			iconUrl() {
 				let url = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.url) == "string") {
+					if (typeof this.icon.url == "string") {
 						url = this.icon.url;
 					}
 				}
@@ -65,7 +65,7 @@
 			iconSpin() {
 				let spin = false;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.spin) == "boolean") {
+					if (typeof this.icon.spin == "boolean") {
 						spin = this.icon.spin;
 					}
 				}
@@ -74,7 +74,7 @@
 			iconSize(){
 				let size = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.size) == "string") {
+					if (typeof this.icon.size == "string") {
 						size = this.icon.size;
 					}
 				}
@@ -83,26 +83,26 @@
 			iconColor(){
 				let color = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.color) == "string") {
+					if (typeof this.icon.color == "string") {
 						color = this.icon.color;
 					}
 				}
 				return color;
 			},
 			computedClass(){
-				let cls = "mvi-tabbar-item";
-				if(this.value == this.tabbar.value){
-					cls += " mvi-tabbar-item-active";
+				let cls = ['mvi-tabbar-item'];
+				if(this.value == this.tabbar.modelValue){
+					cls.push('mvi-tabbar-item-active');
 				}
-				if(this.tabbar.active && !this.disabled && this.value != this.tabbar.value){
-					cls += " mvi-tabbar-active";
+				if(this.tabbar.active && !this.disabled && this.value != this.tabbar.modelValue){
+					cls.push('mvi-tabbar-active');
 				}
 				return cls;
 			},
 			computedStyle(){
 				let style = {};
 				//激活
-				if(this.value===this.tabbar.value){
+				if(this.value===this.tabbar.modelValue){
 					if(this.tabbar.activeColor){
 						style.color = this.tabbar.activeColor;
 					}
@@ -159,11 +159,11 @@
 				if(this.disabled){
 					return;
 				}
-				if(this.tabbar.value === this.value){
+				if(this.tabbar.modelValue === this.value){
 					return;
 				}
 				//如果路由存在
-				if(this.computedRoute && this.$router && this.$router.constructor.name == 'VueRouter'){
+				if(this.computedRoute && this.$router && this.$router.replace && this.$router.push){
 					//path存在首先使用path
 					if(this.computedRoute.path){
 						if(this.computedRoute.replace){

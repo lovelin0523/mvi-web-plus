@@ -23,14 +23,14 @@
 	import $util from "../../util/util"
 	export default {
 		name:"m-search",
-		emits:['update:value','search','cancel','left-click','right-click','focus','blur','input'],
+		emits:['update:modelValue','search','cancel','left-click','right-click','focus','blur','input'],
 		data(){
 			return {
 				focus:false
 			}
 		},
 		props:{
-			value:{
+			modelValue:{
 				type:[String,Number],
 				default:''
 			},
@@ -127,8 +127,11 @@
 		},
 		computed:{
 			showClear(){
+				if(this.disabled || this.readonly){
+					return false;
+				}
 				if(this.focus){
-					if (this.value === '') {
+					if (this.modelValue === '') {
 						return false;
 					} else {
 						return true;
@@ -140,10 +143,10 @@
 			leftIconType() {
 				let t = null;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.type) == "string") {
+					if (typeof this.leftIcon.type == "string") {
 						t = this.leftIcon.type;
 					}
-				} else if (typeof(this.leftIcon) == "string") {
+				} else if (typeof this.leftIcon == "string") {
 					t = this.leftIcon;
 				}
 				return t;
@@ -151,7 +154,7 @@
 			leftIconUrl() {
 				let url = null;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.url) == "string") {
+					if (typeof this.leftIcon.url == "string") {
 						url = this.leftIcon.url;
 					}
 				}
@@ -160,7 +163,7 @@
 			leftIconSpin() {
 				let spin = false;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.spin) == "boolean") {
+					if (typeof this.leftIcon.spin == "boolean") {
 						spin = this.leftIcon.spin;
 					}
 				}
@@ -169,7 +172,7 @@
 			leftIconSize(){
 				let size = null;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.size) == "string") {
+					if (typeof this.leftIcon.size == "string") {
 						size = this.leftIcon.size;
 					}
 				}
@@ -178,7 +181,7 @@
 			leftIconColor(){
 				let color = null;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.color) == "string") {
+					if (typeof this.leftIcon.color == "string") {
 						color = this.leftIcon.color;
 					}
 				}
@@ -187,10 +190,10 @@
 			rightIconType() {
 				let t = null;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.type) == "string") {
+					if (typeof this.rightIcon.type == "string") {
 						t = this.rightIcon.type;
 					}
-				} else if (typeof(this.rightIcon) == "string") {
+				} else if (typeof this.rightIcon == "string") {
 					t = this.rightIcon;
 				}
 				return t;
@@ -198,7 +201,7 @@
 			rightIconUrl() {
 				let url = null;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.url) == "string") {
+					if (typeof this.rightIcon.url == "string") {
 						url = this.rightIcon.url;
 					}
 				}
@@ -207,7 +210,7 @@
 			rightIconSpin() {
 				let spin = false;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.spin) == "boolean") {
+					if (typeof this.rightIcon.spin == "boolean") {
 						spin = this.rightIcon.spin;
 					}
 				}
@@ -216,7 +219,7 @@
 			rightIconSize(){
 				let size = null;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.size) == "string") {
+					if (typeof this.rightIcon.size == "string") {
 						size = this.rightIcon.size;
 					}
 				}
@@ -225,31 +228,24 @@
 			rightIconColor(){
 				let color = null;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.color) == "string") {
+					if (typeof this.rightIcon.color == "string") {
 						color = this.rightIcon.color;
 					}
 				}
 				return color;
 			},
-			computedValue:{
-				set(value){
-					this.$emit('update:value',value.toString());
-				},
-				get(){
-					let value = this.value.toString();
-					if(this.type == 'number'){
-						value = value.replace(/\D/g, '');
-						if(this.maxlength > 0 && value.length>this.maxlength){
-							value = value.substr(0, this.maxlength);
-						}
-					} else {
-						value = value.toString();
-						if(this.maxlength > 0 && value.length>this.maxlength){
-							value = value.substr(0, this.maxlength);
-						}
-					}
-					return value;
+			computedValue(){
+				let value = this.modelValue.toString();
+				if(this.type == 'number'){
+					value = value.replace(/\D/g, '');
 				}
+				if(this.maxlength > 0 && value.length>this.maxlength){
+					value = value.substr(0, this.maxlength);
+				}
+				if(this.modelValue != value){
+					this.$emit('update:modelValue',value)
+				}
+				return value;
 			},
 			computedType(){
 				if(this.type == 'number'){
@@ -284,14 +280,14 @@
 		methods:{
 			//输入框获取焦点
 			getFocus(){
-				this.$emit('focus',this.value)
+				this.$emit('focus',this.modelValue)
 				setTimeout(()=>{
 					this.focus = true;
 				},300)
 			},
 			//输入框失去焦点
 			getBlur(){
-				this.$emit('blur',this.value)
+				this.$emit('blur',this.modelValue)
 				setTimeout(()=>{
 					this.focus = false;
 				},300)
@@ -302,45 +298,45 @@
 				//数字类型会过滤非数字字符
 				if(this.type == 'number'){
 					value = value.replace(/\D/g, '');
-					this.$refs.input.value = value;
 				}
 				//如果设置了maxlength，则进行字符串截取
-				if (this.maxlength > 0) {
-					if (value.length > this.maxlength) {
-						value = value.substr(0, this.maxlength);
-						this.$refs.input.value = value;
-					}
+				if (this.maxlength > 0 && value.length > this.maxlength) {
+					value = value.substr(0, this.maxlength);
 				}
-				this.computedValue = value;
-				this.$emit('input',this.value)
+				this.$refs.input.value = value;
+				
+				if(this.modelValue != value){
+					this.$emit('update:modelValue',value)
+					this.$emit('input',value)
+				}
 			},
 			//搜索
 			doSearch(){
 				if(this.disabled){
 					return;
 				}
-				this.$emit('search',this.value);
+				this.$emit('search',this.modelValue);
 			},
 			//取消
 			doCancel(){
 				if(this.disabled){
 					return;
 				}
-				this.$emit('cancel',this.value);
+				this.$emit('cancel',this.modelValue);
 			},
 			//左侧图标点击
 			leftClick(){
 				if(this.disabled){
 					return;
 				}
-				this.$emit('left-click',this.value);
+				this.$emit('left-click',this.modelValue);
 			},
 			//右侧图标点击
 			rightClick(){
 				if(this.disabled){
 					return;
 				}
-				this.$emit('right-click',this.value);
+				this.$emit('right-click',this.modelValue);
 			},
 			//清除输入框
 			clearInput(){
@@ -348,7 +344,7 @@
 					return;
 				}
 				this.$refs.input.value = '';
-				this.computedValue = '';
+				this.$emit('update:modelValue','')
 				this.$refs.input.focus();
 			}
 		}

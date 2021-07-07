@@ -86,7 +86,7 @@
 			iconType(){
 				let type = 'load-e';
 				if ($util.isObject(this.loadIcon)) {
-					if (typeof(this.loadIcon.type) == "string") {
+					if (typeof this.loadIcon.type == "string") {
 						type = this.loadIcon.type;
 					}
 				} else if (typeof(this.loadIcon) == "string") {
@@ -97,7 +97,7 @@
 			iconUrl(){
 				let url = null;
 				if ($util.isObject(this.loadIcon)) {
-					if (typeof(this.loadIcon.url) == "string") {
+					if (typeof this.loadIcon.url == "string") {
 						url = this.loadIcon.url;
 					}
 				}
@@ -106,7 +106,7 @@
 			iconSpin(){
 				let spin = true;
 				if ($util.isObject(this.loadIcon)) {
-					if (typeof(this.loadIcon.spin) == "boolean") {
+					if (typeof this.loadIcon.spin == "boolean") {
 						spin = this.loadIcon.spin;
 					}
 				}
@@ -115,7 +115,7 @@
 			iconSize(){
 				let size = null;
 				if ($util.isObject(this.loadIcon)) {
-					if (typeof(this.loadIcon.size) == "string") {
+					if (typeof this.loadIcon.size == "string") {
 						size = this.loadIcon.size;
 					}
 				}
@@ -140,29 +140,29 @@
 				return obj;
 			},
 			buttonClass(){
-				let cls = 'mvi-button';
+				let cls = ['mvi-button'];
 				if(this.type){
-					cls += ' mvi-button-'+this.type;
+					cls.push('mvi-button-'+this.type);
 				}
 				if(this.size){
-					cls += ' mvi-button-'+this.size;
+					cls.push('mvi-button-'+this.size);
 				}
 				if(this.round){
-					cls += ' mvi-button-radius-round';
+					cls.push('mvi-button-radius-round');
 				}else if(this.square){
-					cls += ' mvi-button-radius-square';
+					cls.push('mvi-button-radius-square');
 				}
 				if(this.formControl){
-					cls += ' mvi-button-form-control';
+					cls.push('mvi-button-form-control');
 				}
 				if(this.plain){
-					cls += ' mvi-button-plain';
+					cls.push('mvi-button-plain');
 				}
 				if(this.active && !this.disabled){
-					cls += ' mvi-button-active';
+					cls.push('mvi-button-active');
 				}
 				if(this.loading){
-					cls += ' mvi-button-loading';
+					cls.push('mvi-button-loading');
 				}
 				return cls;
 			}

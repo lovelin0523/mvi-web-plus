@@ -3,8 +3,8 @@
 		<span :disabled="disabled || null" v-if="label && labelPlacement=='left'" class="mvi-radio-label" :data-placement="labelPlacement"
 		 v-text="label" :style="labelStyle"></span>
 		<input @change="change" :value="value" :disabled="disabled || null" :checked="check" type="radio" :name="name"/>
-		<span :disabled="disabled || null" :class="'mvi-radio-item'+(check?' mvi-radio-item-check':'')" :style="radioStyle" >
-			<m-icon :disabled="disabled || null" :type="iconType" :class="'mvi-radio-icon'+(check?' mvi-radio-icon-check':'')" 
+		<span :disabled="disabled || null" :class="['mvi-radio-item',check?'mvi-radio-item-check':'']" :style="radioStyle" >
+			<m-icon :disabled="disabled || null" :type="iconType" :class="['mvi-radio-icon',check?'mvi-radio-icon-check':'']" 
 			:style="iconStyle" />
 		</span>
 		<span :disabled="disabled || null" v-if="label && labelPlacement == 'right'" class="mvi-radio-label" :data-placement="labelPlacement" 
@@ -16,13 +16,13 @@
 	import $util from "../../util/util"
 	export default {
 		name:"m-radio",
-		emits:['update:checked','change'],
+		emits:['update:modelValue','change'],
 		props:{
 			value:{
 				type:[String,Number],
 				default:""
 			},
-			checked:{
+			modelValue:{
 				type:[Boolean,String,Number],
 				default:false
 			},
@@ -138,11 +138,11 @@
 				return style;
 			},
 			check(){
-				//checked为boolean
-				if(typeof(this.checked) == "boolean"){
-					return this.checked;
-				}else if((typeof(this.checked) == "string" && this.checked) || $util.isNumber(this.checked)){
-					if(this.checked == this.value){
+				//modelValue为boolean
+				if(typeof this.modelValue == "boolean"){
+					return this.modelValue;
+				}else if((typeof this.modelValue == "string" && this.modelValue) || $util.isNumber(this.modelValue)){
+					if(this.modelValue == this.value){
 						return true;
 					}else{
 						return false;
@@ -154,13 +154,13 @@
 		},
 		methods:{
 			change(){
-				if((typeof(this.checked) == "string" && this.checked) || $util.isNumber(this.checked)){
+				if((typeof this.modelValue == "string" && this.modelValue) || $util.isNumber(this.modelValue)){
 					if(event.target.checked){//勾选
-						this.$emit('update:checked',this.value);
+						this.$emit('update:modelValue',this.value);
 						this.$emit('change',this.value);
 					}
-				}else if(typeof(this.checked) == "boolean"){
-					this.$emit('update:checked',event.target.checked);
+				}else if(typeof this.modelValue == "boolean"){
+					this.$emit('update:modelValue',event.target.checked);
 					this.$emit('change',event.target.checked)
 				}
 			}

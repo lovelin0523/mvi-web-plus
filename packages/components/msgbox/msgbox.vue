@@ -57,7 +57,7 @@
 		},
 		computed:{
 			computedMessage(){
-				if(typeof(this.message) == "string"){
+				if(typeof this.message == "string"){
 					return this.message;
 				}else if($util.isObject(this.message)){
 					return JSON.stringify(this.message);
@@ -70,7 +70,7 @@
 				}
 			},
 			computedAnimation(){
-				if(typeof(this.animation) == "string" && this.animation){
+				if(typeof this.animation == "string" && this.animation){
 					return this.animation;
 				}else{
 					return 'fade';
@@ -91,14 +91,14 @@
 				}
 			},
 			computedBackground(){
-				if(typeof(this.background) == 'string' &&　this.background){
+				if(typeof this.background == 'string' &&　this.background){
 					return this.background;
 				}else{
 					return null;
 				}
 			},
 			computedColor(){
-				if(typeof(this.color) == 'string' &&　this.color){
+				if(typeof this.color == 'string' &&　this.color){
 					return this.color;
 				}else{
 					return null;
@@ -119,9 +119,9 @@
 				return style;
 			},
 			msgBoxClass(){
-				let cls = 'mvi-msgbox';
+				let cls = ['mvi-msgbox'];
 				if(this.animation == 'translate'){
-					cls += ' mvi-msgbox-translate';
+					cls.push('mvi-msgbox-translate');
 				}
 				return cls;
 			}

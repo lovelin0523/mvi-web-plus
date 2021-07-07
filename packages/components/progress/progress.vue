@@ -4,7 +4,7 @@
 		<!-- 进度条进度 -->
 		<div :class="barClass" :style="progressBarStyle">
 			<div v-if="showTip" class="mvi-progress-tooltip" :style="tipStyle">
-				<slot name="tip" v-if="$scopedSlots.tip" :value="value"></slot>
+				<slot name="tip" v-if="$slots.tip" :value="value"></slot>
 				<span v-else v-text="computedText"></span>
 			</div>
 		</div>
@@ -110,20 +110,20 @@
 				return style;
 			},
 			barClass(){
-				let cls = 'mvi-progress-bar';
+				let cls = ['mvi-progress-bar'];
 				if(this.round){
-					cls += ' mvi-progress-radius-round';
+					cls.push('mvi-progress-radius-round');
 				}else if(this.square){
-					cls += ' mvi-progress-radius-square';
+					cls.push('mvi-progress-radius-square');
 				}
 				return cls;
 			},
 			progressClass(){
-				let cls = 'mvi-progress';
+				let cls = ['mvi-progress'];
 				if(this.round){
-					cls += ' mvi-progress-radius-round';
+					cls.push('mvi-progress-radius-round');
 				}else if(this.square){
-					cls += ' mvi-progress-radius-square';
+					cls.push('mvi-progress-radius-square');
 				}
 				return cls;
 			}

@@ -7,19 +7,11 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-cell-group >
-		<m-cell title="标题"></m-cell>
-	</m-cell-group>
-	<div class="a" style="position: relative;height: 3rem;">
-		<!-- <m-image-preview mount-el="#app" v-model:show="show" :images="images"></m-image-preview> -->
-		<!-- <m-dropdown  active-color="#ff3300" inactive-color="#333" mount-el="#app" v-model:value="value" v-model:show="show" :options="options"></m-dropdown> -->
-		<!-- <m-actionsheet mount-el="#app" v-model:show="show" :options="options"></m-actionsheet> -->
-		<!-- <m-number-keyboard closable class="mvi-bg-success" use-padding mount-el="#app" v-model:value="value" v-model:show="show"></m-number-keyboard> -->
-		<m-overlay mount-el="#app" v-model:show="show" closable></m-overlay>
-		<!-- <m-popup class="mvi-bg-error" mount-el="body" v-model:show="show" width="2rem" closable>222</m-popup> -->
-		<!-- <m-modal class="mvi-bg-success" mount-el="#app" closable v-model:show="show" title="模态框" content="Modal Content"></m-modal> -->
+	<m-input v-model="value" clearable @input="change"></m-input>
+	<div class="a" style="position: relative;height: 3rem; border: 1px solid #ddd;overflow: auto;">
+		
+		<div style="height: 20rem;"></div>
 	</div>
-	<div style="height: 30rem;"></div>
 </template>
 
 <script>
@@ -30,7 +22,7 @@ export default {
 		return {
 			show: false,
 			checkbox: [],
-			checked: 0,
+			checked: 1,
 			value: '#ff3300',
 			active: 1,
 			date: new Date(),
@@ -123,7 +115,6 @@ export default {
 	methods: {
 		change(e) {
 			console.log(e)
-			this.$refs.table.resetSortActive()
 		}
 	}
 };

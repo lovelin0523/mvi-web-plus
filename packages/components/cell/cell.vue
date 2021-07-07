@@ -1,20 +1,20 @@
 <template>
 	<div :class="cellClass">
 		<div class="mvi-cell-item">
-			<m-icon :class="'mvi-cell-icon'+(iconClass?' '+iconClass:'')" v-if="iconType||iconUrl" :type="iconType" :url="iconUrl"
+			<m-icon :class="['mvi-cell-icon',iconClass?iconClass:'']" v-if="iconType||iconUrl" :type="iconType" :url="iconUrl"
 			 :spin="iconSpin" :size="iconSize" :color="iconColor"/>
-			<div :class="'mvi-cell-title'+(noWrap?' mvi-cell-nowrap':'')">
+			<div :class="['mvi-cell-title',noWrap?'mvi-cell-nowrap':'']">
 				<slot name="title" v-if="$slots.title"></slot>
 				<span v-else v-text="title" :class="titleClass?titleClass:''"></span>
 			</div>
-			<div :class="'mvi-cell-content'+(noWrap?' mvi-cell-nowrap':'')" v-if="$slots.content || content">
+			<div :class="['mvi-cell-content',noWrap?'mvi-cell-nowrap':'']" v-if="$slots.content || content">
 				<slot name="content" v-if="$slots.content"></slot>
-				<span v-else-if="content" v-text="content" :class="(contentClass?' '+contentClass:'')"></span>
+				<span v-else-if="content" v-text="content" :class="(contentClass?contentClass:'')"></span>
 			</div>
-			<m-icon :class="'mvi-cell-arrow'+(arrowClass?' '+arrowClass:'')"
+			<m-icon :class="['mvi-cell-arrow',arrowClass?arrowClass:'']"
 			 v-if="arrowType||arrowUrl" :type="arrowType" :url="arrowUrl" :spin="arrowSpin" :size="arrowSize" :color="arrowColor"/>
 		</div>
-		<div :class="'mvi-cell-label'+(labelClass?' '+labelClass:'')" v-if="label || $slots.label" :style="labelTextStyle">
+		<div :class="['mvi-cell-label',labelClass?labelClass:'']" v-if="label || $slots.label" :style="labelTextStyle">
 			<slot name="label" v-if="$slots.label"></slot>
 			<span v-text="label" v-else-if="label"></span>
 		</div>
@@ -87,10 +87,10 @@
 			iconType() {
 				let t = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.type) == "string") {
+					if (typeof this.icon.type == "string") {
 						t = this.icon.type;
 					}
-				} else if (typeof(this.icon) == "string") {
+				} else if (typeof this.icon == "string") {
 					t = this.icon;
 				}
 				return t;
@@ -98,7 +98,7 @@
 			iconUrl() {
 				let url = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.url) == "string") {
+					if (typeof this.icon.url == "string") {
 						url = this.icon.url;
 					}
 				}
@@ -107,7 +107,7 @@
 			iconSpin() {
 				let spin = false;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.spin) == "boolean") {
+					if (typeof this.icon.spin == "boolean") {
 						spin = this.icon.spin;
 					}
 				}
@@ -116,7 +116,7 @@
 			iconSize() {
 				let size = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.size) == "string") {
+					if (typeof this.icon.size == "string") {
 						size = this.icon.size;
 					}
 				}
@@ -125,7 +125,7 @@
 			iconColor(){
 				let color = null;
 				if($util.isObject(this.icon)){
-					if (typeof(this.icon.color) == "string") {
+					if (typeof this.icon.color == "string") {
 						color = this.icon.color;
 					}
 				}
@@ -134,10 +134,10 @@
 			arrowType() {
 				let t = null;
 				if ($util.isObject(this.arrow)) {
-					if (typeof(this.arrow.type) == "string") {
+					if (typeof this.arrow.type == "string") {
 						t = this.arrow.type;
 					}
-				} else if (typeof(this.arrow) == "string") {
+				} else if (typeof this.arrow == "string") {
 					t = this.arrow;
 				}
 				return t;
@@ -145,7 +145,7 @@
 			arrowUrl() {
 				let url = null;
 				if ($util.isObject(this.arrow)) {
-					if (typeof(this.arrow.url) == "string") {
+					if (typeof this.arrow.url == "string") {
 						url = this.arrow.url;
 					}
 				}
@@ -154,7 +154,7 @@
 			arrowSpin() {
 				let spin = false;
 				if ($util.isObject(this.arrow)) {
-					if (typeof(this.arrow.spin) == "boolean") {
+					if (typeof this.arrow.spin == "boolean") {
 						spin = this.arrow.spin;
 					}
 				}
@@ -163,7 +163,7 @@
 			arrowSize() {
 				let size = null;
 				if ($util.isObject(this.arrow)) {
-					if (typeof(this.arrow.size) == "string") {
+					if (typeof this.arrow.size == "string") {
 						size = this.arrow.size;
 					}
 				}
@@ -172,25 +172,25 @@
 			arrowColor() {
 				let color = null;
 				if ($util.isObject(this.arrow)) {
-					if (typeof(this.arrow.color) == "string") {
+					if (typeof this.arrow.color == "string") {
 						color = this.arrow.color;
 					}
 				}
 				return color;
 			},
 			computedActive() {
-				if (typeof(this.active) == "boolean") {
+				if (typeof this.active == "boolean") {
 					return this.active;
-				} else if (typeof(this.$parent.active) == "boolean") {
+				} else if (typeof this.$parent.active == "boolean") {
 					return this.$parent.active;
 				} else {
 					return true;
 				}
 			},
 			computedBorder() {
-				if (typeof(this.border) == "boolean") {
+				if (typeof this.border == "boolean") {
 					return this.border;
-				} else if (typeof(this.$parent.border) == "boolean") {
+				} else if (typeof this.$parent.border == "boolean") {
 					return this.$parent.border;
 				} else {
 					return false;
@@ -203,7 +203,7 @@
 					style.textOverflow = 'ellipsis';
 					style.webkitBoxOrient = 'vertical';
 					style.overflow = 'hidden';
-					if (typeof(this.ellipsis) == "boolean") { //true
+					if (typeof this.ellipsis == "boolean") { //true
 						style.webkitLineClamp = 3;
 					} else {
 						style.webkitLineClamp = this.ellipsis;
@@ -213,12 +213,12 @@
 				return style;
 			},
 			cellClass(){
-				let cls = 'mvi-cell';
+				let cls = ['mvi-cell'];
 				if(this.computedBorder){
-					cls += ' mvi-cell-border';
+					cls.push('mvi-cell-border');
 				}
 				if(this.computedActive){
-					cls += ' mvi-cell-active';
+					cls.push('mvi-cell-active');
 				}
 				return cls;
 			}

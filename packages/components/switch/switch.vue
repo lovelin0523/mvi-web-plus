@@ -1,9 +1,9 @@
 <template>
-	<label :class="['mvi-switch',checked?'mvi-switch-checked':'']" :style="switchStyle" :disabled="disabled || null">
-		<span :class="['mvi-switch-el',checked?'mvi-switch-el-checked':'']" :style="elStyle">
+	<label :class="['mvi-switch',modelValue?'mvi-switch-checked':'']" :style="switchStyle" :disabled="disabled || null">
+		<span :class="['mvi-switch-el',modelValue?'mvi-switch-el-checked':'']" :style="elStyle">
 			<m-icon v-if="loading && !disabled" :type="iconType" :spin="iconSpin" :url="iconUrl" :size="iconSize" :color="iconColor"/>
 		</span>
-		<input @change="change" type="checkbox" :checked="checked" :disabled="disabled || loading || null"/>
+		<input @change="change" type="checkbox" :checked="modelValue" :disabled="disabled || loading || null"/>
 	</label>
 </template>
 
@@ -11,9 +11,9 @@
 	import $util from "../../util/util"
 	export default {
 		name: "m-switch",
-		emits:['update:checked','change'],
+		emits:['update:modelValue','change'],
 		props: {
-			checked: {
+			modelValue: {
 				type: Boolean,
 				default: false
 			},
@@ -46,7 +46,7 @@
 			//更改状态
 			change(event) {
 				let check = event.target.checked;
-				this.$emit('update:checked', check);
+				this.$emit('update:modelValue', check);
 				this.$emit('change',check);
 			}
 		},
@@ -54,10 +54,10 @@
 			iconType() {
 				let t = 'load-e';
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.type) == "string") {
+					if (typeof this.icon.type == "string") {
 						t = this.icon.type;
 					}
-				} else if (typeof(this.icon) == "string") {
+				} else if (typeof this.icon == "string") {
 					t = this.icon;
 				}
 				return t;
@@ -65,7 +65,7 @@
 			iconUrl() {
 				let url = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.url) == "string") {
+					if (typeof this.icon.url == "string") {
 						url = this.icon.url;
 					}
 				}
@@ -74,7 +74,7 @@
 			iconSpin() {
 				let spin = true;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.spin) == "boolean") {
+					if (typeof this.icon.spin == "boolean") {
 						spin = this.icon.spin;
 					}
 				}
@@ -83,7 +83,7 @@
 			iconSize(){
 				let size = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.size) == "string") {
+					if (typeof this.icon.size == "string") {
 						size = this.icon.size;
 					}
 				}
@@ -92,7 +92,7 @@
 			iconColor(){
 				let color = null;
 				if ($util.isObject(this.icon)) {
-					if (typeof(this.icon.color) == "string") {
+					if (typeof this.icon.color == "string") {
 						color = this.icon.color;
 					}
 				}
@@ -100,10 +100,10 @@
 			},
 			switchStyle() {
 				let style = {};
-				if (this.inactiveColor && !this.checked) {
+				if (this.inactiveColor && !this.modelValue) {
 					style.backgroundColor = this.inactiveColor;
 				}
-				if (this.activeColor && this.checked) {
+				if (this.activeColor && this.modelValue) {
 					style.backgroundColor = this.activeColor;
 				}
 				if (this.size) {

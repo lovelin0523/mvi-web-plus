@@ -1,5 +1,5 @@
 <template>
-	<m-overlay color="rgba(0,10,20,.05)" @hidden="toastHidden" :show="show" :use-padding="computedUsePadding"
+	<m-overlay color="rgba(0,10,20,.05)" @hidden="toastHidden" :model-value="show" :use-padding="computedUsePadding"
 	:zIndex="computedZIndex" fade :mount-el="computedMountEl" @shown="toastShown">
 		<div :class="['mvi-toast',computedMessage?'':'mvi-toast-iconless']" :style="toastStyle" v-bind="$attrs">
 			<div class="mvi-toast-icon">
@@ -86,7 +86,7 @@
 		},
 		computed:{
 			computedUsePadding(){
-				if(typeof(this.usePadding) == 'boolean'){
+				if(typeof this.usePadding == 'boolean'){
 					return this.usePadding;
 				}else{
 					return false;
@@ -130,7 +130,7 @@
 				return icon;
 			},
 			computedMessage(){
-				if(typeof(this.message) == "string"){
+				if(typeof this.message == "string"){
 					return this.message;
 				}else if($util.isObject(this.message)){
 					return JSON.stringify(this.message);
@@ -157,14 +157,14 @@
 				}
 			},
 			computedBackground(){
-				if(typeof(this.background) == 'string' && this.background){
+				if(typeof this.background == 'string' && this.background){
 					return this.background;
 				}else{
 					return null;
 				}
 			},
 			computedColor(){
-				if(typeof(this.color) == 'string' && this.color){
+				if(typeof this.color == 'string' && this.color){
 					return this.color;
 				}else{
 					return null;

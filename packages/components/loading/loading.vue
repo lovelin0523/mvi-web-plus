@@ -1,6 +1,6 @@
 <template>
 	<div v-if="type == 0" class="mvi-loading" :style="{width:size,height:size}">
-		<div v-for="(item,index) in new Array(12)" :key="'mvi-loading-'+index" :style="loadingStyle"></div>
+		<div v-for="(item,index) in new Array(12)" :style="loadingStyle"></div>
 	</div>
 	<div v-else-if="type==1" class="mvi-loading2" :style="{width:size,height:size}">
 		<div :style="loading2Style"></div>

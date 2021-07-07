@@ -20,10 +20,10 @@
 				realPlacement:'bottom'
 			}
 		},
-		emits:['update:show','show','showing','shown','hide','hidding','hidden'],
+		emits:['update:modelValue','show','showing','shown','hide','hidding','hidden'],
 		props: {
 			//是否显示悬浮层
-			show:{
+			modelValue:{
 				type:Boolean,
 				default:false
 			},
@@ -129,7 +129,7 @@
 					})
 				}
 			},
-			show(newValue){
+			modelValue(newValue){
 				if(newValue){
 					if(!this.firstShow){
 						this.firstShow = true;
@@ -202,11 +202,11 @@
 		},
 		mounted() {
 			//初始化时是否显示
-			if(this.show){
+			if(this.modelValue){
 				if(!this.firstShow){
 					this.firstShow = true;
 				}
-				this.layerShow = this.show;
+				this.layerShow = this.modelValue;
 			}
 			//添加事件
 			window.addEventListener('resize',this.resizeSet);
@@ -442,7 +442,7 @@
 					if($util.isContains(this.$el,event.target) || $util.isContains(this.getTargetEl(),event.target)){
 						return;
 					}
-					this.$emit('update:show',false);
+					this.$emit('update:modelValue',false);
 				}
 			},
 			//悬浮层显示前

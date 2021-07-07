@@ -13,14 +13,14 @@
 		components:{
 			'm-tabbar-item':mTabItem
 		},
-		emits:['item-click','update:value','change'],
+		emits:['item-click','update:modelValue','change'],
 		provide(){
 			return {
 				'tabbar':this
 			}
 		},
 		props:{
-			value:{
+			modelValue:{
 				type:[String,Number],
 				default:null,
 			},
@@ -87,7 +87,7 @@
 		methods:{
 			//tab切换
 			getActiveValue(props){
-				this.$emit('update:value',props.value);
+				this.$emit('update:modelValue',props.value);
 				this.$emit('change',props)
 			},
 			//点击tab

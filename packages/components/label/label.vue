@@ -69,23 +69,23 @@
 		},
 		computed:{
 			labelClass(){
-				let cls = 'mvi-label';
+				let cls = ['mvi-label'];
 				if(this.size){
-					cls += ' mvi-label-' + this.size;
+					cls.push('mvi-label-' + this.size);
 				}
 				if(this.type){
-					cls += ' mvi-label-' + this.type;
+					cls.push('mvi-label-' + this.type);
 				}
 				if(this.plain){
-					cls += ' mvi-label-plain';
+					cls.push('mvi-label-plain');
 				}
 				if(this.round){
-					cls += ' mvi-label-round';
+					cls.push('mvi-label-round');
 				}
 				if(this.mark){
-					cls += ' mvi-label-mark';
+					cls.push('mvi-label-mark');
 					if(this.reverse){
-						cls += ' mvi-label-reverse';
+						cls.push('mvi-label-reverse');
 					}
 				}
 				return cls;

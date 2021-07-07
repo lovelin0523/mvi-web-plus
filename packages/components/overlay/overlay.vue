@@ -27,7 +27,7 @@
 				offsetParent:null,//组件的定位父元素
 			}
 		},
-		emits:['update:show','show','showing','shown','hide','hidding','hidden'],
+		emits:['update:modelValue','show','showing','shown','hide','hidding','hidden'],
 		inheritAttrs:false,
 		props: {
 			mountEl:{//挂载元素
@@ -42,7 +42,7 @@
 				type:String,
 				default:null
 			},
-			show: {
+			modelValue: {
 				type: Boolean,
 				default: false
 			},
@@ -67,7 +67,7 @@
 			}
 		},
 		watch:{
-			show(newValue){
+			modelValue(newValue){
 				this.overlayShow = newValue;
 			}
 		},
@@ -90,7 +90,7 @@
 		},
 		mounted() {
 			//初始化时是否显示遮罩层
-			this.overlayShow = this.show;
+			this.overlayShow = this.modelValue;
 		},
 		methods: {
 			//transition钩子函数：组件显示之前
@@ -192,7 +192,7 @@
 			//点击遮罩关闭此遮罩
 			closeOverlay() {
 				if (this.closable) {
-					this.$emit('update:show',false);
+					this.$emit('update:modelValue',false);
 				}
 			}
 		}
