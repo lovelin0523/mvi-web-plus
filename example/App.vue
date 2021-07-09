@@ -7,7 +7,9 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-table :data="data" :columns="columns"></m-table>
+	<m-transition-slide :expand="show">
+		<div class="mvi-bg-error" style="height: 3rem;"></div>
+	</m-transition-slide>
 	<div class="a" style="position: relative;height: 5rem; border: 1px solid #ddd;overflow: auto;">
 		<div style="height: 20rem;"></div>
 	</div>
@@ -19,7 +21,7 @@ export default {
 	name: 'App',
 	data() {
 		return {
-			show: false,
+			show: true,
 			checkbox: [],
 			checked: 1,
 			value: '#ff3300',

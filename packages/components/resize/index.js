@@ -5,7 +5,6 @@ Resize.install = app=> {
 	//拖拽改变大小
 	app.directive('resize', {
 		mounted(el, binding, vnode) {
-			console.log(binding.modifiers)
 			let options = {};
 			if ($util.isObject(binding.value)) {
 				Object.assign(options, binding.value);

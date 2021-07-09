@@ -1,7 +1,7 @@
 <template>
 	<transition name="mvi-transition-slide" @before-enter="beforeEnter" @after-enter="afterEnter" @before-leave="beforeLeave"
-	@after-leave="afterLeave">
-		<div class="mvi-transition-slide" v-show="show"><slot></slot></div>
+	@after-leave="afterLeave" @enter="enter" @leave="leave">
+		<div class="mvi-transition-slide" v-on="listenters" v-show="show" :style="{opacity:opacity}"><slot></slot></div>
 	</transition>
 </template>
 
@@ -13,7 +13,8 @@ export default {
 		return {
 			show:true,
 			height:null,
-			useAnimation:false
+			useAnimation:false,
+			opacity:''
 		};
 	},
 	emits:['before-slide-down','slide-down','before-slide-up','slide-up'],
@@ -30,6 +31,12 @@ export default {
 	watch:{
 		expand(newValue){
 			this.show = newValue;
+		}
+	},
+	created() {
+		//初始化不展开，则设置透明度为0
+		if(!this.expand){
+			this.opacity = 0;
 		}
 	},
 	mounted() {
@@ -49,11 +56,14 @@ export default {
 				el.style.transition = 'height ' + this.timeout + 'ms linear';
 				el.style.webkitTransition = 'height ' + this.timeout + 'ms linear';
 			}
-			this.$emit('before-slide-down')
-			//执行动画
-			setTimeout(()=>{
-				el.style.height = this.height;
-			},10)
+			//触发事件
+			this.$emit('before-slide-down',this.$el)
+		},
+		enter(el){
+			//促使浏览器重绘
+			el.offsetWidth;
+			//设置显示后的高度
+			el.style.height = this.height;
 		},
 		afterEnter(el){
 			//移除动画
@@ -62,8 +72,9 @@ export default {
 				el.style.webkitTransition = '';
 			}
 			//动画结束后恢复高度
-			el.style.height = this.height;
-			this.$emit('slide-down')
+			el.style.height = '';
+			//触发事件
+			this.$emit('slide-down',this.$el)
 		},
 		beforeLeave(el){
 			//只记录第一次的高度
@@ -77,11 +88,14 @@ export default {
 				el.style.transition = 'height ' + this.timeout + 'ms linear';
 				el.style.webkitTransition = 'height ' + this.timeout + 'ms linear';
 			}
-			this.$emit('before-slide-up')
-			//执行动画
-			setTimeout(()=>{
-				el.style.height = 0;
-			},10)
+			//触发事件
+			this.$emit('before-slide-up',this.$el)
+		},
+		leave(el){
+			//促使浏览器重绘
+			el.offsetWidth;
+			//设置隐藏后的高度
+			el.style.height = 0;
 		},
 		afterLeave(el){
 			//移除动画
@@ -90,8 +104,13 @@ export default {
 				el.style.webkitTransition = '';
 			}
 			//动画结束后恢复高度
-			el.style.height = this.height;
-			this.$emit('slide-up')
+			el.style.height = '';
+			//恢复第一次设置的透明度
+			if(this.opacity === 0){
+				this.opacity = '';
+			}
+			//触发事件
+			this.$emit('slide-up',this.$el)
 		}
 	}
 }
