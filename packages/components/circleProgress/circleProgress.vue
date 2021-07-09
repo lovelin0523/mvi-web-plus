@@ -6,7 +6,7 @@
 		</svg>
 		<div v-if="showTip" class="mvi-circle-progress-tip">
 			<slot v-if="$slots.tip" name="tip" :value="value"></slot>
-			<span v-else :class="(tipClass?tipClass:'')" v-text="computedValue"></span>
+			<span v-else :class="tipClass?tipClass:''" v-text="computedValue"></span>
 		</div>
 	</div>
 </template>
@@ -90,7 +90,6 @@
 					width = $util.getCssStyle(this.ele.querySelector('path'), 'stroke-width');
 					width = parseFloat(width);
 				}
-				console.log(width)
 				return `0 0 ${this.pathSize+2*width} ${this.pathSize+2*width}`;
 			},
 			pathD() {
@@ -99,7 +98,6 @@
 					width = $util.getCssStyle(this.ele.querySelector('path'), 'stroke-width');
 					width = parseFloat(width);
 				}
-				console.log(width)
 				return `M ${this.pathSize/2+width} ${this.pathSize/2+width} m 0, -${this.pathSize/2} a ${this.pathSize/2}, ${this.pathSize/2} 0 1, ${this.clockWise?1:0} 0, ${this.pathSize} a ${this.pathSize/2}, ${this.pathSize/2} 0 1, ${this.clockWise?1:0} 0, -${this.pathSize}`;
 			},
 			computedValue() {

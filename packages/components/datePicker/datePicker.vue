@@ -8,9 +8,9 @@
 	import $util from "../../util/util"
 	export default {
 		name: "m-date-picker",
-		emits:['update:value','confirm','cancel','change'],
+		emits:['update:modelValue','confirm','cancel','change'],
 		props: {
-			value: { //日期值
+			modelValue: { //日期值
 				type: Date,
 				default: function() {
 					return new Date()
@@ -48,7 +48,7 @@
 				type: String,
 				default: 'date',
 				validator(value) {
-					return ['date', 'datetime', 'time'].includes(value)
+					return ['date', 'datetime', 'time','month','year'].includes(value)
 				}
 			},
 			showToolbar: {
@@ -370,6 +370,19 @@
 							defaultIndex: defaultDayIndex
 						}
 					]
+				} else if(this.mode == 'year'){
+					return {
+						values: years,
+						defaultIndex: defaultYearIndex
+					}
+				} else if(this.mode == 'month'){
+					return [{
+						values: years,
+						defaultIndex: defaultYearIndex
+					},{
+						values: months,
+						defaultIndex: defaultMonthIndex
+					}]
 				} else if (this.mode == 'datetime') {
 					return [{
 							values: years,
@@ -407,17 +420,17 @@
 			//选择的日期
 			selectedDate:{
 				set(value){
-					this.$emit('update:value',value);
+					this.$emit('update:modelValue',value);
 					this.$emit('change',value);
 				},
 				get(){
-					if(this.value instanceof Date){
-						if(this.value.getTime() < this.startDate.getTime()){
+					if(this.modelValue instanceof Date){
+						if(this.modelValue.getTime() < this.startDate.getTime()){
 							return this.startDate;
-						}else if(this.value.getTime() > this.endDate.getTime()){
+						}else if(this.modelValue.getTime() > this.endDate.getTime()){
 							return this.endDate;
 						}else {
-							return this.value;
+							return this.modelValue;
 						}
 					}else {
 						return new Date()
@@ -472,6 +485,73 @@
 					}else if(res.columnIndex == 2){//修改日
 						let day = this.dayArray[res.selected[2].index].day;
 						this.selectedDate = new Date(this.selectedDate.setDate(day));
+					}
+				} else if (this.mode == 'month') {
+					if (res.columnIndex == 0) { //修改年
+						let year = this.yearArray[res.selected[0].index].year;
+						this.selectedDate = new Date(this.selectedDate.setFullYear(year));
+						if(this.equalEndYear){
+							if(this.selectedDate.getMonth() > this.endDate.getMonth()){
+								this.selectedDate = new Date(this.selectedDate.setMonth(this.endDate.getMonth()));
+							}
+							if(this.equalEndMonth){
+								if(this.selectedDate.getDate() > this.endDate.getDate()){
+									this.selectedDate = new Date(this.selectedDate.setDate(this.endDate.getDate()));
+								}
+							}
+						}
+						if(this.equalStartYear){
+							if(this.selectedDate.getMonth() < this.startDate.getMonth()){
+								this.selectedDate = new Date(this.selectedDate.setMonth(this.startDate.getMonth()));
+							}
+							if(this.equalStartMonth){
+								if(this.selectedDate.getDate() < this.startDate.getDate()){
+									this.selectedDate = new Date(this.selectedDate.setDate(this.startDate.getDate()));
+								}
+							}
+						}
+					}else if(res.columnIndex == 1){//修改月
+						let month = this.monthArray[res.selected[1].index].month;
+						let totalDays = $util.getDays(this.selectedDate.getFullYear(),month);
+						if(this.selectedDate.getDate() > totalDays){
+							this.selectedDate.setDate(totalDays);
+						}
+						this.selectedDate = new Date(this.selectedDate.setMonth(month - 1));
+						if(this.equalEndYear && this.equalEndMonth){
+							if(this.selectedDate.getDate() > this.endDate.getDate()){
+								this.selectedDate = new Date(this.selectedDate.setDate(this.endDate.getDate()));
+							}
+						}
+						if(this.equalStartYear && this.equalStartMonth){
+							if(this.selectedDate.getDate() < this.startDate.getDate()){
+								this.selectedDate = new Date(this.selectedDate.setDate(this.startDate.getDate()));
+							}
+						}
+					}
+				} else if(this.mode == 'year'){
+					if (res.columnIndex == 0) { //修改年
+						let year = this.yearArray[res.selected.index].year;
+						this.selectedDate = new Date(this.selectedDate.setFullYear(year));
+						if(this.equalEndYear){
+							if(this.selectedDate.getMonth() > this.endDate.getMonth()){
+								this.selectedDate = new Date(this.selectedDate.setMonth(this.endDate.getMonth()));
+							}
+							if(this.equalEndMonth){
+								if(this.selectedDate.getDate() > this.endDate.getDate()){
+									this.selectedDate = new Date(this.selectedDate.setDate(this.endDate.getDate()));
+								}
+							}
+						}
+						if(this.equalStartYear){
+							if(this.selectedDate.getMonth() < this.startDate.getMonth()){
+								this.selectedDate = new Date(this.selectedDate.setMonth(this.startDate.getMonth()));
+							}
+							if(this.equalStartMonth){
+								if(this.selectedDate.getDate() < this.startDate.getDate()){
+									this.selectedDate = new Date(this.selectedDate.setDate(this.startDate.getDate()));
+								}
+							}
+						}
 					}
 				} else if (this.mode == 'datetime') {
 					if (res.columnIndex == 0) { //修改年
@@ -613,7 +693,6 @@
 						this.selectedDate = new Date(this.selectedDate.setMinutes(min));
 					}
 				}
-				
 			},
 			//点击确定
 			bindConfirm(){
@@ -639,6 +718,16 @@
 					let format = (hour<10?'0'+hour:hour)+':'+(minute<10?'0'+minute:minute);
 					this.$emit('confirm',{
 						hour,minute,value:this.selectedDate,format
+					});
+				}else if(this.mode == 'year'){
+					this.$emit('confirm',{
+						year,value:this.selectedDate
+					});
+				}else if(this.mode == 'month'){
+					let iosFormat = year + '/' + (month<10?'0'+month:month);
+					let format = year + '-' + (month<10?'0'+month:month);
+					this.$emit('confirm',{
+						year,month,value:this.selectedDate,iosFormat,format
 					});
 				}
 			},
@@ -666,6 +755,16 @@
 					let format = (hour<10?'0'+hour:hour)+':'+(minute<10?'0'+minute:minute);
 					this.$emit('cancel',{
 						hour,minute,value:this.selectedDate,format
+					});
+				}else if(this.mode == 'year'){
+					this.$emit('cancel',{
+						year,value:this.selectedDate
+					});
+				}else if(this.mode == 'month'){
+					let iosFormat = year + '/' + (month<10?'0'+month:month);
+					let format = year + '-' + (month<10?'0'+month:month);
+					this.$emit('cancel',{
+						year,month,value:this.selectedDate,iosFormat,format
 					});
 				}
 			}

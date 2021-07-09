@@ -7,9 +7,8 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-input v-model="value" clearable @input="change"></m-input>
-	<div class="a" style="position: relative;height: 3rem; border: 1px solid #ddd;overflow: auto;">
-		
+	<m-table :data="data" :columns="columns"></m-table>
+	<div class="a" style="position: relative;height: 5rem; border: 1px solid #ddd;overflow: auto;">
 		<div style="height: 20rem;"></div>
 	</div>
 </template>
@@ -51,9 +50,7 @@ export default {
 			],
 			refresh: false,
 			images: [
-				'https://www.mvi-web.cn/resources/blogImages/tE0vIcAedMNVlbJUBPPtScAz.jfif',
-				'https://www.mvi-web.cn/resources/blogImages/MLPDRICUjWWSWDW3OcLtRQ_p.jfif',
-				'https://www.mvi-web.cn/resources/blogImages/oQmx45AeZhuaAvrnTLBn6V6p.jfif'
+				'https://www.mvi-web.cn/mvi-resources/images/mvi_image_4_1624705387843.jfif','https://www.mvi-web.cn/mvi-resources/images/mvi_image_3_1624705387828.jfif','https://www.mvi-web.cn/mvi-resources/images/mvi_image_2_1624705387812.jfif','https://www.mvi-web.cn/mvi-resources/images/mvi_image_1_1624705387797.jfif','https://www.mvi-web.cn/mvi-resources/images/mvi_image_0_1624705387765.jfif'
 			],
 			data:[
 				{
@@ -111,9 +108,11 @@ export default {
 			list: ['iPhone', 'iPhone 12', 'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 11', 'HUAWEI', 'HUAWEI MATE 40']
 		};
 	},
-	mounted() {},
 	methods: {
 		change(e) {
+			this.show = !this.show;
+		},
+		shown(e){
 			console.log(e)
 		}
 	}

@@ -39,7 +39,7 @@ const util = {
 	 * 判断是否数值
 	 */
 	isNumber(param) {
-		if (typeof(param) == 'number' && !isNaN(param)) {
+		if (typeof param == 'number' && !isNaN(param)) {
 			return true;
 		} else {
 			return false;
@@ -53,7 +53,7 @@ const util = {
 		if (!a || !b) {
 			return false;
 		}
-		if (typeof(a) !== typeof(b)) {
+		if (typeof a !== typeof b) {
 			return false;
 		}
 		if (this.isObject(a) && this.isObject(b)) {
@@ -290,7 +290,7 @@ const util = {
 	 * 判断是否是对象
 	 */
 	isObject(param) {
-		if (typeof(param) === "object" && param) {
+		if (typeof param === "object" && param) {
 			return true;
 		}
 		return false;
@@ -304,7 +304,7 @@ const util = {
 		if (this.isElement(element) && element != document.body && element != document.documentElement) {
 			scrollEle = element;
 		}
-		if (typeof(element) == "function") {
+		if (typeof element == "function") {
 			callback = element;
 		}
 		//滑动到底部时是否触发回调函数的标识，解决ios系统下多次触发回调的bug
@@ -318,7 +318,7 @@ const util = {
 				if (!flag) {
 					return;
 				}
-				if (typeof(callback) == "function") {
+				if (typeof callback == "function") {
 					flag = false;
 					callback(options);
 				}
@@ -342,7 +342,7 @@ const util = {
 					if (!flag) {
 						return;
 					}
-					if (typeof(callback) == "function") {
+					if (typeof callback == "function") {
 						flag = false;
 						callback(options);
 					}
@@ -389,7 +389,7 @@ const util = {
 	 * is_global：为true时去除所有空格，否则只去除两边空格
 	 */
 	trim(str, is_global) {
-		if (typeof(str) != "string") {
+		if (typeof str != "string") {
 			return "";
 		}
 		let result = str.replace(/(^\s+)|(\s+$)/g, "");
@@ -485,7 +485,7 @@ const util = {
 	setScrollTop(options) {
 		let isWindow = false;
 		let element = options.el;
-		if (typeof(element) == 'string' && element) {
+		if (typeof element == 'string' && element) {
 			element = document.body.querySelector(element);
 		}
 		let number = options.number || 0;
@@ -556,7 +556,7 @@ const util = {
 	setScrollLeft(options) {
 		let isWindow = false;
 		let element = options.el;
-		if (typeof(element) == 'string' && element) {
+		if (typeof element == 'string' && element) {
 			element = document.body.querySelector(element);
 		}
 		let number = options.number || 0;
@@ -779,7 +779,7 @@ const util = {
 		let result = new Array(); //存放结果的数组
 		let childNodes = element.children; //子元素数组
 		//selector参数不存在时，查找他的所有子元素
-		if (selector == "" || selector == undefined || selector == null || typeof(selector) != "string") {
+		if (selector == "" || selector == undefined || selector == null || typeof selector != "string") {
 			for (let i = 0; i < childNodes.length; i++) {
 				result.push(childNodes[i]);
 			}
@@ -808,7 +808,7 @@ const util = {
 					break;
 				case "attribute": //属性
 					for (let i = 0; i < childNodes.length; i++) {
-						if (typeof(selector_value) == 'object') {
+						if (typeof selector_value == 'object') {
 							if (childNodes[i].hasAttribute(selector_value.attributeName)) {
 								if (childNodes[i].getAttribute(selector_value.attributeName) ==
 									selector_value.attributeValue) {
@@ -825,7 +825,7 @@ const util = {
 					break;
 				default: //标签名
 					for (let i = 0; i < childNodes.length; i++) {
-						if (childNodes[i].tagName.toUpperCase() == selector_value.toUpperCase()) {
+						if (childNodes[i].tagName.toLocaleUpperCase() == selector_value.toLocaleUpperCase()) {
 							result.push(childNodes[i]);
 						}
 					}
@@ -847,7 +847,7 @@ const util = {
 	 * string类型的dom元素转为dom节点
 	 */
 	string2dom(str) {
-		if (typeof(str) != "string") {
+		if (typeof str != "string") {
 			str = "";
 		}
 		let parentEle = document.createElement("div");
@@ -878,7 +878,7 @@ const util = {
 		}
 
 		//selector参数不存在时，返回所有的兄弟节点
-		if (selector == "" || selector == undefined || selector == null || typeof(selector) != "string") {
+		if (selector == "" || selector == undefined || selector == null || typeof selector != "string") {
 			return siblingsArray;
 		}
 		let selectors = selector.split(/\s+/);
@@ -904,7 +904,7 @@ const util = {
 					break;
 				case "attribute": //属性
 					for (let i = 0; i < siblingsArray.length; i++) {
-						if (typeof(selector_value) == 'object') {
+						if (typeof selector_value == 'object') {
 							if (siblingsArray[i].hasAttribute(selector_value.attributeName)) {
 								if (siblingsArray[i].getAttribute(selector_value.attributeName) ==
 									selector_value.attributeValue) {
@@ -920,7 +920,7 @@ const util = {
 					break;
 				default: //标签名
 					for (let i = 0; i < siblingsArray.length; i++) {
-						if (siblingsArray[i].tagName.toUpperCase() == selector_value.toUpperCase()) {
+						if (siblingsArray[i].tagName.toLocaleUpperCase() == selector_value.toLocaleUpperCase()) {
 							result.push(siblingsArray[i]);
 						}
 					}
@@ -1004,7 +1004,7 @@ const util = {
 			language: (navigator.browserLanguage || navigator.language).toLowerCase()
 		}
 		let flag = false;
-		if (params != null && params != undefined && typeof(params) == "string") {
+		if (params != null && params != undefined && typeof params == "string") {
 			if (params.toLowerCase() == "ie") { //IE内核
 				flag = browser.versions.trident;
 			} else if (params.toLowerCase() == "opera") { //opera内核

@@ -22,22 +22,22 @@ class Spy {
 		}
 		this.hasInit = true;
 		//根据el的值查找元素
-		if(typeof(this.$el) == "string" && this.$el){
+		if(typeof this.$el == "string" && this.$el){
 			this.$el = document.body.querySelector(this.$el);
 		}
 		if (!$util.isElement(this.$el)) {
 			this.$el = window;
 		}
-		if (typeof(this.beforeEnter) != "function") {
+		if (typeof this.beforeEnter != "function") {
 			this.beforeEnter = function() {};
 		}
-		if (typeof(this.enter) != "function") {
+		if (typeof this.enter != "function") {
 			this.enter = function() {};
 		}
-		if (typeof(this.beforeLeave) != "function") {
+		if (typeof this.beforeLeave != "function") {
 			this.beforeLeave = function() {};
 		}
-		if (typeof(this.leave) != "function") {
+		if (typeof this.leave != "function") {
 			this.leave = function() {};
 		}
 		

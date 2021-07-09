@@ -21,10 +21,10 @@ class Scroll {
 		if(!$util.isElement(this.$el)){
 			this.$el = window;
 		}
-		if(typeof(this.top)!="function"){
+		if(typeof this.top != "function"){
 			this.top = function(){};
 		}
-		if(typeof(this.bottom)!="function"){
+		if(typeof this.bottom != "function"){
 			this.bottom = function(){};
 		}
 		$util.scrollTopBottomTrigger(this.$el,res=>{

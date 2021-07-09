@@ -3,7 +3,7 @@
 		<div @click="clickShowTooltip" @mouseenter="hoverShowTooltip" @mouseleave="hoverHideToolTip" class="mvi-tooltip-toggle" ref="toggle" :data-id="'mvi-tooltip-target-' + uid">
 			<slot></slot>
 		</div>
-		<m-layer v-model:show="show" :offset="offset" :background="color" border :border-color="borderColor" closable :show-triangle="showTriangle" :z-index="zIndex" :target="`[data-id='mvi-tooltip-target-${uid}']`" :root="`[data-id='mvi-tooltip-${uid}']`"
+		<m-layer v-model="show" :offset="offset" :background="color" border :border-color="borderColor" closable :show-triangle="showTriangle" :z-index="zIndex" :target="`[data-id='mvi-tooltip-target-${uid}']`" :root="`[data-id='mvi-tooltip-${uid}']`"
 		:placement="placement" :fixed="fixed" :fixed-auto="fixedAuto" :width="width" :timeout="timeout" 
 		:animation="animation?animation:'mvi-tooltip'" :shadow="false" >
 			<div class="mvi-tooltip-content" ref="content" :style="contentStyle">

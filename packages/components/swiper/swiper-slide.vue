@@ -25,10 +25,11 @@
 				}else{//横向
 					style.height = '100%';
 				}
-				if(this.swiper.width){
+				if(this.swiper.width && (this.swiper.width.includes('rem') || this.swiper.width.includes('px'))){
 					style.width = this.swiper.width;
 				}
-				if(this.swiper.height){
+				
+				if(this.swiper.height && (this.swiper.height.includes('rem') || this.swiper.height.includes('px'))){
 					style.height = this.swiper.height;
 				}
 				return style;

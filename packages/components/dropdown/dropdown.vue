@@ -1,5 +1,5 @@
 <template>
-	<m-popup :show="show" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex" :timeout="timeout" :placement="placement" :round="round" :use-padding="usePadding" :mount-el="mountEl">
+	<m-popup :model-value="show" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex" :timeout="timeout" :placement="placement" :round="round" :use-padding="usePadding" :mount-el="mountEl">
 		<div class="mvi-dropdown">
 			<div :disabled="itemDisabled(item) || null" :class="dropdownItemClass(item,index)" v-for="(item,index) in options" @click="doSelect(item,index)" :style="dropdownItemStyle(item,index)">
 				<div class="mvi-dropdown-item-label">
@@ -24,9 +24,9 @@
 				oldIndex:null
 			}
 		},
-		emits:['update:value','update:show','select'],
+		emits:['update:modelValue','update:show','select'],
 		props:{
-			value:{//默认选中的选项
+			modelValue:{//默认选中的选项
 				type:[String,Number],
 				default:null
 			},
@@ -102,10 +102,10 @@
 			selectIconType() {
 				let t = 'success';
 				if ($util.isObject(this.selectIcon)) {
-					if (typeof(this.selectIcon.type) == "string") {
+					if (typeof this.selectIcon.type == "string") {
 						t = this.selectIcon.type;
 					}
-				} else if (typeof(this.selectIcon) == "string") {
+				} else if (typeof this.selectIcon == "string") {
 					t = this.selectIcon;
 				}
 				return t;
@@ -113,7 +113,7 @@
 			selectIconUrl() {
 				let url = null;
 				if ($util.isObject(this.selectIcon)) {
-					if (typeof(this.selectIcon.url) == "string") {
+					if (typeof this.selectIcon.url == "string") {
 						url = this.selectIcon.url;
 					}
 				}
@@ -122,7 +122,7 @@
 			selectIconSpin() {
 				let spin = false;
 				if ($util.isObject(this.selectIcon)) {
-					if (typeof(this.selectIcon.spin) == "boolean") {
+					if (typeof this.selectIcon.spin == "boolean") {
 						spin = this.selectIcon.spin;
 					}
 				}
@@ -131,7 +131,7 @@
 			selectIconSize() {
 				let size = null;
 				if ($util.isObject(this.selectIcon)) {
-					if (typeof(this.selectIcon.size) == "string") {
+					if (typeof this.selectIcon.size == "string") {
 						size = this.selectIcon.size;
 					}
 				}
@@ -140,7 +140,7 @@
 			selectIconColor() {
 				let color = null;
 				if ($util.isObject(this.selectIcon)) {
-					if (typeof(this.selectIcon.color) == "string") {
+					if (typeof this.selectIcon.color == "string") {
 						color = this.selectIcon.color;
 					}
 				}
@@ -150,10 +150,10 @@
 				return icon=>{
 					let t = null;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.type) == "string") {
+						if (typeof icon.type == "string") {
 							t = icon.type;
 						}
-					} else if (typeof(icon) == "string") {
+					} else if (typeof icon == "string") {
 						t = icon;
 					}
 					return t;
@@ -163,7 +163,7 @@
 				return icon=>{
 					let url = null;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.url) == "string") {
+						if (typeof icon.url == "string") {
 							url = icon.url;
 						}
 					}
@@ -174,7 +174,7 @@
 				return icon=>{
 					let spin = false;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.spin) == "boolean") {
+						if (typeof icon.spin == "boolean") {
 							spin = icon.spin;
 						}
 					}
@@ -185,7 +185,7 @@
 				return icon=>{
 					let size = null;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.size) == "string") {
+						if (typeof icon.size == "string") {
 							size = icon.size;
 						}
 					}
@@ -196,7 +196,7 @@
 				return icon=>{
 					let color = null;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.color) == "string") {
+						if (typeof icon.color == "string") {
 							color = icon.color;
 						}
 					}
@@ -207,16 +207,16 @@
 			equalValue(){
 				return (item,index)=>{
 					//比较value
-					if((typeof(item.value) == 'string' && item.value) || $util.isNumber(item.value)){
-						return this.value === item.value;
+					if((typeof item.value == 'string' && item.value) || $util.isNumber(item.value)){
+						return this.modelValue === item.value;
 					}else{
-						return this.value === index;
+						return this.modelValue === index;
 					}
 				}
 			},
 			itemDisabled(){
 				return item=>{
-					if(typeof(item.disabled) == 'boolean'){
+					if(typeof item.disabled == 'boolean'){
 						return item.disabled;
 					}else{
 						return false;
@@ -243,23 +243,23 @@
 			},
 			dropdownItemClass(){
 				return (item,index)=>{
-					let cls = 'mvi-dropdown-item';
+					let cls = ['mvi-dropdown-item'];
 					if(this.itemClass){
 						if(item.class){
-							cls += ' '+item.class;
+							cls.push(item.class)
 						}else{
-							cls += ' '+this.itemClass;
+							cls.push(this.itemClass)
 						}
 					}else{
 						if(item.class){
-							cls += ' '+item.class;
+							cls.push(item.class)
 						}
 					}
 					if(this.equalValue(item,index)){
-						cls += ' mvi-dropdown-checked';
+						cls.push('mvi-dropdown-checked')
 					}
 					if(this.active && !item.disabled){
-						cls += ' mvi-dropdown-active';
+						cls.push('mvi-dropdown-active')
 					}
 					return cls;
 				}
@@ -267,7 +267,7 @@
 			}
 		},
 		mounted() {
-			this.oldIndex = this.value;
+			this.oldIndex = this.modelValue;
 		},
 		methods:{
 			//点击遮罩关闭
@@ -295,7 +295,7 @@
 						this.doCancel();
 					}
 				}else{
-					this.$emit('update:value',this.valueFilter(item.value,index));
+					this.$emit('update:modelValue',this.valueFilter(item.value,index));
 					this.$emit('select',{
 						item:Object.assign({},item),
 						index:index
@@ -308,7 +308,7 @@
 			},
 			//获取当前选择的value值
 			valueFilter(value,index){
-				if((typeof(value) == 'string' && value) || $util.isNumber(value)){
+				if((typeof value == 'string' && value) || $util.isNumber(value)){
 					return value;
 				}else{
 					return index;

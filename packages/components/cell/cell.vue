@@ -1,7 +1,7 @@
 <template>
 	<div :class="cellClass">
 		<div class="mvi-cell-item">
-			<m-icon :class="['mvi-cell-icon',iconClass?iconClass:'']" v-if="iconType||iconUrl" :type="iconType" :url="iconUrl"
+			<m-icon class="mvi-cell-icon" v-if="iconType||iconUrl" :type="iconType" :url="iconUrl"
 			 :spin="iconSpin" :size="iconSize" :color="iconColor"/>
 			<div :class="['mvi-cell-title',noWrap?'mvi-cell-nowrap':'']">
 				<slot name="title" v-if="$slots.title"></slot>
@@ -11,7 +11,7 @@
 				<slot name="content" v-if="$slots.content"></slot>
 				<span v-else-if="content" v-text="content" :class="(contentClass?contentClass:'')"></span>
 			</div>
-			<m-icon :class="['mvi-cell-arrow',arrowClass?arrowClass:'']"
+			<m-icon class="mvi-cell-arrow"
 			 v-if="arrowType||arrowUrl" :type="arrowType" :url="arrowUrl" :spin="arrowSpin" :size="arrowSize" :color="arrowColor"/>
 		</div>
 		<div :class="['mvi-cell-label',labelClass?labelClass:'']" v-if="label || $slots.label" :style="labelTextStyle">
@@ -55,14 +55,6 @@
 				default: null
 			},
 			contentClass: {
-				type: String,
-				default: null
-			},
-			iconClass: {
-				type: String,
-				default: null
-			},
-			arrowClass: {
 				type: String,
 				default: null
 			},

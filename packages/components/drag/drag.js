@@ -30,7 +30,7 @@ class Drag {
 		if (!$util.isElement(this.$el)) {
 			throw new TypeError("The element that needs to be dragged is not a node element");
 		}
-		if (typeof(this.$container) == "string" && this.$container) {
+		if (typeof this.$container == "string" && this.$container) {
 			this.$container = document.body.querySelector(this.$container);
 		}
 		if (!$util.isElement(this.$container)) {
@@ -45,25 +45,25 @@ class Drag {
 		if ($util.getCssStyle(this.$el, "position") == "static") {
 			this.$el.style.position = "relative";
 		}
-		if (typeof(this.draggableY) != "boolean") {
+		if (typeof this.draggableY != "boolean") {
 			this.draggableY = true;
 		}
-		if (typeof(this.draggableX) != "boolean") {
+		if (typeof this.draggableX != "boolean") {
 			this.draggableX = true;
 		}
 		if (this.mode != "on" && this.mode != "in" && this.mode != "over" && this.mode != "out") {
 			this.mode = ""; //默认对拖拽范围不做限定
 		}
-		if (typeof(this.drag) != "function") {
+		if (typeof this.drag != "function") {
 			this.drag = function() {};
 		}
-		if (typeof(this.beforedrag) != "function") {
+		if (typeof this.beforedrag != "function") {
 			this.beforedrag = function() {};
 		}
-		if (typeof(this.dragged) != "function") {
+		if (typeof this.dragged != "function") {
 			this.dragged = function() {};
 		}
-		if (typeof(this.ready) != "function") {
+		if (typeof this.ready != "function") {
 			this.ready = function() {};
 		}
 		

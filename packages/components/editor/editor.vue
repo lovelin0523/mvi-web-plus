@@ -5,7 +5,7 @@
 				v-for="(item, index) in computedMenuKeysForShow"
 				:value="item"
 				:menu="computedMenus[item]"
-				:ref="setMenuRefs"
+				:ref="el=>menuRefs[index]=el"
 			></m-editor-item>
 		</div>
 		<div class="mvi-editor-body">
@@ -17,6 +17,8 @@
 				:style="codeViewStyle"
 				:class="codeViewClass"
 				ref="codeView"
+				@blur="codeViewBlur"
+				@focus="codeViewFocus"
 				@input="codeViewInput"
 				@keydown="tabDown"
 				@paste="codeViewPaste"
@@ -71,8 +73,8 @@ export default {
 				borderColor:'#eee',
 				background:'#fff'
 			},
+			//默认菜单配置
 			defaultMenus: {
-				//默认菜单配置
 				undo: true, //撤销
 				redo: true, //恢复
 				removeFormat: true, //移除格式
@@ -353,8 +355,8 @@ export default {
 				code: true, //插入代码
 				codeView: false //显示源码
 			},
+			//默认的工具提示内容
 			defaultTooltips: {
-				//默认的工具提示内容
 				undo: '撤销',
 				redo: '恢复',
 				removeFormat: '清除格式',
@@ -381,8 +383,8 @@ export default {
 				code: '插入代码',
 				codeView: '显示源码'
 			},
+			//默认工具提示组件参数配置
 			defaultTooltipProps: {
-				//默认工具提示组件参数配置
 				placement: 'bottom',
 				timeout: 400,
 				color: '#333',
@@ -396,8 +398,8 @@ export default {
 				animation:null,
 				showTriangle:true
 			},
+			//默认上传图片配置
 			defaultUploadImageProps: {
-				//默认上传图片配置
 				multiple: false, //是否多选
 				allowedFileType: ['jpg', 'png', 'JPG', 'PNG', 'JPEG', 'jpeg', 'gif', 'GIF','jfif','JFIF'], //限定格式
 				accept: 'image', //限制类型
@@ -406,8 +408,8 @@ export default {
 				minLength: -1, //多选时选择图片的最小数量
 				maxLength: -1 //多选时选择图片的最大数量
 			},
+			//默认上传视频配置
 			defaultUploadVideoProps: {
-				//默认上传视频配置
 				multiple: false, //是否多选
 				allowedFileType: ['mp4', 'MP4', 'avi', 'AVI', 'WAV', 'wav'], //限定格式
 				accept: 'video', //限制类型
@@ -416,15 +418,15 @@ export default {
 				minLength: -1, //多选时选择视频的最小数量
 				maxLength: -1 //多选时选择视频的最大数量
 			},
+			//视频显示设置
 			defaultVideoShowProps: {
-				//视频显示设置
 				autoplay: true, //视频是否自动播放
 				muted: true, //视频静音
 				controls: false, //是否显示控制器
 				loop: false //是否循环
 			},
+			//默认菜单项图标
 			defaultMenuIcons: {
-				//默认菜单项图标
 				undo: 'undo',
 				redo: 'redo',
 				removeFormat: 'clear',
@@ -453,10 +455,10 @@ export default {
 			}
 		}
 	},
-	emits:['update:value','upload-image','upload-video','custom','blur','focus','input'],
+	emits:['update:modelValue','upload-image','upload-video','custom','blur','focus','input'],
 	props: {
 		//值
-		value: {
+		modelValue: {
 			type: String,
 			default: ''
 		},
@@ -717,7 +719,7 @@ export default {
 		this.init(); 
 	},
 	watch:{
-		value(newValue){
+		modelValue(newValue){
 			if(!this.isModelChange){
 				if(this.$refs.content){
 					this.$refs.content.innerHTML = this.getValue();
@@ -729,12 +731,6 @@ export default {
 		}
 	},
 	methods: {
-		//获取菜单项组件数组
-		setMenuRefs(el){
-			if(el){
-				this.menuRefs.push(el);
-			}
-		},
 		//初始化
 		init() {
 			//将自定义的菜单项浮层配置与默认配置整合
@@ -995,7 +991,7 @@ export default {
 			if(this.disabled){
 				return
 			}
-			if(this.border && this.activeColor){
+			if(this.border && this.activeColor && this.$refs.content){
 				this.$refs.content.style.borderColor = ''
 			}
 			this.changeActive()
@@ -1025,6 +1021,26 @@ export default {
 					html:this.html,
 					text:this.text
 				})
+			})
+		},
+		//源码视图获取焦点
+		codeViewFocus(){
+			if(this.disabled){
+				return
+			}
+			this.$emit('focus',{
+				html:this.html,
+				text:this.text
+			})
+		},
+		//源码视图失去焦点
+		codeViewBlur(){
+			if(this.disabled){
+				return
+			}
+			this.$emit('blur',{
+				html:this.html,
+				text:this.text
 			})
 		},
 		//源码视图输入
@@ -1067,7 +1083,7 @@ export default {
 		//判断某个节点是否在指定标签下，可对外提供
 		compareTag(el, tag) {
 			if ($util.isContains(this.$refs.content, el)) {
-				if (el.tagName.toUpperCase() == tag.toUpperCase()) {
+				if (el.tagName.toLocaleUpperCase() == tag.toLocaleUpperCase()) {
 					return true;
 				} else {
 					return this.compareTag(el.parentNode, tag);
@@ -1091,7 +1107,7 @@ export default {
 		//根据标签名获取某个节点，可对外提供
 		getCompareTag(el, tag) {
 			if ($util.isContains(this.$refs.content, el)) {
-				if (el.tagName.toUpperCase() == tag.toUpperCase()) {
+				if (el.tagName.toLocaleUpperCase() == tag.toLocaleUpperCase()) {
 					return el;
 				} else {
 					return this.getCompareTag(el.parentNode, tag);
@@ -1112,18 +1128,18 @@ export default {
 				return null;
 			}
 		},
-		//获取经过处理的value值
+		//获取经过处理的modelValue值
 		getValue(){
-			if (this.value == '' || this.value == '<br>' || this.value == '<p></p>') {
+			if (this.modelValue == '' || this.modelValue == '<br>' || this.modelValue == '<p></p>') {
 				return '<p><br></p>';
 			} else {
-				return this.value;
+				return this.modelValue;
 			}
 		},
-		//根据html值更新value值，可对外提供
+		//根据html值更新modelValue值，可对外提供
 		updateValue(){
 			this.isModelChange = true;
-			this.$emit('update:value',this.html);
+			this.$emit('update:modelValue',this.html);
 			this.$nextTick(()=>{
 				this.isModelChange = false;
 			})

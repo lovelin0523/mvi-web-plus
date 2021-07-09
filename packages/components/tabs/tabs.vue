@@ -34,7 +34,7 @@
 				tabs:this
 			}
 		},
-		emits:['update:active','change'],
+		emits:['update:modelValue','change'],
 		props:{
 			type:{//tabs类型
 				type:String,
@@ -43,7 +43,7 @@
 					return ['default','card'].indexOf(value)>-1;
 				}
 			},
-			active:{//激活的tab序列
+			modelValue:{//激活的tab序列
 				type:Number,
 				default:0
 			},
@@ -143,19 +143,19 @@
 			},
 			headerClass(){
 				return (item,index)=>{
-					let cls = 'mvi-tab-header';
-					if(this.active == index){
-						cls += ' mvi-tab-header-active';
+					let cls = ['mvi-tab-header'];
+					if(this.modelValue == index){
+						cls.push('mvi-tab-header-active');
 						if(this.activeClass){
-							cls += ' '+this.activeClass;
+							cls.push(this.activeClass)
 						}
 					}else{
 						if(this.inactiveClass){
-							cls += ' '+this.inactiveClass;
+							cls.push(this.inactiveClass)
 						}
 					}
 					if(this.ellipsis){
-						cls += ' mvi-tab-header-ellipsis';
+						cls.push('mvi-tab-header-ellipsis');
 					}
 					return cls;
 				}
@@ -163,7 +163,7 @@
 			headerStyle(){
 				return (item,index)=>{
 					let style = {};
-					if(this.active == index){
+					if(this.modelValue == index){
 						if(this.activeColor){
 							style.color = this.activeColor;
 						}
@@ -176,7 +176,7 @@
 						style.marginLeft = this.offset;
 					}
 					if(this.type == 'card'){
-						if(this.active == index){
+						if(this.modelValue == index){
 							if(this.activeBackground){
 								style.backgroundColor = this.activeBackground;
 							}
@@ -196,10 +196,10 @@
 			}
 		},
 		created() {
-			this.current = this.active;
+			this.current = this.modelValue;
 		},
 		watch:{
-			active(newValue,oldValue){
+			modelValue(newValue,oldValue){
 				this.to(newValue,oldValue);
 			}
 		},
@@ -224,10 +224,10 @@
 				if(item.disabled){
 					return;
 				}
-				if(this.active == index){
+				if(this.modelValue == index){
 					return;
 				}
-				this.$emit('update:active',index);
+				this.$emit('update:modelValue',index);
 				this.$emit('change',index)
 			},
 			//激活指定的tab

@@ -259,8 +259,8 @@ export default {
 				if (typeof this.input.align == 'string') {
 					input.align = this.input.align;
 				}
-				if (typeof this.input.value == 'string') {
-					input.value = this.input.value;
+				if (typeof this.input.value == 'string' || $util.isNumber(this.input.value)) {
+					input.value = this.input.value.toString();
 				}
 			}
 			return input;
@@ -343,21 +343,32 @@ export default {
 	created() {
 		//输入框存在时设置默认值
 		if(this.type == 'Prompt'){
-			this.value = this.computedInput.value;
+			this.setDefaultValue();
 		}
 	},
 	methods: {
+		//设置输入框默认值
+		setDefaultValue(){
+			let value = this.computedInput.value;
+			if (this.computedInput.type == 'number') {
+				value = value.replace(/\D/g, '');
+			}
+			if (this.computedInput.maxlength > 0 && value.length > this.computedInput.maxlength) {
+				value = value.substr(0, this.computedInput.maxlength);
+			}
+			this.value = value;
+		},
 		//获取焦点
 		inputFocus() {
 			setTimeout(() => {
 				this.focus = true;
-			}, 300);
+			}, 200);
 		},
 		//失去焦点
 		inputBlur(e) {
 			setTimeout(() => {
 				this.focus = false;
-			}, 300);
+			}, 200);
 		},
 		//输入监听
 		inputFun() {
@@ -365,10 +376,8 @@ export default {
 			if (this.computedInput.type == 'number') {
 				value = value.replace(/\D/g, '');
 			}
-			if (this.computedInput.maxlength > 0) {
-				if (value.length > this.computedInput.maxlength) {
-					value = value.substr(0, this.computedInput.maxlength);
-				}
+			if (this.computedInput.maxlength > 0 && value.length > this.computedInput.maxlength) {
+				value = value.substr(0, this.computedInput.maxlength);
 			}
 			this.value = value;
 		},

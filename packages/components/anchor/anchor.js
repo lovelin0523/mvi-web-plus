@@ -22,11 +22,11 @@ class Anchor {
 		}
 		this.hasInit = true;
 		//根据root的值查找元素
-		if (typeof(this.$root) == "string" && this.$root) {
+		if (typeof this.$root == "string" && this.$root) {
 			this.$root = document.body.querySelector(this.$root);
 		}
 		//根据target的值查找元素
-		if (typeof(this.$target) == "string" && this.$target) {
+		if (typeof this.$target == "string" && this.$target) {
 			this.$target = document.body.querySelector(this.$target);
 		}
 		
@@ -39,7 +39,7 @@ class Anchor {
 		if (!$util.isNumber(this.time)) {
 			this.time = 0;
 		}
-		if(typeof(this.callback) != "function"){
+		if(typeof this.callback != "function"){
 			this.callback = function(){};
 		}
 		if(!$util.isNumber(this.distance)){

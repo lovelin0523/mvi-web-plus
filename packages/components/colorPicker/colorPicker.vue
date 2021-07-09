@@ -35,9 +35,9 @@
 				panelProp:null
 			}
 		},
-		emits:['update:value','change'],
+		emits:['update:modelValue','change'],
 		props: {
-			value: { //rgba颜色值
+			modelValue: { //rgba颜色值
 				type: String,
 				default: '#ff0000'
 			},
@@ -52,7 +52,7 @@
 		},
 		watch:{
 			//颜色值变化更新选取器滑块位置
-			value(newValue){
+			modelValue(newValue){
 				if(this.drag){
 					return;
 				}
@@ -194,15 +194,15 @@
 					return;
 				}
 				let reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-				if(this.value && reg.test(this.value)){//如果值为16进制的
-					this.rgb = $util.hex2rgb(this.value);
+				if(this.modelValue && reg.test(this.modelValue)){//如果值为16进制的
+					this.rgb = $util.hex2rgb(this.modelValue);
 					this.hsv = $util.rgb2hsv(this.rgb);
 					this.opacity = 1;
 				}else{//为rgb格式的
 					try{
-						let first = this.value.indexOf('(');
-						let last = this.value.lastIndexOf(')');
-						let str = this.value.substring(first+1,last);
+						let first = this.modelValue.indexOf('(');
+						let last = this.modelValue.lastIndexOf(')');
+						let str = this.modelValue.substring(first+1,last);
 						let arry = str.split(',');
 						if(arry.length<3){
 							throw new Error();
@@ -216,7 +216,7 @@
 						this.hsv = $util.rgb2hsv(this.rgb);
 						//如果是hex，则变为16进制值
 						if(this.hex){
-							this.$emit('update:value',$util.rgb2hex(this.rgb));
+							this.$emit('update:modelValue',$util.rgb2hex(this.rgb));
 						}
 					}catch(e){
 						throw new Error('Color values are not RGB (RGBA) format and hexadecimal format');
@@ -277,7 +277,7 @@
 						if(this.hex){
 							value = $util.rgb2hex(this.rgb);
 						}
-						this.$emit('update:value',value);
+						this.$emit('update:modelValue',value);
 						this.$emit('change',{
 							hex:$util.rgb2hex(this.rgb),
 							rgb:this.rgb,
@@ -289,7 +289,7 @@
 						if(this.hex){
 							value = $util.rgb2hex(this.rgb);
 						}
-						this.$emit('update:value',value);
+						this.$emit('update:modelValue',value);
 						this.$emit('change',{
 							hex:$util.rgb2hex(this.rgb),
 							rgb:this.rgb,

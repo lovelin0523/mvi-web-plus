@@ -21,9 +21,9 @@
 				isdrag:false
 			}
 		},
-		emits:['update:value','change'],
+		emits:['update:modelValue','change'],
 		props: {
-			value: { //当前值
+			modelValue: { //当前值
 				type: Number,
 				default: 0
 			},
@@ -89,9 +89,9 @@
 					style.backgroundColor = this.activeColor;
 				}
 				if (this.vertical) {
-					style.height = `calc(${(this.value - this.min) / (this.max - this.min)} * 100%)`;
+					style.height = `calc(${(this.modelValue - this.min) / (this.max - this.min)} * 100%)`;
 				} else {
-					style.width = `calc(${(this.value - this.min) / (this.max - this.min)} * 100%)`;
+					style.width = `calc(${(this.modelValue - this.min) / (this.max - this.min)} * 100%)`;
 				}
 				return style;
 			},
@@ -169,12 +169,12 @@
 				if (this.vertical) {
 					let top = res.placement.top;
 					let value = ((top + this.$refs.btn.offsetHeight / 2) / this.$el.offsetHeight) * (this.max - this.min) + this.min;
-					this.$emit('update:value', value);
+					this.$emit('update:modelValue', value);
 					this.$emit('change',value);
 				} else {
 					let left = res.placement.left;
 					let value = ((left + this.$refs.btn.offsetWidth / 2) / this.$el.offsetWidth) * (this.max - this.min) + this.min;
-					this.$emit('update:value', value);
+					this.$emit('update:modelValue', value);
 					this.$emit('change',value);
 				}
 			},
@@ -182,11 +182,11 @@
 			setBtnOffset() {
 				if (this.vertical) {
 					this.$refs.btn.style.left = "50%";
-					this.$refs.btn.style.top = ((this.value - this.min) / (this.max - this.min)) * this.$el.offsetHeight - this.$refs.btn.offsetHeight /
+					this.$refs.btn.style.top = ((this.modelValue - this.min) / (this.max - this.min)) * this.$el.offsetHeight - this.$refs.btn.offsetHeight /
 						2 + "px";
 				} else {
 					this.$refs.btn.style.top = "50%";
-					this.$refs.btn.style.left = ((this.value - this.min) / (this.max - this.min)) * this.$el.offsetWidth - this.$refs.btn.offsetWidth /
+					this.$refs.btn.style.left = ((this.modelValue - this.min) / (this.max - this.min)) * this.$el.offsetWidth - this.$refs.btn.offsetWidth /
 						2 + "px";
 				}
 			},
@@ -204,12 +204,12 @@
 				if (this.vertical) {
 					let top = event.offsetY;
 					let value = (top / this.$el.offsetHeight) * (this.max - this.min) + this.min;
-					this.$emit('update:value', value);
+					this.$emit('update:modelValue', value);
 					this.$emit('change',value);
 				} else {
 					let left = event.offsetX;
 					let value = (left / this.$el.offsetWidth) * (this.max - this.min) + this.min;
-					this.$emit('update:value', value);
+					this.$emit('update:modelValue', value);
 					this.$emit('change',value);
 				}
 			}

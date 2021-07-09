@@ -19,9 +19,9 @@
 	import $util from "../../util/util"
 	export default {
 		name:"m-stepper",
-		emits:['update:value','change'],
+		emits:['update:modelValue','change'],
 		props:{
-			value:{
+			modelValue:{
 				type:[String,Number],
 				default:0
 			},
@@ -107,14 +107,14 @@
 		computed:{
 			arrivalMin(){
 				if(this.min != null){
-					return this.value<=this.min;
+					return this.modelValue<=this.min;
 				}else{
 					return false;
 				}
 			},
 			arrivalMax(){
 				if(this.max != null){
-					return this.value>=this.max;
+					return this.modelValue>=this.max;
 				}else{
 					return false;
 				}
@@ -173,13 +173,13 @@
 						val = this.max;
 					}
 					this.$refs.input.value = val;
-					if(this.value !== val){
-						this.$emit('update:value',val);
+					if(this.modelValue !== val){
+						this.$emit('update:modelValue',val);
 						this.$emit('change',val);
 					}
 				},
 				get(){
-					let val = parseFloat(this.value);
+					let val = parseFloat(this.modelValue);
 					if(isNaN(val)){
 						val = 0;
 					}
@@ -189,6 +189,9 @@
 					}
 					if(val >= this.max && this.max != null){
 						val = this.max;
+					}
+					if(this.modelValue !== val){
+						this.$emit('update:modelValue',val);
 					}
 					return val;
 				}

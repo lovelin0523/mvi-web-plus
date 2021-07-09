@@ -38,7 +38,7 @@
 		name:"m-calendar",
 		props:{
 			//指定显示的日期
-			date:{
+			modelValue:{
 				type:Date,
 				default:function(){
 					return new Date();
@@ -63,7 +63,7 @@
 						return false;
 					}
 					for(let i = 0;i<value.length;i++){
-						if(typeof(value[i])!="string"){
+						if(typeof value[i] != "string"){
 							return false;
 						}
 					}
@@ -114,19 +114,19 @@
 				default:true
 			}
 		},
-		emits:['update:date','date-click','month-click','year-click'],
+		emits:['update:modelValue','date-click','month-click','year-click'],
 		computed:{
 			//显示在年份面板上的年数组
 			years(){
 				let arry = [];
-				let current_year = this.date.getFullYear();//获取指定的年份
+				let current_year = this.modelValue.getFullYear();//获取指定的年份
 				//指定日期所在年份所在数组的序列,12个值为一个数组
 				let index = Math.floor((current_year - this.startYear)/12);
 				for(let i = this.startYear+index*12;i<this.startYear+index*12+12;i++){
 					let date = new Date();
 					date.setFullYear(i);
-					date.setMonth(this.date.getMonth());
-					date.setDate(this.date.getDate());
+					date.setMonth(this.modelValue.getMonth());
+					date.setDate(this.modelValue.getDate());
 					arry.push({
 						date:date,
 						year:i,
@@ -141,16 +141,16 @@
 				let arry = [];
 				for(let i = 0;i<12;i++){
 					let date = new Date();
-					date.setFullYear(this.date.getFullYear());
+					date.setFullYear(this.modelValue.getFullYear());
 					date.setMonth(i);
-					date.setDate(this.date.getDate());
+					date.setDate(this.modelValue.getDate());
 					arry.push({
 						date:date,
-						year:this.date.getFullYear(),
+						year:this.modelValue.getFullYear(),
 						month:i+1,
 						text:this.monthText[i],
-						now:((i+1==new Date().getMonth()+1) && (this.date.getFullYear()==new Date().getFullYear())),
-						current:((i+1==this.date.getMonth()+1)),
+						now:((i+1==new Date().getMonth()+1) && (this.modelValue.getFullYear()==new Date().getFullYear())),
+						current:((i+1==this.modelValue.getMonth()+1)),
 					})
 				}
 				return arry;
@@ -158,7 +158,7 @@
 			//显示在日期面板上的日期数组
 			days(){
 				//获取指定日期的总天数
-				let total = $util.getDays(this.date.getFullYear(),this.date.getMonth()+1);
+				let total = $util.getDays(this.modelValue.getFullYear(),this.modelValue.getMonth()+1);
 				let arry = [];
 				for(let i = 0;i<total;i++){
 					arry.push({
@@ -298,7 +298,7 @@
 			//判断是否是今天
 			isNow(date){
 				let now = new Date();
-				if(this.date.getFullYear() == now.getFullYear() && this.date.getMonth()== now.getMonth() && date == now.getDate()){
+				if(this.modelValue.getFullYear() == now.getFullYear() && this.modelValue.getMonth()== now.getMonth() && date == now.getDate()){
 					return true;
 				}else{
 					return false;
@@ -306,7 +306,7 @@
 			},
 			//判断是否是指定日期
 			isCurrent(date){
-				if(this.date.getDate() == date){
+				if(this.modelValue.getDate() == date){
 					return true;
 				}else{
 					return false;
@@ -315,16 +315,16 @@
 			//获取某个日期是星期几
 			getWeek(date){
 				let fullDate = new Date();
-				fullDate.setFullYear(this.date.getFullYear());
-				fullDate.setMonth(this.date.getMonth());
+				fullDate.setFullYear(this.modelValue.getFullYear());
+				fullDate.setMonth(this.modelValue.getMonth());
 				fullDate.setDate(date);
 				return fullDate.getDay();
 			},
 			//获取本月指定日期
 			getSpecifiedDate(index){
 				let fullDate = new Date();
-				fullDate.setFullYear(this.date.getFullYear());
-				fullDate.setMonth(this.date.getMonth());
+				fullDate.setFullYear(this.modelValue.getFullYear());
+				fullDate.setMonth(this.modelValue.getMonth());
 				fullDate.setDate(index);
 				return fullDate;
 			},
@@ -334,12 +334,12 @@
 				if(!item.currentMonth && !this.nonCurrentClick){
 					return;
 				}
-				this.$emit('update:date',item.date);
+				this.$emit('update:modelValue',item.date);
 				this.$emit('date-click',item);
 			},
 			//月份视图点击事件
 			onMonthClick(item){
-				this.$emit('update:date',item.date);
+				this.$emit('update:modelValue',item.date);
 				this.$emit('month-click',item);
 			},
 			//年视图点击事件
@@ -347,7 +347,7 @@
 				if(item.year < this.startYear || item.year > this.endYear){
 					return;
 				}
-				this.$emit('update:date',item.date);
+				this.$emit('update:modelValue',item.date);
 				this.$emit('year-click',item);
 			}
 		}

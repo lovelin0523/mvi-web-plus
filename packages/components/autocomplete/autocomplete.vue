@@ -4,7 +4,7 @@
 			<div @click="leftClick" v-if="leftIconType ||　leftIconUrl" class="mvi-autocomplete-left-icon">
 				<m-icon :type="leftIconType" :url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize" :color="leftIconColor"/>
 			</div>
-			<input ref="input" @input="input" :value="value" type="text" :placeholder="placeholder" :style="inputStyle" :name="name" @focus="inputFocus" @blur="inputBlur" :disabled="disabled || null" autocomplete="off"/>
+			<input ref="input" @input="input" :value="modelValue" type="text" :placeholder="placeholder" :style="inputStyle" :name="name" @focus="inputFocus" @blur="inputBlur" :disabled="disabled || null" autocomplete="off"/>
 			<div @click="doClear" v-if="clearable" v-show="showClearIcon" class="mvi-autocomplete-clear" :style="clearStyle">
 				<m-icon type="times-o" />
 			</div>
@@ -12,7 +12,7 @@
 				<m-icon :type="rightIconType" :url="rightIconUrl" :spin="rightIconSpin" :size="rightIconSize" :color="rightIconColor"/>
 			</div>
 		</div>
-		<m-layer :show="show" :target="`[data-id='mvi-autocomplete-target-${uid}']`" 
+		<m-layer :model-value="show" :target="`[data-id='mvi-autocomplete-target-${uid}']`" 
 		:root="`[data-id='mvi-autocomplete-${uid}']`" :placement="placement" :offset="offset" :fixed="fixed" :z-index="zIndex"  :fixed-auto="fixedAuto" ref="layer" :wrapper-class="wrapperClass" :animation="animation" shadow :border="false" :timeout="timeout" :closable="false" :show-triangle="false" @showing="layerShow">
 			<div class="mvi-autocomplete-menu" :style="menuStyle" ref="menu">
 				<div class="mvi-autocomplete-list" v-for="(item,index) in computedFilter" v-text="item" @click="doSelect(item)" @mouseenter="listEnter" @mouseleave="listLeave"></div>
@@ -32,9 +32,9 @@
 				target:null
 			}
 		},
-		emits:['update:value','focus','blur','input','left-click','right-click','select'],
+		emits:['update:modelValue','focus','blur','input','left-click','right-click','select'],
 		props:{
-			value:{//输入框的值
+			modelValue:{//输入框的值
 				type:[String,Number],
 				default:''
 			},
@@ -163,10 +163,10 @@
 			leftIconType() {
 				let t = null;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.type) == "string") {
+					if (typeof this.leftIcon.type == "string") {
 						t = this.leftIcon.type;
 					}
-				} else if (typeof(this.leftIcon) == "string") {
+				} else if (typeof this.leftIcon == "string") {
 					t = this.leftIcon;
 				}
 				return t;
@@ -174,7 +174,7 @@
 			leftIconUrl() {
 				let url = null;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.url) == "string") {
+					if (typeof this.leftIcon.url == "string") {
 						url = this.leftIcon.url;
 					}
 				}
@@ -183,7 +183,7 @@
 			leftIconSpin() {
 				let spin = false;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.spin) == "boolean") {
+					if (typeof this.leftIcon.spin == "boolean") {
 						spin = this.leftIcon.spin;
 					}
 				}
@@ -192,7 +192,7 @@
 			leftIconSize() {
 				let size = null;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.size) == "string") {
+					if (typeof this.leftIcon.size == "string") {
 						size = this.leftIcon.size;
 					}
 				}
@@ -201,7 +201,7 @@
 			leftIconColor() {
 				let color = null;
 				if ($util.isObject(this.leftIcon)) {
-					if (typeof(this.leftIcon.color) == "string") {
+					if (typeof this.leftIcon.color == "string") {
 						color = this.leftIcon.color;
 					}
 				}
@@ -210,10 +210,10 @@
 			rightIconType() {
 				let t = null;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.type) == "string") {
+					if (typeof this.rightIcon.type == "string") {
 						t = this.rightIcon.type;
 					}
-				} else if (typeof(this.rightIcon) == "string") {
+				} else if (typeof this.rightIcon == "string") {
 					t = this.rightIcon;
 				}
 				return t;
@@ -221,7 +221,7 @@
 			rightIconUrl() {
 				let url = null;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.url) == "string") {
+					if (typeof this.rightIcon.url == "string") {
 						url = this.rightIcon.url;
 					}
 				}
@@ -230,7 +230,7 @@
 			rightIconSpin() {
 				let spin = false;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.spin) == "boolean") {
+					if (typeof this.rightIcon.spin == "boolean") {
 						spin = this.rightIcon.spin;
 					}
 				}
@@ -239,7 +239,7 @@
 			rightIconSize() {
 				let size = null;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.size) == "string") {
+					if (typeof this.rightIcon.size == "string") {
 						size = this.rightIcon.size;
 					}
 				}
@@ -248,14 +248,17 @@
 			rightIconColor() {
 				let color = null;
 				if ($util.isObject(this.rightIcon)) {
-					if (typeof(this.rightIcon.color) == "string") {
+					if (typeof this.rightIcon.color == "string") {
 						color = this.rightIcon.color;
 					}
 				}
 				return color;
 			},
 			showClearIcon(){
-				if(this.value && this.focus){
+				if(this.disabled){
+					return false;
+				}
+				if(this.modelValue && this.focus){
 					return true;
 				}else{
 					return false;
@@ -277,7 +280,7 @@
 			},
 			computedFilter(){
 				if(typeof this.filterMethod == 'function'){
-					return this.filterMethod(this.value,this.list);
+					return this.filterMethod(this.modelValue,this.list);
 				}else if(this.filterMethod){
 					return this.defaultFilter();
 				}else{
@@ -336,13 +339,13 @@
 				if(this.disabled){
 					return;
 				}
-				this.$emit('right-click',this.value)
+				this.$emit('right-click',this.modelValue)
 			},
 			leftClick(e){
 				if(this.disabled){
 					return;
 				}
-				this.$emit('left-click',this.value)
+				this.$emit('left-click',this.modelValue)
 			},
 			listEnter(e){
 				if(this.hoverClass){
@@ -354,7 +357,7 @@
 					$util.removeClass(e.currentTarget,this.hoverClass);
 				}
 			},
-			input(event){
+			input(){
 				if(this.disabled){
 					return;
 				}
@@ -364,11 +367,11 @@
 						this.$refs.layer.reset();
 					},10)
 				})
-				this.$emit('update:value',event.currentTarget.value)
-				this.$emit('input',event.currentTarget.value)
+				this.$emit('update:modelValue',this.$refs.input.value)
+				this.$emit('input',this.$refs.input.value)
 			},
 			inputBlur(){
-				this.$emit('blur',this.value)
+				this.$emit('blur',this.modelValue)
 				setTimeout(()=>{
 					this.focus = false;
 				},200)
@@ -377,7 +380,7 @@
 				if(this.disabled){
 					return;
 				}
-				this.$emit('focus',this.value);
+				this.$emit('focus',this.modelValue);
 				setTimeout(()=>{
 					this.focus = true;
 				},200)
@@ -386,12 +389,12 @@
 				if(this.disabled){
 					return;
 				}
-				this.$emit('update:value','')
-				event.currentTarget.value = '';
+				this.$emit('update:modelValue','')
+				this.$refs.input.value = '';
 				this.$refs.input.focus();
 			},
 			doSelect(item){
-				this.$emit('update:value',item);
+				this.$emit('update:modelValue',item);
 				this.$emit('select',item);
 				this.focus = false;
 			},
@@ -400,7 +403,7 @@
 				let arr = [];
 				let length = this.list.length;
 				for(let i = 0;i<length;i++){
-					if(this.list[i].includes(this.value)){
+					if(this.list[i].includes(this.modelValue)){
 						arr.push(this.list[i]);
 					}
 				}

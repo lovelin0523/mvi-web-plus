@@ -71,7 +71,7 @@
 			//进入
 			enter(){
 				this.removeTransition().then(()=>{
-					this.$refs.bar.style.offsetWidth = 0;
+					this.$refs.bar.style.width = 0;
 						setTimeout(()=>{
 							this.addTransition('enter').then(()=>{
 								this.$refs.bar.style.width = window.innerWidth * 0.9 + 'px';

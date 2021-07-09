@@ -12,9 +12,9 @@
 				children:[]
 			}
 		},
-		emits:['update:openIndex','before-slide-down','slide-down','before-slide-up','slide-up'],
+		emits:['update:modelValue','before-slide-down','slide-down','before-slide-up','slide-up'],
 		props:{
-			openIndex:{//默认展开的面板索引
+			modelValue:{//默认展开的面板索引
 				type:[Number,Array],
 				default:null
 			},
@@ -49,10 +49,6 @@
 			closeArrow:{//关闭时右侧图标
 				type:[String,Object],
 				default:'angle-down'
-			},
-			arrowClass:{//自定义右侧图标的额外样式类
-				type:String,
-				default:null
 			},
 			timeout:{//折叠或者展开的动画时长,单位ms
 				type:Number,

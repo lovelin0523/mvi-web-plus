@@ -1,16 +1,16 @@
 <template>
-	<m-overlay :show="show" @show="overlayShow" @hide="overlayHide" :use-padding="usePadding"
+	<m-overlay :model-value="modelValue" @show="overlayShow" @hide="overlayHide" :use-padding="usePadding"
 	:z-index="zIndex" @click.self="hide" :color="overlayColor?overlayColor:null" :timeout="timeout" :mount-el="mountEl" >
 		<transition :name="'mvi-slide-'+placement"  @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" 
 	@before-leave="beforeLeave" @leave="leave" @after-leave="afterLeave">
 			<!-- 弹出层 -->
 			<div v-if="firstShow" v-show="popupShow" :class="popupClass" :style="popupStyle" v-bind="$attrs">
 				<!-- 关闭图标 -->
-				<div v-if="showTimes" :class="'mvi-popup-times mvi-popup-times-'+timesPlacement">
+				<div v-if="showTimes" :class="['mvi-popup-times','mvi-popup-times-'+timesPlacement]">
 					<m-icon @click="hidePopup" :type="iconType" :url="iconUrl" :spin="iconSpin" :size="iconSize" :color="iconColor"/>
 				</div>
 				<!-- 正文内容 -->
-				<div :class="'mvi-popup-content'+(showTimes?' mvi-popup-content-padding':'')">
+				<div :class="['mvi-popup-content',showTimes?'mvi-popup-content-padding':'']">
 					<slot></slot>
 				</div>
 			</div>
@@ -28,7 +28,7 @@
 				firstShow:false,//popup弹窗是否渲染
 			}
 		},
-		emits:['update:show','show','showing','shown','hide','hidding','hidden','overlay-click'],
+		emits:['update:modelValue','show','showing','shown','hide','hidding','hidden','overlay-click'],
 		inheritAttrs:false,
 		props:{
 			mountEl:{//挂载元素
@@ -50,7 +50,7 @@
 				type:[String,Object],
 				default:null
 			},
-			show:{//显示与否
+			modelValue:{//显示与否
 				type:Boolean,
 				default:false
 			},
@@ -59,6 +59,14 @@
 				default:false
 			},
 			overlayColor:{//遮罩层颜色
+				type:String,
+				default:null
+			},
+			popupColor:{//弹出层背景色
+				type:String,
+				default:null
+			},
+			color:{//弹出层字体颜色
 				type:String,
 				default:null
 			},
@@ -94,10 +102,10 @@
 			iconType() {
 				let t = "times";
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.type) == "string") {
+					if (typeof this.timesIcon.type == "string") {
 						t = this.timesIcon.type;
 					}
-				} else if (typeof(this.timesIcon) == "string") {
+				} else if (typeof this.timesIcon == "string") {
 					t = this.timesIcon;
 				}
 				return t;
@@ -105,7 +113,7 @@
 			iconUrl() {
 				let url = null;
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.url) == "string") {
+					if (typeof this.timesIcon.url == "string") {
 						url = this.timesIcon.url;
 					}
 				}
@@ -114,7 +122,7 @@
 			iconSpin() {
 				let spin = false;
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.spin) == "boolean") {
+					if (typeof this.timesIcon.spin == "boolean") {
 						spin = this.timesIcon.spin;
 					}
 				}
@@ -123,7 +131,7 @@
 			iconSize(){
 				let size = null;
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.size) == "string") {
+					if (typeof this.timesIcon.size == "string") {
 						size = this.timesIcon.size;
 					}
 				}
@@ -132,7 +140,7 @@
 			iconColor(){
 				let color = null;
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.color) == "string") {
+					if (typeof this.timesIcon.color == "string") {
 						color = this.timesIcon.color;
 					}
 				}
@@ -140,9 +148,9 @@
 			},
 			//弹出层类
 			popupClass(){
-				let cls = 'mvi-popup mvi-popup-'+this.placement;
+				let cls = ['mvi-popup','mvi-popup-'+this.placement];
 				if(this.round){
-					cls += " mvi-popup-round";
+					cls.push('mvi-popup-round');
 				}
 				return cls;
 			},
@@ -166,6 +174,12 @@
 						style.flexDirection = "column-reverse";
 						style.webkitFlexDirection = "column-reverse";
 					}
+				}
+				if(this.popupColor){
+					style.backgroundColor = this.popupColor;
+				}
+				if(this.color){
+					style.color = this.color;
 				}
 				if(this.zIndex){
 					style.zIndex = this.zIndex + 10;
@@ -198,7 +212,7 @@
 			},
 			//点击关闭按钮
 			hidePopup(){
-				this.$emit('update:show',false);
+				this.$emit('update:modelValue',false);
 			},
 			//弹出层显示前
 			beforeEnter(el){

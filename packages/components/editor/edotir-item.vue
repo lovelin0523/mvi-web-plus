@@ -8,11 +8,11 @@
 		<div v-else :class="['mvi-editor-target',menuActive?'mvi-editor-active':'']" @click="targetTrigger" :disabled="editor.disabled || (value!='codeView' && editor.codeViewShow) || null" :data-id="`mvi-editor-target-${uid}-${value}`" :style="editorTargetStyle">
 			<m-icon :type="editor.defaultMenuIcons[value]" />
 		</div>
-		<m-layer v-model:show="layerShow" ref="layer" :placement="editor.defaultLayerProps.placement" :z-index="editor.defaultLayerProps.zIndex" :fixed="editor.defaultLayerProps.fixed" :fixed-auto="editor.defaultLayerProps.fixedAuto" :offset="editor.defaultLayerProps.offset" :wrapper-class="editor.defaultLayerProps.wrapperClass" :timeout="editor.defaultLayerProps.timeout" :show-triangle="editor.defaultLayerProps.showTriangle" :animation="editor.defaultLayerProps.animation" :shadow="editor.defaultLayerProps.shadow" :border="editor.defaultLayerProps.border" :border-color="editor.defaultLayerProps.borderColor" :background="editor.defaultLayerProps.background" :closable="(editor.trigger=='click'?true:false)" :target="`[data-id='mvi-editor-target-${uid}-${value}']`" :root="`[data-id='mvi-editor-root-${uid}-${value}']`">
+		<m-layer v-model="layerShow" ref="layer" :placement="editor.defaultLayerProps.placement" :z-index="editor.defaultLayerProps.zIndex" :fixed="editor.defaultLayerProps.fixed" :fixed-auto="editor.defaultLayerProps.fixedAuto" :offset="editor.defaultLayerProps.offset" :wrapper-class="editor.defaultLayerProps.wrapperClass" :timeout="editor.defaultLayerProps.timeout" :show-triangle="editor.defaultLayerProps.showTriangle" :animation="editor.defaultLayerProps.animation" :shadow="editor.defaultLayerProps.shadow" :border="editor.defaultLayerProps.border" :border-color="editor.defaultLayerProps.borderColor" :background="editor.defaultLayerProps.background" :closable="(editor.trigger=='click'?true:false)" :target="`[data-id='mvi-editor-target-${uid}-${value}']`" :root="`[data-id='mvi-editor-root-${uid}-${value}']`">
 			<div class="mvi-editor-layer">
 				<!-- 插入图片或者视频 -->
 				<div class="mvi-editor-medias" v-if="value == 'image' || value == 'video' ">
-					<m-tabs v-model:active="tabIndex" flex="flex-start" offset="0.4rem" :active-color="editor.activeColor" inactive-color="#808080">
+					<m-tabs v-model="tabIndex" flex="flex-start" offset="0.4rem" :active-color="editor.activeColor" inactive-color="#808080">
 						<m-tab v-for="(item,index) in menu" :title="item.label">
 							<div ref="upload" class="mvi-editor-upload" v-if="item.value == 'upload'">
 								<m-icon type='upload-square' />
@@ -32,7 +32,7 @@
 								<input ref="linkText" class="mvi-editor-link-input" @focus="inputFocus" @blur="inputBlur" v-model.trim="linkText" placeholder="链接文字" type="text" />
 								<input ref="linkUrl" class="mvi-editor-link-input" @focus="inputFocus" @blur="inputBlur" v-model.trim="linkUrl" placeholder="链接地址" type="text">
 								<div class="mvi-editor-link-footer">
-									<m-checkbox label="新窗口打开" label-placement="right" icon-size="0.24rem" label-size="0.24rem" label-color="#808080" :fill-color="editor.activeColor" v-model:checked="linkTarget"></m-checkbox>
+									<m-checkbox label="新窗口打开" label-placement="right" icon-size="0.24rem" label-size="0.24rem" label-color="#808080" :fill-color="editor.activeColor" v-model="linkTarget"></m-checkbox>
 									<div class="mvi-editor-link-operation">
 										<span class="mvi-editor-link-delete" v-if="menuActive" @click="deleteLink">删除链接</span>
 										<span class="mvi-editor-link-insert" :style="activeColorStyle" @click="insertLink">插入</span>
@@ -192,7 +192,7 @@
 					},
 					error: (state, message, file) => {
 						if (this.value == 'image') {
-							if (typeof(this.editor.uploadImageError) == 'function') {
+							if (typeof this.editor.uploadImageError == 'function') {
 								this.editor.uploadImageError(state, message, file)
 							} else {
 								this.$msgbox({
@@ -201,7 +201,7 @@
 								})
 							}
 						} else {
-							if (typeof(this.editor.uploadVideoError) == 'function') {
+							if (typeof this.editor.uploadVideoError == 'function') {
 								this.editor.uploadVideoError(state, message, file)
 							} else {
 								this.$msgbox({
@@ -386,7 +386,7 @@
 							this.$nextTick(() => {
 								if (this.editor.codeViewShow) {
 									this.editor.$refs.codeView.innerText = this.editor.html;
-									this.editor.$children.forEach((child)=>{
+									this.editor.menuRefs.forEach(child=>{
 										if(child.value != 'codeView'){
 											child.menuActive = false;
 										}else {
@@ -395,7 +395,7 @@
 									})
 								} else {
 									this.editor.$refs.content.innerHTML = this.editor.html;
-									this.editor.$children.forEach((child)=>{
+									this.editor.menuRefs.forEach(child=>{
 										if(child.value != 'codeView'){
 											this.editor.changeActive()
 										}else {

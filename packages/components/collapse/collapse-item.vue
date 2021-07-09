@@ -1,8 +1,8 @@
 <template>
 	<div :class="['mvi-collapse-item',computedOutBorder?'mvi-collapse-item-border':'']">
 		<m-cell class="mvi-collapse-cell" :icon="icon" :content="label" :title="title" :border="cellBorder" :arrow="arrow" 
-		:title-class="titleClass" :content-class="labelClass" :icon-class="iconClass" @click="changeCollapse" :active="computedActive"
-		:no-wrap="computedNoWrap" :arrow-class="computedArrowClass"></m-cell>
+		:title-class="titleClass" :content-class="labelClass" @click="changeCollapse" :active="computedActive"
+		:no-wrap="computedNoWrap"></m-cell>
 		<m-transition-slide :expand="open" :timeout="computedTimeout" @before-slide-up="beforeSlideUp" @slide-up="slideUp" 
 		@before-slide-down="beforeSlideDown" @slide-down="slideDown">
 			<div :class="['mvi-collapse-item-content',contentClass?contentClass:'']">
@@ -17,11 +17,6 @@
 	import $util from "../../util/util"
 	export default {
 		name: "m-collapse-item",
-		created() {
-			this.collapse.children.push(this);
-			this.cellBorder = this.computedInBorder;
-			this.isNeedHideSelf();
-		},
 		data() {
 			return {
 				open:true,
@@ -57,10 +52,6 @@
 				type: String,
 				default: null
 			},
-			iconClass: { //标题栏左侧图标额外样式
-				type: String,
-				default: null
-			},
 			active: { //标题栏是否显示点击态
 				type: Boolean,
 				default: null
@@ -89,45 +80,39 @@
 				type: [String, Object],
 				default: null
 			},
-			arrowClass:{//自定义右侧图标的额外样式类
-				type:String,
-				default:null
-			},
 			timeout:{//折叠或者展开的动画时长,单位ms
 				type:Number,
 				default: null
 			}
 		},
 		inject: ['collapse'],
+		created() {
+			this.collapse.children.push(this);
+			this.cellBorder = this.computedInBorder;
+			this.isNeedHideSelf();
+		},
 		watch:{
-			'collapse.openIndex':function(newValue,oldValue){
+			'collapse.modelValue':function(newValue,oldValue){
 				this.isNeedHideSelf();
 			}
 		},
 		computed: {
-			computedArrowClass(){
-				if (typeof(this.arrowClass) == "string" && this.arrowClass) {
-					return this.arrowClass;
-				} else {
-					return this.collapse.arrowClass;
-				}
-			},
 			computedOutBorder() {
-				if (typeof(this.outBorder) == "boolean") {
+				if (typeof this.outBorder == "boolean") {
 					return this.outBorder;
 				} else {
 					return this.collapse.outBorder;
 				}
 			},
 			computedInBorder() {
-				if (typeof(this.inBorder) == "boolean") {
+				if (typeof this.inBorder == "boolean") {
 					return this.inBorder;
 				} else {
 					return this.collapse.inBorder;
 				}
 			},
 			computedNoWrap() {
-				if (typeof(this.noWrap) == "boolean") {
+				if (typeof this.noWrap == "boolean") {
 					return this.noWrap;
 				} else {
 					return this.collapse.noWrap;
@@ -146,7 +131,7 @@
 			},
 			//打开时右侧图标
 			computedOpenArrow() {
-				if ((typeof(this.openArrow) == 'string' && this.openArrow) ||
+				if ((typeof this.openArrow == 'string' && this.openArrow) ||
 					$util.isObject(this.openArrow)) {
 					return this.openArrow;
 				} else {
@@ -155,7 +140,7 @@
 			},
 			//关闭时右侧图标
 			computedCloseArrow() {
-				if ((typeof(this.closeArrow) == 'string' && this.closeArrow) ||
+				if ((typeof this.closeArrow == 'string' && this.closeArrow) ||
 					$util.isObject(this.openArrow)) {
 					return this.closeArrow;
 				} else {
@@ -168,7 +153,7 @@
 			},
 			//点击态
 			computedActive() {
-				if (typeof(this.active) == "boolean") {
+				if (typeof this.active == "boolean") {
 					return this.active;
 				} else {
 					return this.collapse.active;
@@ -176,7 +161,7 @@
 			},
 			//折叠面板显示隐藏动画时长
 			computedTimeout() {
-				if (typeof(this.timeout) == "number") {
+				if (typeof this.timeout == "number") {
 					return this.timeout;
 				} else {
 					return this.collapse.timeout;
@@ -209,21 +194,21 @@
 			//判断是否需要隐藏此折叠面板
 			isNeedHideSelf(){
 				if (this.collapse.accordion) { //手风琴模式
-					if(this.collapse.openIndex == this.itemIndex){
+					if(this.collapse.modelValue == this.itemIndex){
 						this.open = true;
 					}else{
 						this.open = false;
 					}
 				} else { //非手风琴模式
 					//值为数字
-					if ($util.isNumber(this.collapse.openIndex)) {
-						if (this.collapse.openIndex == this.itemIndex) { 
+					if ($util.isNumber(this.collapse.modelValue)) {
+						if (this.collapse.modelValue == this.itemIndex) { 
 							this.open = true;
 						} else {
 							this.open = false;
 						}
-					} else if ((this.collapse.openIndex) instanceof Array) { //值为数组
-						if (this.collapse.openIndex.includes(this.itemIndex)) {
+					} else if ((this.collapse.modelValue) instanceof Array) { //值为数组
+						if (this.collapse.modelValue.includes(this.itemIndex)) {
 							this.open = true;
 						} else {
 							this.open = false;
@@ -240,34 +225,34 @@
 				}
 				if (this.collapse.accordion) { //手风琴模式
 					//关闭当前面板
-					if(this.collapse.openIndex == this.itemIndex){
-						this.collapse.$emit('update:openIndex', null);
+					if(this.collapse.modelValue == this.itemIndex){
+						this.collapse.$emit('update:modelValue', null);
 					}else{
-						this.collapse.$emit('update:openIndex', this.itemIndex);
+						this.collapse.$emit('update:modelValue', this.itemIndex);
 					}
 				} else { //非手风琴模式
 					//值为数字
-					if ($util.isNumber(this.collapse.openIndex)) {
-						if (this.collapse.openIndex == this.itemIndex) { //关闭当前展开的面板
-							this.collapse.$emit('update:openIndex', []);
+					if ($util.isNumber(this.collapse.modelValue)) {
+						if (this.collapse.modelValue == this.itemIndex) { //关闭当前展开的面板
+							this.collapse.$emit('update:modelValue', []);
 						} else { //打开面板
-							this.collapse.$emit('update:openIndex', [this.collapse.openIndex, this.itemIndex]);
+							this.collapse.$emit('update:modelValue', [this.collapse.modelValue, this.itemIndex]);
 						}
-					} else if (this.collapse.openIndex instanceof Array) { //值为数组
-						if (this.collapse.openIndex.includes(this.itemIndex)) { //关闭当前面板
-							let arry = [...this.collapse.openIndex];
+					} else if (this.collapse.modelValue instanceof Array) { //值为数组
+						if (this.collapse.modelValue.includes(this.itemIndex)) { //关闭当前面板
+							let arry = [...this.collapse.modelValue];
 							let index = this.getIndex(arry, this.itemIndex);
 							arry.splice(index, 1);
-							this.collapse.$emit('update:openIndex', arry);
+							this.collapse.$emit('update:modelValue', arry);
 						} else { //打开面板
-							let arry = [...this.collapse.openIndex];
+							let arry = [...this.collapse.modelValue];
 							arry.push(this.itemIndex);
-							this.collapse.$emit('update:openIndex', arry);
+							this.collapse.$emit('update:modelValue', arry);
 						}
 					} else {
 						let arry = [];
 						arry.push(this.itemIndex);
-						this.collapse.$emit('update:openIndex', arry);
+						this.collapse.$emit('update:modelValue', arry);
 					}
 				}
 			},

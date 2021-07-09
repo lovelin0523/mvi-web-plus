@@ -19,7 +19,7 @@ class Prop {
 		if(!$util.isElement(this.$el)){
 			throw new Error("The bound element is not a node element");
 		}
-		if(typeof(this.ratio) != "number" || isNaN(this.ratio)){
+		if(typeof this.ratio != "number" || isNaN(this.ratio)){
 			this.ratio = 0;
 		}
 		this._set();

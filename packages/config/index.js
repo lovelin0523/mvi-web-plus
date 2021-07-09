@@ -94,7 +94,7 @@
 			return _this[_dataName];
 		}
 		// setter
-		if (typeof(value) !== 'undefined') {
+		if (typeof value !== 'undefined') {
 			_data = _this[_dataName] || {};
 			_data[key] = value;
 			_this[_dataName] = _data;
@@ -111,7 +111,7 @@
 	 */
 	NodeList.prototype.data = function(key, value) {
 		// setter
-		if (typeof(value) !== 'undefined') {
+		if (typeof value !== 'undefined') {
 			[].forEach.call(this, function(element, index) {
 				element.data(key, value);
 			});
@@ -127,7 +127,7 @@
 	 */
 	HTMLCollection.prototype.data = function(key, value) {
 		// setter
-		if (typeof(value) !== 'undefined') {
+		if (typeof value !== 'undefined') {
 			[].forEach.call(this, function(element, index) {
 				element.data(key, value);
 			});

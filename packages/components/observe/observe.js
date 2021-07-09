@@ -24,22 +24,22 @@ class Observe {
 		}
 		this.hasInit = true;
 		try{
-			if(typeof(this.attributes) != 'boolean'){
+			if(typeof this.attributes != 'boolean'){
 				this.attributes = false;
 			}
-			if(typeof(this.childList) != 'boolean'){
+			if(typeof this.childList != 'boolean'){
 				this.childList = false;
 			}
-			if(typeof(this.subtree) != 'boolean'){
+			if(typeof this.subtree != 'boolean'){
 				this.subtree = false;
 			}
 			if(!(this.attributeNames instanceof Array)){
 				this.attributeNames = [];
 			}
-			if(typeof(this.attributesChange) != 'function'){
+			if(typeof this.attributesChange != 'function'){
 				this.attributesChange = function(){};
 			}
-			if(typeof(this.childNodesChange) != 'function'){
+			if(typeof this.childNodesChange != 'function'){
 				this.childNodesChange = function(){};
 			}
 			

@@ -52,28 +52,28 @@ class Upload {
 		if (!$util.isNumber(this.minLength) || this.minLength <= 0) {
 			this.minLength = -1;
 		}
-		if (typeof(this.multiple) != "boolean") {
+		if (typeof this.multiple != "boolean") {
 			this.multiple = false;
 		}
-		if (typeof(this.capture) != "boolean") {
+		if (typeof this.capture != "boolean") {
 			this.capture = false;
 		}
-		if (typeof(this.append) != "boolean") {
+		if (typeof this.append != "boolean") {
 			this.append = false;
 		}
-		if (typeof(this.disabled) != "boolean") {
+		if (typeof this.disabled != "boolean") {
 			this.disabled = false;
 		}
-		if (typeof(this.error) != "function") {
+		if (typeof this.error != "function") {
 			this.error = function() {};
 		}
-		if (typeof(this.select) != "function") {
+		if (typeof this.select != "function") {
 			this.select = function() {};
 		}
-		if (typeof(this.ready) != "function") {
+		if (typeof this.ready != "function") {
 			this.ready = function() {};
 		}
-		if( typeof(this.extra) != "object"){
+		if( typeof this.extra != "object"){
 			this.extra = {};
 		}
 		//生成input[type='file']元素

@@ -4,7 +4,7 @@
 		<m-layer
 			:target="`[data-id='mvi-date-chooser-target-${uid}']`"
 			:root="`[data-id='mvi-date-chooser-${uid}']`"
-			v-model:show="show"
+			v-model="show"
 			:placement="placement"
 			:fixed="fixed"
 			:fixed-auto="fixedAuto"
@@ -38,7 +38,7 @@
 							@mouseleave="hoverHeader(false, 1)"
 							@click="goPrevMonth"
 							:class="headerItemClass(1)"
-							:disabled="(value.getFullYear() <= startYear && value.getMonth() == 0) || null"
+							:disabled="(modelValue.getFullYear() <= startYear && modelValue.getMonth() == 0) || null"
 							v-if="view == 'date'"
 						>
 							<m-icon type="angle-left" />
@@ -75,7 +75,7 @@
 							@mouseleave="hoverHeader(false, 5)"
 							@click="goNextMonth"
 							:class="headerItemClass(5)"
-							:disabled="(value.getFullYear() >= endYear && value.getMonth() == 11) || null"
+							:disabled="(modelValue.getFullYear() >= endYear && modelValue.getMonth() == 11) || null"
 							v-if="view == 'date'"
 						>
 							<m-icon type="angle-right" />
@@ -93,7 +93,7 @@
 				</div>
 				<m-calendar
 					:view="view"
-					:date="value"
+					:model-value="modelValue"
 					:month-text="monthText"
 					:week-text="weekText"
 					:start-year="startYear"
@@ -108,7 +108,6 @@
 					ref="calendar"
 				></m-calendar>
 			</div>
-		
 		</m-layer>
 	</div>
 </template>
@@ -127,10 +126,10 @@ export default {
 			hover: [false, false, false, false, false, false, false]
 		};
 	},
-	emits:['update:value','change'],
+	emits:['update:modelValue','change'],
 	props: {
 		//当前日期
-		value: {
+		modelValue: {
 			type: Date,
 			default: function() {
 				return new Date();
@@ -303,11 +302,11 @@ export default {
 	computed: {
 		currentYear() {
 			//当前年份显示值
-			return this.value.getFullYear() + ' 年';
+			return this.modelValue.getFullYear() + ' 年';
 		},
 		currentMonth() {
 			//当前月份显示值
-			let month = this.value.getMonth() + 1;
+			let month = this.modelValue.getMonth() + 1;
 			return (month < 10 ? '0' + month : month) + ' 月';
 		},
 		hoverHeader() {
@@ -347,7 +346,7 @@ export default {
 			if (this.view == 'year' && this.layer) {
 				return this.$refs.calendar.years[0].year <= this.startYear;
 			} else {
-				return this.value.getFullYear() <= this.startYear;
+				return this.modelValue.getFullYear() <= this.startYear;
 			}
 		},
 		nextYearDisabled() {
@@ -355,7 +354,7 @@ export default {
 				let years = this.$refs.calendar.years;
 				return years[years.length - 1].year >= this.endYear;
 			} else {
-				return this.value.getFullYear() >= this.endYear;
+				return this.modelValue.getFullYear() >= this.endYear;
 			}
 		}
 	},
@@ -415,7 +414,7 @@ export default {
 			if(this.disabled){
 				return;
 			}
-			this.$emit('update:value', res.date);
+			this.$emit('update:modelValue', res.date);
 			this.$emit('change',res.date);
 			this.show = false;
 		},
@@ -434,7 +433,7 @@ export default {
 				//月选择模式或者日期选择模式
 				this.view = 'month';
 			}
-			this.$emit('update:value', res.date);
+			this.$emit('update:modelValue', res.date);
 			this.$emit('change',res.date);
 		},
 		//点击月份
@@ -450,14 +449,14 @@ export default {
 			} else {
 				this.show = false;
 			}
-			this.$emit('update:value', res.date);
+			this.$emit('update:modelValue', res.date);
 			this.$emit('change',res.date);
 		},
 		//前一年
 		goPrevYear() {
 			if (this.view == 'year') {
 				let years = this.$refs.calendar.years;
-				let date = this.value;
+				let date = this.modelValue;
 				let year = date.getFullYear();
 				if (years[0].year <= this.startYear) {
 					return;
@@ -466,35 +465,35 @@ export default {
 				} else {
 					date = new Date(date.setFullYear(year - 12));
 				}
-				this.$emit('update:value', date);
+				this.$emit('update:modelValue', date);
 				this.$emit('change',date);
 			} else {
-				let date = this.value;
+				let date = this.modelValue;
 				let year = date.getFullYear();
 				if (year <= this.startYear) {
 					return;
 				}
 				date = new Date(date.setFullYear(year - 1));
-				this.$emit('update:value', date);
+				this.$emit('update:modelValue', date);
 				this.$emit('change',date);
 			}
 		},
 		//前一月
 		goPrevMonth() {
-			let date = this.value;
+			let date = this.modelValue;
 			if (date.getFullYear() <= this.startYear && date.getMonth() == 0) {
 				return;
 			}
 			let prevMonths = $util.getPrevMonths(2, date);
 			date = prevMonths[1];
-			this.$emit('update:value', date);
+			this.$emit('update:modelValue', date);
 			this.$emit('change',date);
 		},
 		//下一年
 		goNextYear() {
 			if (this.view == 'year') {
 				let years = this.$refs.calendar.years;
-				let date = this.value;
+				let date = this.modelValue;
 				let year = date.getFullYear();
 				if (years[years.length - 1].year >= this.endYear) {
 					return;
@@ -503,28 +502,28 @@ export default {
 				} else {
 					date = new Date(date.setFullYear(year + 12));
 				}
-				this.$emit('update:value', date);
+				this.$emit('update:modelValue', date);
 				this.$emit('change',date);
 			} else {
-				let date = this.value;
+				let date = this.modelValue;
 				let year = date.getFullYear();
 				if (year >= this.endYear) {
 					return;
 				}
 				date = new Date(date.setFullYear(year + 1));
-				this.$emit('update:value', date);
+				this.$emit('update:modelValue', date);
 				this.$emit('change',date);
 			}
 		},
 		//下一月
 		goNextMonth() {
-			let date = this.value;
+			let date = this.modelValue;
 			if (date.getFullYear() >= this.endYear && date.getMonth() == 11) {
 				return;
 			}
 			let nextMonths = $util.getNextMonths(2, date);
 			date = nextMonths[1];
-			this.$emit('update:value', date);
+			this.$emit('update:modelValue', date);
 			this.$emit('change',date);
 		},
 		//跳转年视图

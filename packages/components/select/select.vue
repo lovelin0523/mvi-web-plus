@@ -6,7 +6,7 @@
 			<m-icon :class="iconClass" :type="icon" />
 		</div>
 		<m-layer
-			v-model:show="focus"
+			v-model="focus"
 			:target="`[data-id='mvi-select-target-${uid}']`"
 			:root="`[data-id='mvi-select-${uid}']`"
 			:placement="placement"
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 		</m-layer>
-		<input type="hidden" :value="value" :name="name" />
+		<input type="hidden" :value="formData" :name="name" />
 	</div>
 </template>
 
@@ -47,7 +47,7 @@ import { getCurrentInstance } from "vue"
 import $util from '../../util/util';
 export default {
 	name: 'm-select',
-	emits:['update:value','change'],
+	emits:['update:modelValue','change'],
 	data() {
 		return {
 			focus: false, //是否点击达到了获取焦点效果
@@ -61,7 +61,7 @@ export default {
 			default: []
 		},
 		//选择的值
-		value: {
+		modelValue: {
 			type: [String, Number, Array],
 			default: null
 		},
@@ -199,6 +199,12 @@ export default {
 		}
 	},
 	computed: {
+		formData(){
+			if(this.multiple && Array.isArray(this.modelValue)){
+				return this.modelValue.join(',');
+			}
+			return this.modelValue;
+		},
 		menuStyle() {
 			let style = {};
 			if (this.height) {
@@ -240,7 +246,7 @@ export default {
 			if (this.multiple) {
 				let labels = [];
 				this.options.forEach((item, index) => {
-					if (this.value instanceof Array && this.value.includes(item.value)) {
+					if (this.modelValue instanceof Array && this.modelValue.includes(item.value)) {
 						labels.push(item.label);
 					}
 				});
@@ -252,7 +258,7 @@ export default {
 			} else {
 				let label = '';
 				this.options.forEach((item, index) => {
-					if (item.value == this.value) {
+					if (item.value == this.modelValue) {
 						label = item.label;
 					}
 				});
@@ -265,7 +271,7 @@ export default {
 		},
 		isSelect() {
 			return item => {
-				if (this.multiple && this.showSelectIcon && this.value.includes(item.value)) {
+				if (this.multiple && this.showSelectIcon && this.modelValue.includes(item.value)) {
 					return true;
 				} else {
 					return false;
@@ -353,19 +359,19 @@ export default {
 				return;
 			}
 			if (this.multiple) {
-				let arr = this.value;
+				let arr = this.modelValue;
 				if(!(arr instanceof Array)){
-					throw new TypeError('value should be an array');
+					throw new TypeError('modelValue should be an array');
 				}
 				if (arr.includes(item.value)) {
 					arr.splice(this.getIndexOfArray(arr, item.value), 1);
 				} else {
 					arr.push(item.value);
 				}
-				this.$emit('update:value', arr);
+				this.$emit('update:modelValue', arr);
 				this.$emit('change',this.getSelectOptions(arr));
 			} else {
-				this.$emit('update:value', item.value);
+				this.$emit('update:modelValue', item.value);
 				this.$emit('change',item);
 			}
 			this.trigger();
@@ -459,7 +465,7 @@ export default {
 		border-radius: @radius-round;
 	}
 
-	.mvi-select-square {
+	&.mvi-select-square {
 		border-radius: 0;
 	}
 

@@ -1,11 +1,11 @@
 <template>
-	<m-popup :show="show" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex" :timeout="timeout" placement="bottom" :round="round" :use-padding="usePadding" :mount-el="mountEl">
+	<m-popup :model-value="modelValue" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex" :timeout="timeout" placement="bottom" :round="round" :use-padding="usePadding" :mount-el="mountEl">
 		<div class="mvi-acionsheet">
 			<div class="mvi-acionsheet-title" v-if="title" :style="{color:(titleColor?titleColor:'')}">
 				<span v-text="title"></span>
 			</div>
 			<div class="mvi-acionsheet-list">
-				<div :class="itemClass(item)" v-for="(item,index) in options" :key="'action-'+index" :style="itemStyle(item)"
+				<div :class="itemClass(item)" v-for="(item,index) in options" :style="itemStyle(item)"
 				 :disabled="itemDisabled(item) || null" @click="doSelect(item,index)">
 					<m-loading :size="(size=='large'?'0.4rem':'0.36rem')" color="#bbb" v-if="(item.loading?item.loading:false)"></m-loading>
 					<div class="mvi-acionsheet-content" v-else-if="item.label||item.sub || iconType(item.icon) || iconUrl(item.icon)">
@@ -19,8 +19,8 @@
 				</div>
 			</div>
 			<div class="mvi-acionsheet-divider"></div>
-			<div :class="'mvi-acionsheet-button'+(active?' mvi-acionsheet-active':'')" v-if="showCancel" v-text="cancelText"
-			 @click="doCancel" :style="'color:'+(cancelColor?cancelColor:'')"></div>
+			<div :class="['mvi-acionsheet-button',active?'mvi-acionsheet-active':'']" v-if="showCancel" v-text="cancelText"
+			 @click="doCancel" :style="{color:cancelColor?cancelColor:''}"></div>
 		</div>
 	</m-popup>
 </template>
@@ -29,9 +29,9 @@
 	import $util from "../../util/util"
 	export default {
 		name: "m-actionsheet",
-		emits:['update:show','select'],
+		emits:['update:modelValue','select'],
 		props: {
-			show: {
+			modelValue: {
 				type: Boolean,
 				default: false
 			},
@@ -114,10 +114,10 @@
 				return icon => {
 					let t = null;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.type) == "string") {
+						if (typeof icon.type == "string") {
 							t = icon.type;
 						}
-					} else if (typeof(icon) == "string") {
+					} else if (typeof icon == "string") {
 						t = icon;
 					}
 					return t;
@@ -127,7 +127,7 @@
 				return icon => {
 					let url = null;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.url) == "string") {
+						if (typeof icon.url == "string") {
 							url = icon.url;
 						}
 					}
@@ -138,7 +138,7 @@
 				return icon => {
 					let spin = false;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.spin) == "boolean") {
+						if (typeof icon.spin == "boolean") {
 							spin = icon.spin;
 						}
 					}
@@ -149,7 +149,7 @@
 				return icon => {
 					let size = null;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.size) == "string") {
+						if (typeof icon.size == "string") {
 							size = icon.size;
 						}
 					}
@@ -160,7 +160,7 @@
 				return icon => {
 					let color = null;
 					if ($util.isObject(icon)) {
-						if (typeof(icon.color) == "string") {
+						if (typeof icon.color == "string") {
 							color = icon.color;
 						}
 					}
@@ -169,12 +169,12 @@
 			},
 			itemClass() {
 				return item => {
-					let cls = "mvi-acionsheet-item mvi-actionsheet-item-"+this.size;
+					let cls = ['mvi-acionsheet-item',"mvi-actionsheet-item-"+this.size];
 					if (item.class) {
-						cls += ' ' + item.class;
+						cls.push(item.class)
 					}
 					if (this.active && !item.loading && !item.disabled) {
-						cls += ' mvi-acionsheet-active';
+						cls.push('mvi-acionsheet-active');
 					}
 					return cls;
 				}
@@ -195,7 +195,7 @@
 			},
 			itemDisabled(){
 				return item=>{
-					if(typeof(item.disabled) == 'boolean'){
+					if(typeof item.disabled == 'boolean'){
 						return item.disabled;
 					}else{
 						return false;
@@ -212,7 +212,7 @@
 			},
 			//取消
 			doCancel() {
-				this.$emit('update:show', false);
+				this.$emit('update:modelValue', false);
 			},
 			//点击选项
 			doSelect(item, index) {
@@ -220,7 +220,7 @@
 					return;
 				}
 				if (this.selectClose) {
-					this.$emit('update:show', false);
+					this.$emit('update:modelValue', false);
 				}
 				this.$emit('select', {
 					item: Object.assign({}, item),

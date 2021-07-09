@@ -3,7 +3,7 @@
 		<div v-if="label" :class="['mvi-search-label',labelClass?labelClass:'']" v-text="label"></div>
 		<div :class="['mvi-search-input-container',round?'mvi-search-input-round':'']" :style="{backgroundColor:background?background:'',color:color?color:''}">
 			<div v-if="leftIconType || leftIconUrl" class="mvi-search-left-icon" @click="leftClick">
-				<m-icon :type="leftIconType" :url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize" :color="leftIconColor" :class="(leftIconClass?leftIconClass:'')"/>
+				<m-icon :type="leftIconType" :url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize" :color="leftIconColor"/>
 			</div>
 			<input ref="input" class="mvi-search-input" :type="computedType" @keypress.enter="doSearch" autocomplete="off"
 			:placeholder="placeholder" :maxlength="maxlength" :autofocus="autofocus" :disabled="disabled || null" :readonly="readonly || null" :inputmode="computedInputMode"
@@ -12,7 +12,7 @@
 				<m-icon type="times-o"/>
 			</div>
 			<div v-if="rightIconType || rightIconUrl" class="mvi-search-right-icon" @click="rightClick">
-				<m-icon :type="rightIconType" :url="rightIconUrl" :spin="rightIconSpin" :size="rightIconSize" :color="rightIconColor" :class="(rightIconClass?rightIconClass:'')" />
+				<m-icon :type="rightIconType" :url="rightIconUrl" :spin="rightIconSpin" :size="rightIconSize" :color="rightIconColor" />
 			</div>
 		</div>
 		<div v-if="showCancel" v-text="cancelText" :class="['mvi-search-cancel',cancelClass?cancelClass:'']" @click="doCancel"></div>
@@ -103,14 +103,6 @@
 			},
 			rightIcon:{//右侧图标
 				type:[String,Object],
-				default:null
-			},
-			leftIconClass:{//左侧图标额外的样式类
-				type:String,
-				default:null
-			},
-			rightIconClass:{//右侧图标额外的样式类
-				type:String,
 				default:null
 			},
 			clearable:{//使用清除图标
@@ -283,14 +275,14 @@
 				this.$emit('focus',this.modelValue)
 				setTimeout(()=>{
 					this.focus = true;
-				},300)
+				},200)
 			},
 			//输入框失去焦点
 			getBlur(){
 				this.$emit('blur',this.modelValue)
 				setTimeout(()=>{
 					this.focus = false;
-				},300)
+				},200)
 			},
 			//输入监听
 			searchInput(){
@@ -303,6 +295,7 @@
 				if (this.maxlength > 0 && value.length > this.maxlength) {
 					value = value.substr(0, this.maxlength);
 				}
+				
 				this.$refs.input.value = value;
 				
 				if(this.modelValue != value){

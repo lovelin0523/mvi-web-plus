@@ -1,5 +1,5 @@
 <template>
-	<m-overlay ref="overlay" :show="show" @show="overlayShow" @hide="overlayHide" :z-index="zIndex" :color="overlayColor" 
+	<m-overlay ref="overlay" :model-value="show" @show="overlayShow" @hide="overlayHide" :z-index="zIndex" :color="overlayColor" 
 	:timeout="timeout" @click.self="hide" :mount-el="mountEl" :use-padding="usePadding">
 		<transition name="mvi-keyboard" @before-enter="beforeEnter" @after-enter="afterEnter" @before-leave="beforeLeave"
 		@after-leave="afterLeave" @leave="leave" @enter="enter">
@@ -34,7 +34,7 @@
 				numbers:['1','2','3','4','5','6','7','8','9','0','.'],
 			}
 		},
-		emits:['update:value','input','delete','complete','update:show','show','showing','shown','hide','hidding','hidden'],
+		emits:['update:modelValue','input','delete','complete','update:show','show','showing','shown','hide','hidding','hidden'],
 		inheritAttrs:false,
 		props:{
 			showDecimal:{//是否显示小数点
@@ -53,7 +53,7 @@
 				type:Boolean,
 				default:false
 			},
-			value:{//当前输入的值
+			modelValue:{//当前输入的值
 				type:[String,Number],
 				default:''
 			},
@@ -117,13 +117,13 @@
 		computed:{
 			computedValue:{
 				set(value){
-					this.$emit('update:value',value);
+					this.$emit('update:modelValue',value);
 				},
 				get(){
-					if($util.isNumber(this.value)){
-						return this.value.toString();
+					if($util.isNumber(this.modelValue)){
+						return this.modelValue.toString();
 					}else{
-						return this.value;
+						return this.modelValue;
 					}
 				}
 			},
@@ -135,54 +135,54 @@
 				return style;
 			},
 			deleteDisabeld(){
-				if(this.value === ''){
+				if(this.modelValue === ''){
 					return true;
 				}else{
 					return false;
 				}
 			},
 			completeDisabled(){
-				if(this.value === ''){
+				if(this.modelValue === ''){
 					return true;
 				}else{
 					return false;
 				}
 			},
 			leftNumberClass(){
-				return (item)=>{
-					let cls = 'mvi-number-keyboard-left-number';
+				return item=>{
+					let cls = ['mvi-number-keyboard-left-number'];
 					if(item == 0){
-						cls += ' mvi-number-keyboard-number-zero';
+						cls.push('mvi-number-keyboard-number-zero');
 					}
 					if(this.active){
-						cls += ' mvi-number-keyboard-active';
+						cls.push('mvi-number-keyboard-active');
 					}
 					return cls;
 				}
 			},
 			deleteBtnClass(){
-				let cls = 'mvi-number-keyboard-delete';
+				let cls = ['mvi-number-keyboard-delete'];
 				if(this.showDelete && !this.showComplete){
-					cls += ' mvi-number-keyboard-hide';
+					cls.push('mvi-number-keyboard-hide');
 				}
 				if(this.deleteClass){
-					cls += ' '+this.deleteClass;
+					cls.push(this.deleteClass)
 				}
 				if(this.active && !this.deleteDisabeld){
-					cls += ' mvi-number-keyboard-active';
+					cls.push('mvi-number-keyboard-active');
 				}
 				return cls;
 			},
 			completeBtnClass(){
-				let cls = 'mvi-number-keyboard-complete';
+				let cls = ['mvi-number-keyboard-complete'];
 				if(this.showComplete && !this.showDelete){
-					cls += ' mvi-number-keyboard-hide';
+					cls.push('mvi-number-keyboard-hide');
 				}
 				if(this.completeClass){
-					cls += ' '+this.completeClass;
+					cls.push(this.completeClass)
 				}
 				if(this.active && !(this.promiseEmpty?false:this.completeDisabled)){
-					cls += ' mvi-number-keyboard-active';
+					cls.push('mvi-number-keyboard-active');
 				}
 				return cls;
 			}

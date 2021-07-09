@@ -89,7 +89,7 @@
 					if (typeof this.loadIcon.type == "string") {
 						type = this.loadIcon.type;
 					}
-				} else if (typeof(this.loadIcon) == "string") {
+				} else if (typeof this.loadIcon == "string") {
 					type = this.loadIcon;
 				}
 				return type;

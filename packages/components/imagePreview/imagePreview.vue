@@ -1,11 +1,11 @@
 <template>
-	<m-overlay ref="overlay" :show="show" color="#000" :fade="false" @showing="overlayShowing" :z-index="zIndex" :use-padding="usePadding" :mountEl="mountEl">
+	<m-overlay ref="overlay" :model-value="modelValue" color="#000" :fade="false" @showing="overlayShowing" :z-index="zIndex" :use-padding="usePadding" :mountEl="mountEl">
 		<m-swiper v-if="firstShow" class="mvi-image-preview-swiper" :initial-slide="active" show-indicators ref="swiper"
 		 :width="swiperWidth" :height="swiperHeight" @change="swiperChange" @mousedown="mouseDown" @mouseup="mouseUp" :show-control="showControl" :fade="fade" :touchable="!isDoubleTouch" :control-class="controlClass">
 			<m-swiper-slide v-for="(item,index) in images" @wheel="wheelImage(index,$event)" 
 			@touchstart="prviewTouchStart(index,$event)" @touchmove="previewTouchMove(index,$event)" 
 			@touchend="previewTouchend(index,$event)" :id="'mvi-preview-slide-'+index" class="mvi-preview-container">
-				<m-image :error-icon="errorIcon" :load-icon="loadIcon" @click="closeOverlay" class="mvi-image-preview" :src="item" fit="response" :ref="setImageRef"></m-image>
+				<m-image :error-icon="errorIcon" :load-icon="loadIcon" @click="closeOverlay" class="mvi-image-preview" :src="item" fit="response" :ref="el=>imageRefs[index]=el"></m-image>
 			</m-swiper-slide>
 			<template #indicators="data">
 				<div class="mvi-image-preview-page" v-if="showPage">
@@ -43,9 +43,9 @@
 				imageRefs:[]//image组件对象数组
 			}
 		},
-		emits:['update:show','change'],
+		emits:['update:modelValue','change'],
 		props: {
-			show: { //是否显示
+			modelValue: { //是否显示
 				type: Boolean,
 				default: false
 			},
@@ -114,15 +114,9 @@
 			window.addEventListener('resize',this.resize)
 		},
 		methods: {
-			//获取images数组
-			setImageRef(el){
-				if(el){
-					this.imageRefs.push(el);
-				}
-			},
 			//调整大小
 			resize(){
-				if(this.show){
+				if(this.modelValue){
 					this.$nextTick(()=>{
 						this.swiperWidth = this.$refs.overlay.$$el.offsetWidth+'px';
 						this.swiperHeight = this.$refs.overlay.$$el.offsetHeight+'px';
@@ -153,15 +147,15 @@
 					return;
 				}
 				this.scale = 1;
-				this.imageRefs.forEach((image)=>{
+				this.imageRefs.forEach(image=>{
 					image.$el.style.transform = '';
 				})
-				this.$emit('update:show', false);
+				this.$emit('update:modelValue', false);
 			},
 			//图片变更
 			swiperChange(active) {
 				this.scale = 1;
-				this.imageRefs.forEach((image)=>{
+				this.imageRefs.forEach(image=>{
 					image.$el.style.transform = '';
 				})
 				this.$emit('change', active);

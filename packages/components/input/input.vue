@@ -18,13 +18,12 @@
 				:type="leftIconType"
 				:url="leftIconUrl"
 				:spin="leftIconSpin"
-				:class="leftIconClass ? leftIconClass : ''"
 				:size="leftIconSize"
 				:color="leftIconColor"
 			/>
 		</div>
 		<!-- 左侧文本 -->
-		<div :class="'mvi-input-label' + (labelClass ? ' ' + labelClass : '')" v-if="label" :style="labelStyle"><span v-text="label"></span></div>
+		<div :class="['mvi-input-label',labelClass ? labelClass : '']" v-if="label" :style="labelStyle"><span v-text="label"></span></div>
 		<!-- 文本域 -->
 		<textarea
 			v-if="type == 'textarea'"
@@ -76,7 +75,6 @@
 				:type="rightIconType"
 				:url="rightIconUrl"
 				:spin="rightIconSpin"
-				:class="rightIconClass ? rightIconClass : ''"
 				:size="rightIconSize"
 				:color="rightIconColor"
 			/>
@@ -84,7 +82,7 @@
 		<!-- 显示文字长度限制 -->
 		<div v-if="showWordLimit && maxlength > 0" class="mvi-input-words">{{ inputValue.length }}/{{ maxlength }}</div>
 		<!-- 日期 -->
-		<m-date-native-picker v-if="isDatePicker" ref="datepicker" :type="dateType" v-model="computedDate"></m-date-native-picker>
+		<m-date-native-picker v-if="isDatePicker" ref="datepicker" :type="dateType" :model-value="date" @change="dateChange"></m-date-native-picker>
 	</div>
 </template>
 
@@ -200,19 +198,9 @@ export default {
 			type: [String, Object],
 			default: null
 		},
-		leftIconClass: {
-			//左侧图标额外的样式类
-			type: String,
-			default: null
-		},
 		rightIcon: {
 			//右侧图标
 			type: [String, Object],
-			default: null
-		},
-		rightIconClass: {
-			//右侧图标额外的样式类
-			type: String,
 			default: null
 		},
 		date: {
@@ -396,15 +384,6 @@ export default {
 			}
 			return type;
 		},
-		//日期
-		computedDate: {
-			get() {
-				return this.date;
-			},
-			set(value) {
-				this.$emit('update:date', value);
-			}
-		},
 		//判断是否日期选择
 		isDatePicker() {
 			if (['date', 'datetime', 'month', 'time'].includes(this.type)) {
@@ -521,14 +500,14 @@ export default {
 			this.$emit('focus', this.modelValue);
 			setTimeout(() => {
 				this.focus = true;
-			}, 300);
+			}, 200);
 		},
 		//输入框或者文本域失去焦点
 		getBlur(e) {
 			this.$emit('blur', this.modelValue);
 			setTimeout(() => {
 				this.focus = false;
-			}, 300);
+			}, 200);
 		},
 		//左侧图标点击
 		leftClick() {
@@ -546,7 +525,7 @@ export default {
 				this.$refs.textarea.focus();
 			} else if (this.isDatePicker) {
 				this.$refs.input.value = '';
-				this.computedDate = null;
+				this.$emit('update:date', null);
 			} else {
 				this.$refs.input.value = '';
 				this.$refs.input.focus();
@@ -557,6 +536,11 @@ export default {
 			let value = '';
 			if (this.type == 'textarea') {
 				value = this.$refs.textarea.value;
+				//如果设置了maxlength，则进行字符串截取
+				if (this.maxlength > 0 && value.length > this.maxlength) {
+					value = value.substr(0, this.maxlength);
+				}
+				this.$refs.textarea.value = value;
 			} else if (!this.isDatePicker) {
 				value = this.$refs.input.value;
 				//数字类型会过滤非数字字符
@@ -606,6 +590,12 @@ export default {
 			//如果是日历输入框
 			if (this.isDatePicker && !this.disabled && !this.readonly) {
 				this.$refs.datepicker.trigger();
+			}
+		},
+		//日期变更
+		dateChange(value) {
+			if (this.isDatePicker) {
+				this.$emit('update:date', value)
 			}
 		},
 		//选择日期后转换成输入框的value值

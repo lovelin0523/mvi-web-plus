@@ -9,7 +9,7 @@
 		</div>
 		<slot name="indicators" :active="indicatorsIndex" :total="indicatorsTotal" v-if="$slots.indicators"></slot>
 		<div v-else-if="showIndicators" class="mvi-swiper-indicators">
-			<div :class="'mvi-swiper-indicator'+(isIndicatorActive(index)?' mvi-swiper-indicator-active':'')" :style="indicatorStyle(index)" 
+			<div :class="['mvi-swiper-indicator',isIndicatorActive(index)?'mvi-swiper-indicator-active':'']" :style="indicatorStyle(index)" 
 			v-for="(item,index) in children" v-if="indicatorShow(index)" @click="slideTo((fade?index:(loop?(index - 1):index)))"></div>
 		</div>
 		<div :class="controlsClass" v-if="showControl" :style="controlStyle(0)" @click="slidePrev">
@@ -252,7 +252,7 @@
 			},
 			//是否显示具体的每个指示器(区分slide和fade)
 			indicatorShow(){
-				return (index)=>{
+				return index=>{
 					if(this.fade){
 						return true;
 					}else{
@@ -805,6 +805,10 @@
 			}
 		},
 		beforeUnmount() {
+			if(this.timer){
+				clearInterval(this.timer);
+				this.timer = null;
+			}
 			//非fade模式下
 			if(!this.fade){
 				document.body.removeEventListener('mousemove',this.swiperMouseMove);

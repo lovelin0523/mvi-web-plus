@@ -10,7 +10,7 @@
 			<div
 				v-for="(column, index) in computedOptions"
 				:class="['mvi-picker-items', column.className ? column.className : '']"
-				:ref="setItemRefs"
+				:ref="el=>itemRefs[index]=el"
 				:style="columnStyle(column, index)"
 				@touchstart="touchstart($event, index)"
 				@touchmove="touchmove"
@@ -155,12 +155,6 @@ export default {
 		document.body.addEventListener('mouseup', this.mouseup);
 	},
 	methods: {
-		//获取item数组
-		setItemRefs(el) {
-			if (el) {
-				this.itemRefs.push(el);
-			}
-		},
 		//初始化
 		init() {
 			this.offsets = [];

@@ -1,5 +1,5 @@
 <template>
-	<m-overlay ref="overlay" :show="show" @show="overlayShow" @hide="overlayHide" :use-padding="usePadding"
+	<m-overlay ref="overlay" :model-value="modelValue" @show="overlayShow" @hide="overlayHide" :use-padding="usePadding"
 	 :z-index="zIndex" @click.self="hide" :color="overlayColor" :timeout="timeout" :mount-el="mountEl">
 		<div ref="modal" class="mvi-modal" :style="modalStyle">
 			<transition :name="'mvi-modal-'+animation"  @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter"
@@ -38,7 +38,7 @@
 				firstShow:false,//模态框是否渲染
 			}
 		},
-		emits:['update:show','show','showing','shown','hide','hidding','hidden'],
+		emits:['update:modelValue','show','showing','shown','hide','hidding','hidden'],
 		inheritAttrs:false,
 		props:{
 			mountEl:{//挂载元素
@@ -77,7 +77,7 @@
 				type:[String,Object],
 				default:null
 			},
-			show:{//显示与否
+			modelValue:{//显示与否
 				type:Boolean,
 				default:false
 			},
@@ -90,6 +90,14 @@
 				default:false
 			},
 			overlayColor:{//遮罩层颜色
+				type:String,
+				default:null
+			},
+			modalColor:{//模态框背景色
+				type:String,
+				default:null
+			},
+			color:{//模态框字体颜色
 				type:String,
 				default:null
 			},
@@ -138,10 +146,10 @@
 			iconType() {
 				let t = 'times';
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.type) == "string") {
+					if (typeof this.timesIcon.type == "string") {
 						t = this.timesIcon.type;
 					}
-				} else if (typeof(this.timesIcon) == "string") {
+				} else if (typeof this.timesIcon == "string") {
 					t = this.timesIcon;
 				}
 				return t;
@@ -149,7 +157,7 @@
 			iconUrl() {
 				let url = null;
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.url) == "string") {
+					if (typeof this.timesIcon.url == "string") {
 						url = this.timesIcon.url;
 					}
 				}
@@ -158,7 +166,7 @@
 			iconSpin() {
 				let spin = false;
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.spin) == "boolean") {
+					if (typeof this.timesIcon.spin == "boolean") {
 						spin = this.timesIcon.spin;
 					}
 				}
@@ -167,7 +175,7 @@
 			iconSize(){
 				let size = null;
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.size) == "string") {
+					if (typeof this.timesIcon.size == "string") {
 						size = this.timesIcon.size;
 					}
 				}
@@ -176,7 +184,7 @@
 			iconColor(){
 				let color = null;
 				if ($util.isObject(this.timesIcon)) {
-					if (typeof(this.timesIcon.color) == "string") {
+					if (typeof this.timesIcon.color == "string") {
 						color = this.timesIcon.color;
 					}
 				}
@@ -192,17 +200,23 @@
 				if(this.radius){
 					style.borderRadius = this.radius;
 				}
+				if(this.modalColor){
+					style.background = this.modalColor;
+				}
+				if(this.color){
+					style.color = this.color;
+				}
 				style.transition = 'all '+ this.timeout + 'ms';
 				style.webkitTransition = 'all '+this.timeout + 'ms';
 				return style;
 			},
 			titleCls(){
-				let cls = 'mvi-modal-title';
+				let cls = ['mvi-modal-title'];
 				if(this.titleEllipsis){
-					cls += ' mvi-modal-title-ellipsis';
+					cls.push('mvi-modal-title-ellipsis');
 				}
 				if(this.titleClass){
-					cls += ' ' + this.titleClass;
+					cls.push(this.titleClass)
 				}
 				return cls;
 			},
@@ -260,7 +274,7 @@
 			},
 			//点击关闭按钮
 			hideModal(){
-				this.$emit('update:show',false);
+				this.$emit('update:modelValue',false);
 			},
 			//弹出层显示前
 			beforeEnter(el){

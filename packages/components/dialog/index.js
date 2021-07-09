@@ -98,7 +98,6 @@ const Dialog = {
 	prompt: options => {
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('prompt', options);
-			console.log(opts)
 			let mountNode = $util.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(dialogComponent, {

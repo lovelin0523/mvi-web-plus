@@ -42,10 +42,10 @@ class Resize {
 			return;
 		}
 		this.hasInit = true;
-		if (typeof(this.draggableX) != "boolean") {
+		if (typeof this.draggableX != "boolean") {
 			this.draggableX = true;
 		}
-		if (typeof(this.draggableY) != "boolean") {
+		if (typeof this.draggableY != "boolean") {
 			this.draggableY = true;
 		}
 		if (!$util.isObject(this.mode)) {
@@ -56,36 +56,36 @@ class Resize {
 				right: Resize.MODE.RIGHT
 			}
 		} else {
-			if (typeof(this.mode.left) != "boolean") {
+			if (typeof this.mode.left != "boolean") {
 				this.mode.left = Resize.MODE.LEFT;
 			}
-			if (typeof(this.mode.top) != "boolean") {
+			if (typeof this.mode.top != "boolean") {
 				this.mode.top = Resize.MODE.TOP;
 			}
-			if (typeof(this.mode.bottom) != "boolean") {
+			if (typeof this.mode.bottom != "boolean") {
 				this.mode.bottom = Resize.MODE.BOTTOM;
 			}
-			if (typeof(this.mode.right) != "boolean") {
+			if (typeof this.mode.right != "boolean") {
 				this.mode.right = Resize.MODE.RIGHT;
 			}
 		}
-		if (typeof(this.beforeResize) != "function") {
+		if (typeof this.beforeResize != "function") {
 			this.beforeResize = function() {};
 		}
 
-		if (typeof(this.resize) != "function") {
+		if (typeof this.resize != "function") {
 			this.resize = function() {};
 		}
 
-		if (typeof(this.trigger) != "function") {
+		if (typeof this.trigger != "function") {
 			this.trigger = function() {};
 		}
 
-		if (typeof(this.end) != "function") {
+		if (typeof this.end != "function") {
 			this.end = function() {};
 		}
 
-		if (typeof(this.ready) != "function") {
+		if (typeof this.ready != "function") {
 			this.ready = function() {};
 		}
 		

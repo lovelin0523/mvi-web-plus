@@ -3,12 +3,12 @@
 		<div :class="['mvi-table-header', headClass ? headClass : '']" v-if="columnsData.length != 0">
 			<table cellpadding="0" cellspacing="0">
 				<colgroup>
-					<col :ref="setHeadColRefs" :style="colgroupStyle(item, index)" v-for="(item, index) in columnsData" />
+					<col :ref="el=>headCols[index]=el" :style="colgroupStyle(item, index)" v-for="(item, index) in columnsData" />
 					<col v-if="isScroll" :style="{ width: scrollWidth + 'px' }" />
 				</colgroup>
 				<thead>
 					<tr>
-						<th :ref="setHeadThRefs" :class="tableHeaderThClass" v-for="(item, index) in columnsData">
+						<th :ref="el=>headThs[index]=el" :class="tableHeaderThClass" v-for="(item, index) in columnsData">
 							<div>
 								<m-checkbox
 									v-if="item.key == 'checkbox'"
@@ -52,7 +52,7 @@
 		<div v-else-if="sortData.length == 0" class="mvi-table-no-data" v-html="noDataMsg"></div>
 		<div v-else class="mvi-table-body" :style="bodyStyle" ref="body">
 			<table cellpadding="0" cellspacing="0">
-				<colgroup><col :ref="setBodyCols" :style="colgroupStyle(item, index)" v-for="(item, index) in columnsData" /></colgroup>
+				<colgroup><col :ref="el=>bodyCols[index]=el" :style="colgroupStyle(item, index)" v-for="(item, index) in columnsData" /></colgroup>
 				<tbody>
 					<tr v-for="(item, index) in sortData" :class="bodyTrClass(item, index)">
 						<td
@@ -280,24 +280,6 @@ export default {
 				this.$nextTick(() => {
 					this.columnsAlign();
 				});
-			}
-		},
-		//设置表格主体col数组
-		setBodyCols(el) {
-			if (el) {
-				this.bodyCols.push(el);
-			}
-		},
-		//设置表格头列数组
-		setHeadThRefs(el) {
-			if (el) {
-				this.headThs.push(el);
-			}
-		},
-		//设置表格头col数组
-		setHeadColRefs(el) {
-			if (el) {
-				this.headCols.push(el);
 			}
 		},
 		//表头表主体对齐设置
