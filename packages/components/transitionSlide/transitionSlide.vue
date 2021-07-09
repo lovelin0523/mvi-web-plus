@@ -45,6 +45,10 @@ export default {
 		//启用动画
 		this.$nextTick(()=>{
 			this.useAnimation = true;
+			//恢复第一次设置的透明度
+			if(this.opacity === 0){
+				this.opacity = '';
+			}
 		})
 	},
 	methods: {
@@ -105,10 +109,6 @@ export default {
 			}
 			//动画结束后恢复高度
 			el.style.height = '';
-			//恢复第一次设置的透明度
-			if(this.opacity === 0){
-				this.opacity = '';
-			}
 			//触发事件
 			this.$emit('slide-up',this.$el)
 		}

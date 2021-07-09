@@ -21,7 +21,7 @@ export default {
 	name: 'App',
 	data() {
 		return {
-			show: true,
+			show: false,
 			checkbox: [],
 			checked: 1,
 			value: '#ff3300',
@@ -109,6 +109,9 @@ export default {
 			],
 			list: ['iPhone', 'iPhone 12', 'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 11', 'HUAWEI', 'HUAWEI MATE 40']
 		};
+	},
+	mounted() {
+		this.show = true;
 	},
 	methods: {
 		change(e) {
