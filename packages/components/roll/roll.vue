@@ -108,6 +108,9 @@
 			},
 			//播放
 			play() {
+				if(!this.$refs.roll){
+					return;
+				}
 				if (this.status == 0) {
 					return;
 				}
@@ -128,6 +131,9 @@
 				this.$refs.roll.style.webkitTransition = 'all ' + interval + "ms " + this.animation;
 				//执行
 				setTimeout(()=>{
+					if(!this.$refs.roll){
+						return;
+					}
 					if (this.direction == 'left') {
 						this.$refs.roll.style.left = (-this.$refs.roll.offsetWidth) + "px";
 						this.$refs.roll.style.right = 'auto';

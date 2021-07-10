@@ -7,7 +7,11 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-editor v-model="value"></m-editor>
+	<m-swiper width="8rem" height="4rem" v-show="show">
+		<m-swiper-slide>1</m-swiper-slide>
+		<m-swiper-slide>1</m-swiper-slide>
+		<m-swiper-slide>1</m-swiper-slide>
+	</m-swiper>
 	<div class="a" style="position: relative;height: 5rem; border: 1px solid #ddd;overflow: auto;">
 		<div style="height: 20rem;"></div>
 	</div>
@@ -19,7 +23,7 @@ export default {
 	name: 'App',
 	data() {
 		return {
-			show: false,
+			show: true,
 			checkbox: [],
 			checked: 1,
 			value: '#ff3300',
@@ -113,7 +117,10 @@ export default {
 		};
 	},
 	mounted() {
-		this.show = true;
+		this.show = false;
+		setTimeout(()=>{
+			this.show = true;
+		},10)
 	},
 	methods: {
 		change(e) {
