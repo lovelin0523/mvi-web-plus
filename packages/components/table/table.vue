@@ -14,7 +14,7 @@
 									v-if="item.key == 'checkbox'"
 									icon-size="0.24rem"
 									:class="item.value ? 'mvi-table-checkbox' : ''"
-									v-model:checked="selectAll"
+									v-model="selectAll"
 									@change="allSelect"
 									:icon-type="item.iconType ? item.iconType : 'success'"
 									:icon-color="item.iconColor ? item.iconColor : null"
@@ -68,7 +68,7 @@
 							<m-checkbox
 								v-if="item2.key == 'checkbox'"
 								icon-size="0.24rem"
-								v-model:checked="checkRows"
+								v-model="checkRows"
 								:value="index"
 								:icon-type="item2.iconType ? item2.iconType : 'success'"
 								@change="selectCheck"

@@ -18,6 +18,8 @@ class Drag {
 		this.ready = options.ready; //初始化完毕的回调
 		this.draggable = false; //是否可拖动
 		this.hasInit = false; //是否已经初始化
+		this.pageX = 0;//X坐标
+		this.pageY = 0;//Y坐标
 	}
 	
 	//初始化
@@ -67,18 +69,11 @@ class Drag {
 			this.ready = function() {};
 		}
 		
-		//移动端触摸坐标
-		this._touchX = 0;
-		this._touchY = 0;
-		//pc端鼠标坐标
-		this._mouseX = 0;
-		this._mouseY = 0;
-		
 		//鼠标移动事件
 		this._bodyMouseMove = e=>{
 			if (this.draggable) {
-				let left = e.pageX - this._mouseX;
-				let top = e.pageY - this._mouseY;
+				let left = e.pageX - this.pageX;
+				let top = e.pageY - this.pageY;
 				if (this.draggableX) {
 					this.$el.style.left = left + 'px';
 				}
@@ -121,8 +116,8 @@ class Drag {
 	_setOn(){
 		//触摸开始
 		this.$el.addEventListener('touchstart',e=>{
-			this._touchX = e.targetTouches[0].pageX - $util.getElementPoint(this.$el, this.$container).left;
-			this._touchY = e.targetTouches[0].pageY - $util.getElementPoint(this.$el, this.$container).top;
+			this.pageX = e.targetTouches[0].pageX - $util.getElementPoint(this.$el, this.$container).left;
+			this.pageY = e.targetTouches[0].pageY - $util.getElementPoint(this.$el, this.$container).top;
 			this.draggable = true;
 			this.$el.style.cursor = 'move'
 			//监听事件，监听刚开始拖动触发
@@ -138,8 +133,8 @@ class Drag {
 				e.preventDefault();
 			}
 			if (this.draggable) {
-				let left = e.targetTouches[0].pageX - this._touchX;
-				let top = e.targetTouches[0].pageY - this._touchY;
+				let left = e.targetTouches[0].pageX - this.pageX;
+				let top = e.targetTouches[0].pageY - this.pageY;
 				if (this.draggableX) {
 					this.$el.style.left = left + 'px';
 				}
@@ -172,8 +167,8 @@ class Drag {
 		})
 		//鼠标按下
 		this.$el.addEventListener('mousedown',e=>{
-			this._mouseX = e.pageX - $util.getElementPoint(this.$el, this.$container).left;
-			this._mouseY = e.pageY - $util.getElementPoint(this.$el, this.$container).top;
+			this.pageX = e.pageX - $util.getElementPoint(this.$el, this.$container).left;
+			this.pageY = e.pageY - $util.getElementPoint(this.$el, this.$container).top;
 			this.draggable = true;
 			this.$el.style.cursor = 'move'
 			//监听事件，监听刚开始拖动触发
