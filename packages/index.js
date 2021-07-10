@@ -22,7 +22,9 @@ let all = Object.assign({install},components)
 
 import packages from "../package.json";
 
-console.log('%c感谢使用'+packages.name+'，当前版本：%c v'+packages.version+'\n%cMVI框架完全由个人开发和维护，如果你觉得还不错的话，欢迎前往github给个star，感谢！\ngithub地址：%c'+packages.github,'color:#808080;','color:#008a00','color:#808080;','color:#008a00');
+console.log('%c感谢使用' + packages.name + '，当前版本：%c v' + packages.version + '\n%c如果你觉得' + packages.name +
+	'还不错，不妨去github点个star\ngithub地址：%c' + packages.github, 'color:#808080;', 'color:#008a00',
+	'color:#808080;', 'color:#008a00');
 
 //import时导出install
 export default all
