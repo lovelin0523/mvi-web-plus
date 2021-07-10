@@ -14,11 +14,9 @@
 				<!--total不超过overNumber -->
 				<div v-if="total<=overNumber" :class="['mvi-page-numbers-item',modelValue==item?'mvi-page-number-active':'',(active&&modelValue!=item)?'mvi-page-active':'']" v-for="(item,index) in total" v-text="item" @click="toPage(item)" :style="pageStyle(item)"></div>
 				<!-- total超过overNumber -->
-				<div v-if="total>overNumber && modelValue > (overNumber-1)/2+1" :class="['mvi-page-numbers-item',active?'mvi-page-active':'']"
-				@click="toPage(modelValue-(overNumber-1))" :style="{color:color?color:''}">...</div>
+				<div v-if="total>overNumber && modelValue > (overNumber-1)/2+1" :class="['mvi-page-numbers-item',active?'mvi-page-active':'']" @click="toPage(modelValue-(overNumber-1))" :style="{color:color?color:''}">...</div>
 				<div v-if="total>overNumber" :class="['mvi-page-numbers-item',modelValue==item?'mvi-page-number-active':'',(active&&modelValue!=item)?'mvi-page-active':'']" v-for="(item,index) in arry" v-text="item" @click="toPage(item)" :style="pageStyle(item)"></div>
-				<div v-if="total>overNumber && modelValue < (total - (overNumber-1)/2)" :class="['mvi-page-numbers-item',active?'mvi-page-active':'']"
-				@click="toPage(modelValue+(overNumber-1))" :style="{color:color?color:''}">...</div>
+				<div v-if="total>overNumber && modelValue < (total - (overNumber-1)/2)" :class="['mvi-page-numbers-item',active?'mvi-page-active':'']" @click="toPage(modelValue+(overNumber-1))" :style="{color:color?color:''}">...</div>
 			</div>
 		</div>
 		<div v-if="nextText || nextIconType || nextIconUrl" :disabled="modelValue==total || null" @click="pageNext" :class="['mvi-page-next',(active&&modelValue!=total)?'mvi-page-active':'']" :style="{color:modelValue==total?'':(color?color:'')}">

@@ -13,11 +13,11 @@
 		:overlay-color="computedOverlayColor"
 		:mount-el="computedMountEl"
 	>
-		<template v-if="computedTitle || (computedIos && computedMessage)" v-slot:title>
+		<template v-if="computedTitle || (computedIos && computedMessage)" #title>
 			<div v-html="computedTitle" v-if="computedTitle" class="mvi-dialog-title"></div>
 			<div v-if="computedMessage && computedIos" v-html="computedMessage" class="mvi-dialog-ios-content"></div>
 		</template>
-		<template v-slot:default v-if="contentShow">
+		<template #default v-if="contentShow">
 			<div v-if="!computedIos && computedMessage" v-html="computedMessage" class="mvi-dialog-content"></div>
 			<div v-if="type == 'prompt'" :class="['mvi-dialog-input', !computedIos && computedMessage ? 'mvi-dialog-input-mt' : '']">
 				<input
@@ -36,7 +36,7 @@
 				<m-icon v-if="computedInput.clearable" ref="icon" v-show="showClear" type="times-o" class="mvi-dialog-times" @click="doClear" />
 			</div>
 		</template>
-		<template v-slot:footer>
+		<template #footer>
 			<div class="mvi-dialog-footer">
 				<div
 					v-if="type != 'alert'"

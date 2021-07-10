@@ -7,9 +7,8 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-transition-slide :expand="show">
-		<div class="mvi-bg-error" style="height: 3rem;"></div>
-	</m-transition-slide>
+	<div style="height: 3rem;width: 3rem;background-color: #000000;position: absolute;z-index: 2000;left:4rem;" v-drag="{}" v-if="show"></div>
+	<div style="height: 3rem;width: 3rem;background-color: #ff0000;position: absolute;z-index: 2000;" v-drag="{}"></div>
 	<div class="a" style="position: relative;height: 5rem; border: 1px solid #ddd;overflow: auto;">
 		<div style="height: 20rem;"></div>
 	</div>

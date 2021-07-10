@@ -1,7 +1,7 @@
 <template>
 	<transition name="mvi-transition-slide" @before-enter="beforeEnter" @after-enter="afterEnter" @before-leave="beforeLeave"
 	@after-leave="afterLeave" @enter="enter" @leave="leave">
-		<div class="mvi-transition-slide" v-on="listenters" v-show="show" :style="{opacity:opacity}"><slot></slot></div>
+		<div class="mvi-transition-slide" v-show="show" :style="{opacity:opacity}"><slot></slot></div>
 	</transition>
 </template>
 

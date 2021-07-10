@@ -1,6 +1,6 @@
 <template>
 	<m-modal
-		v-model:show="show"
+		v-model="show"
 		:footer-padding="false"
 		@hidden="modalHidden"
 		:width="computedWidth"
@@ -13,11 +13,11 @@
 		:overlay-color="computedOverlayColor"
 		:mount-el="computedMountEl"
 	>
-		<template v-if="computedTitle" v-slot:title>
+		<template v-if="computedTitle" #title>
 			<div v-html="computedTitle" class="mvi-dialog-title"></div>
 			<m-icon class="mvi-dialog-close" v-if="computedShowTimes" @click="cancelFun" type="times"></m-icon>
 		</template>
-		<template v-slot:default v-if="contentShow">
+		<template #default v-if="contentShow">
 			<div v-if="computedMessage" v-html="computedMessage" class="mvi-dialog-content"></div>
 			<div v-if="type == 'Prompt'" :class="['mvi-dialog-input',computedMessage?'mvi-dialog-input-mt':'']">
 				<input
@@ -326,9 +326,9 @@ export default {
 			}
 		},
 		inputClass() {
-			let cls = '';
+			let cls = [];
 			if (this.showClear && this.computedInput.clearable) {
-				cls += 'mvi-dialog-input-padding';
+				cls.push('mvi-dialog-input-padding');
 			}
 			return cls;
 		},

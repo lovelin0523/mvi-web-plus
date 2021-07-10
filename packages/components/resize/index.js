@@ -14,6 +14,16 @@ Resize.install = app=> {
 			}
 			let resize = new Resize(el, options);
 			resize.init();
+			//将对象记录在元素里
+			el.data('directive:resize',resize)
+		},
+		beforeUnmount(el, binding, vnode) {
+			//获取对象
+			let resize = el.data('directive:resize')
+			if(resize){
+				//移除绑定在body上的事件
+				resize._setOff();
+			}
 		}
 	})
 }

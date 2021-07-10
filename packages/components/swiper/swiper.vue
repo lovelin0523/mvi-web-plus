@@ -9,8 +9,9 @@
 		</div>
 		<slot name="indicators" :active="indicatorsIndex" :total="indicatorsTotal" v-if="$slots.indicators"></slot>
 		<div v-else-if="showIndicators" class="mvi-swiper-indicators">
-			<div :class="['mvi-swiper-indicator',isIndicatorActive(index)?'mvi-swiper-indicator-active':'']" :style="indicatorStyle(index)" 
-			v-for="(item,index) in children" v-if="indicatorShow(index)" @click="slideTo((fade?index:(loop?(index - 1):index)))"></div>
+			<template v-for="(item,index) in children">
+				<div :class="['mvi-swiper-indicator',isIndicatorActive(index)?'mvi-swiper-indicator-active':'']" :style="indicatorStyle(index)" v-if="indicatorShow(index)" @click="slideTo((fade?index:(loop?(index - 1):index)))"></div>
+			</template>
 		</div>
 		<div :class="controlsClass" v-if="showControl" :style="controlStyle(0)" @click="slidePrev">
 			<m-icon type="angle-left"/>
@@ -112,7 +113,7 @@
 		computed:{
 			//指示器
 			indicatorStyle(){
-				return (index)=>{
+				return index=>{
 					let style = {};
 					if(this.isIndicatorActive(index)){
 						if(this.activeColor){
@@ -230,7 +231,7 @@
 			},
 			//控制器样式
 			controlStyle(){
-				return (index)=>{
+				return index=>{
 					let style = {};
 					if(index == 0){//上一张
 						style.left = '0';

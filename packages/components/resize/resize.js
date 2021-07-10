@@ -92,6 +92,18 @@ class Resize {
 		if(!$util.isNumber(this.range)){
 			this.range = 1;
 		}
+		
+		//添加在body上的鼠标移动事件
+		this._bodyMouseMove = e=>{
+			let endX = e.pageX;
+			let endY = e.pageY;
+			this._move(e,endX,endY);
+		}
+		
+		//添加在body上的鼠标离开事件
+		this._bodyMouseLeave = e=>{
+			this._leave(e);
+		}
 
 		//设置可拖动的范围
 		this._setRange();
@@ -642,12 +654,12 @@ class Resize {
 
 	//设置拖动事件
 	_setOn(){
-		this.$el.addEventListener('touchstart', (e)=>{
+		this.$el.addEventListener('touchstart', e=>{
 			this.startX = e.targetTouches[0].pageX;
 			this.startY = e.targetTouches[0].pageY;
 			this._down(e);
 		})
-		this.$el.addEventListener('touchmove',(e)=>{
+		this.$el.addEventListener('touchmove',e=>{
 			if (e.cancelable) {
 				e.preventDefault();
 			}
@@ -655,22 +667,22 @@ class Resize {
 			let endY = e.targetTouches[0].pageY;
 			this._move(e,endX,endY);
 		})
-		this.$el.addEventListener('touchend',(e)=>{
+		this.$el.addEventListener('touchend',e=>{
 			this._leave(e);
 		})
-		this.$el.addEventListener('mousedown',(e)=>{
+		this.$el.addEventListener('mousedown',e=>{
 			this.startX = e.pageX;
 			this.startY = e.pageY;
 			this._down(e);
 		})
-		document.body.addEventListener('mousemove',(e)=>{
-			let endX = e.pageX;
-			let endY = e.pageY;
-			this._move(e,endX,endY);
-		})
-		document.body.addEventListener('mouseup',(e)=>{
-			this._leave(e);
-		})
+		document.body.addEventListener('mousemove',this._bodyMouseMove);
+		document.body.addEventListener('mouseup',this._bodyMouseLeave);
+	}
+	
+	//移除body上的拖动事件
+	_setOff(){
+		document.body.removeEventListener('mousemove',this._bodyMouseMove);
+		document.body.removeEventListener('mouseup',this._bodyMouseLeave);
 	}
 	
 	//设置水平方向不可拖拽改变大小

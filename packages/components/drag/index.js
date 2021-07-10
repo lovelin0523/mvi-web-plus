@@ -15,6 +15,16 @@ Drag.install = app=> {
 			let drag = new Drag(el, options);
 			//初始化
 			drag.init();
+			//将对象记录在元素里
+			el.data('directive:drag',drag)
+		},
+		beforeUnmount(el, binding, vnode) {
+			//获取对象
+			let drag = el.data('directive:drag')
+			if(drag){
+				//移除绑定在body上的事件
+				drag._setOff();
+			}
 		}
 	})
 }
