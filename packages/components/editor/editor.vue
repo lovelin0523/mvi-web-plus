@@ -111,33 +111,6 @@ export default {
 						value: 'p'
 					}
 				],
-				fontSize: [
-					//字号
-					{
-						label: '12px',
-						value: '0.24rem'
-					},
-					{
-						label: '14px',
-						value: '0.28rem'
-					},
-					{
-						label: '16px',
-						value: '0.32rem'
-					},
-					{
-						label: '20px',
-						value: '0.4rem'
-					},
-					{
-						label: '30px',
-						value: '0.6rem'
-					},
-					{
-						label: '40px',
-						value: '0.8rem'
-					}
-				],
 				fontFamily: ['PingFang SC', 'Helvetica Neue', 'kaiTi', 'Microsoft YaHei', 'Arial', 'sans-serif'], //字体
 				bold: true, //加粗
 				italic: true, //斜体
@@ -363,7 +336,6 @@ export default {
 				selectAll: '全选',
 				divider: '分割线',
 				tag: '标签',
-				fontSize: '字号',
 				fontFamily: '字体',
 				bold: '加粗',
 				italic: '斜体',
@@ -434,7 +406,6 @@ export default {
 				divider: 'divider',
 				tag: 'font-title',
 				bold: 'bold',
-				fontSize: 'font-size',
 				fontFamily: 'font',
 				italic: 'italic',
 				underline: 'underline',
@@ -953,7 +924,6 @@ export default {
 							'selectAll',
 							'divider',
 							'tag',
-							'fontSize',
 							'fontFamily',
 							'foreColor',
 							'backColor',

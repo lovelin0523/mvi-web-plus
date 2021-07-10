@@ -244,9 +244,6 @@
 					case 'tag': //设置dom标签
 						document.execCommand('formatBlock', false, item.value);
 						break;
-					case 'fontSize': //设置字号
-						this.editor.$refs.content.style.fontSize = item.value;
-						break;
 					case 'fontFamily': //设置字体
 						document.execCommand('fontName', false, item.value);
 						break;

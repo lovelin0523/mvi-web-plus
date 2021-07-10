@@ -7,7 +7,7 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-table :data="data" :columns="columns"></m-table>
+	<m-editor v-model="value"></m-editor>
 	<div class="a" style="position: relative;height: 5rem; border: 1px solid #ddd;overflow: auto;">
 		<div style="height: 20rem;"></div>
 	</div>
