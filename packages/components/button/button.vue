@@ -12,6 +12,7 @@
 <script>
 	import { h } from "vue"
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-button",
 		props:{
@@ -176,7 +177,8 @@
 						default:this.$slots.default
 					})
 				}
-			}
+			},
+			mIcon
 		}
 	}
 </script>

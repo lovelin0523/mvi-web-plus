@@ -13,6 +13,9 @@
 
 <script>
 	import $util from "../../util/util"
+	import mOverlay from "../overlay/overlay"
+	import mLoading from "../loading/loading"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-toast",
 		data(){
@@ -199,6 +202,9 @@
 					return null;
 				}
 			},
+		},
+		components:{
+			mIcon,mLoading,mOverlay
 		},
 		mounted() {
 			this.init(this);

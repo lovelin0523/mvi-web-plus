@@ -43,7 +43,10 @@
 </template>
 
 <script>
-import $util from '../../util/util';
+import $util from '../../util/util'
+import mModal from "../modal/modal"
+import mIcon from "../icon/icon"
+import mButton from "../button/button"
 export default {
 	name: 'm-dialog-pc',
 	data() {
@@ -339,6 +342,9 @@ export default {
 			}
 			return style;
 		}
+	},
+	components:{
+		mIcon,mModal,mButton
 	},
 	created() {
 		//输入框存在时设置默认值

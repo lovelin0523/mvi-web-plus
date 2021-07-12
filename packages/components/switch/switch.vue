@@ -9,6 +9,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name: "m-switch",
 		emits:['update:modelValue','change'],
@@ -41,6 +42,9 @@
 				type: [String, Object],
 				default: null
 			}
+		},
+		components:{
+			mIcon
 		},
 		methods: {
 			//更改状态

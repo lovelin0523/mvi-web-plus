@@ -24,6 +24,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-navbar",
 		props:{
@@ -209,6 +210,9 @@
 				}
 				return style;
 			}
+		},
+		components:{
+			mIcon
 		},
 		methods:{
 			leftClick(){

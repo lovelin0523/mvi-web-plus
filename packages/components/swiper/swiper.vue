@@ -24,6 +24,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-swiper",
 		data(){
@@ -287,6 +288,9 @@
 					}
 				}
 			}
+		},
+		components:{
+			mIcon
 		},
 		watch:{
 			autoplay(newValue,oldValue){

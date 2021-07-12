@@ -28,6 +28,10 @@
 
 <script>
 	import { toRaw } from "vue"
+	import mOverlay from "../overlay/overlay"
+	import mSwiper from "../swiper/swiper.vue"
+	import mSwiperSlide from "../swiper/swiper-slide"
+	import mImage from "../image/image"
 	export default {
 		name: "m-image-preview",
 		data() {
@@ -109,6 +113,9 @@
 					}
 				}
 			}
+		},
+		components:{
+			mOverlay,mSwiper,mSwiperSlide,mImage
 		},
 		mounted() {
 			window.addEventListener('resize',this.resize)

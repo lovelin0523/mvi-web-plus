@@ -1,10 +1,6 @@
 import {
 	createApp
 } from "vue"
-import Icon from "../icon"
-import Modal from "../modal"
-import Overlay from "../overlay"
-import Button from "../button"
 import $util from "../../util/util"
 import dialogComponent from "./dialog"
 import dialogForPCComponent from "./dialogForPC"
@@ -72,7 +68,7 @@ const Dialog = {
 					resolve();
 				}
 			})
-			instance.use(Overlay).use(Modal).use(Icon).mount(mountNode)
+			instance.mount(mountNode)
 		})
 	},
 
@@ -90,7 +86,7 @@ const Dialog = {
 					resolve(ok);
 				}
 			})
-			instance.use(Overlay).use(Modal).use(Icon).mount(mountNode)
+			instance.mount(mountNode)
 		})
 	},
 
@@ -111,7 +107,7 @@ const Dialog = {
 					});
 				}
 			})
-			instance.use(Overlay).use(Modal).use(Icon).mount(mountNode)
+			instance.mount(mountNode)
 		})
 	},
 
@@ -129,7 +125,7 @@ const Dialog = {
 					resolve();
 				}
 			})
-			instance.use(Icon).use(Overlay).use(Modal).use(Button).mount(mountNode)
+			instance.mount(mountNode)
 		})
 	},
 
@@ -147,7 +143,7 @@ const Dialog = {
 					resolve(ok);
 				}
 			})
-			instance.use(Icon).use(Overlay).use(Modal).use(Button).mount(mountNode)
+			instance.mount(mountNode)
 		})
 	},
 
@@ -168,7 +164,7 @@ const Dialog = {
 					});
 				}
 			})
-			instance.use(Icon).use(Overlay).use(Modal).use(Button).mount(mountNode)
+			instance.mount(mountNode)
 		})
 	},
 

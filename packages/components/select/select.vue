@@ -44,7 +44,9 @@
 
 <script>
 import { getCurrentInstance } from "vue"
-import $util from '../../util/util';
+import $util from '../../util/util'
+import mIcon from "../icon/icon"
+import mLayer from "../layer/layer"
 export default {
 	name: 'm-select',
 	emits:['update:modelValue','change'],
@@ -325,6 +327,9 @@ export default {
 			}
 			return color;
 		},
+	},
+	components:{
+		mLayer,mIcon
 	},
 	methods: {
 		//layer显示前进行宽度设置

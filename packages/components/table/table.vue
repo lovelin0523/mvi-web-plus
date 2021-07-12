@@ -88,6 +88,9 @@
 
 <script>
 import $util from '../../util/util';
+import mCheckbox from "../checkbox/checkbox"
+import mIcon from "../icon/icon"
+import mLoading from "../loading/loading"
 export default {
 	name: 'm-table',
 	emits: ['cell-click', 'check', 'sort-desc', 'sort-asc'],
@@ -249,6 +252,9 @@ export default {
 				return text;
 			};
 		}
+	},
+	components:{
+		mIcon,mCheckbox,mLoading
 	},
 	watch: {
 		data(newValue) {

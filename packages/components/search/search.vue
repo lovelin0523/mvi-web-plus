@@ -21,6 +21,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-search",
 		emits:['update:modelValue','search','cancel','left-click','right-click','focus','blur','input'],
@@ -268,6 +269,9 @@
 				}
 				return style;
 			}
+		},
+		components:{
+			mIcon
 		},
 		methods:{
 			//输入框获取焦点

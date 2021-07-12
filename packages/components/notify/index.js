@@ -1,7 +1,6 @@
 import {
 	createApp
 } from "vue"
-import Icon from "../icon"
 import $util from "../../util/util"
 import NotifyComponent from './notify'
 
@@ -46,7 +45,7 @@ const Notify = {
 					resolve();
 				}
 			})
-			instance.use(Icon).mount(mountNode)
+			instance.mount(mountNode)
 			//保存应用实例和应用所挂载的元素
 			Notify.$el = mountNode;
 			Notify.$instance = instance;

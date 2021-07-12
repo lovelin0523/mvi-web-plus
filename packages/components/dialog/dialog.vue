@@ -57,7 +57,9 @@
 </template>
 
 <script>
-import $util from '../../util/util';
+import $util from '../../util/util'
+import mModal from "../modal/modal"
+import mIcon from "../icon/icon"
 export default {
 	name: 'm-dialog',
 	data() {
@@ -371,6 +373,9 @@ export default {
 			}
 			return style;
 		}
+	},
+	components:{
+		mIcon,mModal
 	},
 	created() {
 		//输入框存在时设置默认值

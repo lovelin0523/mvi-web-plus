@@ -117,10 +117,7 @@ export default {
 		};
 	},
 	mounted() {
-		this.show = false;
-		setTimeout(()=>{
-			this.show = true;
-		},10)
+		
 	},
 	methods: {
 		change(e) {

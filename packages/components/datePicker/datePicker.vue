@@ -6,6 +6,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mPicker from "../picker/picker"
 	export default {
 		name: "m-date-picker",
 		emits:['update:modelValue','confirm','cancel','change'],
@@ -437,6 +438,9 @@
 					}
 				}
 			}
+		},
+		components:{
+			mPicker
 		},
 		methods: {
 			//日期变更

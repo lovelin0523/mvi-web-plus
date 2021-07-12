@@ -96,6 +96,12 @@
 	import { getCurrentInstance } from "vue"
 	import $util from "../../util/util"
 	import Upload from "../upload/upload"
+	import mTooltip from "../tooltip/tooltip"
+	import mIcon from "../icon/icon"
+	import mLayer from "../layer/layer"
+	import mTabs from "../tabs/tabs"
+	import mTab from "../tabs/tab"
+	import mCheckbox from "../checkbox/checkbox"
 	export default {
 		name: 'm-editor-item',
 		props: {
@@ -214,6 +220,9 @@
 					}
 				}
 			}
+		},
+		components:{
+			mTooltip,mIcon,mLayer,mTabs,mTab,mCheckbox
 		},
 		mounted() {
 			if (this.editor.trigger == 'hover') {

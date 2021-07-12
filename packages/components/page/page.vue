@@ -32,6 +32,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name: "m-page",
 		data(){
@@ -329,6 +330,9 @@
 				}
 				return color;
 			}
+		},
+		components:{
+			mIcon
 		},
 		mounted() {
 			this.el = this.$el;

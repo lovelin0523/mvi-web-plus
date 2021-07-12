@@ -18,6 +18,7 @@
 <script>
 	import $util from "../../util/util"
 	import Spy from "../spy/spy"
+	import mIcon from "../icon/icon"
 	export default {
 		name: "m-image",
 		data() {
@@ -213,6 +214,9 @@
 					return this.src;
 				}
 			}
+		},
+		components:{
+			mIcon
 		},
 		watch:{
 			computedSrc(newValue,oldValue){

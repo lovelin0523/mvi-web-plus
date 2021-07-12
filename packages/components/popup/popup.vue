@@ -20,6 +20,8 @@
 
 <script>
 	import $util from "../../util/util"
+	import mOverlay from "../overlay/overlay"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-popup",
 		data(){
@@ -190,6 +192,9 @@
 				style.MozTransition = 'all '+this.timeout + 'ms';
 				return style;
 			}
+		},
+		components:{
+			mIcon,mOverlay
 		},
 		methods:{
 			//遮罩层显示前

@@ -11,6 +11,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mTriangle from "../triangle/triangle"
 	export default {
 		name: 'm-layer',
 		data(){
@@ -118,6 +119,9 @@
 				type:Boolean,
 				default:false
 			}
+		},
+		components:{
+			mTriangle
 		},
 		watch:{
 			placement(newValue){

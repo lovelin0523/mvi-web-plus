@@ -17,6 +17,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-stepper",
 		emits:['update:modelValue','change'],
@@ -216,6 +217,9 @@
 				}
 				return cls;
 			}
+		},
+		components:{
+			mIcon
 		},
 		methods:{
 			//减法

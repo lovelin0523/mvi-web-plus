@@ -14,6 +14,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-radio",
 		emits:['update:modelValue','change'],
@@ -151,6 +152,9 @@
 					return false;
 				}
 			}
+		},
+		components:{
+			mIcon
 		},
 		methods:{
 			change(){

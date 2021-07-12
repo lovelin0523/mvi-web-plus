@@ -16,6 +16,7 @@
 </template>
 
 <script>
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-label",
 		data(){
@@ -107,6 +108,9 @@
 				}
 				return style;
 			}
+		},
+		components:{
+			mIcon
 		},
 		methods:{
 			closeLabel(){

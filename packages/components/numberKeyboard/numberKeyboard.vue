@@ -25,6 +25,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mOverlay from "../overlay/overlay"
 	export default {
 		name:"m-number-keyboard",
 		data(){
@@ -186,6 +187,9 @@
 				}
 				return cls;
 			}
+		},
+		components:{
+			mOverlay
 		},
 		methods:{
 			//遮罩层显示前

@@ -30,6 +30,8 @@
 
 <script>
 	import $util from "../../util/util"
+	import mOverlay from "../overlay/overlay"
+	import mIcon from "../icon/icon"
 	export default {
 		name:"m-modal",
 		data(){
@@ -231,6 +233,9 @@
 				}
 				return style;
 			}
+		},
+		components:{
+			mIcon,mOverlay
 		},
 		watch:{
 			fullScreen(newValue){

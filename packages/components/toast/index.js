@@ -1,9 +1,6 @@
 import {
 	createApp
 } from "vue"
-import Loading from "../loading"
-import Overlay from "../overlay"
-import Icon from "../icon"
 import $util from "../../util/util"
 import ToastComponent from './toast'
 
@@ -51,7 +48,7 @@ const Toast = {
 					resolve();
 				}
 			})
-			instance.use(Loading).use(Icon).use(Overlay).mount(mountNode)
+			instance.mount(mountNode)
 			//保存应用实例和应用所挂载的元素
 			Toast.$el = mountNode;
 			Toast.$instance = instance;

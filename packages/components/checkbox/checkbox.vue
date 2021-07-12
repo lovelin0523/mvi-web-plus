@@ -13,6 +13,7 @@
 </template>
 
 <script>
+	import mIcon from "../icon/icon"
 	export default {
 		name: "m-checkbox",
 		emits:['update:modelValue','change'],
@@ -153,6 +154,9 @@
 					return false;
 				}
 			}
+		},
+		components:{
+			mIcon
 		},
 		methods: {
 			getIndex(arry, value) {

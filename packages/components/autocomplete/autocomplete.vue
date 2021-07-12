@@ -24,6 +24,8 @@
 <script>
 	import { getCurrentInstance } from "vue"
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
+	import mLayer from "../layer/layer"
 	export default {
 		name:'m-autocomplete',
 		data(){
@@ -149,6 +151,9 @@
 					return ['left','right','center'].includes(value)
 				}
 			}
+		},
+		components:{
+			mIcon,mLayer
 		},
 		setup() {
 			const instance = getCurrentInstance();

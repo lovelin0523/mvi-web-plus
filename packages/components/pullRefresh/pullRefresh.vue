@@ -12,6 +12,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name: "m-pull-refresh",
 		data() {
@@ -286,6 +287,9 @@
 				}
 				return color;
 			}
+		},
+		components:{
+			mIcon
 		},
 		mounted() {
 			this.statusInit();

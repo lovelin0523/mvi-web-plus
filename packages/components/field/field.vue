@@ -28,6 +28,7 @@
 
 <script>
 	import $util from "../../util/util"
+	import mIcon from "../icon/icon"
 	export default {
 		name:'m-field',
 		emits:['update:modelValue','prepend-click','prefix-click','append-click','suffix-click','focus','blur','input'],
@@ -535,6 +536,9 @@
 				}
 				return rows;
 			},
+		},
+		components:{
+			mIcon
 		},
 		watch:{
 			modelValue(newValue) {

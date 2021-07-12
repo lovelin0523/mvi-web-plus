@@ -15,6 +15,8 @@
 
 <script>
 	import $util from "../../util/util"
+	import mCell from "../cell/cell"
+	import mTransitionSlide from "../transitionSlide/transitionSlide"
 	export default {
 		name: "m-collapse-item",
 		data() {
@@ -86,6 +88,9 @@
 			}
 		},
 		inject: ['collapse'],
+		components:{
+			mCell,mTransitionSlide
+		},
 		created() {
 			this.collapse.children.push(this);
 			this.cellBorder = this.computedInBorder;

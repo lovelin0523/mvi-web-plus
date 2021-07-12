@@ -18,8 +18,6 @@ const install = app=> {
 	})
 }
 
-let all = Object.assign({install},components)
-
 import packages from "../package.json";
 
 console.log('%c感谢使用' + packages.name + '，当前版本：%c v' + packages.version + '\n%c如果你觉得' + packages.name +
@@ -27,4 +25,4 @@ console.log('%c感谢使用' + packages.name + '，当前版本：%c v' + packag
 	'color:#808080;', 'color:#008a00');
 
 //import时导出install
-export default all
+export default install
