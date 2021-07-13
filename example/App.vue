@@ -7,11 +7,11 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<m-swiper width="8rem" height="4rem" v-show="show">
-		<m-swiper-slide>1</m-swiper-slide>
-		<m-swiper-slide>1</m-swiper-slide>
-		<m-swiper-slide>1</m-swiper-slide>
-	</m-swiper>
+	<div style="width: 100%;height: 4rem;overflow: auto;border: 1px solid #DDDDDD;">
+		<div style="width: 20rem;height: 100%;">
+			<m-image style="margin-left: 10rem;" lazy-load width="4rem" height="2rem" src="https://www.mvi-web.cn/mvi-resources/images/mvi_image_0_1624705387765.jfif"></m-image>
+		</div>
+	</div>
 	<div class="a" style="position: relative;height: 5rem; border: 1px solid #ddd;overflow: auto;">
 		<div style="height: 20rem;"></div>
 	</div>

@@ -4,16 +4,21 @@ import $util from "../../util/util"
  */
 class Spy {
 	constructor(element,options) {
-		this.$target = element;
+		this.$el = element;
 		if(!$util.isObject(options)){
 			options = {};
 		}
-		this.$el = options.el;
 		this.beforeEnter = options.beforeEnter;
 		this.enter = options.enter;
 		this.beforeLeave = options.beforeLeave;
 		this.leave = options.leave;
 		this.hasInit = false; //是否已经初始化
+		this.rootQueue = []; //滚动元素队列容器
+		//是否触发的标记
+		this.triggerTag = {
+			before:false,
+			after:false
+		}
 	}
 	
 	init(){
@@ -21,13 +26,8 @@ class Spy {
 			return;
 		}
 		this.hasInit = true;
-		//根据el的值查找元素
-		if(typeof this.$el == "string" && this.$el){
-			this.$el = document.body.querySelector(this.$el);
-		}
-		if (!$util.isElement(this.$el)) {
-			this.$el = window;
-		}
+		
+		//初始化参数
 		if (typeof this.beforeEnter != "function") {
 			this.beforeEnter = function() {};
 		}
@@ -41,66 +41,113 @@ class Spy {
 			this.leave = function() {};
 		}
 		
-		this._set();
-		this.$el.addEventListener('scroll',()=>{
-			this._set();
+		//初始化容器队列
+		this._initRootQueue(this.$el)
+		this._scrollHandler = this._scrollHandler.bind(this);
+		//给容器队列添加监听事件
+		this._initRootListens();
+	}
+	
+	//容器队列的滚动元素添加滚动监听事件
+	_initRootListens(){
+		this.rootQueue.forEach(root=>{
+			this._scrollHandler(root);
+			root.addEventListener('scroll',this._scrollHandler);
 		})
 	}
 	
-	_set(){
-		if (this.$el == window) {
-			let clientTop1 = this.$target.getBoundingClientRect().top; //元素距离可视区域顶部的距离，不包含自身高度
-			let clientTop2 = this.$target.getBoundingClientRect().bottom; //元素距离可视区域顶部的距离，包含自身高度
-			if (clientTop2 > 0 && clientTop1 < window.innerHeight) {
-				if (!this.$target.data("mvi-scroll-flag1")) {
-					this.beforeEnter(this.$target);
-					this.$target.data("mvi-scroll-flag1", true);
+	//容器队列的滚动元素移除滚动监听事件
+	_removeRootListens(){
+		this.rootQueue.forEach(root=>{
+			root.removeEventListener('scroll',this._scrollHandler);
+		})
+	}
+	
+	//初始化容器队列
+	_initRootQueue(el){
+		let $parent = el.parentNode;
+		if($parent){
+			let overflowX = $util.getScrollWidth($parent) > $parent.offsetWidth;
+			let overflowY = $util.getScrollHeight($parent) > $parent.offsetHeight;
+			//如果含有滚动条
+			if(overflowX || overflowY){
+				$parent.data('overflowX',overflowX);
+				$parent.data('overflowY',overflowY)
+				this.rootQueue.push($parent)
+			}
+			this._initRootQueue($parent)
+		}
+	}
+	
+	//滚动处理事件
+	_scrollHandler(e){
+		let $root = $util.isElement(e)?e:e.currentTarget;
+		//横向滚动
+		if($root.data('overflowX')){
+			//元素距离滚动容器的可视距离,不包含自身宽度
+			let offsetLeft1 = this.$el.getBoundingClientRect().left - $root.getBoundingClientRect().left;
+			//元素距离滚动元素的可视距离,包含自身宽度
+			let offsetLeft2 = this.$el.getBoundingClientRect().right - $root.getBoundingClientRect().left;
+			if (offsetLeft2 > 0 && offsetLeft1 < $root.offsetWidth) {
+				//元素开始进入
+				if (!this.triggerTag.before) {
+					this.beforeEnter(this.$el,$root);
+					this.triggerTag.before = true;
 				}
 			} else {
-				if (this.$target.data("mvi-scroll-flag1")) {
-					this.leave(this.$target);
-					this.$target.data("mvi-scroll-flag1", null);
+				//元素完全离开
+				if (this.triggerTag.before) {
+					this.leave(this.$el,$root);
+					this.triggerTag.before = false;
 				}
 			}
-		
-			if (clientTop1 > 0 && clientTop2 < window.innerHeight) {
-				if (!this.$target.data("mvi-scroll-flag2")) {
-					this.enter(this.$target);
-					this.$target.data("mvi-scroll-flag2", true);
+			if (offsetLeft1 > 0 && offsetLeft2 < $root.offsetWidth) {
+				//元素完全进入
+				if (!this.triggerTag.after) {
+					this.enter(this.$el,$root);
+					this.triggerTag.after = true;
 				}
 			} else {
-				if (this.$target.data("mvi-scroll-flag2")) {
-					this.beforeLeave(this.$target);
-					this.$target.data("mvi-scroll-flag2", null);
+				//元素开始离开
+				if (this.triggerTag.after) {
+					this.beforeLeave(this.$el,$root);
+					this.triggerTag.after = false;
 				}
 			}
-		} else {
-			//元素距离滚动元素的可视距离,不包含自身高度
-			let offsetTop1 = this.$target.getBoundingClientRect().top - this.$el.getBoundingClientRect().top;
+		}
+		//纵向滚动
+		if($root.data('overflowY')){
+			//元素距离滚动容器的可视距离,不包含自身高度
+			let offsetTop1 = this.$el.getBoundingClientRect().top - $root.getBoundingClientRect().top;
 			//元素距离滚动元素的可视距离,包含自身高度
-			let offsetTop2 = this.$target.getBoundingClientRect().bottom - this.$el.getBoundingClientRect().top;
-			if (offsetTop2 > 0 && offsetTop1 < this.$el.offsetHeight) {
-				if (!this.$target.data("mvi-scroll-flag1")) {
-					this.beforeEnter(this.$target);
-					this.$target.data("mvi-scroll-flag1", true);
+			let offsetTop2 = this.$el.getBoundingClientRect().bottom - $root.getBoundingClientRect().top;
+			
+			if (offsetTop2 > 0 && offsetTop1 < $root.offsetHeight) {
+				//元素开始进入
+				if (!this.triggerTag.before) {
+					this.beforeEnter(this.$el,$root);
+					this.triggerTag.before = true;
 				}
 			} else {
-				if (this.$target.data("mvi-scroll-flag1")) {
-					this.leave(this.$target);
-					this.$target.data("mvi-scroll-flag1", null);
+				//元素完全离开
+				if (this.triggerTag.before) {
+					this.leave(this.$el,$root);
+					this.triggerTag.before = false;
 				}
 			}
-			if (offsetTop1 > 0 && offsetTop2 < this.$el.offsetHeight) {
-				if (!this.$target.data("mvi-scroll-flag2")) {
-					this.enter(this.$target);
-					this.$target.data("mvi-scroll-flag2", true);
+			if (offsetTop1 > 0 && offsetTop2 < $root.offsetHeight) {
+				//元素完全进入
+				if (!this.triggerTag.after) {
+					this.enter(this.$el,$root);
+					this.triggerTag.after = true;
 				}
 			} else {
-				if (this.$target.data("mvi-scroll-flag2")) {
-					this.beforeLeave(this.$target);
-					this.$target.data("mvi-scroll-flag2", null);
+				//元素开始离开
+				if (this.triggerTag.after) {
+					this.beforeLeave(this.$el,$root);
+					this.triggerTag.after = false;
 				}
-			}
+			}		
 		}
 	}
 	

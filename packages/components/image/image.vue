@@ -58,10 +58,6 @@
 				type: Boolean,
 				default: false
 			},
-			root: { //延迟加载时定义滚动的根元素ID，如"#el"，如果不设置则默认为窗口滚动
-				type: String,
-				default: null
-			},
 			loadIcon:{
 				type:[String,Object],
 				default:null
@@ -232,16 +228,9 @@
 			//延时加载方法
 			lazyloadFun() {
 				this.lazying = true;
-				let root = null;
-				if (typeof this.root == 'string' && this.root) {
-					root = document.body.querySelector(this.root);
-				} else if ($util.isElement(this.root)) {
-					root = this.root;
-				}
 				//延时加载
 				let spy = new Spy(this.$el, {
-					el: root, //根元素
-					beforeEnter: el => { //图片进入可视端口时加载
+					beforeEnter: (el,root) => { //图片进入可视端口时加载
 						this.lazying = false;
 						this.lazySrc = this.src;
 					}
