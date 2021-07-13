@@ -8,12 +8,12 @@ class Spy {
 		if(!$util.isObject(options)){
 			options = {};
 		}
+		this.$root = options.el;
 		this.beforeEnter = options.beforeEnter;
 		this.enter = options.enter;
 		this.beforeLeave = options.beforeLeave;
 		this.leave = options.leave;
 		this.hasInit = false; //是否已经初始化
-		this.rootQueue = []; //滚动元素队列容器
 		//是否触发的标记
 		this.triggerTag = {
 			before:false,
@@ -28,6 +28,12 @@ class Spy {
 		this.hasInit = true;
 		
 		//初始化参数
+		if(typeof this.$root == "string" && this.$root){
+			this.$root = document.documentElement.querySelector(this.$root);
+		}
+		if (!$util.isElement(this.$root)) {
+			this.$root = document.body;
+		}
 		if (typeof this.beforeEnter != "function") {
 			this.beforeEnter = function() {};
 		}
@@ -40,111 +46,107 @@ class Spy {
 		if (typeof this.leave != "function") {
 			this.leave = function() {};
 		}
-		
-		//初始化容器队列
-		this._initRootQueue(this.$el)
+		//更改函数this指向
 		this._scrollHandler = this._scrollHandler.bind(this);
-		//给容器队列添加监听事件
-		this._initRootListens();
+		//给滚动容器添加监听事件
+		this._scrollHandler();
+		this.$root.addEventListener('scroll',this._scrollHandler);
 	}
 	
-	//容器队列的滚动元素添加滚动监听事件
-	_initRootListens(){
-		this.rootQueue.forEach(root=>{
-			this._scrollHandler(root);
-			root.addEventListener('scroll',this._scrollHandler);
-		})
-	}
-	
-	//容器队列的滚动元素移除滚动监听事件
-	_removeRootListens(){
-		this.rootQueue.forEach(root=>{
-			root.removeEventListener('scroll',this._scrollHandler);
-		})
-	}
-	
-	//初始化容器队列
-	_initRootQueue(el){
-		let $parent = el.parentNode;
-		if($parent){
-			let overflowX = $util.getScrollWidth($parent) > $parent.offsetWidth;
-			let overflowY = $util.getScrollHeight($parent) > $parent.offsetHeight;
-			//如果含有滚动条
-			if(overflowX || overflowY){
-				$parent.data('overflowX',overflowX);
-				$parent.data('overflowY',overflowY)
-				this.rootQueue.push($parent)
-			}
-			this._initRootQueue($parent)
-		}
-	}
-	
-	//滚动处理事件
-	_scrollHandler(e){
-		let $root = $util.isElement(e)?e:e.currentTarget;
-		//横向滚动
-		if($root.data('overflowX')){
-			//元素距离滚动容器的可视距离,不包含自身宽度
-			let offsetLeft1 = this.$el.getBoundingClientRect().left - $root.getBoundingClientRect().left;
-			//元素距离滚动元素的可视距离,包含自身宽度
-			let offsetLeft2 = this.$el.getBoundingClientRect().right - $root.getBoundingClientRect().left;
-			if (offsetLeft2 > 0 && offsetLeft1 < $root.offsetWidth) {
+	//侦听处理
+	_scrollHandler(){
+		//获取容器元素是否含有滚动条
+		let overflowX = $util.getCssStyle(this.$root,'overflow-x');
+		let overflowY = $util.getCssStyle(this.$root,'overflow-y');
+		let hasScrollX = (overflowX == 'auto' || overflowX == 'scroll');
+		let hasScrollY = (overflowY == 'auto' || overflowY == 'scroll');
+		//元素左侧距离滚动容器左侧的可视距离,即不包含自身宽度
+		let offsetLeft1 = this.$el.getBoundingClientRect().left - this.$root.getBoundingClientRect().left;
+		//元素右侧距离滚动元素左侧的可视距离，即包含自身宽度
+		let offsetLeft2 = this.$el.getBoundingClientRect().right - this.$root.getBoundingClientRect().left;
+		//元素顶部距离滚动容器顶部的可视距离,即不包含自身高度
+		let offsetTop1 = this.$el.getBoundingClientRect().top - this.$root.getBoundingClientRect().top;
+		//元素顶部距离滚动元素顶部的可视距离,即包含自身高度
+		let offsetTop2 = this.$el.getBoundingClientRect().bottom - this.$root.getBoundingClientRect().top;
+		//横向和竖向滚动都存在
+		if(hasScrollX && hasScrollY){
+			if ((offsetLeft2 >= 0 && offsetLeft1 <= this.$root.offsetWidth) && (offsetTop2 >= 0 && offsetTop1 <= this.$root.offsetHeight)) {
 				//元素开始进入
 				if (!this.triggerTag.before) {
-					this.beforeEnter(this.$el,$root);
+					this.beforeEnter(this.$el);
 					this.triggerTag.before = true;
 				}
 			} else {
 				//元素完全离开
 				if (this.triggerTag.before) {
-					this.leave(this.$el,$root);
+					this.leave(this.$el);
 					this.triggerTag.before = false;
 				}
 			}
-			if (offsetLeft1 > 0 && offsetLeft2 < $root.offsetWidth) {
+			if ((offsetLeft1 >= 0 && offsetLeft2 <= this.$root.offsetWidth) && (offsetTop1 >= 0 && offsetTop2 <= this.$root.offsetHeight)) {
 				//元素完全进入
 				if (!this.triggerTag.after) {
-					this.enter(this.$el,$root);
+					this.enter(this.$el);
 					this.triggerTag.after = true;
 				}
-			} else {
+			} else{
 				//元素开始离开
 				if (this.triggerTag.after) {
-					this.beforeLeave(this.$el,$root);
+					this.beforeLeave(this.$el);
 					this.triggerTag.after = false;
 				}
 			}
-		}
-		//纵向滚动
-		if($root.data('overflowY')){
-			//元素距离滚动容器的可视距离,不包含自身高度
-			let offsetTop1 = this.$el.getBoundingClientRect().top - $root.getBoundingClientRect().top;
-			//元素距离滚动元素的可视距离,包含自身高度
-			let offsetTop2 = this.$el.getBoundingClientRect().bottom - $root.getBoundingClientRect().top;
-			
-			if (offsetTop2 > 0 && offsetTop1 < $root.offsetHeight) {
+		}else if(hasScrollX){
+			if (offsetLeft2 >= 0 && offsetLeft1 <= this.$root.offsetWidth) {
 				//元素开始进入
 				if (!this.triggerTag.before) {
-					this.beforeEnter(this.$el,$root);
+					this.beforeEnter(this.$el);
 					this.triggerTag.before = true;
 				}
 			} else {
 				//元素完全离开
 				if (this.triggerTag.before) {
-					this.leave(this.$el,$root);
+					this.leave(this.$el);
 					this.triggerTag.before = false;
 				}
 			}
-			if (offsetTop1 > 0 && offsetTop2 < $root.offsetHeight) {
+			if (offsetLeft1 >= 0 && offsetLeft2 <= this.$root.offsetWidth) {
 				//元素完全进入
 				if (!this.triggerTag.after) {
-					this.enter(this.$el,$root);
+					this.enter(this.$el);
 					this.triggerTag.after = true;
 				}
 			} else {
 				//元素开始离开
 				if (this.triggerTag.after) {
-					this.beforeLeave(this.$el,$root);
+					this.beforeLeave(this.$el);
+					this.triggerTag.after = false;
+				}
+			}
+		}else if(hasScrollY){	
+			if (offsetTop2 >= 0 && offsetTop1 <= this.$root.offsetHeight) {
+				//元素开始进入
+				if (!this.triggerTag.before) {
+					this.beforeEnter(this.$el);
+					this.triggerTag.before = true;
+				}
+			} else {
+				//元素完全离开
+				if (this.triggerTag.before) {
+					this.leave(this.$el);
+					this.triggerTag.before = false;
+				}
+			}
+			if (offsetTop1 >= 0 && offsetTop2 <= this.$root.offsetHeight) {
+				//元素完全进入
+				if (!this.triggerTag.after) {
+					this.enter(this.$el);
+					this.triggerTag.after = true;
+				}
+			} else {
+				//元素开始离开
+				if (this.triggerTag.after) {
+					this.beforeLeave(this.$el);
 					this.triggerTag.after = false;
 				}
 			}		

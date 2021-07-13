@@ -54,9 +54,15 @@
 				type: Boolean,
 				default: true
 			},
-			lazyLoad: { //是否启用延迟加载
+			//是否启用延迟加载
+			lazyLoad: { 
 				type: Boolean,
 				default: false
+			},
+			//延时加载时指定的滚动容器选择器
+			root:{
+				type:String,
+				default:null
 			},
 			loadIcon:{
 				type:[String,Object],
@@ -66,15 +72,18 @@
 				type:[String,Object],
 				default:null
 			},
-			round: {//是否原形图片
+			//是否原形图片
+			round: {
 				type: Boolean,
 				default: false
 			},
-			width:{//图片宽度
+			//图片宽度
+			width:{
 				type:String,
 				default:null
 			},
-			height:{//图片高度
+			//图片高度
+			height:{
 				type:String,
 				default:null
 			}
@@ -230,7 +239,8 @@
 				this.lazying = true;
 				//延时加载
 				let spy = new Spy(this.$el, {
-					beforeEnter: (el,root) => { //图片进入可视端口时加载
+					el:this.root,
+					beforeEnter: el => { //图片进入可视端口时加载
 						this.lazying = false;
 						this.lazySrc = this.src;
 					}

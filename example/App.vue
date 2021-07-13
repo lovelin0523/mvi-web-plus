@@ -7,10 +7,12 @@
 	<div>date：{{ date }}</div>
 	<div>active：{{ active }}</div>
 	<div>page：{{ page }}</div>
-	<div style="width: 100%;height: 4rem;overflow: auto;border: 1px solid #DDDDDD;">
-		<div style="width: 20rem;height: 100%;">
-			<m-image style="margin-left: 10rem;" lazy-load width="4rem" height="2rem" src="https://www.mvi-web.cn/mvi-resources/images/mvi_image_0_1624705387765.jfif"></m-image>
+	<div style="width: 100%;height: 4rem;overflow: auto;border: 1px solid #DDDDDD;" id="el">
+		<div style="height: 20rem;"></div>
+		<div>
+			<m-image lazy-load root="#el" width="4rem" height="2rem" src="https://www.mvi-web.cn/mvi-resources/images/mvi_image_0_1624705387765.jfif"></m-image>
 		</div>
+		<div style="height: 20rem;"></div>
 	</div>
 	<div class="a" style="position: relative;height: 5rem; border: 1px solid #ddd;overflow: auto;">
 		<div style="height: 20rem;"></div>
@@ -23,6 +25,12 @@ export default {
 	name: 'App',
 	data() {
 		return {
+			spyOpt:{
+				el:'#el',
+				enter:el=>{
+					console.log('enter')
+				}
+			},
 			show: true,
 			checkbox: [],
 			checked: 1,
