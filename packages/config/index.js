@@ -259,7 +259,7 @@
 		const result = parseEventName(eventName);
 		//批量添加事件
 		result.forEach(res=>{
-			bindSingleListener.apply(this,[res.eventName,res.guid,fn])
+			bindSingleListener.apply(this,[res.eventName,res.guid,fn.bind(this)])
 		})
 	}
 
