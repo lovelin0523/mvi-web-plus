@@ -4,7 +4,7 @@ import Scroll from "./scroll"
 Scroll.install = app=>{
 	//监听元素滚动条到达顶部或者底部
 	app.directive('scroll',{
-		mounted(el,binding,vnode){
+		mounted(el, binding){
 			let options = {};
 			if($util.isObject(binding.value)){
 				Object.assign(options,binding.value);

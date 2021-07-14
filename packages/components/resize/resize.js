@@ -72,37 +72,20 @@ class Resize {
 		if (typeof this.beforeResize != "function") {
 			this.beforeResize = function() {};
 		}
-
 		if (typeof this.resize != "function") {
 			this.resize = function() {};
 		}
-
 		if (typeof this.trigger != "function") {
 			this.trigger = function() {};
 		}
-
 		if (typeof this.end != "function") {
 			this.end = function() {};
 		}
-
 		if (typeof this.ready != "function") {
 			this.ready = function() {};
 		}
-		
 		if(!$util.isNumber(this.range)){
 			this.range = 1;
-		}
-		
-		//添加在body上的鼠标移动事件
-		this._bodyMouseMove = e=>{
-			let endX = e.pageX;
-			let endY = e.pageY;
-			this._move(e,endX,endY);
-		}
-		
-		//添加在body上的鼠标离开事件
-		this._bodyMouseLeave = e=>{
-			this._leave(e);
 		}
 
 		//设置可拖动的范围
@@ -654,12 +637,12 @@ class Resize {
 
 	//设置拖动事件
 	_setOn(){
-		this.$el.addEventListener('touchstart', e=>{
+		this.$el.on('touchstart.resize', e=>{
 			this.startX = e.targetTouches[0].pageX;
 			this.startY = e.targetTouches[0].pageY;
 			this._down(e);
 		})
-		this.$el.addEventListener('touchmove',e=>{
+		this.$el.on('touchmove.resize',e=>{
 			if (e.cancelable) {
 				e.preventDefault();
 			}
@@ -667,22 +650,27 @@ class Resize {
 			let endY = e.targetTouches[0].pageY;
 			this._move(e,endX,endY);
 		})
-		this.$el.addEventListener('touchend',e=>{
+		this.$el.on('touchend.resize',e=>{
 			this._leave(e);
 		})
-		this.$el.addEventListener('mousedown',e=>{
+		this.$el.on('mousedown.resize',e=>{
 			this.startX = e.pageX;
 			this.startY = e.pageY;
 			this._down(e);
 		})
-		document.body.addEventListener('mousemove',this._bodyMouseMove);
-		document.body.addEventListener('mouseup',this._bodyMouseLeave);
+		document.body.on('mousemove.resize',e=>{
+			let endX = e.pageX;
+			let endY = e.pageY;
+			this._move(e,endX,endY);
+		});
+		document.body.on('mouseup.resize',e=>{
+			this._leave(e);
+		});
 	}
 	
 	//移除body上的拖动事件
 	_setOff(){
-		document.body.removeEventListener('mousemove',this._bodyMouseMove);
-		document.body.removeEventListener('mouseup',this._bodyMouseLeave);
+		document.body.off('mousemove.resize mouseup.resize');
 	}
 	
 	//设置水平方向不可拖拽改变大小

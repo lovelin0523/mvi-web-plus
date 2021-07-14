@@ -369,8 +369,8 @@ export default {
 	},
 	mounted() {
 		if(this.trigger == 'hover'){
-			this.$el.addEventListener('mouseenter',this.openCalendar)
-			this.$el.addEventListener('mouseleave',this.closeCalendar)
+			this.$el.on('mouseenter.dateChooser',this.openCalendar)
+			this.$el.on('mouseleave.dateChooser',this.closeCalendar)
 		}
 	},
 	methods: {
@@ -553,8 +553,7 @@ export default {
 	},
 	beforeUnmount() {
 		if(this.trigger == 'hover'){
-			this.$el.removeEventListener('mouseenter',this.openCalendar)
-			this.$el.removeEventListener('mouseleave',this.closeCalendar)
+			this.$el.off('mouseenter.dateChooser mouseleave.dateChooser')
 		}
 	}
 };

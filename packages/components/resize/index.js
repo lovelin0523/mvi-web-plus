@@ -4,7 +4,7 @@ import Resize from "./resize"
 Resize.install = app=> {
 	//拖拽改变大小
 	app.directive('resize', {
-		mounted(el, binding, vnode) {
+		mounted(el, binding) {
 			let options = {};
 			if ($util.isObject(binding.value)) {
 				Object.assign(options, binding.value);
@@ -17,7 +17,7 @@ Resize.install = app=> {
 			//将对象记录在元素里
 			el.data('directive:resize',resize)
 		},
-		beforeUnmount(el, binding, vnode) {
+		beforeUnmount(el, binding) {
 			//获取对象
 			let resize = el.data('directive:resize')
 			if(resize){

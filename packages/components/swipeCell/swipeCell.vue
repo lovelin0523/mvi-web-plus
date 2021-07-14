@@ -53,8 +53,8 @@
 			}
 		},
 		mounted() {
-			document.body.addEventListener('mousemove',this.cellMouseMove);
-			document.body.addEventListener('mouseup',this.cellMouseUp);
+			document.body.on('mousemove.swipeCell',this.cellMouseMove);
+			document.body.on('mouseup.swipeCell',this.cellMouseUp);
 		},
 		methods:{
 			//触摸开始
@@ -299,8 +299,7 @@
 			}
 		},
 		beforeUnmount() {
-			document.body.removeEventListener('mousemove',this.cellMouseMove);
-			document.body.removeEventListener('mouseup',this.cellMouseUp);
+			document.body.off('mousemove.swipeCell mouseup.swipeCell');
 		}
 	}
 </script>

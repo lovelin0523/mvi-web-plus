@@ -1,22 +1,17 @@
 <template>
-	<m-button style="position: fixed;" @click="change">打开遮罩</m-button>
-	<div style="margin-top: 1rem;">checkbox：{{ checkbox }}</div>
-	<div>show：{{ show }}</div>
-	<div>checked：{{ checked }}</div>
-	<div>value：{{ value }}</div>
-	<div>date：{{ date }}</div>
-	<div>active：{{ active }}</div>
-	<div>page：{{ page }}</div>
-	<div style="width: 100%;height: 4rem;overflow: auto;border: 1px solid #DDDDDD;" id="el">
-		<div style="height: 20rem;"></div>
-		<div>
-			<m-image lazy-load root="#el" width="4rem" height="2rem" src="https://www.mvi-web.cn/mvi-resources/images/mvi_image_0_1624705387765.jfif"></m-image>
-		</div>
-		<div style="height: 20rem;"></div>
-	</div>
-	<div class="a" style="position: relative;height: 5rem; border: 1px solid #ddd;overflow: auto;">
-		<div style="height: 20rem;"></div>
-	</div>
+	<m-button @click="change">打开遮罩</m-button>
+	<m-swipe-cell v-if="show" ref="swipeCell">
+	    <!-- 左侧隐藏区域，需要右滑显示 -->
+	    <template v-slot:left>
+	        <div style="background-color: #ff3300;width:.88rem;height: 100%;color: #fff;" class="mvi-flex-center">添加</div>
+	    </template>
+	    <!-- 右侧隐藏区域，需要左滑显示 -->
+	    <template v-slot:right>
+	        <div style="background-color: #ff3300;width:.88rem;height: 100%;color: #fff;" class="mvi-flex-center">删除</div>
+	    </template>
+	    <!-- 主内容 -->
+	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
+	</m-swipe-cell>
 </template>
 
 <script>
@@ -60,7 +55,7 @@ export default {
 					value: 4
 				}
 			],
-			refresh: false,
+			refresh: true,
 			images: [
 				'https://www.mvi-web.cn/mvi-resources/images/mvi_image_4_1624705387843.jfif','https://www.mvi-web.cn/mvi-resources/images/mvi_image_3_1624705387828.jfif','https://www.mvi-web.cn/mvi-resources/images/mvi_image_2_1624705387812.jfif','https://www.mvi-web.cn/mvi-resources/images/mvi_image_1_1624705387797.jfif','https://www.mvi-web.cn/mvi-resources/images/mvi_image_0_1624705387765.jfif'
 			],

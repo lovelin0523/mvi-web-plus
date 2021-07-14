@@ -293,8 +293,8 @@
 		},
 		mounted() {
 			this.statusInit();
-			document.body.addEventListener('mousemove', this.onPull2);
-			document.body.addEventListener('mouseup', this.pulled2);
+			document.body.on('mousemove.pullRefresh', this.onPull2);
+			document.body.on('mouseup.pullRefresh', this.pulled2);
 		},
 		watch: {
 			modelValue(newValue) {
@@ -585,8 +585,7 @@
 			}
 		},
 		beforeUnmount() {
-			document.body.removeEventListener('mousemove', this.onPull2);
-			document.body.removeEventListener('mouseup', this.pulled2);
+			document.body.off('mousemove.pullRefresh mouseup.pullRefresh');
 		}
 	}
 </script>

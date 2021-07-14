@@ -4,7 +4,7 @@ import Upload from "./upload"
 Upload.install = app=> {
 	//文件上传
 	app.directive('upload', {
-		mounted(el, binding, vnode) {
+		mounted(el, binding) {
 			let options = {};
 			if ($util.isObject(binding.value)) {
 				Object.assign(options, binding.value);

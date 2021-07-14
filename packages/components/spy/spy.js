@@ -46,11 +46,11 @@ class Spy {
 		if (typeof this.leave != "function") {
 			this.leave = function() {};
 		}
-		//更改函数this指向
-		this._scrollHandler = this._scrollHandler.bind(this);
 		//给滚动容器添加监听事件
 		this._scrollHandler();
-		this.$root.addEventListener('scroll',this._scrollHandler);
+		this.$root.on('scroll.spy',e=>{
+			this._scrollHandler();
+		});
 	}
 	
 	//侦听处理
@@ -153,6 +153,11 @@ class Spy {
 		}
 	}
 	
+	
+	//移除滚动容器监听事件
+	_setOff(){
+		this.$root.off('scroll.spy');
+	}
 }
 
 export default Spy

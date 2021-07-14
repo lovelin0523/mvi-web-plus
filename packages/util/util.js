@@ -14,27 +14,24 @@ const util = {
 		document.execCommand('copy');
 		document.body.removeChild(el);
 	},
-
+	
 	/**
 	 * 获取元素距离可视窗口的位置
 	 */
-	getElementBounding(element) {
+	getElementBounding(element){
 		if (!this.isElement(element)) {
 			element = document.body;
 		}
 		let point = element.getBoundingClientRect();
-		let top = point.top; //元素顶部距离可视窗口上边的距离
-		let bottom = (document.documentElement.clientHeight || window.innerHeight) - point.bottom; //元素底部距离可视窗口底部的距离
-		let left = point.left; //元素左侧距离可视窗口左边的距离
-		let right = (document.documentElement.clientWidth || window.innerWidth) - point.right; //元素右侧距离可视窗口右边的距离
+		let top = point.top;//元素顶部距离可视窗口上边的距离
+		let bottom = (document.documentElement.clientHeight || window.innerHeight) - point.bottom;//元素底部距离可视窗口底部的距离
+		let left = point.left;//元素左侧距离可视窗口左边的距离
+		let right = (document.documentElement.clientWidth || window.innerWidth) - point.right;//元素右侧距离可视窗口右边的距离
 		return {
-			top,
-			bottom,
-			left,
-			right
+			top,bottom,left,right
 		}
 	},
-
+	
 	/**
 	 * 判断是否数值
 	 */
@@ -309,7 +306,7 @@ const util = {
 		}
 		//滑动到底部时是否触发回调函数的标识，解决ios系统下多次触发回调的bug
 		let flag = true;
-		scrollEle.addEventListener('scroll', e => {
+		scrollEle.on('scroll.topBottom', e => {
 			if (this.getScrollTop(scrollEle) <= 0) { //滑动到顶部
 				let options = {
 					state: "top",
@@ -336,9 +333,8 @@ const util = {
 					let borderBottom = parseFloat(this.getCssStyle(scrollEle, 'border-bottom-width'))
 					height = scrollEle.offsetHeight - borderTop - borderBottom;
 				}
-				if ((this.getScrollTop(scrollEle) + height >= this.getScrollHeight(scrollEle)) && (height !=
-						this.getScrollHeight(
-							scrollEle))) {
+				if ((this.getScrollTop(scrollEle) + height >= this.getScrollHeight(scrollEle)) && (height != this.getScrollHeight(
+						scrollEle))) {
 					if (!flag) {
 						return;
 					}
@@ -463,15 +459,13 @@ const util = {
 	getScrollTop(element) {
 		let scrollTop = 0;
 		//如果是元素节点
-		if (this.isElement(element) && element != document.body && element != document.documentElement && element !=
-			window) {
+		if (this.isElement(element) && element != document.body && element != document.documentElement && element != window) {
 			scrollTop = element.scrollTop;
 		} else {
 			if (document.documentElement.scrollTop == 0 || document.body.scrollTop == 0) {
 				scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 			} else {
-				scrollTop = document.documentElement.scrollTop > document.body.scrollTop ? document.documentElement
-					.scrollTop :
+				scrollTop = document.documentElement.scrollTop > document.body.scrollTop ? document.documentElement.scrollTop :
 					document.body.scrollTop;
 			}
 		}
@@ -490,8 +484,7 @@ const util = {
 		}
 		let number = options.number || 0;
 		let time = options.time || 0;
-		if (!this.isElement(element) || element == document.body || element == document.documentElement ||
-			element ==
+		if (!this.isElement(element) || element == document.body || element == document.documentElement || element ==
 			window) {
 			isWindow = true;
 		}
@@ -513,8 +506,7 @@ const util = {
 					if (spacingIndex > 0) {
 						spacingIndex--;
 						if (isWindow) {
-							document.documentElement.scrollTop = document.body.scrollTop = (
-								nowTop += everTop);
+							document.documentElement.scrollTop = document.body.scrollTop = (nowTop += everTop);
 						} else {
 							element.scrollTop = (nowTop += everTop);
 						}
@@ -534,15 +526,13 @@ const util = {
 	getScrollLeft(element) {
 		let scrollLeft = 0;
 		//如果是元素节点
-		if (this.isElement(element) && element != document.body && element != document.documentElement && element !=
-			window) {
+		if (this.isElement(element) && element != document.body && element != document.documentElement && element != window) {
 			scrollLeft = element.scrollLeft;
 		} else {
 			if (document.documentElement.scrollLeft == 0 || document.body.scrollLeft == 0) {
 				scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
 			} else {
-				scrollLeft = document.documentElement.scrollLeft > document.body.scrollLeft ? document
-					.documentElement.scrollLeft :
+				scrollLeft = document.documentElement.scrollLeft > document.body.scrollLeft ? document.documentElement.scrollLeft :
 					document.body.scrollLeft;
 			}
 		}
@@ -561,8 +551,7 @@ const util = {
 		}
 		let number = options.number || 0;
 		let time = options.time || 0;
-		if (!this.isElement(element) || element == document.body || element == document.documentElement ||
-			element ==
+		if (!this.isElement(element) || element == document.body || element == document.documentElement || element ==
 			window) {
 			isWindow = true;
 		}
@@ -584,8 +573,7 @@ const util = {
 					if (spacingIndex > 0) {
 						spacingIndex--;
 						if (isWindow) {
-							document.documentElement.scrollLeft = document.body.scrollLeft = (
-								nowLeft += everLeft);
+							document.documentElement.scrollLeft = document.body.scrollLeft = (nowLeft += everLeft);
 						} else {
 							element.scrollLeft = (nowLeft += everLeft);
 						}
@@ -604,15 +592,13 @@ const util = {
 	 */
 	getScrollHeight(element) {
 		let scrollHeight = 0;
-		if (this.isElement(element) && element != document.documentElement && element != document.body && element !=
-			window) {
+		if (this.isElement(element) && element != document.documentElement && element != document.body && element != window) {
 			scrollHeight = element.scrollHeight;
 		} else {
 			if (document.documentElement.scrollHeight == 0 || document.body.scrollHeight == 0) {
 				scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
 			} else {
-				scrollHeight = document.documentElement.scrollHeight > document.body.scrollHeight ? document
-					.documentElement.scrollHeight :
+				scrollHeight = document.documentElement.scrollHeight > document.body.scrollHeight ? document.documentElement.scrollHeight :
 					document.body.scrollHeight;
 			}
 		}
@@ -624,15 +610,13 @@ const util = {
 	 */
 	getScrollWidth(element) {
 		let scrollWidth = 0;
-		if (this.isElement(element) && element != document.documentElement && element != document.body && element !=
-			window) {
+		if (this.isElement(element) && element != document.documentElement && element != document.body && element != window) {
 			scrollWidth = element.scrollWidth;
 		} else {
 			if (document.documentElement.scrollWidth == 0 || document.body.scrollWidth == 0) {
 				scrollWidth = document.documentElement.scrollWidth || document.body.scrollWidth;
 			} else {
-				scrollWidth = document.documentElement.scrollWidth > document.body.scrollWidth ? document
-					.documentElement.scrollWidth :
+				scrollWidth = document.documentElement.scrollWidth > document.body.scrollWidth ? document.documentElement.scrollWidth :
 					document.body.scrollWidth;
 			}
 		}
@@ -652,8 +636,7 @@ const util = {
 		if (element) {
 			if (typeof cssName == "string") {
 				let cssText = "";
-				if (document.defaultView && document.defaultView
-					.getComputedStyle) { //兼容IE9-IE11、chrome、firefox、safari、opera；不兼容IE7-IE8
+				if (document.defaultView && document.defaultView.getComputedStyle) { //兼容IE9-IE11、chrome、firefox、safari、opera；不兼容IE7-IE8
 					cssText = document.defaultView.getComputedStyle(element)[cssName];
 				} else { //兼容IE7-IE11；不兼容chrome、firefox、safari、opera
 					cssText = element.currentStyle[cssName];
@@ -787,7 +770,7 @@ const util = {
 		}
 		//selector参数存在时，根据空格划分选择器
 		let selectors = this.trim(selector).split(/\s+/);
-		selectors.forEach(sc => {
+		selectors.forEach(sc=>{
 			//判断选择器类型
 			let selector_type = this.getCssSelector(sc).type;
 			let selector_value = this.getCssSelector(sc).value;
@@ -810,8 +793,7 @@ const util = {
 					for (let i = 0; i < childNodes.length; i++) {
 						if (typeof selector_value == 'object') {
 							if (childNodes[i].hasAttribute(selector_value.attributeName)) {
-								if (childNodes[i].getAttribute(selector_value.attributeName) ==
-									selector_value.attributeValue) {
+								if (childNodes[i].getAttribute(selector_value.attributeName) == selector_value.attributeValue) {
 									result.push(childNodes[i]);
 								}
 							}
@@ -883,7 +865,7 @@ const util = {
 		}
 		let selectors = selector.split(/\s+/);
 		let result = new Array();
-		selectors.forEach(sc => {
+		selectors.forEach(sc=> {
 			//判断选择器类型
 			let selector_type = this.getCssSelector(sc).type;
 			let selector_value = this.getCssSelector(sc).value;
@@ -906,8 +888,7 @@ const util = {
 					for (let i = 0; i < siblingsArray.length; i++) {
 						if (typeof selector_value == 'object') {
 							if (siblingsArray[i].hasAttribute(selector_value.attributeName)) {
-								if (siblingsArray[i].getAttribute(selector_value.attributeName) ==
-									selector_value.attributeValue) {
+								if (siblingsArray[i].getAttribute(selector_value.attributeName) == selector_value.attributeValue) {
 									result.push(siblingsArray[i]);
 								}
 							}
@@ -965,7 +946,7 @@ const util = {
 	 */
 	judgeAccessTerminalBrowser(params) {
 		let browser = {
-			versions: function() {
+			versions: function(){
 				let u = navigator.userAgent;
 				let app = navigator.appVersion;
 				return {
@@ -990,12 +971,10 @@ const util = {
 					windowsPhone: /(?:Windows Phone)/.test(u), //是否是windows手机
 					iPad: u.indexOf('iPad') > -1, //是否iPad平板
 					webApp: u.indexOf('Safari') == -1, //是否web应用程序，没有头部与底部
-					phone: (u.indexOf('Android') > -1 && /(?:Mobile)/.test(u)) || (u.indexOf('iPhone') > -
-						1) || (
-							/(?:Windows Phone)/.test(u)), //判断是否是手机
-					tablet: (u.indexOf('iPad') > -1) || (u.indexOf('Android') > -1 && !/(?:Mobile)/.test(
-						u)) || (u.indexOf(
-							"Firefox") > -1 && /(?:Tablet)/.test(u)), //平板
+					phone: (u.indexOf('Android') > -1 && /(?:Mobile)/.test(u)) || (u.indexOf('iPhone') > -1) || (
+						/(?:Windows Phone)/.test(u)), //判断是否是手机
+					tablet: (u.indexOf('iPad') > -1) || (u.indexOf('Android') > -1 && !/(?:Mobile)/.test(u)) || (u.indexOf(
+						"Firefox") > -1 && /(?:Tablet)/.test(u)), //平板
 					mac: /macintosh|mac os x/i.test(u), //判断是否mac
 					win32: u.toLowerCase().indexOf("win32") > -1 || u.toLowerCase().indexOf("wow32") > -1,
 					win64: u.toLowerCase().indexOf("win64") > -1 || u.toLowerCase().indexOf("wow64") > -1,
@@ -1185,10 +1164,10 @@ const util = {
 	 * 通过then方法回调,参数为base64字符串
 	 */
 	dataFileToBase64(file) {
-		return new Promise((reslove, reject) => {
+		return new Promise((reslove, reject)=>{
 			let reader = new FileReader();
 			reader.readAsDataURL(file); // 读出 base64
-			reader.onloadend = () => {
+			reader.onloadend = ()=> {
 				// 图片的 base64 格式, 可以直接当成 img 的 src 属性值        
 				let dataURL = reader.result;
 				// 下面逻辑处理
@@ -1386,6 +1365,5 @@ const util = {
 	}
 
 }
-
 
 export default util

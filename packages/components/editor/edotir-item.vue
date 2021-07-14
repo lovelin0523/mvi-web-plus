@@ -226,8 +226,8 @@
 		},
 		mounted() {
 			if (this.editor.trigger == 'hover') {
-				this.$el.addEventListener('mouseenter', this.showLayer);
-				this.$el.addEventListener('mouseleave', this.hideLayer);
+				this.$el.on('mouseenter.editor', this.showLayer);
+				this.$el.on('mouseleave.editor', this.hideLayer);
 			}
 		},
 		methods: {
@@ -734,8 +734,7 @@
 		},
 		beforeUnmount() {
 			if (this.editor.trigger == 'hover') {
-				this.$el.removeEventListener('mouseenter', this.showLayer);
-				this.$el.removeEventListener('mouseleave', this.hideLayer);
+				this.$el.off('mouseenter.editor mouseleave.editor');
 			}
 		}
 	}

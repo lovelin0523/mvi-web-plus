@@ -4,7 +4,7 @@ import Drag from "./drag"
 Drag.install = app=> {
 	//拖拽
 	app.directive('drag', {
-		mounted(el, binding, vnode) {
+		mounted(el, binding) {
 			let options = {};
 			if ($util.isObject(binding.value)) {
 				Object.assign(options, binding.value);
@@ -18,7 +18,7 @@ Drag.install = app=> {
 			//将对象记录在元素里
 			el.data('directive:drag',drag)
 		},
-		beforeUnmount(el, binding, vnode) {
+		beforeUnmount(el, binding) {
 			//获取对象
 			let drag = el.data('directive:drag')
 			if(drag){

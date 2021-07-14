@@ -332,8 +332,8 @@
 					})
 				}
 				this.setDefaultSlide();
-				document.body.addEventListener('mousemove',this.swiperMouseMove);
-				document.body.addEventListener('mouseup',this.swiperMouseUp);
+				document.body.on('mousemove.swiper',this.swiperMouseMove);
+				document.body.on('mouseup.swiper',this.swiperMouseUp);
 			}
 		},
 		methods:{
@@ -822,8 +822,7 @@
 			}
 			//非fade模式下
 			if(!this.fade){
-				document.body.removeEventListener('mousemove',this.swiperMouseMove);
-				document.body.removeEventListener('mouseup',this.swiperMouseUp);
+				document.body.off('mousemove.swiper mouseup.swiper');
 			}
 		}
 	}
