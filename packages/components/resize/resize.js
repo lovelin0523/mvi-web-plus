@@ -34,6 +34,7 @@ class Resize {
 		this._right = 0; //元素right
 		this.hasInit = false; //是否初始化
 		this.cursor = '';//记录原先的鼠标样式
+		this.guid = this._createGuid();//生成唯一标识符
 	}
 
 	//初始化
@@ -658,19 +659,28 @@ class Resize {
 			this.startY = e.pageY;
 			this._down(e);
 		})
-		document.body.on('mousemove.resize',e=>{
+		document.body.on(`mousemove.resize_${this.guid}`,e=>{
 			let endX = e.pageX;
 			let endY = e.pageY;
 			this._move(e,endX,endY);
 		});
-		document.body.on('mouseup.resize',e=>{
+		document.body.on(`mouseup.resize_${this.guid}`,e=>{
 			this._leave(e);
 		});
 	}
 	
 	//移除body上的拖动事件
 	_setOff(){
-		document.body.off('mousemove.resize mouseup.resize');
+		document.body.off(`mousemove.resize_${this.guid} mouseup.resize_${this.guid}`);
+	}
+	
+	//生成唯一值
+	_createGuid() {
+		//获取当前guid，不存在则从0开始
+		let guid = document.body.data('mvi-directives-resize-guid') || 0;
+		guid++;
+		document.body.data('mvi-directives-resize-guid', guid);
+		return guid;
 	}
 	
 	//设置水平方向不可拖拽改变大小

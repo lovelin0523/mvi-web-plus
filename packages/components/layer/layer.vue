@@ -10,6 +10,7 @@
 </template>
 
 <script>
+	import { getCurrentInstance } from "vue"
 	import $util from "../../util/util"
 	import mTriangle from "../triangle/triangle"
 	export default {
@@ -204,6 +205,12 @@
 				return style;
 			}
 		},
+		setup() {
+			const instance = getCurrentInstance();
+			return {
+				uid: instance.uid
+			}
+		},
 		mounted() {
 			//初始化时是否显示
 			if(this.modelValue){
@@ -213,8 +220,8 @@
 				this.layerShow = this.modelValue;
 			}
 			//添加事件
-			window.on('resize.layer',this.resizeSet);
-			window.on('click.layer',this.hideLayer);
+			window.on(`resize.layer_${this.uid}`,this.resizeSet);
+			window.on(`click.layer_${this.uid}`,this.hideLayer);
 		},
 		methods: {
 			//窗口变化时处理
@@ -654,7 +661,7 @@
 			}
 		},
 		beforeUnmount() {
-			window.off('resize.layer click.layer')
+			window.off(`resize.layer_${this.uid} click.layer_${this.uid}`)
 		}
 	}
 </script>

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-	import { toRaw } from "vue"
+	import { getCurrentInstance } from "vue"
 	import mOverlay from "../overlay/overlay"
 	import mSwiper from "../swiper/swiper.vue"
 	import mSwiperSlide from "../swiper/swiper-slide"
@@ -117,8 +117,14 @@
 		components:{
 			mOverlay,mSwiper,mSwiperSlide,mImage
 		},
+		setup() {
+			const instance = getCurrentInstance();
+			return {
+				uid:instance.uid
+			}
+		},
 		mounted() {
-			window.on('resize.imagePreview',this.resize)
+			window.on(`resize.imagePreview_${this.uid}`,this.resize)
 		},
 		methods: {
 			//调整大小
@@ -229,7 +235,7 @@
 			}
 		},
 		beforeUnmount() {
-			window.off('resize.imagePreview')
+			window.off(`resize.imagePreview_${this.uid}`)
 		}
 	}
 </script>

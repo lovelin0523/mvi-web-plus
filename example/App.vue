@@ -1,6 +1,9 @@
 <template>
 	<m-button @click="change">打开遮罩</m-button>
-	
+	<m-date-picker v-model="date">
+	</m-date-picker>
+	<m-date-picker v-model="date">
+	</m-date-picker>
 </template>
 
 <script>
@@ -114,10 +117,6 @@ export default {
 	methods: {
 		change(e) {
 			this.show = !this.show;
-			this.$Prompt({
-				message:"请输入",
-				placeholder:'输入...'
-			})
 		},
 		shown(e){
 			console.log(e)

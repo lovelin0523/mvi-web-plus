@@ -23,6 +23,7 @@
 </template>
 
 <script>
+	import { getCurrentInstance } from "vue"
 	import $util from "../../util/util"
 	import mIcon from "../icon/icon"
 	export default {
@@ -311,6 +312,12 @@
 				this.fadeActiveIndex = this.initialSlide;
 			}
 		},
+		setup() {
+			const instance = getCurrentInstance();
+			return {
+				uid: instance.uid
+			}
+		},
 		mounted() {
 			if(this.children.length == 0){
 				return;
@@ -332,8 +339,8 @@
 					})
 				}
 				this.setDefaultSlide();
-				document.body.on('mousemove.swiper',this.swiperMouseMove);
-				document.body.on('mouseup.swiper',this.swiperMouseUp);
+				document.body.on(`mousemove.swiper_${this.uid}`,this.swiperMouseMove);
+				document.body.on(`mouseup.swiper_${this.uid}`,this.swiperMouseUp);
 			}
 		},
 		methods:{
@@ -822,7 +829,7 @@
 			}
 			//非fade模式下
 			if(!this.fade){
-				document.body.off('mousemove.swiper mouseup.swiper');
+				document.body.off(`mousemove.swiper_${this.uid} mouseup.swiper_${this.uid}`);
 			}
 		}
 	}

@@ -18,7 +18,8 @@ class Spy {
 		this.triggerTag = {
 			before:false,
 			after:false
-		}
+		};
+		this.guid = this._createGuid();//生成唯一标识符
 	}
 	
 	init(){
@@ -48,7 +49,7 @@ class Spy {
 		}
 		//给滚动容器添加监听事件
 		this._scrollHandler();
-		this.$root.on('scroll.spy',e=>{
+		this.$root.on(`scroll.spy_${this.guid}`,e=>{
 			this._scrollHandler();
 		});
 	}
@@ -156,7 +157,16 @@ class Spy {
 	
 	//移除滚动容器监听事件
 	_setOff(){
-		this.$root.off('scroll.spy');
+		this.$root.off(`scroll.spy_${this.guid}`);
+	}
+	
+	//生成唯一值
+	_createGuid() {
+		//获取当前guid，不存在则从0开始
+		let guid = document.body.data('mvi-directives-spy-guid') || 0;
+		guid++;
+		document.body.data('mvi-directives-spy-guid', guid);
+		return guid;
 	}
 }
 

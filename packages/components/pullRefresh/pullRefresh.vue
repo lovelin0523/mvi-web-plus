@@ -11,6 +11,7 @@
 </template>
 
 <script>
+	import { getCurrentInstance } from "vue"
 	import $util from "../../util/util"
 	import mIcon from "../icon/icon"
 	export default {
@@ -291,10 +292,16 @@
 		components:{
 			mIcon
 		},
+		setup() {
+			const instance = getCurrentInstance();
+			return {
+				uid: instance.uid
+			}
+		},
 		mounted() {
 			this.statusInit();
-			document.body.on('mousemove.pullRefresh', this.onPull2);
-			document.body.on('mouseup.pullRefresh', this.pulled2);
+			document.body.on(`mousemove.pullRefresh_${this.uid}`, this.onPull2);
+			document.body.on(`mouseup.pullRefresh_${this.uid}`, this.pulled2);
 		},
 		watch: {
 			modelValue(newValue) {
@@ -585,7 +592,7 @@
 			}
 		},
 		beforeUnmount() {
-			document.body.off('mousemove.pullRefresh mouseup.pullRefresh');
+			document.body.off(`mousemove.pullRefresh_${this.uid} mouseup.pullRefresh_${this.uid}`);
 		}
 	}
 </script>

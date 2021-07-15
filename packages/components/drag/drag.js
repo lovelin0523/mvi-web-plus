@@ -20,6 +20,7 @@ class Drag {
 		this.hasInit = false; //是否已经初始化
 		this.pageX = 0; //X坐标
 		this.pageY = 0; //Y坐标
+		this.guid = this._createGuid();//生成唯一值
 	}
 
 	//初始化
@@ -142,7 +143,7 @@ class Drag {
 			});
 		})
 		//鼠标移动
-		document.body.on('mousemove.drag', e => {
+		document.body.on(`mousemove.drag_${this.guid}`, e => {
 			if (this.draggable) {
 				let left = e.pageX - this.pageX;
 				let top = e.pageY - this.pageY;
@@ -164,7 +165,7 @@ class Drag {
 			}
 		})
 		//鼠标松开后，拖拽状态更改为false，触发监听事件
-		document.body.on('mouseup.drag', e => {
+		document.body.on(`mouseup.drag_${this.guid}`, e => {
 			if (this.draggable) {
 				this.draggable = false;
 				this.$el.style.cursor = ''
@@ -180,7 +181,7 @@ class Drag {
 
 	//移除该指令绑定在body上的事件
 	_setOff() {
-		document.body.off('mousemove.drag  mouseup.drag')
+		document.body.off(`mousemove.drag_${this.guid} mouseup.drag_${this.guid}`)
 	}
 
 	//元素超出容器范围设置
@@ -243,6 +244,15 @@ class Drag {
 				}
 			}
 		}
+	}
+
+	//生成唯一值
+	_createGuid() {
+		//获取当前guid，不存在则从0开始
+		let guid = document.body.data('mvi-directives-drag-guid') || 0;
+		guid++;
+		document.body.data('mvi-directives-drag-guid', guid);
+		return guid;
 	}
 
 	//移动元素到指定位置

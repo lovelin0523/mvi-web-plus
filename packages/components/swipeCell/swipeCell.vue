@@ -14,6 +14,7 @@
 </template>
 
 <script>
+	import { getCurrentInstance } from "vue"
 	import $util from "../../util/util.js"
 	export default {
 		name:"m-swipe-cell",
@@ -52,9 +53,15 @@
 				return style;
 			}
 		},
+		setup() {
+			const instance = getCurrentInstance();
+			return {
+				uid: instance.uid
+			}
+		},
 		mounted() {
-			document.body.on('mousemove.swipeCell',this.cellMouseMove);
-			document.body.on('mouseup.swipeCell',this.cellMouseUp);
+			document.body.on(`mousemove.swipeCell_${this.uid}`,this.cellMouseMove);
+			document.body.on(`mouseup.swipeCell_${this.uid}`,this.cellMouseUp);
 		},
 		methods:{
 			//触摸开始
@@ -299,7 +306,7 @@
 			}
 		},
 		beforeUnmount() {
-			document.body.off('mousemove.swipeCell mouseup.swipeCell');
+			document.body.off(`mousemove.swipeCell_${this.uid} mouseup.swipeCell_${this.uid}`);
 		}
 	}
 </script>

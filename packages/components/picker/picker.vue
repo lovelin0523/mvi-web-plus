@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { getCurrentInstance } from "vue"
 import $util from '../../util/util';
 import mLoading from "../loading/loading"
 export default {
@@ -153,10 +154,16 @@ export default {
 	components:{
 		mLoading
 	},
+	setup() {
+		const instance = getCurrentInstance();
+		return {
+			uid: instance.uid
+		}
+	},
 	mounted() {
 		this.init();
-		document.body.on('mousemove.picker', this.mousemove);
-		document.body.on('mouseup.picker', this.mouseup);
+		document.body.on(`mousemove.picker_${this.uid}`, this.mousemove);
+		document.body.on(`mouseup.picker_${this.uid}`, this.mouseup);
 	},
 	methods: {
 		//初始化
@@ -401,7 +408,7 @@ export default {
 		}
 	},
 	beforeUnmount() {
-		document.body.off('mousemove.picker mouseup.picker');
+		document.body.off(`mousemove.picker_${this.uid} mouseup.picker_${this.uid}`);
 	}
 };
 </script>

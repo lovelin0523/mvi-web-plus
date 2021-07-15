@@ -18,6 +18,7 @@
 </template>
 
 <script>
+	import { getCurrentInstance } from "vue"
 	import $util from "../../util/util"
 	import mIcon from "../icon/icon"
 	export default {
@@ -207,6 +208,12 @@
 				this.to(newValue,oldValue);
 			}
 		},
+		setup() {
+			const instance = getCurrentInstance();
+			return {
+				uid: instance.uid
+			}
+		},
 		mounted() {
 			this.$nextTick(()=>{
 				setTimeout(()=>{
@@ -214,7 +221,7 @@
 				},100)
 			})
 			this.setHeight()
-			window.on('resize.tabs',this.setHeight);
+			window.on(`resize.tabs_${this.uid}`,this.setHeight);
 		},
 		methods:{
 			//设置面板高度
@@ -261,7 +268,7 @@
 			}
 		},
 		beforeUnmount() {
-			window.off('resize.tabs');
+			window.off(`resize.tabs_${this.uid}`);
 		}
 	}
 </script>

@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import { getCurrentInstance } from "vue"
 import $util from '../../util/util';
 import mCheckbox from "../checkbox/checkbox"
 import mIcon from "../icon/icon"
@@ -272,9 +273,15 @@ export default {
 	created() {
 		this.sortData = this.getSortData();
 	},
+	setup() {
+		const instance = getCurrentInstance();
+		return {
+			uid: instance.uid
+		}
+	},
 	mounted() {
 		this.columnsAlign();
-		window.on('resize.table', this.columnsAlign);
+		window.on(`resize.table_${this.uid}`, this.columnsAlign);
 	},
 	methods: {
 		//重置排序状态
@@ -419,7 +426,7 @@ export default {
 		}
 	},
 	beforeUnmount() {
-		window.off('resize.table');
+		window.off(`resize.table_${this.uid}`);
 	}
 };
 </script>
