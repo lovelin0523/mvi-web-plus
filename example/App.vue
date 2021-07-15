@@ -1,17 +1,6 @@
 <template>
 	<m-button @click="change">打开遮罩</m-button>
-	<m-swipe-cell v-if="show" ref="swipeCell">
-	    <!-- 左侧隐藏区域，需要右滑显示 -->
-	    <template v-slot:left>
-	        <div style="background-color: #ff3300;width:.88rem;height: 100%;color: #fff;" class="mvi-flex-center">添加</div>
-	    </template>
-	    <!-- 右侧隐藏区域，需要左滑显示 -->
-	    <template v-slot:right>
-	        <div style="background-color: #ff3300;width:.88rem;height: 100%;color: #fff;" class="mvi-flex-center">删除</div>
-	    </template>
-	    <!-- 主内容 -->
-	    <m-cell title="标题" arrow="angle-right" content="内容"></m-cell>
-	</m-swipe-cell>
+	
 </template>
 
 <script>
@@ -125,6 +114,10 @@ export default {
 	methods: {
 		change(e) {
 			this.show = !this.show;
+			this.$Prompt({
+				message:"请输入",
+				placeholder:'输入...'
+			})
 		},
 		shown(e){
 			console.log(e)

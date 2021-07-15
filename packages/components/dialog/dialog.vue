@@ -248,7 +248,7 @@ export default {
 				value:''
 			}
 			if($util.isObject(this.input)){
-				if (this.input.placeholder == 'string') {
+				if (typeof this.input.placeholder == 'string') {
 					input.placeholder = this.input.placeholder;
 				}
 				if (typeof this.input.type == 'string' && this.input.type) {
