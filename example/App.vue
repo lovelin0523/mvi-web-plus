@@ -1,9 +1,6 @@
 <template>
 	<m-button @click="change">打开遮罩</m-button>
-	<m-date-picker v-model="date">
-	</m-date-picker>
-	<m-date-picker v-model="date">
-	</m-date-picker>
+	<m-editor v-model="value"></m-editor>
 </template>
 
 <script>

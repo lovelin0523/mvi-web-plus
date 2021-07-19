@@ -44,8 +44,8 @@
 				</div>
 				<!-- 设置颜色 -->
 				<div class="mvi-editor-colors" v-else-if="value == 'foreColor' || value == 'backColor'">
-					<m-tooltip :disabled="!(item.label && editor.useTooltip)" trigger="hover" :title="item.label" v-for="(item,index) in menu" :placement="editor.defaultTooltipProps.placement" :timeout="editor.defaultTooltipProps.timeout" :color="editor.defaultTooltipProps.color" :text-color="editor.defaultTooltipProps.textColor" :border-color="editor.defaultTooltipProps.borderColor" :offset="editor.defaultTooltipProps.offset" :z-index="editor.defaultTooltipProps.zIndex" :fixed="editor.defaultTooltipProps.fixed" :width="editor.defaultTooltipProps.width" :wrapper-class="editor.defaultTooltipProps.wrapperClass" :animation="editor.defaultTooltipProps.animation">
-						<span @click="doSelect(item)" class="mvi-editor-color" :style="{backgroundColor:item.value}"></span>
+					<m-tooltip :disabled="!(item.label && editor.useTooltip)" trigger="hover" :title="item.label" v-for="(item,index) in menu" :placement="editor.defaultTooltipProps.placement" :timeout="editor.defaultTooltipProps.timeout" :color="editor.defaultTooltipProps.color" :text-color="editor.defaultTooltipProps.textColor" :border-color="editor.defaultTooltipProps.borderColor" :offset="editor.defaultTooltipProps.offset" :z-index="editor.defaultTooltipProps.zIndex" :fixed="editor.defaultTooltipProps.fixed" :width="editor.defaultTooltipProps.width" :wrapper-class="editor.defaultTooltipProps.wrapperClass" :animation="editor.defaultTooltipProps.animation" class="mvi-editor-color">
+						<span @click="doSelect(item)" class="mvi-editor-color-el" :style="{backgroundColor:item.value}"></span>
 					</m-tooltip>
 				</div>
 				<!-- 插入表格 -->
@@ -799,11 +799,21 @@
 			}
 
 			.mvi-editor-colors {
-				width: 3.2rem;
-				padding: @mp-xs @mp-xs 0 @mp-xs;
+				display: flex;
+				display: -webkit-flex;
+				justify-content: flex-start;
+				flex-wrap: wrap;
+				-webkit-flex-wrap: wrap;
+				width: calc(@small-height/2*8 + @mp-sm*2);
+				padding: @mp-sm @mp-sm @mp-xs @mp-sm;
 
-				.mvi-editor-color {
-					display: block;
+				.mvi-editor-color{
+					margin-bottom: @mp-xs;
+				}
+
+				.mvi-editor-color-el {
+					display: inline-flex;
+					display: -webkit-inline-flex;
 					width: @small-height/2;
 					height: @small-height/2;
 					position: relative;
