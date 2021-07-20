@@ -151,6 +151,12 @@
 						route.replace = false;
 					}
 				}
+				if(!route.query){
+					route.query = {}
+				}
+				if(!route.params){
+					route.params = {}
+				}
 				return route;
 			}
 		},
