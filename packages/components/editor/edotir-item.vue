@@ -14,7 +14,7 @@
 				<div class="mvi-editor-medias" v-if="value == 'image' || value == 'video' ">
 					<m-tabs v-model="tabIndex" flex="flex-start" offset="0.4rem" :active-color="editor.activeColor" inactive-color="#808080">
 						<m-tab v-for="(item,index) in menu" :title="item.label">
-							<div ref="upload" class="mvi-editor-upload" v-if="item.value == 'upload'">
+							<div :ref="el=>uploadElArray[index] = el" class="mvi-editor-upload" v-if="item.value == 'upload'">
 								<m-icon type='upload-square' />
 							</div>
 							<div v-if="item.value == 'remote'" class="mvi-editor-remote">
@@ -133,6 +133,7 @@
 				tableRows: 5, //表格行数
 				tableColumns: 5, //表格列数
 				menuActive: false, //菜单项是否激活状态，激活状态下如果是浮层显示浮层内容有些会有不同
+				uploadElArray:[],//上传元素数组
 			}
 		},
 		inject: ['editor'],
@@ -441,9 +442,11 @@
 			},
 			//上传设置
 			uploadSet() {
-				if (this.$refs.upload) {
-					let upload = new Upload(this.$refs.upload, this.uploadOptions)
-					upload.init()
+				if (this.uploadElArray.length>0) {
+					for (let i = 0; i < this.uploadElArray.length; i++) {
+						let upload = new Upload(this.uploadElArray[i], this.uploadOptions)
+						upload.init()
+					}
 				}
 			},
 			//插入链接
