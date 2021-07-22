@@ -441,11 +441,9 @@
 			},
 			//上传设置
 			uploadSet() {
-				if (this.$refs.upload && Object.keys(this.$refs.upload).length > 0) {
-					for (let i = 0; i < this.$refs.upload.length; i++) {
-						let upload = new Upload(this.$refs.upload[i], this.uploadOptions)
-						upload.init()
-					}
+				if (this.$refs.upload) {
+					let upload = new Upload(this.$refs.upload, this.uploadOptions)
+					upload.init()
 				}
 			},
 			//插入链接

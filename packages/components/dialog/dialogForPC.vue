@@ -389,6 +389,9 @@ export default {
 		},
 		//清除输入框的值
 		doClear() {
+			if(!this.computedInput.clearable){
+				return;
+			}
 			this.value = '';
 			this.$refs.input.focus();
 		},

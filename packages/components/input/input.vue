@@ -33,7 +33,7 @@
 			:readonly="readonly || null"
 			:autofocus="autofocus"
 			class="mvi-textarea"
-			:value="inputValue"
+			v-model="realValue"
 			@input="input"
 			ref="textarea"
 			:rows="rowsFilter"
@@ -54,7 +54,7 @@
 			:readonly="readonly || isDatePicker || null"
 			:autofocus="autofocus"
 			class="mvi-input"
-			:value="inputValue"
+			v-model="realValue"
 			@click="callDate"
 			@input="input"
 			ref="input"
@@ -82,7 +82,7 @@
 		<!-- 显示文字长度限制 -->
 		<div v-if="showWordLimit && maxlength > 0" class="mvi-input-words">{{ inputValue.length }}/{{ maxlength }}</div>
 		<!-- 日期 -->
-		<m-date-native-picker v-if="isDatePicker" ref="datepicker" :type="dateType" :model-value="date" @change="dateChange"></m-date-native-picker>
+		<m-date-native-picker v-if="isDatePicker" ref="datepicker" :type="dateType" v-model="realDate"></m-date-native-picker>
 	</div>
 </template>
 
@@ -97,7 +97,7 @@ export default {
 			focus: false //输入框或者文本域是否获取焦点
 		};
 	},
-	emits: ['update:modelValue', 'update:date', 'left-click', 'right-click', 'focus', 'blur', 'input'],
+	emits: ['update:modelValue', 'update:date', 'left-click', 'right-click', 'focus', 'blur', 'input','clear'],
 	props: {
 		label: {
 			//输入框左侧文本
@@ -258,7 +258,7 @@ export default {
 				return false;
 			}
 			if (this.focus) {
-				if (this.modelValue === '') {
+				if (this.realValue === '') {
 					return false;
 				} else {
 					return true;
@@ -361,6 +361,42 @@ export default {
 			}
 			return color;
 		},
+		//原生日期选择的值
+		realDate:{
+			set(value){
+				this.$emit('update:date',value);
+			},
+			get(){
+				return this.date;
+			}
+		},
+		//输入框的值
+		realValue:{
+			set(value){
+				if(this.modelValue !== value){
+					this.$emit('update:modelValue',value);
+				}
+			},
+			get(){
+				let value = this.modelValue === null ? '':this.modelValue.toString();
+				if(this.isDatePicker){
+					value = this.getDateValue();
+				}else {
+					//数字类型会过滤非数字字符
+					if(this.type == 'number'){
+						value = value.replace(/\D/g, '');
+					}
+					//如果设置了maxlength，则进行字符串截取
+					if (this.maxlength > 0 && value.length > this.maxlength) {
+						value = value.substr(0, this.maxlength);
+					}
+				}
+				if(this.modelValue !== value){
+					this.$emit('update:modelValue',value);
+				}
+				return value;
+			}
+		},
 		//输入框的type值
 		inputType() {
 			let type = 'text';
@@ -371,6 +407,7 @@ export default {
 			}
 			return type;
 		},
+		//键盘模式
 		computedInputMode() {
 			let mode = false;
 			if (typeof this.inputMode == 'string') {
@@ -393,22 +430,6 @@ export default {
 			} else {
 				return false;
 			}
-		},
-		//输入框的值
-		inputValue() {
-			let value = this.modelValue.toString();
-			if (this.isDatePicker) {
-				value = this.getDateValue();
-			} else if (this.type == 'number') {
-				value = value.replace(/\D/g, '');
-			}
-			if (this.maxlength > 0 && value.length > this.maxlength) {
-				value = value.substr(0, this.maxlength);
-			}
-			if(value != this.modelValue){
-				this.$emit('update:modelValue',value);
-			}
-			return value;
 		},
 		//文本域的rows
 		rowsFilter() {
@@ -476,7 +497,7 @@ export default {
 		}
 	},
 	watch: {
-		modelValue(newValue) {
+		realValue(newValue) {
 			if (this.$refs.textarea && (this.autosize == true || $util.isObject(this.autosize))) {
 				this.autosizeSet();
 			}
@@ -502,66 +523,62 @@ export default {
 	methods: {
 		//输入框或者文本域获取焦点
 		getFocus(e) {
-			this.$emit('focus', this.modelValue);
+			if(this.disabled){
+				return;
+			}
+			this.$emit('focus', this.realValue);
 			setTimeout(() => {
 				this.focus = true;
 			}, 200);
 		},
 		//输入框或者文本域失去焦点
 		getBlur(e) {
-			this.$emit('blur', this.modelValue);
+			if(this.disabled){
+				return;
+			}
+			this.$emit('blur', this.realValue);
 			setTimeout(() => {
 				this.focus = false;
 			}, 200);
 		},
 		//左侧图标点击
 		leftClick() {
-			this.$emit('left-click', this.modelValue);
+			if(this.disabled){
+				return;
+			}
+			this.$emit('left-click', this.realValue);
 		},
 		//右侧图标点击
 		rightClick() {
-			this.$emit('right-click', this.modelValue);
+			if(this.disabled){
+				return;
+			}
+			this.$emit('right-click', this.realValue);
 		},
 		//清除输入框
 		doClearValue() {
-			this.$emit('update:modelValue', '');
+			if(this.disabled){
+				return;
+			}
+			if(!this.clearable){
+				return;
+			}
+			this.realValue = '';
 			if (this.type == 'textarea') {
-				this.$refs.textarea.value = '';
 				this.$refs.textarea.focus();
 			} else if (this.isDatePicker) {
-				this.$refs.input.value = '';
-				this.$emit('update:date', null);
+				this.realDate = null;
 			} else {
-				this.$refs.input.value = '';
 				this.$refs.input.focus();
 			}
+			this.$emit('clear','')
 		},
 		//输入框监听
 		input(e) {
-			let value = '';
-			if (this.type == 'textarea') {
-				value = this.$refs.textarea.value;
-				//如果设置了maxlength，则进行字符串截取
-				if (this.maxlength > 0 && value.length > this.maxlength) {
-					value = value.substr(0, this.maxlength);
-				}
-				this.$refs.textarea.value = value;
-			} else if (!this.isDatePicker) {
-				value = this.$refs.input.value;
-				//数字类型会过滤非数字字符
-				if (this.type == 'number') {
-					value = value.replace(/\D/g, '');
-				}
-				//如果设置了maxlength，则进行字符串截取
-				if (this.maxlength > 0 && value.length > this.maxlength) {
-					value = value.substr(0, this.maxlength);
-				}
-				this.$refs.input.value = value;
+			if(this.disabled){
+				return;
 			}
-			if (this.modelValue != value) {
-				this.$emit('update:modelValue', value);
-				this.$emit('input', value);
-			}
+			this.$emit('input',this.realValue)
 		},
 		//高度自适应设置
 		autosizeSet() {
@@ -595,12 +612,6 @@ export default {
 			//如果是日历输入框
 			if (this.isDatePicker && !this.disabled && !this.readonly) {
 				this.$refs.datepicker.trigger();
-			}
-		},
-		//日期变更
-		dateChange(value) {
-			if (this.isDatePicker) {
-				this.$emit('update:date', value)
 			}
 		},
 		//选择日期后转换成输入框的value值

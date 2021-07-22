@@ -9,8 +9,8 @@
 				<slot v-if="$slots.prefix" name="prefix"></slot>
 				<m-icon v-else-if="prefixIconType || prefixIconUrl" :type="prefixIconType" :url="prefixIconUrl" :spin="prefixIconSpin" :size="prefixIconSize" :color="prefixIconColor" />
 			</div>
-			<textarea ref="textarea" v-if="type=='textarea'" :disabled="disabled || null" :readonly="readonly || null" class="mvi-field-input" :style="inputStyle" :placeholder="placeholder" :value="computedValue" autocomplete="off" @focus="inputFocus" @blur="inputBlur" @input="doInput" :maxlength="maxlength" :name="name" :autofocus="autofocus" :rows="rowsFilter"></textarea>
-			<input v-else ref="input" :disabled="disabled || null" :readonly="readonly || null" class="mvi-field-input" :style="inputStyle" :type="computedType" :placeholder="placeholder" :value="computedValue" autocomplete="off" :inputmode="computedInputMode" @focus="inputFocus" @blur="inputBlur" @input="doInput" :maxlength="maxlength" :name="name" :autofocus="autofocus">
+			<textarea ref="textarea" v-if="type=='textarea'" :disabled="disabled || null" :readonly="readonly || null" class="mvi-field-input" :style="inputStyle" :placeholder="placeholder" v-model="realValue" autocomplete="off" @focus="inputFocus" @blur="inputBlur" :maxlength="maxlength" :name="name" :autofocus="autofocus" :rows="rowsFilter" @input="input"></textarea>
+			<input v-else ref="input" :disabled="disabled || null" :readonly="readonly || null" class="mvi-field-input" :style="inputStyle" :type="computedType" :placeholder="placeholder" v-model="realValue" autocomplete="off" :inputmode="computedInputMode" @focus="inputFocus" @blur="inputBlur" :maxlength="maxlength" :name="name" :autofocus="autofocus" @input="input">
 			<div class="mvi-field-clear" @click="doClear" v-if="clearable && type!='textarea'" v-show="showClearIcon" :style="clearStyle">
 				<m-icon type="times-o"/>
 			</div>
@@ -31,7 +31,7 @@
 	import mIcon from "../icon/icon"
 	export default {
 		name:'m-field',
-		emits:['update:modelValue','prepend-click','prefix-click','append-click','suffix-click','focus','blur','input'],
+		emits:['update:modelValue','prepend-click','prefix-click','append-click','suffix-click','focus','blur','input','clear'],
 		data(){
 			return {
 				focus:false
@@ -192,7 +192,7 @@
 				if(this.disabled || this.readonly){
 					return false;
 				}
-				if(this.modelValue &&　this.focus){
+				if(this.realValue &&　this.focus){
 					return true;
 				}else{
 					return false;
@@ -296,20 +296,6 @@
 					mode = this.inputMode
 				}
 				return mode
-			},
-			//输入框的值
-			computedValue(){
-				let value = this.modelValue.toString();
-				if(this.type == 'number'){
-					value = value.replace(/\D/g, '');
-				}
-				if(this.maxlength > 0 && value.length>this.maxlength){
-					value = value.substr(0, this.maxlength);
-				}
-				if(this.modelValue !== value){
-					this.$emit('update:modelValue', value);
-				}
-				return value;
 			},
 			//前置图标类型
 			prependIconType() {
@@ -536,12 +522,35 @@
 				}
 				return rows;
 			},
+			//输入框的值
+			realValue:{
+				set(value){
+					if(this.modelValue !== value){
+						this.$emit('update:modelValue',value);
+					}
+				},
+				get(){
+					let value = this.modelValue === null ? '':this.modelValue.toString();
+					//数字类型会过滤非数字字符
+					if(this.type == 'number'){
+						value = value.replace(/\D/g, '');
+					}
+					//如果设置了maxlength，则进行字符串截取
+					if (this.maxlength > 0 && value.length > this.maxlength) {
+						value = value.substr(0, this.maxlength);
+					}
+					if(this.modelValue !== value){
+						this.$emit('update:modelValue',value);
+					}
+					return value;
+				}
+			}
 		},
 		components:{
 			mIcon
 		},
 		watch:{
-			modelValue(newValue) {
+			realValue(newValue) {
 				this.$nextTick(()=>{
 					if (this.$refs.textarea && (this.autosize == true || $util.isObject(this.autosize))) {
 						this.autosizeSet();
@@ -602,61 +611,71 @@
 			},
 			//输入框获取焦点
 			inputFocus(){
-				this.$emit('focus',this.modelValue)
+				if(this.disabled){
+					return;
+				}
+				this.$emit('focus',this.realValue)
 				setTimeout(()=>{
 					this.focus = true;
 				},200)
 			},
 			//输入框失去焦点
 			inputBlur(){
-				this.$emit('blur',this.modelValue)
+				if(this.disabled){
+					return;
+				}
+				this.$emit('blur',this.realValue)
 				setTimeout(()=>{
 					this.focus = false;
 				},200)
 			},
 			//输入框实时输入
-			doInput(event){
-				let el = this.$refs.input || this.$refs.textarea;
-				let value = el.value;
-				//数字类型会过滤非数字字符
-				if(this.type == 'number'){
-					value = value.replace(/\D/g, '');
+			input(e){
+				if(this.disabled){
+					return;
 				}
-				//如果设置了maxlength，则进行字符串截取
-				if (this.maxlength > 0 && value.length > this.maxlength) {
-					value = value.substr(0, this.maxlength);
-				}
-				el.value = value;
-				if(this.modelValue != value){
-					this.$emit('input',value);
-					this.$emit('update:modelValue', value);
-				}
+				this.$emit('input',this.realValue);
 			},
 			//点击前置
 			prependClick(){
-				this.$emit('prepend-click',this.modelValue)
+				if(this.disabled){
+					return;
+				}
+				this.$emit('prepend-click',this.realValue)
 			},
 			//点击前缀
 			prefixClick(){
-				this.$emit('prefix-click',this.modelValue)
+				if(this.disabled){
+					return;
+				}
+				this.$emit('prefix-click',this.realValue)
 			},
 			//点击后置
 			appendClick(){
-				this.$emit('append-click',this.modelValue)
+				if(this.disabled){
+					return;
+				}
+				this.$emit('append-click',this.realValue)
 			},
 			//点击后缀
 			suffixClick(){
-				this.$emit('suffix-click',this.modelValue)
+				if(this.disabled){
+					return;
+				}
+				this.$emit('suffix-click',this.realValue)
 			},
 			//清除
 			doClear(){
 				if(this.disabled){
 					return;
 				}
-				this.$emit('update:modelValue','')
+				if(!this.clearable){
+					return;
+				}
+				this.realValue = '';
 				let el = this.$refs.input || this.$refs.textarea;
-				el.value = ''
 				el.focus();
+				this.$emit('clear','')
 			},
 		}
 	}

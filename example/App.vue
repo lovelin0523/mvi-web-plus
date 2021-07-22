@@ -1,5 +1,8 @@
 <template>
+	<div>{{counts}}</div>
 	<m-button @click="change">打开遮罩</m-button>
+	<div>{{value}}</div>
+	<div>{{date}}</div>
 	<m-editor v-model="value"></m-editor>
 </template>
 
@@ -9,6 +12,7 @@ export default {
 	name: 'App',
 	data() {
 		return {
+			counts:100000,
 			spyOpt:{
 				el:'#el',
 				enter:el=>{
@@ -109,11 +113,19 @@ export default {
 		};
 	},
 	mounted() {
-		
+		setInterval(()=>{
+			this.counts-=10;
+		},10)
 	},
 	methods: {
 		change(e) {
-			this.show = !this.show;
+			this.$prompt({
+				type:'number',
+				clearable:true,
+				value:'#ff3300'
+			}).then(res=>{
+				console.log(res)
+			})
 		},
 		shown(e){
 			console.log(e)

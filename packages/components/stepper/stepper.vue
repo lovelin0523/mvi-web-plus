@@ -5,7 +5,7 @@
 			<m-icon type="minus" />
 		</div>
 		<div :disabled="disabledInput || null" :class="['mvi-stepper-input',border?'mvi-stepper-border':'']" :style="inputStyle" v-if="showInput">
-			<input ref="input" :value="inputValue" :disabled="disabled || disabledInput || null" type="text" @blur="changeValue"
+			<input ref="input" v-model="realValue" :disabled="disabled || disabledInput || null" type="text" @blur="changeValue"
 			 @keyup.enter="changeValue" :style="inputElStyle">
 		</div>
 		<div :disabled="disabledPlus || arrivalMax || disabled || null" :class="plusClass" v-if="showPlus" :style="plusStyle" 
@@ -108,14 +108,14 @@
 		computed:{
 			arrivalMin(){
 				if(this.min != null){
-					return this.modelValue<=this.min;
+					return this.realValue<=this.min;
 				}else{
 					return false;
 				}
 			},
 			arrivalMax(){
 				if(this.max != null){
-					return this.modelValue>=this.max;
+					return this.realValue>=this.max;
 				}else{
 					return false;
 				}
@@ -160,43 +160,6 @@
 				}
 				return style;
 			},
-			inputValue:{
-				set(value){
-					let val = parseFloat(value);
-					if(isNaN(val)){
-						val = 0;
-					}
-					val = Number(val.toFixed(this.digit));
-					if(val <= this.min && this.min != null){
-						val = this.min;
-					}
-					if(val >= this.max && this.max != null){
-						val = this.max;
-					}
-					this.$refs.input.value = val;
-					if(this.modelValue !== val){
-						this.$emit('update:modelValue',val);
-						this.$emit('change',val);
-					}
-				},
-				get(){
-					let val = parseFloat(this.modelValue);
-					if(isNaN(val)){
-						val = 0;
-					}
-					val = Number(val.toFixed(this.digit));
-					if(val <= this.min && this.min != null){
-						val = this.min;
-					}
-					if(val >= this.max && this.max != null){
-						val = this.max;
-					}
-					if(this.modelValue !== val){
-						this.$emit('update:modelValue',val);
-					}
-					return val;
-				}
-			},
 			minusClass(){
 				let cls = ['mvi-stepper-minus'];
 				if(!(this.disabledMinus || this.arrivalMin || this.disabled) && this.active){
@@ -216,10 +179,23 @@
 					cls.push('mvi-stepper-border');
 				}
 				return cls;
+			},
+			realValue:{
+				set(value){
+					if(this.modelValue !== value){
+						this.$emit('update:modelValue',value);
+					}
+				},
+				get(){
+					return this.modelValue;
+				}
 			}
 		},
 		components:{
 			mIcon
+		},
+		mounted() {
+			this.updateValue();
 		},
 		methods:{
 			//减法
@@ -230,10 +206,11 @@
 				if(this.disabledMinus){
 					return;
 				}
-				if(this.inputValue <= this.min && this.min != null){
+				if(this.arrivalMin){
 					return;
 				}
-				this.inputValue = this.inputValue.subtraction(this.step);
+				this.realValue = this.realValue.subtraction(this.step);
+				this.updateValue();
 			},
 			//加法
 			doPlus(){
@@ -243,10 +220,11 @@
 				if(this.disabledPlus){
 					return;
 				}
-				if(this.inputValue >= this.max && this.max != null){
+				if(this.arrivalMax){
 					return;
 				}
-				this.inputValue = this.inputValue.add(this.step);
+				this.realValue = this.realValue.add(this.step);
+				this.updateValue();
 			},
 			//输入框修改值
 			changeValue(){
@@ -256,7 +234,24 @@
 				if(this.disabledInput){
 					return;
 				}
-				this.inputValue = this.$refs.input.value;
+				this.updateValue();
+			},
+			//更新value值
+			updateValue(){
+				let val = parseFloat(this.realValue);
+				if(isNaN(val)){
+					val = 0;
+				}
+				val = Number(val.toFixed(this.digit));
+				if(val <= this.min && this.min != null){
+					val = this.min;
+				}
+				if(val >= this.max && this.max != null){
+					val = this.max;
+				}
+				if(this.realValue !== val){
+					this.realValue = val;
+				}
 			}
 		}
 	}

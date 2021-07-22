@@ -1,5 +1,5 @@
 <template>
-	<input @blur="selectDateForIOS" @change="selectDateForAndroid" class="mvi-date-native-picker" :type="dateType" :value="dateValue" />
+	<input @blur="selectDateForIOS" @change="selectDateForAndroid" class="mvi-date-native-picker" :type="dateType"/>
 </template>
 
 <script>
@@ -30,33 +30,6 @@ export default {
 		}
 	},
 	computed: {
-		dateValue() {
-			if (this.modelValue) {
-				if (this.type == 'date') {
-					let year = this.modelValue.getFullYear();
-					let month = this.modelValue.getMonth() + 1 < 10 ? '0' + (this.modelValue.getMonth() + 1) : this.modelValue.getMonth() + 1;
-					let date = this.modelValue.getDate() < 10 ? '0' + this.modelValue.getDate() : this.modelValue.getDate();
-					return year + '-' + month + '-' + date;
-				} else if (this.type == 'datetime') {
-					let year = this.modelValue.getFullYear();
-					let month = this.modelValue.getMonth() + 1 < 10 ? '0' + (this.modelValue.getMonth() + 1) : this.modelValue.getMonth() + 1;
-					let date = this.modelValue.getDate() < 10 ? '0' + this.modelValue.getDate() : this.modelValue.getDate();
-					let hour = this.modelValue.getHours() < 10 ? '0' + this.modelValue.getHours() : this.modelValue.getHours();
-					let minutes = this.modelValue.getMinutes() < 10 ? '0' + this.modelValue.getMinutes() : this.modelValue.getMinutes();
-					return year + '-' + month + '-' + date + 'T' + hour + ':' + minutes;
-				} else if (this.type == 'month') {
-					let year = this.modelValue.getFullYear();
-					let month = this.modelValue.getMonth() + 1 < 10 ? '0' + (this.modelValue.getMonth() + 1) : this.modelValue.getMonth() + 1;
-					return year + '-' + month;
-				} else if (this.type == 'time') {
-					let hour = this.modelValue.getHours() < 10 ? '0' + this.modelValue.getHours() : this.modelValue.getHours();
-					let minutes = this.modelValue.getMinutes() < 10 ? '0' + this.modelValue.getMinutes() : this.modelValue.getMinutes();
-					return hour + ':' + minutes;
-				}
-			} else {
-				return '';
-			}
-		},
 		dateType() {
 			if (this.type == 'datetime') {
 				return 'datetime-local';

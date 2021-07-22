@@ -1,21 +1,26 @@
 <template>
 	<div class="mvi-search" :disabled="disabled || null">
 		<div v-if="label" :class="['mvi-search-label',labelClass?labelClass:'']" v-text="label"></div>
-		<div :class="['mvi-search-input-container',round?'mvi-search-input-round':'']" :style="{backgroundColor:background?background:'',color:color?color:''}">
+		<div :class="['mvi-search-input-container',round?'mvi-search-input-round':'']"
+			:style="{backgroundColor:background?background:'',color:color?color:''}">
 			<div v-if="leftIconType || leftIconUrl" class="mvi-search-left-icon" @click="leftClick">
-				<m-icon :type="leftIconType" :url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize" :color="leftIconColor"/>
+				<m-icon :type="leftIconType" :url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize"
+					:color="leftIconColor" />
 			</div>
-			<input ref="input" class="mvi-search-input" :type="computedType" @keypress.enter="doSearch" autocomplete="off"
-			:placeholder="placeholder" :maxlength="maxlength" :autofocus="autofocus" :disabled="disabled || null" :readonly="readonly || null" :inputmode="computedInputMode"
-			:value="computedValue" @input="searchInput" @focus="getFocus" @blur="getBlur" :style="inputStyle">
+			<input ref="input" class="mvi-search-input" :type="computedType" @keypress.enter="doSearch"
+				autocomplete="off" :placeholder="placeholder" :maxlength="maxlength" :autofocus="autofocus"
+				:disabled="disabled || null" :readonly="readonly || null" :inputmode="computedInputMode"
+				v-model="realValue" @input="searchInput" @focus="getFocus" @blur="getBlur" :style="inputStyle">
 			<div v-if="clearable" class="mvi-search-clear" @click="clearInput" v-show="showClear">
-				<m-icon type="times-o"/>
+				<m-icon type="times-o" />
 			</div>
 			<div v-if="rightIconType || rightIconUrl" class="mvi-search-right-icon" @click="rightClick">
-				<m-icon :type="rightIconType" :url="rightIconUrl" :spin="rightIconSpin" :size="rightIconSize" :color="rightIconColor" />
+				<m-icon :type="rightIconType" :url="rightIconUrl" :spin="rightIconSpin" :size="rightIconSize"
+					:color="rightIconColor" />
 			</div>
 		</div>
-		<div v-if="showCancel" v-text="cancelText" :class="['mvi-search-cancel',cancelClass?cancelClass:'']" @click="doCancel"></div>
+		<div v-if="showCancel" v-text="cancelText" :class="['mvi-search-cancel',cancelClass?cancelClass:'']"
+			@click="doCancel"></div>
 	</div>
 </template>
 
@@ -23,113 +28,113 @@
 	import $util from "../../util/util"
 	import mIcon from "../icon/icon"
 	export default {
-		name:"m-search",
-		emits:['update:modelValue','search','cancel','left-click','right-click','focus','blur','input'],
-		data(){
+		name: "m-search",
+		emits: ['update:modelValue', 'search', 'cancel', 'left-click', 'right-click', 'focus', 'blur', 'input','clear'],
+		data() {
 			return {
-				focus:false
+				focus: false
 			}
 		},
-		props:{
-			modelValue:{
-				type:[String,Number],
-				default:''
+		props: {
+			modelValue: {
+				type: [String, Number],
+				default: ''
 			},
-			type:{
-				type:String,
-				default:'text'
+			type: {
+				type: String,
+				default: 'text'
 			},
-			placeholder:{
-				type:String,
-				default:''
+			placeholder: {
+				type: String,
+				default: ''
 			},
-			label:{//搜索框左侧文本
-				type:String,
-				default:null
+			label: { //搜索框左侧文本
+				type: String,
+				default: null
 			},
-			labelClass:{//左侧文本额外样式
-				type:String,
-				default:null
+			labelClass: { //左侧文本额外样式
+				type: String,
+				default: null
 			},
-			round:{//搜索框是否圆形
-				type:Boolean,
-				default:false
+			round: { //搜索框是否圆形
+				type: Boolean,
+				default: false
 			},
-			background:{//输入框区域背景色
-				type:String,
-				default:null
+			background: { //输入框区域背景色
+				type: String,
+				default: null
 			},
-			color:{//输入框区域字体色
-				type:String,
-				default:null
+			color: { //输入框区域字体色
+				type: String,
+				default: null
 			},
-			maxlength:{//输入的最大长度
-				type:Number,
-				default:-1
+			maxlength: { //输入的最大长度
+				type: Number,
+				default: -1
 			},
-			autofocus:{//是否自动聚焦
-				type:Boolean,
-				default:false
+			autofocus: { //是否自动聚焦
+				type: Boolean,
+				default: false
 			},
-			showCancel:{//是否在输入框右侧显示取消按钮
-				type:Boolean,
-				default:false
+			showCancel: { //是否在输入框右侧显示取消按钮
+				type: Boolean,
+				default: false
 			},
-			cancelText:{//取消按钮文字
-				type:String,
-				default:'取消'
+			cancelText: { //取消按钮文字
+				type: String,
+				default: '取消'
 			},
-			cancelClass:{//取消按钮额外样式
-				type:String,
-				default:null
+			cancelClass: { //取消按钮额外样式
+				type: String,
+				default: null
 			},
-			disabled:{//是否禁用
-				type:Boolean,
-				default:false
+			disabled: { //是否禁用
+				type: Boolean,
+				default: false
 			},
-			readonly:{//是否只读
-				type:Boolean,
-				default:false
+			readonly: { //是否只读
+				type: Boolean,
+				default: false
 			},
-			align:{//输入框内容对齐方式
-				type:String,
-				default:'left',
-				validator(value){
-					return ['left','center','right'].includes(value)
+			align: { //输入框内容对齐方式
+				type: String,
+				default: 'left',
+				validator(value) {
+					return ['left', 'center', 'right'].includes(value)
 				}
 			},
-			leftIcon:{//左侧图标
-				type:[String,Object],
-				default:null
+			leftIcon: { //左侧图标
+				type: [String, Object],
+				default: null
 			},
-			rightIcon:{//右侧图标
-				type:[String,Object],
-				default:null
+			rightIcon: { //右侧图标
+				type: [String, Object],
+				default: null
 			},
-			clearable:{//使用清除图标
-				type:Boolean,
-				default:false
+			clearable: { //使用清除图标
+				type: Boolean,
+				default: false
 			},
-			inputMode:{//输入框调起移动端键盘类型
-				type:[String,Boolean],
-				default:false,
-				validator(value){
-					return [false,'none','text','decimal','numeric','tel','search','email','url']
+			inputMode: { //输入框调起移动端键盘类型
+				type: [String, Boolean],
+				default: false,
+				validator(value) {
+					return [false, 'none', 'text', 'decimal', 'numeric', 'tel', 'search', 'email', 'url']
 				}
 			}
 		},
-		computed:{
-			showClear(){
-				if(this.disabled || this.readonly){
+		computed: {
+			showClear() {
+				if (this.disabled || this.readonly) {
 					return false;
 				}
-				if(this.focus){
-					if (this.modelValue === '') {
+				if (this.focus) {
+					if (this.realValue === '') {
 						return false;
 					} else {
 						return true;
 					}
-				}else{
+				} else {
 					return false;
 				}
 			},
@@ -162,7 +167,7 @@
 				}
 				return spin;
 			},
-			leftIconSize(){
+			leftIconSize() {
 				let size = null;
 				if ($util.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.size == "string") {
@@ -171,7 +176,7 @@
 				}
 				return size;
 			},
-			leftIconColor(){
+			leftIconColor() {
 				let color = null;
 				if ($util.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.color == "string") {
@@ -209,7 +214,7 @@
 				}
 				return spin;
 			},
-			rightIconSize(){
+			rightIconSize() {
 				let size = null;
 				if ($util.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.size == "string") {
@@ -218,7 +223,7 @@
 				}
 				return size;
 			},
-			rightIconColor(){
+			rightIconColor() {
 				let color = null;
 				if ($util.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.color == "string") {
@@ -227,122 +232,128 @@
 				}
 				return color;
 			},
-			computedValue(){
-				let value = this.modelValue.toString();
-				if(this.type == 'number'){
-					value = value.replace(/\D/g, '');
-				}
-				if(this.maxlength > 0 && value.length>this.maxlength){
-					value = value.substr(0, this.maxlength);
-				}
-				if(this.modelValue != value){
-					this.$emit('update:modelValue',value)
-				}
-				return value;
-			},
-			computedType(){
-				if(this.type == 'number'){
+			computedType() {
+				if (this.type == 'number') {
 					return 'text';
-				}else{
+				} else {
 					return this.type;
 				}
 			},
-			computedInputMode(){
+			computedInputMode() {
 				let mode = false;
-				if(typeof this.inputMode == 'string'){
+				if (typeof this.inputMode == 'string') {
 					mode = this.inputMode
 				}
 				return mode
 			},
-			inputStyle(){
+			inputStyle() {
 				let style = {}
-				if(this.align){
+				if (this.align) {
 					style.textAlign = this.align
 				}
-				if(this.leftIconType || this.leftIconUrl){
+				if (this.leftIconType || this.leftIconUrl) {
 					style.paddingLeft = 0;
 				}
-				if(this.showClear && this.clearable){
+				if (this.showClear && this.clearable) {
 					style.paddingRight = 0;
-				}else if(this.rightIconType || this.rightIconUrl){
+				} else if (this.rightIconType || this.rightIconUrl) {
 					style.paddingRight = 0;
 				}
 				return style;
+			},
+			realValue:{
+				set(value){
+					if(this.modelValue !== value){
+						this.$emit('update:modelValue',value);
+					}
+				},
+				get(){
+					let value = this.modelValue === null ? '':this.modelValue.toString();
+					//数字类型会过滤非数字字符
+					if(this.type == 'number'){
+						value = value.replace(/\D/g, '');
+					}
+					//如果设置了maxlength，则进行字符串截取
+					if (this.maxlength > 0 && value.length > this.maxlength) {
+						value = value.substr(0, this.maxlength);
+					}
+					if(this.modelValue !== value){
+						this.$emit('update:modelValue',value);
+					}
+					return value;
+				}
 			}
 		},
-		components:{
+		components: {
 			mIcon
 		},
-		methods:{
+		methods: {
 			//输入框获取焦点
-			getFocus(){
-				this.$emit('focus',this.modelValue)
-				setTimeout(()=>{
+			getFocus() {
+				if(this.disabled){
+					return;
+				}
+				this.$emit('focus', this.realValue)
+				setTimeout(() => {
 					this.focus = true;
-				},200)
+				}, 200)
 			},
 			//输入框失去焦点
-			getBlur(){
-				this.$emit('blur',this.modelValue)
-				setTimeout(()=>{
+			getBlur() {
+				if(this.disabled){
+					return;
+				}
+				this.$emit('blur', this.realValue)
+				setTimeout(() => {
 					this.focus = false;
-				},200)
+				}, 200)
 			},
 			//输入监听
-			searchInput(){
-				let value = this.$refs.input.value;
-				//数字类型会过滤非数字字符
-				if(this.type == 'number'){
-					value = value.replace(/\D/g, '');
+			searchInput() {
+				if(this.disabled){
+					return;
 				}
-				//如果设置了maxlength，则进行字符串截取
-				if (this.maxlength > 0 && value.length > this.maxlength) {
-					value = value.substr(0, this.maxlength);
-				}
-				
-				this.$refs.input.value = value;
-				
-				if(this.modelValue != value){
-					this.$emit('update:modelValue',value)
-					this.$emit('input',value)
-				}
+				this.$emit('input',this.realValue);
 			},
 			//搜索
-			doSearch(){
-				if(this.disabled){
+			doSearch() {
+				if (this.disabled) {
 					return;
 				}
-				this.$emit('search',this.modelValue);
+				this.$emit('search', this.realValue);
 			},
 			//取消
-			doCancel(){
-				if(this.disabled){
+			doCancel() {
+				if (this.disabled) {
 					return;
 				}
-				this.$emit('cancel',this.modelValue);
+				this.$emit('cancel', this.realValue);
 			},
 			//左侧图标点击
-			leftClick(){
-				if(this.disabled){
+			leftClick() {
+				if (this.disabled) {
 					return;
 				}
-				this.$emit('left-click',this.modelValue);
+				this.$emit('left-click', this.realValue);
 			},
 			//右侧图标点击
-			rightClick(){
-				if(this.disabled){
+			rightClick() {
+				if (this.disabled) {
 					return;
 				}
-				this.$emit('right-click',this.modelValue);
+				this.$emit('right-click', this.realValue);
 			},
 			//清除输入框
-			clearInput(){
+			clearInput() {
 				if(this.disabled){
 					return;
 				}
-				this.$refs.input.value = '';
-				this.$emit('update:modelValue','')
+				if(!this.clearable){
+					return;
+				}
+				this.realValue = '';
 				this.$refs.input.focus();
+				this.$emit('clear','');
 			}
 		}
 	}
@@ -350,8 +361,8 @@
 
 <style scoped lang="less">
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-search{
+
+	.mvi-search {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: flex-start;
@@ -363,12 +374,12 @@
 		color: @font-color-default;
 		font-size: @font-size-default;
 	}
-	
-	.mvi-search[disabled]{
+
+	.mvi-search[disabled] {
 		opacity: .6;
 	}
-	
-	.mvi-search-label{
+
+	.mvi-search-label {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: center;
@@ -378,8 +389,8 @@
 		height: .68rem;
 		white-space: nowrap;
 	}
-	
-	.mvi-search-input-container{
+
+	.mvi-search-input-container {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: space-between;
@@ -391,8 +402,8 @@
 		background-color: @bg-color-default;
 		color: @font-color-default;
 	}
-	
-	.mvi-search-input{
+
+	.mvi-search-input {
 		display: block;
 		width: 100%;
 		flex: 1;
@@ -407,8 +418,9 @@
 		background-image: none;
 		margin: 0;
 		font-size: @font-size-default;
-		
-		&::-webkit-input-placeholder,&::placeholder{
+
+		&::-webkit-input-placeholder,
+		&::placeholder {
 			color: inherit;
 			opacity: .5;
 			vertical-align: middle;
@@ -416,12 +428,12 @@
 			font-size: inherit;
 		}
 	}
-	
-	.mvi-search-input-round{
+
+	.mvi-search-input-round {
 		border-radius: @radius-round;
 	}
-	
-	.mvi-search-cancel{
+
+	.mvi-search-cancel {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: center;
@@ -432,8 +444,9 @@
 		white-space: nowrap;
 		cursor: pointer;
 	}
-	
-	.mvi-search-left-icon,.mvi-search-right-icon{
+
+	.mvi-search-left-icon,
+	.mvi-search-right-icon {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: center;
@@ -441,20 +454,20 @@
 		height: .68rem;
 		width: .68rem;
 	}
-	
-	.mvi-search-clear{
+
+	.mvi-search-clear {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: center;
 		align-items: center;
 		height: .68rem;
 		width: .68rem;
-		
-		&:hover{
+
+		&:hover {
 			cursor: pointer;
 		}
-		
-		&>.mvi-icon{
+
+		&>.mvi-icon {
 			opacity: .5;
 		}
 	}
