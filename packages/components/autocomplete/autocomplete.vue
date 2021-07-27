@@ -408,9 +408,11 @@
 				if(!this.clearable){
 					return;
 				}
-				this.realValue = '';
-				this.$emit('clear','');
-				this.$refs.input.focus();
+				setTimeout(()=>{
+					this.realValue = '';
+					this.$emit('clear','');
+					this.$refs.input.focus();
+				},200)
 			},
 			doSelect(item){
 				if(this.disabled){

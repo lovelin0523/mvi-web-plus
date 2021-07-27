@@ -3,7 +3,7 @@
 	<m-button @click="change">打开遮罩</m-button>
 	<div>{{value}}</div>
 	<div>{{date}}</div>
-	<m-editor v-model="value"></m-editor>
+	<m-autocomplete v-model="value" filter-method clearable :list="list"></m-autocomplete>
 </template>
 
 <script>
