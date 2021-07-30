@@ -80,7 +80,7 @@
 			/>
 		</div>
 		<!-- 显示文字长度限制 -->
-		<div v-if="showWordLimit && maxlength > 0" class="mvi-input-words">{{ inputValue.length }}/{{ maxlength }}</div>
+		<div v-if="showWordLimit && maxlength > 0" class="mvi-input-words">{{ realValue.length }}/{{ maxlength }}</div>
 		<!-- 日期 -->
 		<m-date-native-picker v-if="isDatePicker" ref="datepicker" :type="dateType" v-model="realDate"></m-date-native-picker>
 	</div>
