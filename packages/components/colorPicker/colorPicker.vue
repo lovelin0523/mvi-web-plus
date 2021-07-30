@@ -205,7 +205,7 @@
 						let str = this.modelValue.substring(first+1,last);
 						let arry = str.split(',');
 						if(arry.length<3){
-							throw new Error();
+							throw new Error('Color values are not RGB (RGBA) format and hexadecimal format');
 						}
 						this.rgb = [Number(arry[0]),Number(arry[1]),Number(arry[2])];
 						if(arry.length == 4){

@@ -416,7 +416,7 @@ const util = {
 		}
 
 		if (!this.isContains(root, element)) {
-			throw new Error('root与element无层级关系');
+			throw new Error('Root and element have no hierarchical relationship');
 		}
 
 		let obj = element;
