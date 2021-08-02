@@ -1,6 +1,6 @@
 {
   "name": "mvi-web-plus",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "private": false,
   "author": "lingkai",
   "main": "packages/index",
@@ -25,5 +25,8 @@
     "last 2 versions",
     "not dead"
   ],
-  "github": "https://github.com/lovelin0523/mvi-web-plus"
+  "repository":{
+  	  "type":"git",
+  	  "url":"https://github.com/lovelin0523/mvi-web-plus"
+  }
 }

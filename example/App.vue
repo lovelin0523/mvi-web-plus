@@ -1,9 +1,6 @@
 <template>
-	<div>{{counts}}</div>
-	<m-button @click="change">打开遮罩</m-button>
-	<div>{{value}}</div>
-	<div>{{date}}</div>
-	<m-input v-model="value" :maxlength="10" show-word-limit clearable></m-input>
+	<div class="demo mvi-mb-20"></div>
+	<div class="demo" v-px:border-width v-px="{attrName:'height',before:true}"></div>
 </template>
 
 <script>
@@ -144,5 +141,22 @@ html {
 	overflow-y: auto;
 	height: 100%;
 	position: relative;
+}
+.demo{
+	width: 4rem;
+	height: 2rem;
+	margin: .2rem auto;
+	position: relative;
+	border: 1px solid #000000;
+	
+	&::before{
+		content: '';
+		width: 100%;
+		height: 1px;
+		background-color: #000000;
+		position: absolute;
+		bottom: -1rem;
+		left: 0;
+	}
 }
 </style>

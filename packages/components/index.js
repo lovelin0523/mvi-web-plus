@@ -7,6 +7,7 @@ import scroll from "./scroll"
 import spy from "./spy"
 import observe from "./observe"
 import upload from "./upload"
+import px from "./px"
 //引入组件
 import button from "./button"
 import icon from "./icon"
@@ -77,6 +78,7 @@ export default {
 	spy,
 	observe,
 	upload,
+	px,
 	button,
 	icon,
 	cell,
