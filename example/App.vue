@@ -115,7 +115,7 @@ export default {
 	},
 	methods: {
 		change(e) {
-			this.$Confirm('hello')
+			this.$confirm('hello')
 		},
 		shown(e){
 			console.log(e)
