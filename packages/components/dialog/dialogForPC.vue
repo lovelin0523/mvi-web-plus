@@ -2,12 +2,16 @@
 	<m-modal
 		v-model="show"
 		:footer-padding="false"
+		@hide="modalHide"
+		@hidding="modalHidding"
 		@hidden="modalHidden"
 		:width="computedWidth"
 		:z-index="computedZIndex"
 		:radius="computedRadius"
 		:use-padding="computedUsePadding"
 		:animation="computedAnimation"
+		@show="modalShow"
+		@showing="modalShowing"
 		@shown="modalShown"
 		:timeout="computedTimeout"
 		:overlay-color="computedOverlayColor"
@@ -409,8 +413,23 @@ export default {
 				this.ok = false;
 			}
 		},
+		//模态框隐藏前
+		modalHide(el){
+			if(typeof this.dialogComponentWatch == 'function'){
+				this.dialogComponentWatch.apply(this,['hide',this.type,el])
+			}
+		},
+		//模态框隐藏时
+		modalHidding(el){
+			if(typeof this.dialogComponentWatch == 'function'){
+				this.dialogComponentWatch.apply(this,['hidding',this.type,el])
+			}
+		},
 		//模态框隐藏后
-		modalHidden() {
+		modalHidden(el) {
+			if(typeof this.dialogComponentWatch == 'function'){
+				this.dialogComponentWatch.apply(this,['hidden',this.type,el])
+			}
 			if (this.type == 'Alert') {
 				this.remove();
 			} else if (this.type == 'Confirm') {
@@ -419,11 +438,26 @@ export default {
 				this.remove(this.ok,this.value);
 			}
 		},
+		//模态框显示前
+		modalShow(el){
+			if(typeof this.dialogComponentWatch == 'function'){
+				this.dialogComponentWatch.apply(this,['show',this.type,el])
+			}
+		},
+		//模态框显示时
+		modalShowing(el){
+			if(typeof this.dialogComponentWatch == 'function'){
+				this.dialogComponentWatch.apply(this,['showing',this.type,el])
+			}
+		},
 		//模态框显示后
-		modalShown() {
+		modalShown(el) {
 			//输入框获取焦点
 			if (this.type == 'Prompt' && this.computedInput.autofocus && this.$refs.input) {
 				this.$refs.input.focus();
+			}
+			if(typeof this.dialogComponentWatch == 'function'){
+				this.dialogComponentWatch.apply(this,['shown',this.type,el])
 			}
 		}
 	}

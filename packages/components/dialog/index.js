@@ -55,7 +55,7 @@ const Dialog = {
 	},
 
 	//提示框
-	alert: options => {
+	alert: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('alert', options);
 			let mountNode = $util.string2dom('<div></div>');
@@ -68,12 +68,16 @@ const Dialog = {
 					resolve();
 				}
 			})
+			//将页面应用实例的监听事件传递给当前弹窗组件的应用实例
+			if(typeof this.config.globalProperties.dialogComponentWatch == 'function'){
+				instance.config.globalProperties.dialogComponentWatch = this.config.globalProperties.dialogComponentWatch
+			}
 			instance.mount(mountNode)
 		})
 	},
 
 	//确认框
-	confirm: options => {
+	confirm: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('confirm', options);
 			let mountNode = $util.string2dom('<div></div>');
@@ -86,12 +90,16 @@ const Dialog = {
 					resolve(ok);
 				}
 			})
+			//将页面应用实例的监听事件传递给当前弹窗组件的应用实例
+			if(typeof this.config.globalProperties.dialogComponentWatch == 'function'){
+				instance.config.globalProperties.dialogComponentWatch = this.config.globalProperties.dialogComponentWatch
+			}
 			instance.mount(mountNode)
 		})
 	},
 
 	//信息输入框
-	prompt: options => {
+	prompt: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('prompt', options);
 			let mountNode = $util.string2dom('<div></div>');
@@ -107,12 +115,16 @@ const Dialog = {
 					});
 				}
 			})
+			//将页面应用实例的监听事件传递给当前弹窗组件的应用实例
+			if(typeof this.config.globalProperties.dialogComponentWatch == 'function'){
+				instance.config.globalProperties.dialogComponentWatch = this.config.globalProperties.dialogComponentWatch
+			}
 			instance.mount(mountNode)
 		})
 	},
 
 	//pc端提示框
-	Alert: options => {
+	Alert: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('Alert', options);
 			let mountNode = $util.string2dom('<div></div>');
@@ -125,12 +137,16 @@ const Dialog = {
 					resolve();
 				}
 			})
+			//将页面应用实例的监听事件传递给当前弹窗组件的应用实例
+			if(typeof this.config.globalProperties.dialogComponentWatch == 'function'){
+				instance.config.globalProperties.dialogComponentWatch = this.config.globalProperties.dialogComponentWatch
+			}
 			instance.mount(mountNode)
 		})
 	},
 
 	//pc端确认框
-	Confirm: options => {
+	Confirm: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('Confirm', options);
 			let mountNode = $util.string2dom('<div></div>');
@@ -143,12 +159,16 @@ const Dialog = {
 					resolve(ok);
 				}
 			})
+			//将页面应用实例的监听事件传递给当前弹窗组件的应用实例
+			if(typeof this.config.globalProperties.dialogComponentWatch == 'function'){
+				instance.config.globalProperties.dialogComponentWatch = this.config.globalProperties.dialogComponentWatch
+			}
 			instance.mount(mountNode)
 		})
 	},
 
 	//pc端信息输入框
-	Prompt: options => {
+	Prompt: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('Prompt', options);
 			let mountNode = $util.string2dom('<div></div>');
@@ -164,6 +184,10 @@ const Dialog = {
 					});
 				}
 			})
+			//将页面应用实例的监听事件传递给当前弹窗组件的应用实例
+			if(typeof this.config.globalProperties.dialogComponentWatch == 'function'){
+				instance.config.globalProperties.dialogComponentWatch = this.config.globalProperties.dialogComponentWatch
+			}
 			instance.mount(mountNode)
 		})
 	},
@@ -171,28 +195,28 @@ const Dialog = {
 	//注册函数
 	install: app => {
 		//将提示框挂载到全局
-		app.config.globalProperties.$alert = Dialog.alert;
-		app.provide('$alert', Dialog.alert);
+		app.config.globalProperties.$alert = Dialog.alert.bind(app);
+		app.provide('$alert', Dialog.alert.bind(app));
 
 		//将确认框挂载到全局
-		app.config.globalProperties.$confirm = Dialog.confirm;
-		app.provide('$confirm', Dialog.confirm);
+		app.config.globalProperties.$confirm = Dialog.confirm.bind(app);
+		app.provide('$confirm', Dialog.confirm.bind(app));
 
 		//将信息输入框挂载到全局
-		app.config.globalProperties.$prompt = Dialog.prompt;
-		app.provide('$prompt', Dialog.prompt);
+		app.config.globalProperties.$prompt = Dialog.prompt.bind(app);
+		app.provide('$prompt', Dialog.prompt.bind(app));
 
 		//将PC端提示框挂载到全局
-		app.config.globalProperties.$Alert = Dialog.Alert;
-		app.provide('$Alert', Dialog.Alert);
+		app.config.globalProperties.$Alert = Dialog.Alert.bind(app);
+		app.provide('$Alert', Dialog.Alert.bind(app));
 
 		//将PC端确认框挂载到全局
-		app.config.globalProperties.$Confirm = Dialog.Confirm;
-		app.provide('$Confirm', Dialog.Confirm);
+		app.config.globalProperties.$Confirm = Dialog.Confirm.bind(app);
+		app.provide('$Confirm', Dialog.Confirm.bind(app));
 
 		//将PC端信息输入框挂载到全局
-		app.config.globalProperties.$Prompt = Dialog.Prompt;
-		app.provide('$Prompt', Dialog.Prompt);
+		app.config.globalProperties.$Prompt = Dialog.Prompt.bind(app);
+		app.provide('$Prompt', Dialog.Prompt.bind(app));
 	}
 }
 

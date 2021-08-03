@@ -221,27 +221,61 @@
 			},
 			//弹出层显示前
 			beforeEnter(el){
+				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
+				if(el.data('mvi-popup-beforeEnter-trigger')){
+					return;
+				}
+				el.data('mvi-popup-beforeEnter-trigger',true);
+				
 				this.$emit('show',el);
+				if(typeof this.popupComponentWatch == 'function'){
+					this.popupComponentWatch.apply(this,['show',el])
+				}
 			},
 			//弹出层显示时
 			enter(el){
+				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
+				if(el.data('mvi-popup-enter-trigger')){
+					return;
+				}
+				el.data('mvi-popup-enter-trigger',true);
+				
 				this.$emit('showing',el);
+				if(typeof this.popupComponentWatch == 'function'){
+					this.popupComponentWatch.apply(this,['showing',el])
+				}
 			},
 			//弹出层显示后
 			afterEnter(el){
 				this.$emit('shown',el);
+				if(typeof this.popupComponentWatch == 'function'){
+					this.popupComponentWatch.apply(this,['shown',el])
+				}
 			},
 			//弹出层隐藏前
 			beforeLeave(el){
+				//清除标记
+				el.data('mvi-popup-beforeEnter-trigger',false);
+				el.data('mvi-popup-enter-trigger',false);
+				
 				this.$emit('hide',el);
+				if(typeof this.popupComponentWatch == 'function'){
+					this.popupComponentWatch.apply(this,['hide',el])
+				}
 			},
 			//弹出层隐藏时
 			leave(el){
 				this.$emit('hidding',el);
+				if(typeof this.popupComponentWatch == 'function'){
+					this.popupComponentWatch.apply(this,['hidding',el])
+				}
 			},
 			//弹出层隐藏后
 			afterLeave(el){
 				this.$emit('hidden',el);
+				if(typeof this.popupComponentWatch == 'function'){
+					this.popupComponentWatch.apply(this,['hidden',el])
+				}
 			}
 		}
 	}

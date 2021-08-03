@@ -1,6 +1,7 @@
 <template>
 	<div class="demo mvi-mb-20"></div>
 	<div class="demo" v-px:border-width v-px="{attrName:'height',before:true}"></div>
+	<m-button @click="change">按钮</m-button>
 </template>
 
 <script>
@@ -16,7 +17,7 @@ export default {
 					console.log('enter')
 				}
 			},
-			show: true,
+			show: false,
 			checkbox: [],
 			checked: 1,
 			value: '#ff3300',
@@ -110,19 +111,11 @@ export default {
 		};
 	},
 	mounted() {
-		setInterval(()=>{
-			this.counts-=10;
-		},10)
+		
 	},
 	methods: {
 		change(e) {
-			this.$prompt({
-				type:'number',
-				clearable:true,
-				value:'#ff3300'
-			}).then(res=>{
-				console.log(res)
-			})
+			this.$Confirm('hello')
 		},
 		shown(e){
 			console.log(e)
