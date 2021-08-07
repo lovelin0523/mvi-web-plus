@@ -4,7 +4,7 @@ import mvi from "../packages"
 const app = createApp(App)
 app.use(mvi)
 app.mount('#app')
-import Px from "../packages/components/px/px"
+/* import Px from "../packages/components/px/px"
 app.config.globalProperties.dialogComponentWatch = function(name,type,el){
 	if(name == 'show'){
 		let node = el.querySelector('.mvi-modal-footer');
@@ -14,4 +14,4 @@ app.config.globalProperties.dialogComponentWatch = function(name,type,el){
 		let px2 = new Px(node2,{attrName:'border-right-width'})
 		px2.init()
 	}
-}
+} */

@@ -47,7 +47,7 @@ const Dialog = {
 					value: options.value
 				}
 			}
-		} else if (typeof options == "string") {
+		} else {
 			opts.message = options;
 		}
 		opts.type = type;

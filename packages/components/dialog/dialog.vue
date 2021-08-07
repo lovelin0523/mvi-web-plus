@@ -87,7 +87,6 @@ export default {
 		},
 		//描述
 		message: {
-			type: String,
 			default: null
 		},
 		//按钮文本
@@ -178,12 +177,8 @@ export default {
 				return this.message;
 			} else if ($util.isObject(this.message)) {
 				return JSON.stringify(this.message);
-			} else if ($util.isNumber(this.message)) {
-				return this.message.toString();
-			} else if (this.message) {
-				return String(this.message);
 			} else {
-				return '';
+				return String(this.message);
 			}
 		},
 		computedBtnText() {

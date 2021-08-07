@@ -34,7 +34,6 @@
 			},
 			//显示文本
 			message:{
-				type:String,
 				default:null
 			},
 			//弹窗自动关闭的时间，默认不自动关闭
@@ -137,12 +136,8 @@
 					return this.message;
 				}else if($util.isObject(this.message)){
 					return JSON.stringify(this.message);
-				}else if($util.isNumber(this.message)){
-					return this.message.toString();
-				}else if(this.message){
-					return String(this.message);
 				}else{
-					return '';
+					return String(this.message);
 				}
 			},
 			computedTimeout(){

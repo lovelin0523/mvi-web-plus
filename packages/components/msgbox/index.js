@@ -15,7 +15,7 @@ const MsgBox = {
 			opts.zIndex = options.zIndex;
 			opts.color = options.color;
 			opts.background = options.background;
-		} else if (typeof options == 'string') {
+		} else {
 			opts.message = options;
 		}
 		return opts;

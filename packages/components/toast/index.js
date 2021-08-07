@@ -18,7 +18,7 @@ const Toast = {
 			opts.usePadding = options.usePadding;
 			opts.icon = options.icon;
 			opts.mountEl = options.mountEl;
-		} else if (typeof options == "string") {
+		} else {
 			opts.message = options;
 			opts.timeout = 1500;
 		}

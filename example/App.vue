@@ -1,10 +1,5 @@
 <template>
-	<m-tooltip  style="margin-top:4rem;" placement="right-end">
-		<m-button form-control>Button</m-button>
-		<template v-slot:title>
-			<div style="width: 3rem;height:4rem;">这是一个工具提示</div>
-		</template>
-	</m-tooltip>
+	<m-button @click="change">Button</m-button>
 </template>
 
 <script>
@@ -118,7 +113,7 @@ export default {
 	},
 	methods: {
 		change(e) {
-			this.$confirm('hello')
+			this.$showToast(false)
 		},
 		shown(e){
 			console.log(e)
