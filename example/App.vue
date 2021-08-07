@@ -1,7 +1,10 @@
 <template>
-	<div class="demo mvi-mb-20"></div>
-	<div class="demo" v-px:border-width v-px="{attrName:'height',before:true}"></div>
-	<m-button @click="change">按钮</m-button>
+	<m-tooltip  style="margin-top:4rem;" placement="right-end">
+		<m-button form-control>Button</m-button>
+		<template v-slot:title>
+			<div style="width: 3rem;height:4rem;">这是一个工具提示</div>
+		</template>
+	</m-tooltip>
 </template>
 
 <script>

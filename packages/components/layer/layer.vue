@@ -241,13 +241,33 @@
 				let point = $util.getElementBounding($target);
 				this.realPlacement = this.placement;
 				if(this.placement == 'bottom'){
-					if(point.bottom < this.$el.offsetHeight && point.top > this.$el.offsetHeight){
-						this.realPlacement = 'top'
-						if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
-							this.realPlacement = 'top-start'
-						}
-						if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
-							this.realPlacement = 'top-end'
+					//如果底部距离不够
+					if(point.bottom < this.$el.offsetHeight){
+						//顶部距离够
+						if(point.top > this.$el.offsetHeight){
+							this.realPlacement = 'top';
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-end'
+							}
+						}else if(point.left > this.$el.offsetWidth){//左侧距离够
+							this.realPlacement = 'left';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-end'
+							}
+						}else if(point.right > this.$el.offsetWidth){//右侧距离够
+							this.realPlacement = 'right';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-end'
+							}
 						}
 					}else {
 						if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
@@ -258,31 +278,70 @@
 						}
 					}
 				}else if(this.placement == 'bottom-start'){
-					if(point.bottom < this.$el.offsetHeight && point.top > this.$el.offsetHeight){
-						this.realPlacement = 'top-start'
-						if(point.right + $target.offsetWidth < this.$el.offsetWidth){
-							this.realPlacement = 'top'
-						}
-						if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
-							this.realPlacement = 'top-end'
+					//如果底部距离不够
+					if(point.bottom < this.$el.offsetHeight){
+						//顶部距离够
+						if(point.top > this.$el.offsetHeight){
+							this.realPlacement = 'top-start';
+							if(point.right + $target.offsetWidth < this.$el.offsetWidth){
+								this.realPlacement = 'top'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-end'
+							}
+						}else if(point.left > this.$el.offsetWidth){//左侧距离够
+							this.realPlacement = 'left';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-end'
+							}
+						}else if(point.right > this.$el.offsetWidth){//右侧距离够
+							this.realPlacement = 'right';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-end'
+							}
 						}
 					}else {
 						if(point.right + $target.offsetWidth < this.$el.offsetWidth){
 							this.realPlacement = 'bottom'
 						}
-						
 						if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
 							this.realPlacement = 'bottom-end'
 						}
 					}
 				}else if(this.placement == 'bottom-end'){
-					if(point.bottom < this.$el.offsetHeight && point.top > this.$el.offsetHeight){
-						this.realPlacement = 'top-end'
-						if(point.left + $target.offsetWidth < this.$el.offsetWidth){
-							this.realPlacement = 'top'
-						}
-						if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
-							this.realPlacement = 'top-start'
+					//如果底部距离不够
+					if(point.bottom < this.$el.offsetHeight){
+						//顶部距离够
+						if(point.top > this.$el.offsetHeight){
+							this.realPlacement = 'top-end';
+							if(point.left + $target.offsetWidth < this.$el.offsetWidth){
+								this.realPlacement = 'top'
+							}
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-start'
+							}
+						}else if(point.left > this.$el.offsetWidth){//左侧距离够
+							this.realPlacement = 'left';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-end'
+							}
+						}else if(point.right > this.$el.offsetWidth){//右侧距离够
+							this.realPlacement = 'right';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-end'
+							}
 						}
 					}else {
 						if(point.left + $target.offsetWidth < this.$el.offsetWidth){
@@ -293,13 +352,33 @@
 						}
 					}
 				}else if(this.placement == 'top'){
-					if(point.top < this.$el.offsetHeight && point.bottom > this.$el.offsetHeight){
-						this.realPlacement = 'bottom'
-						if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
-							this.realPlacement = 'bottom-start'
-						}
-						if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
-							this.realPlacement = 'bottom-end'
+					//如果顶部距离不够
+					if(point.top < this.$el.offsetHeight){
+						//底部距离够
+						if(point.bottom > this.$el.offsetHeight){
+							this.realPlacement = 'bottom'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-end'
+							}
+						}else if(point.left > this.$el.offsetWidth){//左侧距离够
+							this.realPlacement = 'left';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-end'
+							}
+						}else if(point.right > this.$el.offsetWidth){//右侧距离够
+							this.realPlacement = 'right';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-end'
+							}
 						}
 					}else {
 						if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
@@ -310,13 +389,33 @@
 						}
 					}
 				}else if(this.placement == 'top-start'){
-					if(point.top < this.$el.offsetHeight && point.bottom > this.$el.offsetHeight){
-						this.realPlacement = 'bottom-start'
-						if(point.right + $target.offsetWidth < this.$el.offsetWidth){
-							this.realPlacement = 'bottom'
-						}
-						if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
-							this.realPlacement = 'bottom-end'
+					//如果顶部距离不够
+					if(point.top < this.$el.offsetHeight){
+						//底部距离够
+						if(point.bottom > this.$el.offsetHeight){
+							this.realPlacement = 'bottom-start'
+							if(point.right + $target.offsetWidth < this.$el.offsetWidth){
+								this.realPlacement = 'bottom'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-end'
+							}
+						}else if(point.left > this.$el.offsetWidth){//左侧距离够
+							this.realPlacement = 'left';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-end'
+							}
+						}else if(point.right > this.$el.offsetWidth){//右侧距离够
+							this.realPlacement = 'right';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-end'
+							}
 						}
 					}else {
 						if(point.right + $target.offsetWidth < this.$el.offsetWidth){
@@ -327,13 +426,33 @@
 						}
 					}
 				}else if(this.placement == 'top-end'){
-					if(point.top < this.$el.offsetHeight && point.bottom > this.$el.offsetHeight){
-						this.realPlacement = 'bottom-end'
-						if(point.left + $target.offsetWidth < this.$el.offsetWidth){
-							this.realPlacement = 'bottom'
-						}
-						if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
-							this.realPlacement = 'bottom-start'
+					//如果顶部距离不够
+					if(point.top < this.$el.offsetHeight){
+						//底部距离够
+						if(point.bottom > this.$el.offsetHeight){
+							this.realPlacement = 'bottom-end'
+							if(point.left + $target.offsetWidth < this.$el.offsetWidth){
+								this.realPlacement = 'bottom'
+							}
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-start'
+							}
+						}else if(point.left > this.$el.offsetWidth){//左侧距离够
+							this.realPlacement = 'left';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-end'
+							}
+						}else if(point.right > this.$el.offsetWidth){//右侧距离够
+							this.realPlacement = 'right';
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-end'
+							}
 						}
 					}else {
 						if(point.left + $target.offsetWidth < this.$el.offsetWidth){
@@ -344,13 +463,33 @@
 						}
 					}
 				}else if(this.placement == 'left'){
-					if(point.left < this.$el.offsetWidth && point.right > this.$el.offsetWidth){
-						this.realPlacement = 'right'
-						if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
-							this.realPlacement = 'right-start'
-						}
-						if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
-							this.realPlacement = 'right-end'
+					//如果左侧距离不够
+					if(point.left < this.$el.offsetWidth){
+						//右侧距离够
+						if(point.right > this.$el.offsetWidth){
+							this.realPlacement = 'right'
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-end'
+							}
+						}else if(point.top > this.$el.offsetHeight){//顶部距离够
+							this.realPlacement = 'top'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-end'
+							}
+						}else if(point.bottom > this.$el.offsetHeight){//底部距离够
+							this.realPlacement = 'bottom'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-end'
+							}
 						}
 					}else {
 						if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
@@ -361,13 +500,33 @@
 						}
 					}
 				}else if(this.placement == 'left-start'){
-					if(point.left < this.$el.offsetWidth && point.right > this.$el.offsetWidth){
-						this.realPlacement = 'right-start'
-						if(point.bottom + $target.offsetHeight < this.$el.offsetHeight){
-							this.realPlacement = 'right'
-						}
-						if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
-							this.realPlacement = 'right-end'
+					//如果左侧距离不够
+					if(point.left < this.$el.offsetWidth){
+						//右侧距离够
+						if(point.right > this.$el.offsetWidth){
+							this.realPlacement = 'right-start'
+							if(point.bottom + $target.offsetHeight < this.$el.offsetHeight){
+								this.realPlacement = 'right'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-end'
+							}
+						}else if(point.top > this.$el.offsetHeight){//顶部距离够
+							this.realPlacement = 'top'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-end'
+							}
+						}else if(point.bottom > this.$el.offsetHeight){//底部距离够
+							this.realPlacement = 'bottom'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-end'
+							}
 						}
 					}else {
 						if(point.bottom + $target.offsetHeight < this.$el.offsetHeight){
@@ -378,13 +537,33 @@
 						}
 					}
 				}else if(this.placement == 'left-end'){
-					if(point.left < this.$el.offsetWidth && point.right > this.$el.offsetWidth){
-						this.realPlacement = 'right-end'
-						if(point.top + $target.offsetHeight < this.$el.offsetHeight){
-							this.realPlacement = 'right'
-						}
-						if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
-							this.realPlacement = 'right-start'
+					//如果左侧距离不够
+					if(point.left < this.$el.offsetWidth){
+						//右侧距离够
+						if(point.right > this.$el.offsetWidth){
+							this.realPlacement = 'right-end'
+							if(point.top + $target.offsetHeight < this.$el.offsetHeight){
+								this.realPlacement = 'right'
+							}
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'right-start'
+							}
+						}else if(point.top > this.$el.offsetHeight){//顶部距离够
+							this.realPlacement = 'top'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-end'
+							}
+						}else if(point.bottom > this.$el.offsetHeight){//底部距离够
+							this.realPlacement = 'bottom'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-end'
+							}
 						}
 					}else {
 						if(point.top + $target.offsetHeight < this.$el.offsetHeight){
@@ -395,13 +574,33 @@
 						}
 					}
 				}else if(this.placement == 'right'){
-					if(point.right < this.$el.offsetWidth && point.left > this.$el.offsetWidth){
-						this.realPlacement = 'left'
-						if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
-							this.realPlacement = 'left-start'
-						}
-						if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
-							this.realPlacement = 'left-end'
+					//如果右侧距离不够
+					if(point.right < this.$el.offsetWidth){
+						//左侧距离够
+						if(point.left > this.$el.offsetWidth){
+							this.realPlacement = 'left'
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-start'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-end'
+							}
+						}else if(point.top > this.$el.offsetHeight){//顶部距离够
+							this.realPlacement = 'top'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-end'
+							}
+						}else if(point.bottom > this.$el.offsetHeight){//底部距离够
+							this.realPlacement = 'bottom'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-end'
+							}
 						}
 					}else {
 						if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
@@ -412,13 +611,33 @@
 						}
 					}
 				}else if(this.placement == 'right-start'){
-					if(point.right < this.$el.offsetWidth && point.left > this.$el.offsetWidth){
-						this.realPlacement = 'left-start'
-						if(point.bottom + $target.offsetHeight < this.$el.offsetHeight){
-							this.realPlacement = 'left'
-						}
-						if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
-							this.realPlacement = 'left-end'
+					//如果右侧距离不够
+					if(point.right < this.$el.offsetWidth){
+						//左侧距离足够
+						if(point.left > this.$el.offsetWidth){
+							this.realPlacement = 'left-start'
+							if(point.bottom + $target.offsetHeight < this.$el.offsetHeight){
+								this.realPlacement = 'left'
+							}
+							if(point.bottom + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-end'
+							}
+						}else if(point.top > this.$el.offsetHeight){//顶部距离够
+							this.realPlacement = 'top'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-end'
+							}
+						}else if(point.bottom > this.$el.offsetHeight){//底部距离够
+							this.realPlacement = 'bottom'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-end'
+							}
 						}
 					}else {
 						if(point.bottom + $target.offsetHeight < this.$el.offsetHeight){
@@ -429,13 +648,33 @@
 						}
 					}
 				}else if(this.placement == 'right-end'){
-					if(point.right < this.$el.offsetWidth && point.left > this.$el.offsetWidth){
-						this.realPlacement = 'left-end'
-						if(point.top + $target.offsetHeight < this.$el.offsetHeight){
-							this.realPlacement = 'left'
-						}
-						if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
-							this.realPlacement = 'left-start'
+					//如果右侧距离不够
+					if(point.right < this.$el.offsetWidth){
+						//左侧距离足够
+						if(point.left > this.$el.offsetWidth){
+							this.realPlacement = 'left-end'
+							if(point.top + $target.offsetHeight < this.$el.offsetHeight){
+								this.realPlacement = 'left'
+							}
+							if(point.top + $target.offsetHeight/2 < this.$el.offsetHeight/2){
+								this.realPlacement = 'left-start'
+							}
+						}else if(point.top > this.$el.offsetHeight){//顶部距离够
+							this.realPlacement = 'top'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'top-end'
+							}
+						}else if(point.bottom > this.$el.offsetHeight){//底部距离够
+							this.realPlacement = 'bottom'
+							if(point.left + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-start'
+							}
+							if(point.right + $target.offsetWidth/2 < this.$el.offsetWidth/2){
+								this.realPlacement = 'bottom-end'
+							}
 						}
 					}else {
 						if(point.top + $target.offsetHeight < this.$el.offsetHeight){
