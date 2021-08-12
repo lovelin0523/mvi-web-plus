@@ -85,7 +85,7 @@
 		 cellspacing="0" mvi-editor-insert-table>
 			<tbody mvi-editor-insert-table>
 				<tr v-for="item in tableRows" mvi-editor-insert-table>
-					<td v-for="el in tableColumns" mvi-editor-insert-table></td>
+					<td v-for="el in tableColumns" mvi-editor-insert-table><br></td>
 				</tr>
 			</tbody>
 		</table>

@@ -1,5 +1,6 @@
 <template>
 	<m-button @click="change">Button</m-button>
+	<m-editor v-model="value"></m-editor>
 </template>
 
 <script>
