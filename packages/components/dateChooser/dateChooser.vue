@@ -305,12 +305,12 @@ export default {
 	computed: {
 		currentYear() {
 			//当前年份显示值
-			return this.modelValue.getFullYear() + ' 年';
+			return this.modelValue.getFullYear() + '年';
 		},
 		currentMonth() {
 			//当前月份显示值
 			let month = this.modelValue.getMonth() + 1;
-			return (month < 10 ? '0' + month : month) + ' 月';
+			return (month < 10 ? '0' + month : month) + '月';
 		},
 		hoverHeader() {
 			//头部元素悬浮标记

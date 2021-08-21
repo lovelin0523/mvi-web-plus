@@ -16,7 +16,7 @@ const Notify = {
 			opts.color = options.color;
 			opts.zIndex = options.zIndex;
 			opts.icon = options.icon;
-		} else if (typeof options == "string") {
+		} else {
 			opts.message = options;
 		}
 		return opts;
