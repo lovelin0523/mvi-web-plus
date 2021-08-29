@@ -1,6 +1,6 @@
 <template>
 	<m-button @click="change">Button</m-button>
-	<m-editor v-model="value"></m-editor>
+	<m-editor v-observe="observe" v-model="value"></m-editor>
 </template>
 
 <script>
@@ -9,6 +9,15 @@ export default {
 	name: 'App',
 	data() {
 		return {
+			observe:{
+				attributes:true,childList:true,subtree:true,
+				attributesChange:(attributeName,oldValue,newValue)=>{
+					console.log(attributeName,oldValue,newValue)
+				},
+				childNodesChange:(addNodes,removeNodes)=>{
+					console.log(addNodes,removeNodes)
+				}
+			},
 			counts:100000,
 			spyOpt:{
 				el:'#el',

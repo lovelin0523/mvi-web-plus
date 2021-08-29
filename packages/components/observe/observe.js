@@ -48,12 +48,21 @@ class Observe {
 				let length = mutationList.length;
 				for(let i = 0;i<length;i++){
 					//监听属性
-					if(this.attributes){
+					if(mutationList[i].type == 'attributes' && this.attributes){
 						this.attributesChange(mutationList[i].attributeName,mutationList[i].oldValue,this.$el.getAttribute(mutationList[i].attributeName));
 					}
 					//监听子节点变动
-					if(this.childList){
-						this.childNodesChange(mutationList[i].addedNodes,mutationList[i].removedNodes);
+					if(mutationList[i].type == 'childList' && this.childList){
+						for(let node of mutationList[i].addedNodes){
+							if($util.isElement(node)){
+								this.childNodesChange(node,null)
+							}
+						}
+						for(let node of mutationList[i].removedNodes){
+							if($util.isElement(node)){
+								this.childNodesChange(null,node)
+							}
+						}
 					}
 				}
 			});
