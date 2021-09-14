@@ -1,6 +1,13 @@
 const util = {
 	
 	/**
+	 * 格式化数字，转为字符串
+	 */
+	formatNumber(num){
+		return num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+	},
+	
+	/**
 	 * 文字复制方法
 	 */
 	copyText(text){

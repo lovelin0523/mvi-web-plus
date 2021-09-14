@@ -80,6 +80,9 @@ class Drag {
 	_setOn() {
 		//触摸开始
 		this.$el.on('touchstart.drag', e => {
+			if(!this.draggableX && !this.draggableY){
+				return
+			}
 			this.pageX = e.targetTouches[0].pageX - $util.getElementPoint(this.$el, this.$container).left;
 			this.pageY = e.targetTouches[0].pageY - $util.getElementPoint(this.$el, this.$container).top;
 			this.draggable = true;
@@ -93,10 +96,13 @@ class Drag {
 		})
 		//触摸移动
 		this.$el.on('touchmove.drag', e => {
-			if (e.cancelable) {
-				e.preventDefault();
-			}
 			if (this.draggable) {
+				if(!this.draggableX && !this.draggableY){
+					return
+				}
+				if (e.cancelable) {
+					e.preventDefault();
+				}
 				let left = e.targetTouches[0].pageX - this.pageX;
 				let top = e.targetTouches[0].pageY - this.pageY;
 				if (this.draggableX) {
@@ -119,6 +125,9 @@ class Drag {
 		//触摸松开后，拖拽状态更改为false，触发监听事件
 		this.$el.on('touchend.drag', e => {
 			if (this.draggable) {
+				if(!this.draggableX && !this.draggableY){
+					return
+				}
 				this.draggable = false;
 				this.$el.style.cursor = ''
 				//监听事件
@@ -131,6 +140,9 @@ class Drag {
 		})
 		//鼠标按下
 		this.$el.on('mousedown.drag', e => {
+			if(!this.draggableX && !this.draggableY){
+				return
+			}
 			this.pageX = e.pageX - $util.getElementPoint(this.$el, this.$container).left;
 			this.pageY = e.pageY - $util.getElementPoint(this.$el, this.$container).top;
 			this.draggable = true;
@@ -145,6 +157,9 @@ class Drag {
 		//鼠标移动
 		document.body.on(`mousemove.drag_${this.guid}`, e => {
 			if (this.draggable) {
+				if(!this.draggableX && !this.draggableY){
+					return
+				}
 				let left = e.pageX - this.pageX;
 				let top = e.pageY - this.pageY;
 				if (this.draggableX) {
@@ -167,6 +182,9 @@ class Drag {
 		//鼠标松开后，拖拽状态更改为false，触发监听事件
 		document.body.on(`mouseup.drag_${this.guid}`, e => {
 			if (this.draggable) {
+				if(!this.draggableX && !this.draggableY){
+					return
+				}
 				this.draggable = false;
 				this.$el.style.cursor = ''
 				//监听事件
