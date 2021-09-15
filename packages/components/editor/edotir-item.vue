@@ -659,7 +659,7 @@
 			copyRowAppend(row) {
 				let newRow = row.cloneNode(true);
 				newRow.querySelectorAll('td').forEach(td => {
-					td.innerText = '';
+					td.innerHTML = '<br>';
 				})
 				this.insertNodeAfter(newRow, row);
 			},
@@ -670,7 +670,7 @@
 				column.parentNode.parentNode.querySelectorAll('tr').forEach(tr => {
 					let td = $util.children(tr, 'td')[index];
 					let newColumn = td.cloneNode(true);
-					newColumn.innerText = '';
+					newColumn.innerHTML = '<br>';
 					this.insertNodeAfter(newColumn, td);
 				})
 			},
