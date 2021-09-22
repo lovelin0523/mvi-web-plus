@@ -94,7 +94,7 @@
 
 <script>
 	import { getCurrentInstance } from "vue"
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import Upload from "../upload/upload"
 	import mTooltip from "../tooltip/tooltip"
 	import mIcon from "../icon/icon"
@@ -179,7 +179,7 @@
 						//使用base64
 						if (this.editor.useBase64) {
 							files.forEach((file) => {
-								$util.dataFileToBase64(file).then(base64 => {
+								$dap.file.dataFileToBase64(file).then(base64 => {
 									if (this.value == 'image') {
 										this.editor.insertImage(base64);
 									} else {
@@ -227,8 +227,8 @@
 		},
 		mounted() {
 			if (this.editor.trigger == 'hover') {
-				this.$el.on('mouseenter.editor', this.showLayer);
-				this.$el.on('mouseleave.editor', this.hideLayer);
+				$dap.event.on(this.$el,'mouseenter.editor', this.showLayer)
+				$dap.event.on(this.$el,'mouseleave.editor', this.hideLayer)
 			}
 		},
 		methods: {
@@ -461,7 +461,7 @@
 				if (!this.linkText) {
 					this.linkText = this.linkUrl;
 				}
-				let link = $util.string2dom(`<a href="${this.linkUrl}">${this.linkText}</a>`);
+				let link = $dap.element.string2dom(`<a href="${this.linkUrl}">${this.linkText}</a>`);
 				if (this.linkTarget) {
 					link.setAttribute('target', '_blank');
 				}
@@ -530,7 +530,7 @@
 					this.hideLayer()
 					return;
 				}
-				if (!$util.matchingText(this.tableRows, 'number') || !$util.matchingText(this.tableColumns, 'number')) {
+				if (!$dap.common.matchingText(this.tableRows, 'number') || !$dap.common.matchingText(this.tableColumns, 'number')) {
 					this.hideLayer();
 					return;
 				}
@@ -548,12 +548,12 @@
 					this.copyRowAppend(tr);
 				}else if (this.editor.compareTag(node,'tbody')) { //tbody
 					let tbody = this.editor.getCompareTag(node,'tbody');
-					let children = $util.children(tbody, 'tr');
+					let children = $dap.element.children(tbody, 'tr');
 					this.copyRowAppend(children[children.length - 1]);
 				} else if (this.editor.compareTag(node,'table')) { //table
 					let table = this.editor.getCompareTag(node,'table')
-					let tbody = $util.children(table, 'tbody')[0];
-					let children = $util.children(tbody, 'tr');
+					let tbody = $dap.element.children(table, 'tbody')[0];
+					let children = $dap.element.children(tbody, 'tr');
 					this.copyRowAppend(children[children.length - 1]);
 				}
 				this.editor.updateHtmlText();
@@ -568,12 +568,12 @@
 					tr.remove()
 				}else if (this.editor.compareTag(node,'tbody')) { //tbody
 					let tbody = this.editor.getCompareTag(node,'tbody');
-					let children = $util.children(tbody, 'tr');
+					let children = $dap.element.children(tbody, 'tr');
 					children[children.length - 1].remove()
 				} else if (this.editor.compareTag(node,'table')) { //table
 					let table = this.editor.getCompareTag(node,'table')
-					let tbody = $util.children(table, 'tbody')[0];
-					let children = $util.children(tbody, 'tr');
+					let tbody = $dap.element.children(table, 'tbody')[0];
+					let children = $dap.element.children(tbody, 'tr');
 					children[children.length - 1].remove()
 				}
 				this.editor.updateHtmlText();
@@ -588,18 +588,18 @@
 					this.copyColumnAppend(td)
 				}else if(this.editor.compareTag(node,'tr')){
 					let tr = this.editor.getCompareTag(node,'tr');
-					let children = $util.children(tr, 'td');
+					let children = $dap.element.children(tr, 'td');
 					this.copyColumnAppend(children[children.length - 1]);
 				}else if(this.editor.compareTag(node,'tbody')){
 					let tbody = this.editor.getCompareTag(node,'tbody');
-					let tr = $util.children(tbody, 'tr')[0];
-					let childrenTd = $util.children(tr, 'td');
+					let tr = $dap.element.children(tbody, 'tr')[0];
+					let childrenTd = $dap.element.children(tr, 'td');
 					this.copyColumnAppend(childrenTd[childrenTd.length - 1]);
 				}else if(this.editor.compareTag(node,'table')){
 					let table = this.editor.getCompareTag(node,'table');
-					let tbody = $util.children(table, 'tbody')[0];
-					let tr = $util.children(tbody, 'tr')[0];
-					let childrenTd = $util.children(tr, 'td');
+					let tbody = $dap.element.children(table, 'tbody')[0];
+					let tr = $dap.element.children(tbody, 'tr')[0];
+					let childrenTd = $dap.element.children(tr, 'td');
 					this.copyColumnAppend(childrenTd[childrenTd.length - 1]);
 				}
 				this.editor.updateHtmlText();
@@ -614,18 +614,18 @@
 					this.removeColumn(td);
 				}else if(this.editor.compareTag(node,'tr')){
 					let tr = this.editor.getCompareTag(node,'tr');
-					let children = $util.children(tr, 'td');
+					let children = $dap.element.children(tr, 'td');
 					this.removeColumn(children[children.length - 1]);
 				}else if(this.editor.compareTag(node,'tbody')){
 					let tbody = this.editor.getCompareTag(node,'tbody');
-					let tr = $util.children(tbody, 'tr')[0];
-					let childrenTd = $util.children(tr, 'td');
+					let tr = $dap.element.children(tbody, 'tr')[0];
+					let childrenTd = $dap.element.children(tr, 'td');
 					this.removeColumn(childrenTd[childrenTd.length - 1]);
 				}else if(this.editor.compareTag(node,'table')){
 					let table = this.editor.getCompareTag(node,'table');
-					let tbody = $util.children(table, 'tbody')[0];
-					let tr = $util.children(tbody, 'tr')[0];
-					let childrenTd = $util.children(tr, 'td');
+					let tbody = $dap.element.children(table, 'tbody')[0];
+					let tr = $dap.element.children(tbody, 'tr')[0];
+					let childrenTd = $dap.element.children(tr, 'td');
 					this.removeColumn(childrenTd[childrenTd.length - 1]);
 				}
 				this.editor.updateHtmlText();
@@ -648,7 +648,7 @@
 			//在指定节点后插入节点
 			insertNodeAfter(newNode, targetNode) {
 				let parent = targetNode.parentNode;
-				let children = $util.children(parent);
+				let children = $dap.element.children(parent);
 				if (children[children.length - 1] == targetNode) {
 					parent.appendChild(newNode)
 				} else {
@@ -666,9 +666,9 @@
 			//复制表格列进行增加
 			copyColumnAppend(column) {
 				//该列在父元素中的序列
-				let index = [].indexOf.call($util.children(column.parentNode, column.tagName), column);
+				let index = [].indexOf.call($dap.element.children(column.parentNode, column.tagName), column);
 				column.parentNode.parentNode.querySelectorAll('tr').forEach(tr => {
-					let td = $util.children(tr, 'td')[index];
+					let td = $dap.element.children(tr, 'td')[index];
 					let newColumn = td.cloneNode(true);
 					newColumn.innerHTML = '<br>';
 					this.insertNodeAfter(newColumn, td);
@@ -677,9 +677,9 @@
 			//根据表格列删除指定的一列
 			removeColumn(column) {
 				//该列在父元素中的序列
-				let index = [].indexOf.call($util.children(column.parentNode, column.tagName), column);
+				let index = [].indexOf.call($dap.element.children(column.parentNode, column.tagName), column);
 				column.parentNode.parentNode.querySelectorAll('tr').forEach(tr => {
-					let td = $util.children(tr, 'td')[index];
+					let td = $dap.element.children(tr, 'td')[index];
 					td.remove();
 				})
 			},
@@ -690,13 +690,13 @@
 				let pre = null;
 				let innerHTML = ''
 				for (let i = 0; i < pres.length; i++) {
-					if ($util.isContains(pres[i], node)) {
+					if ($dap.element.isContains(pres[i], node)) {
 						pre = pres[i];
 						innerHTML = pre.innerHTML;
 						break;
 					}
 				}
-				let pEl = $util.string2dom("<p>" + innerHTML + "</p>");
+				let pEl = $dap.element.string2dom("<p>" + innerHTML + "</p>");
 				this.insertNodeAfter(pEl,pre)
 				pre.remove()
 				if(this.editor.range){
@@ -713,15 +713,15 @@
 				let blockquote = null;
 				let innerHTML = ''
 				for (let i = 0; i < blockquotes.length; i++) {
-					if ($util.isContains(blockquotes[i], node)) {
+					if ($dap.element.isContains(blockquotes[i], node)) {
 						blockquote = blockquotes[i];
 						innerHTML = blockquote.innerHTML;
 						break;
 					}
 				}
-				let pEl = $util.string2dom("<p>" + innerHTML + "</p>");
+				let pEl = $dap.element.string2dom("<p>" + innerHTML + "</p>");
 				if(pEl instanceof HTMLCollection){
-					pEl = $util.string2dom("<div>" + innerHTML + "</div>")
+					pEl = $dap.element.string2dom("<div>" + innerHTML + "</div>")
 				}
 				this.insertNodeAfter(pEl,blockquote)
 				blockquote.remove()
@@ -735,7 +735,7 @@
 		},
 		beforeUnmount() {
 			if (this.editor.trigger == 'hover') {
-				this.$el.off('mouseenter.editor mouseleave.editor');
+				$dap.event.off(this.$el,'mouseenter.editor mouseleave.editor')
 			}
 		}
 	}

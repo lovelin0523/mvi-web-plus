@@ -31,7 +31,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
 		name: "m-page",
@@ -112,7 +112,7 @@
 					let style = {};
 					if(this.modelValue == item){
 						if(this.el){
-							style.color = $util.getCssStyle(this.el,'background-color');
+							style.color = $dap.element.getCssStyle(this.el,'background-color');
 						}
 						style.backgroundColor = (this.color?this.color:'');
 					}else{
@@ -144,7 +144,7 @@
 			},
 			firstIconType() {
 				let t = 'angle-double-left';
-				if ($util.isObject(this.firstIcon)) {
+				if ($dap.common.isObject(this.firstIcon)) {
 					if (typeof this.firstIcon.type == "string") {
 						t = this.firstIcon.type;
 					}
@@ -155,7 +155,7 @@
 			},
 			firstIconUrl() {
 				let url = null;
-				if ($util.isObject(this.firstIcon)) {
+				if ($dap.common.isObject(this.firstIcon)) {
 					if (typeof this.firstIcon.url == "string") {
 						url = this.firstIcon.url;
 					}
@@ -164,7 +164,7 @@
 			},
 			firstIconSpin() {
 				let spin = false;
-				if ($util.isObject(this.firstIcon)) {
+				if ($dap.common.isObject(this.firstIcon)) {
 					if (typeof this.firstIcon.spin == "boolean") {
 						spin = this.firstIcon.spin;
 					}
@@ -173,7 +173,7 @@
 			},
 			firstIconSize(){
 				let size = null;
-				if ($util.isObject(this.firstIcon)) {
+				if ($dap.common.isObject(this.firstIcon)) {
 					if (typeof this.firstIcon.size == "string") {
 						size = this.firstIcon.size;
 					}
@@ -182,7 +182,7 @@
 			},
 			firstIconColor(){
 				let color = null;
-				if ($util.isObject(this.firstIcon)) {
+				if ($dap.common.isObject(this.firstIcon)) {
 					if (typeof this.firstIcon.color == "string") {
 						color = this.firstIcon.color;
 					}
@@ -191,7 +191,7 @@
 			},
 			lastIconType() {
 				let t = 'angle-double-right';
-				if ($util.isObject(this.lastIcon)) {
+				if ($dap.common.isObject(this.lastIcon)) {
 					if (typeof this.lastIcon.type == "string") {
 						t = this.lastIcon.type;
 					}
@@ -202,7 +202,7 @@
 			},
 			lastIconUrl() {
 				let url = null;
-				if ($util.isObject(this.lastIcon)) {
+				if ($dap.common.isObject(this.lastIcon)) {
 					if (typeof this.lastIcon.url == "string") {
 						url = this.lastIcon.url;
 					}
@@ -211,7 +211,7 @@
 			},
 			lastIconSpin() {
 				let spin = false;
-				if ($util.isObject(this.lastIcon)) {
+				if ($dap.common.isObject(this.lastIcon)) {
 					if (typeof this.lastIcon.spin == "boolean") {
 						spin = this.lastIcon.spin;
 					}
@@ -220,7 +220,7 @@
 			},
 			lastIconSize(){
 				let size = null;
-				if ($util.isObject(this.lastIcon)) {
+				if ($dap.common.isObject(this.lastIcon)) {
 					if (typeof this.lastIcon.size == "string") {
 						size = this.lastIcon.size;
 					}
@@ -229,7 +229,7 @@
 			},
 			lastIconColor(){
 				let color = null;
-				if ($util.isObject(this.lastIcon)) {
+				if ($dap.common.isObject(this.lastIcon)) {
 					if (typeof this.lastIcon.color == "string") {
 						color = this.lastIcon.color;
 					}
@@ -238,7 +238,7 @@
 			},
 			prevIconType() {
 				let t = 'angle-left';
-				if ($util.isObject(this.prevIcon)) {
+				if ($dap.common.isObject(this.prevIcon)) {
 					if (typeof this.prevIcon.type == "string") {
 						t = this.prevIcon.type;
 					}
@@ -249,7 +249,7 @@
 			},
 			prevIconUrl() {
 				let url = null;
-				if ($util.isObject(this.prevIcon)) {
+				if ($dap.common.isObject(this.prevIcon)) {
 					if (typeof this.prevIcon.url == "string") {
 						url = this.prevIcon.url;
 					}
@@ -258,7 +258,7 @@
 			},
 			prevIconSpin() {
 				let spin = false;
-				if ($util.isObject(this.prevIcon)) {
+				if ($dap.common.isObject(this.prevIcon)) {
 					if (typeof this.prevIcon.spin == "boolean") {
 						spin = this.prevIcon.spin;
 					}
@@ -267,7 +267,7 @@
 			},
 			prevIconSize(){
 				let size = null;
-				if ($util.isObject(this.prevIcon)) {
+				if ($dap.common.isObject(this.prevIcon)) {
 					if (typeof this.prevIcon.size == "string") {
 						size = this.prevIcon.size;
 					}
@@ -276,7 +276,7 @@
 			},
 			prevIconColor(){
 				let color = null;
-				if ($util.isObject(this.prevIcon)) {
+				if ($dap.common.isObject(this.prevIcon)) {
 					if (typeof this.prevIcon.color == "string") {
 						color = this.prevIcon.color;
 					}
@@ -285,7 +285,7 @@
 			},
 			nextIconType() {
 				let t = 'angle-right';
-				if ($util.isObject(this.nextIcon)) {
+				if ($dap.common.isObject(this.nextIcon)) {
 					if (typeof this.nextIcon.type == "string") {
 						t = this.nextIcon.type;
 					}
@@ -296,7 +296,7 @@
 			},
 			nextIconUrl() {
 				let url = null;
-				if ($util.isObject(this.nextIcon)) {
+				if ($dap.common.isObject(this.nextIcon)) {
 					if (typeof this.nextIcon.url == "string") {
 						url = this.nextIcon.url;
 					}
@@ -305,7 +305,7 @@
 			},
 			nextIconSpin() {
 				let spin = false;
-				if ($util.isObject(this.nextIcon)) {
+				if ($dap.common.isObject(this.nextIcon)) {
 					if (typeof this.nextIcon.spin == "boolean") {
 						spin = this.nextIcon.spin;
 					}
@@ -314,7 +314,7 @@
 			},
 			nextIconSize(){
 				let size = null;
-				if ($util.isObject(this.nextIcon)) {
+				if ($dap.common.isObject(this.nextIcon)) {
 					if (typeof this.nextIcon.size == "string") {
 						size = this.nextIcon.size;
 					}
@@ -323,7 +323,7 @@
 			},
 			nextIconColor(){
 				let color = null;
-				if ($util.isObject(this.nextIcon)) {
+				if ($dap.common.isObject(this.nextIcon)) {
 					if (typeof this.nextIcon.color == "string") {
 						color = this.nextIcon.color;
 					}

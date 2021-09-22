@@ -19,7 +19,7 @@
 
 <script>
 	import { getCurrentInstance } from "vue"
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
 		name:"m-tabs",
@@ -221,7 +221,7 @@
 				},100)
 			})
 			this.setHeight()
-			window.on(`resize.tabs_${this.uid}`,this.setHeight);
+			$dap.event.on(window,`resize.tabs_${this.uid}`,this.setHeight)
 		},
 		methods:{
 			//设置面板高度
@@ -263,12 +263,12 @@
 			},
 			//设置滑动条
 			setSlider(){
-				this.slideWidth = parseFloat($util.getCssStyle(this.$refs.headers.querySelector('.mvi-tab-header-active'),'width'));
-				this.slideLeft = $util.getElementPoint(this.$refs.headers.querySelector('.mvi-tab-header-active'),this.$refs.headers).left;
+				this.slideWidth = parseFloat($dap.element.getCssStyle(this.$refs.headers.querySelector('.mvi-tab-header-active'),'width'));
+				this.slideLeft = $dap.element.getElementPoint(this.$refs.headers.querySelector('.mvi-tab-header-active'),this.$refs.headers).left;
 			}
 		},
 		beforeUnmount() {
-			window.off(`resize.tabs_${this.uid}`);
+			$dap.event.off(window,`resize.tabs_${this.uid}`)
 		}
 	}
 </script>

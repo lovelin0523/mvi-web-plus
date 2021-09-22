@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import $util from '../../util/util'
+import $dap from "dap-util"
 import mModal from "../modal/modal"
 import mIcon from "../icon/icon"
 import mButton from "../button/button"
@@ -164,7 +164,7 @@ export default {
 		computedMessage() {
 			if (typeof this.message == 'string') {
 				return this.message;
-			} else if ($util.isObject(this.message)) {
+			} else if ($dap.common.isObject(this.message)) {
 				return JSON.stringify(this.message);
 			} else {
 				return String(this.message);
@@ -187,8 +187,8 @@ export default {
 					text:'取消'
 				}
 			}
-			if($util.isObject(this.btns)){
-				if($util.isObject(this.btns.ok)){
+			if($dap.common.isObject(this.btns)){
+				if($dap.common.isObject(this.btns.ok)){
 					if(typeof (this.btns.ok.type) == 'string'){
 						btns.ok.type = this.btns.ok.type;
 					}
@@ -205,7 +205,7 @@ export default {
 						btns.ok.text = this.btns.ok.text;
 					}
 				}
-				if($util.isObject(this.btns.cancel)){
+				if($dap.common.isObject(this.btns.cancel)){
 					if(typeof (this.btns.cancel.type) == 'string'){
 						btns.cancel.type = this.btns.cancel.type;
 					}
@@ -242,7 +242,7 @@ export default {
 				align:'left',
 				value:''
 			};
-			if($util.isObject(this.input)){
+			if($dap.common.isObject(this.input)){
 				if (typeof this.input.placeholder == 'string') {
 					input.placeholder = this.input.placeholder;
 				}
@@ -252,7 +252,7 @@ export default {
 				if (typeof this.input.autofocus == 'boolean') {
 					input.autofocus = this.input.autofocus;
 				}
-				if ($util.isNumber(this.input.maxlength)) {
+				if ($dap.number.isNumber(this.input.maxlength)) {
 					input.maxlength = this.input.maxlength;
 				}
 				if (typeof this.input.clearable == 'boolean') {
@@ -261,14 +261,14 @@ export default {
 				if (typeof this.input.align == 'string') {
 					input.align = this.input.align;
 				}
-				if (typeof this.input.value == 'string' || $util.isNumber(this.input.value)) {
+				if (typeof this.input.value == 'string' || $dap.number.isNumber(this.input.value)) {
 					input.value = this.input.value.toString();
 				}
 			}
 			return input;
 		},
 		computedZIndex() {
-			if ($util.isNumber(this.zIndex)) {
+			if ($dap.number.isNumber(this.zIndex)) {
 				return this.zIndex;
 			} else {
 				return 1000;
@@ -296,7 +296,7 @@ export default {
 			}
 		},
 		computedTimeout() {
-			if ($util.isNumber(this.timeout)) {
+			if ($dap.number.isNumber(this.timeout)) {
 				return this.timeout;
 			} else {
 				return 300;

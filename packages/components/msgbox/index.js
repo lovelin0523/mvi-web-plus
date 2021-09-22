@@ -1,14 +1,14 @@
 import {
 	createApp
 } from "vue"
-import $util from "../../util/util"
+import $dap from "dap-util"
 import msgBoxComponent from './msgbox'
 
 const MsgBox = {
 	//初始化参数
 	initParams: options => {
 		let opts = {}
-		if ($util.isObject(options)) {
+		if ($dap.common.isObject(options)) {
 			opts.message = options.message;
 			opts.timeout = options.timeout;
 			opts.animation = options.animation;
@@ -25,7 +25,7 @@ const MsgBox = {
 	msgbox: options => {
 		return new Promise((resolve, reject) => {
 			let opts = MsgBox.initParams(options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(msgBoxComponent, {
 				...opts,

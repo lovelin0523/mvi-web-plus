@@ -124,7 +124,7 @@
 			}
 		},
 		mounted() {
-			window.on(`resize.imagePreview_${this.uid}`,this.resize)
+			$dap.event.on(window,`resize.imagePreview_${this.uid}`,this.resize)
 		},
 		methods: {
 			//调整大小
@@ -235,7 +235,7 @@
 			}
 		},
 		beforeUnmount() {
-			window.off(`resize.imagePreview_${this.uid}`)
+			$dap.event.off(window,`resize.imagePreview_${this.uid}`)
 		}
 	}
 </script>

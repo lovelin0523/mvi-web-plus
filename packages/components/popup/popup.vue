@@ -19,7 +19,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mOverlay from "../overlay/overlay"
 	import mIcon from "../icon/icon"
 	export default {
@@ -103,7 +103,7 @@
 		computed:{
 			iconType() {
 				let t = "times";
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.type == "string") {
 						t = this.timesIcon.type;
 					}
@@ -114,7 +114,7 @@
 			},
 			iconUrl() {
 				let url = null;
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.url == "string") {
 						url = this.timesIcon.url;
 					}
@@ -123,7 +123,7 @@
 			},
 			iconSpin() {
 				let spin = false;
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.spin == "boolean") {
 						spin = this.timesIcon.spin;
 					}
@@ -132,7 +132,7 @@
 			},
 			iconSize(){
 				let size = null;
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.size == "string") {
 						size = this.timesIcon.size;
 					}
@@ -141,7 +141,7 @@
 			},
 			iconColor(){
 				let color = null;
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.color == "string") {
 						color = this.timesIcon.color;
 					}
@@ -222,10 +222,10 @@
 			//弹出层显示前
 			beforeEnter(el){
 				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
-				if(el.data('mvi-popup-beforeEnter-trigger')){
+				if($dap.data.get(el,'mvi-popup-beforeEnter-trigger')){
 					return;
 				}
-				el.data('mvi-popup-beforeEnter-trigger',true);
+				$dap.data.set(el,'mvi-popup-beforeEnter-trigger',true)
 				
 				this.$emit('show',el);
 				if(typeof this.popupComponentWatch == 'function'){
@@ -235,10 +235,10 @@
 			//弹出层显示时
 			enter(el){
 				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
-				if(el.data('mvi-popup-enter-trigger')){
+				if($dap.data.get(el,'mvi-popup-enter-trigger')){
 					return;
 				}
-				el.data('mvi-popup-enter-trigger',true);
+				$dap.data.set(el,'mvi-popup-enter-trigger',true)
 				
 				this.$emit('showing',el);
 				if(typeof this.popupComponentWatch == 'function'){
@@ -255,8 +255,8 @@
 			//弹出层隐藏前
 			beforeLeave(el){
 				//清除标记
-				el.data('mvi-popup-beforeEnter-trigger',false);
-				el.data('mvi-popup-enter-trigger',false);
+				$dap.data.remove(el,'mvi-popup-beforeEnter-trigger')
+				$dap.data.remove(el,'mvi-popup-enter-trigger')
 				
 				this.$emit('hide',el);
 				if(typeof this.popupComponentWatch == 'function'){

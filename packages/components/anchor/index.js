@@ -1,4 +1,4 @@
-import $util from "../../util/util"
+import $dap from "dap-util"
 import Anchor from "./anchor"
 
 Anchor.install = app => {
@@ -6,7 +6,7 @@ Anchor.install = app => {
 	app.directive('anchor', {
 		mounted(el, binding) {
 			let options = {}
-			if ($util.isObject(binding.value)) {
+			if ($dap.common.isObject(binding.value)) {
 				Object.assign(options, binding.value)
 			}
 			let anchor = new Anchor(el, options)

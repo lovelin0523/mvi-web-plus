@@ -6,7 +6,7 @@
 
 <script>
 	import { h } from "vue"
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name:'m-row',
 		props:{

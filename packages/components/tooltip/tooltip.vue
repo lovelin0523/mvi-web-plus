@@ -16,7 +16,7 @@
 
 <script>
 	import { getCurrentInstance } from "vue"
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mLayer from "../layer/layer"
 	export default {
 		name:"m-tooltip",

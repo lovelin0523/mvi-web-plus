@@ -33,7 +33,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name:"m-calendar",
 		props:{
@@ -158,7 +158,7 @@
 			//显示在日期面板上的日期数组
 			days(){
 				//获取指定日期的总天数
-				let total = $util.getDays(this.modelValue.getFullYear(),this.modelValue.getMonth()+1);
+				let total = $dap.date.getDays(this.modelValue.getFullYear(),this.modelValue.getMonth()+1);
 				let arry = [];
 				for(let i = 0;i<total;i++){
 					arry.push({
@@ -173,7 +173,7 @@
 				let week = fd.getDay();//获取1号是周几
 				let pd = fd;
 				for(let i = 0;i<week;i++){
-					let prevDate = $util.showTime(pd,-1);//获取前一天
+					let prevDate = $dap.date.getDateBefore(pd,1);//获取前一天
 					arry.unshift({
 						date:prevDate,
 						now: false,
@@ -186,7 +186,7 @@
 				let ld = this.getSpecifiedDate(total);
 				let length = arry.length;
 				for(let i = length;i<35;i++){
-					let nextDate = $util.showTime(ld,1);//获取后一天
+					let nextDate = $dap.date.getDateAfter(ld,1);//获取后一天
 					arry.push({
 						date:nextDate,
 						now: false,
@@ -204,7 +204,7 @@
 					if(item.current){//指定年
 						if(typeof this.currentClass == "string" && this.currentClass){
 							cls.push(this.currentClass)
-						}else if($util.isObject(this.currentClass) && typeof this.currentClass.year=="string" && this.currentClass.year){
+						}else if($dap.common.isObject(this.currentClass) && typeof this.currentClass.year=="string" && this.currentClass.year){
 							cls.push(this.currentClass.year)
 						}else{
 							cls.push('mvi-calendar-year-current');
@@ -220,7 +220,7 @@
 					if(item.current){//指定月
 						if(typeof this.currentClass == "string" && this.currentClass){
 							cls.push(this.currentClass);
-						}else if($util.isObject(this.currentClass) && typeof this.currentClass.month=="string" && this.currentClass.month){
+						}else if($dap.common.isObject(this.currentClass) && typeof this.currentClass.month=="string" && this.currentClass.month){
 							cls.push(this.currentClass.month);
 						}else{
 							cls.push('mvi-calendar-month-current');
@@ -236,7 +236,7 @@
 					if(item.current){//指定日期
 						if(typeof this.currentClass == "string" && this.currentClass){
 							cls.push(this.currentClass)
-						}else if($util.isObject(this.currentClass) && typeof this.currentClass.date=="string" && this.currentClass.date){
+						}else if($dap.common.isObject(this.currentClass) && typeof this.currentClass.date=="string" && this.currentClass.date){
 							cls.push(this.currentClass.date)
 						}else{
 							cls.push('mvi-calendar-date-current');
@@ -252,7 +252,7 @@
 					if(item.now){//当前年
 						if(typeof this.nowClass == "string" && this.nowClass){
 							cls.push(this.nowClass)
-						}else if($util.isObject(this.nowClass) && typeof this.nowClass.year=="string" && this.nowClass.year){
+						}else if($dap.common.isObject(this.nowClass) && typeof this.nowClass.year=="string" && this.nowClass.year){
 							cls.push(this.nowClass.year)
 						}else{
 							cls.push('mvi-calendar-year-now');
@@ -268,7 +268,7 @@
 					if(item.now){//当前月
 						if(typeof this.nowClass == "string" && this.nowClass){
 							cls.push(this.nowClass)
-						}else if($util.isObject(this.nowClass) && typeof this.nowClass.month=="string" && this.nowClass.month){
+						}else if($dap.common.isObject(this.nowClass) && typeof this.nowClass.month=="string" && this.nowClass.month){
 							cls.push(this.nowClass.month)
 						}else{
 							cls.push('mvi-calendar-month-now');
@@ -284,7 +284,7 @@
 					if(item.now){//当前月
 						if(typeof this.nowClass == "string"){
 							cls.push(this.nowClass)
-						}else if($util.isObject(this.nowClass) && typeof this.nowClass.date=="string" && this.nowClass.date){
+						}else if($dap.common.isObject(this.nowClass) && typeof this.nowClass.date=="string" && this.nowClass.date){
 							cls.push(this.nowClass.date)
 						}else{
 							cls.push('mvi-calendar-date-now')

@@ -15,7 +15,7 @@
 
 <script>
 	import { getCurrentInstance } from "vue"
-	import $util from "../../util/util.js"
+	import $dap from "dap-util"
 	export default {
 		name:"m-swipe-cell",
 		data(){
@@ -60,8 +60,8 @@
 			}
 		},
 		mounted() {
-			document.body.on(`mousemove.swipeCell_${this.uid}`,this.cellMouseMove);
-			document.body.on(`mouseup.swipeCell_${this.uid}`,this.cellMouseUp);
+			$dap.event.on(document.body,`mousemove.swipeCell_${this.uid}`,this.cellMouseMove)
+			$dap.event.on(document.body,`mouseup.swipeCell_${this.uid}`,this.cellMouseUp)
 		},
 		methods:{
 			//触摸开始
@@ -82,7 +82,7 @@
 				let moveX = endX - this.startX;//每次移动的偏移值
 				let moveX2 = endX - this.startX2;//总偏移值
 				this.startX = endX;
-				if(Math.abs(moveX2) <= $util.rem2px(1)){
+				if(Math.abs(moveX2) <= $dap.element.rem2px(1)){
 					return;
 				}
 				if(event.cancelable){
@@ -164,7 +164,7 @@
 				let moveX = endX - this.startX;//每次移动的偏移值
 				let moveX2 = endX - this.startX2;//总偏移值
 				this.startX = endX;
-				if(Math.abs(moveX2) <= $util.rem2px(1)){
+				if(Math.abs(moveX2) <= $dap.element.rem2px(1)){
 					return;
 				}
 				if(event.cancelable){
@@ -306,7 +306,7 @@
 			}
 		},
 		beforeUnmount() {
-			document.body.off(`mousemove.swipeCell_${this.uid} mouseup.swipeCell_${this.uid}`);
+			$dap.event.off(document.body,`mousemove.swipeCell_${this.uid} mouseup.swipeCell_${this.uid}`)
 		}
 	}
 </script>

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
 		name:"m-tabbar-item",
@@ -45,7 +45,7 @@
 		computed:{
 			iconType() {
 				let t = null;
-				if ($util.isObject(this.icon)) {
+				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.type == "string") {
 						t = this.icon.type;
 					}
@@ -56,7 +56,7 @@
 			},
 			iconUrl() {
 				let url = null;
-				if ($util.isObject(this.icon)) {
+				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.url == "string") {
 						url = this.icon.url;
 					}
@@ -65,7 +65,7 @@
 			},
 			iconSpin() {
 				let spin = false;
-				if ($util.isObject(this.icon)) {
+				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.spin == "boolean") {
 						spin = this.icon.spin;
 					}
@@ -74,7 +74,7 @@
 			},
 			iconSize(){
 				let size = null;
-				if ($util.isObject(this.icon)) {
+				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.size == "string") {
 						size = this.icon.size;
 					}
@@ -83,7 +83,7 @@
 			},
 			iconColor(){
 				let color = null;
-				if ($util.isObject(this.icon)) {
+				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.color == "string") {
 						color = this.icon.color;
 					}
@@ -123,7 +123,7 @@
 					route = {
 						path:this.route
 					}
-				}else if($util.isObject(this.route)){
+				}else if($dap.common.isObject(this.route)){
 					//路径
 					if(typeof this.route.path == 'string' && this.route.path){
 						route.path = this.route.path;
@@ -133,13 +133,13 @@
 						route.name = this.route.name;
 					}
 					//路由参数
-					if($util.isObject(this.route.query)){
+					if($dap.common.isObject(this.route.query)){
 						route.query = this.route.query;
 					}else {
 						route.query = {};
 					}
 					//动态路由参数
-					if($util.isObject(this.route.params)){
+					if($dap.common.isObject(this.route.params)){
 						route.params = this.route.params;
 					}else {
 						route.params = {};

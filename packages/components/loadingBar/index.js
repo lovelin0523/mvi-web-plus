@@ -1,14 +1,14 @@
 import {
 	createApp
 } from "vue"
-import $util from "../../util/util"
+import $dap from "dap-util"
 import LoadingBarComponent from './loadingBar'
 
 const LoadingBar = {
 	//初始化参数
 	initParams: options => {
 		let opts = {}
-		if ($util.isObject(options)) {
+		if ($dap.common.isObject(options)) {
 			opts.color = options.color;
 			opts.zIndex = options.zIndex;
 		} else if (typeof options == "string") {
@@ -26,7 +26,7 @@ const LoadingBar = {
 				LoadingBar.$el.remove();
 			}
 			let opts = LoadingBar.initParams(options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(LoadingBarComponent, {
 				...opts,

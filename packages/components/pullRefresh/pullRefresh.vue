@@ -12,7 +12,7 @@
 
 <script>
 	import { getCurrentInstance } from "vue"
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
 		name: "m-pull-refresh",
@@ -149,7 +149,7 @@
 			},
 			pullingIconType() {
 				let t = 'arrow-down';
-				if ($util.isObject(this.pullingIcon)) {
+				if ($dap.common.isObject(this.pullingIcon)) {
 					if (typeof this.pullingIcon.type == "string") {
 						t = this.pullingIcon.type;
 					}
@@ -160,7 +160,7 @@
 			},
 			pullingIconUrl() {
 				let url = null;
-				if ($util.isObject(this.pullingIcon)) {
+				if ($dap.common.isObject(this.pullingIcon)) {
 					if (typeof this.pullingIcon.url == "string") {
 						url = this.pullingIcon.url;
 					}
@@ -169,7 +169,7 @@
 			},
 			pullingIconSpin() {
 				let spin = false;
-				if ($util.isObject(this.pullingIcon)) {
+				if ($dap.common.isObject(this.pullingIcon)) {
 					if (typeof this.pullingIcon.spin == "boolean") {
 						spin = this.pullingIcon.spin;
 					}
@@ -178,7 +178,7 @@
 			},
 			pullingIconSize(){
 				let size = null;
-				if ($util.isObject(this.pullingIcon)) {
+				if ($dap.common.isObject(this.pullingIcon)) {
 					if (typeof this.pullingIcon.size == "string") {
 						size = this.pullingIcon.size;
 					}
@@ -187,7 +187,7 @@
 			},
 			pullingIconColor(){
 				let color = null;
-				if ($util.isObject(this.pullingIcon)) {
+				if ($dap.common.isObject(this.pullingIcon)) {
 					if (typeof this.pullingIcon.color == "string") {
 						color = this.pullingIcon.color;
 					}
@@ -196,7 +196,7 @@
 			},
 			loosingIconType() {
 				let t = 'arrow-up';
-				if ($util.isObject(this.loosingIcon)) {
+				if ($dap.common.isObject(this.loosingIcon)) {
 					if (typeof this.loosingIcon.type == "string") {
 						t = this.loosingIcon.type;
 					}
@@ -207,7 +207,7 @@
 			},
 			loosingIconUrl() {
 				let url = null;
-				if ($util.isObject(this.loosingIcon)) {
+				if ($dap.common.isObject(this.loosingIcon)) {
 					if (typeof this.loosingIcon.url == "string") {
 						url = this.loosingIcon.url;
 					}
@@ -216,7 +216,7 @@
 			},
 			loosingIconSpin() {
 				let spin = false;
-				if ($util.isObject(this.loosingIcon)) {
+				if ($dap.common.isObject(this.loosingIcon)) {
 					if (typeof this.loosingIcon.spin == "boolean") {
 						spin = this.loosingIcon.spin;
 					}
@@ -225,7 +225,7 @@
 			},
 			loosingIconSize(){
 				let size = null;
-				if ($util.isObject(this.loosingIcon)) {
+				if ($dap.common.isObject(this.loosingIcon)) {
 					if (typeof this.loosingIcon.size == "string") {
 						size = this.loosingIcon.size;
 					}
@@ -234,7 +234,7 @@
 			},
 			loosingIconColor(){
 				let color = null;
-				if ($util.isObject(this.loosingIcon)) {
+				if ($dap.common.isObject(this.loosingIcon)) {
 					if (typeof this.loosingIcon.color == "string") {
 						color = this.loosingIcon.color;
 					}
@@ -243,7 +243,7 @@
 			},
 			loadingIconType() {
 				let t = 'load-e';
-				if ($util.isObject(this.loadingIcon)) {
+				if ($dap.common.isObject(this.loadingIcon)) {
 					if (typeof this.loadingIcon.type == "string") {
 						t = this.loadingIcon.type;
 					}
@@ -254,7 +254,7 @@
 			},
 			loadingIconUrl() {
 				let url = null;
-				if ($util.isObject(this.loadingIcon)) {
+				if ($dap.common.isObject(this.loadingIcon)) {
 					if (typeof this.loadingIcon.url == "string") {
 						url = this.loadingIcon.url;
 					}
@@ -263,7 +263,7 @@
 			},
 			loadingIconSpin() {
 				let spin = true;
-				if ($util.isObject(this.loadingIcon)) {
+				if ($dap.common.isObject(this.loadingIcon)) {
 					if (typeof this.loadingIcon.spin == "boolean") {
 						spin = this.loadingIcon.spin;
 					}
@@ -272,7 +272,7 @@
 			},
 			loadingIconSize(){
 				let size = null;
-				if ($util.isObject(this.loadingIcon)) {
+				if ($dap.common.isObject(this.loadingIcon)) {
 					if (typeof this.loadingIcon.size == "string") {
 						size = this.loadingIcon.size;
 					}
@@ -281,7 +281,7 @@
 			},
 			loadingIconColor(){
 				let color = null;
-				if ($util.isObject(this.loadingIcon)) {
+				if ($dap.common.isObject(this.loadingIcon)) {
 					if (typeof this.loadingIcon.color == "string") {
 						color = this.loadingIcon.color;
 					}
@@ -300,8 +300,8 @@
 		},
 		mounted() {
 			this.statusInit();
-			document.body.on(`mousemove.pullRefresh_${this.uid}`, this.onPull2);
-			document.body.on(`mouseup.pullRefresh_${this.uid}`, this.pulled2);
+			$dap.event.on(document.body,`mousemove.pullRefresh_${this.uid}`, this.onPull2)
+			$dap.event.on(document.body,`mouseup.pullRefresh_${this.uid}`, this.pulled2)
 		},
 		watch: {
 			modelValue(newValue) {
@@ -323,12 +323,12 @@
 				if(!this.canTouch){
 					return;
 				}
-				if($util.getScrollTop(this.$el) != 0){
+				if($dap.element.getScrollTop(this.$el) != 0){
 					this.isTop = false;
 					return;
 				}
 				let el = this.getScrollEl(event.target);
-				if(el != this.$el && $util.getScrollTop(el) != 0){
+				if(el != this.$el && $dap.element.getScrollTop(el) != 0){
 					this.isTop = false;
 					return;
 				}
@@ -344,12 +344,12 @@
 				if(!this.canTouch){
 					return;
 				}
-				if($util.getScrollTop(this.$el) != 0){
+				if($dap.element.getScrollTop(this.$el) != 0){
 					this.isTop = false;
 					return;
 				}
 				let el = this.getScrollEl(event.target);
-				if(el != this.$el && $util.getScrollTop(el) != 0){
+				if(el != this.$el && $dap.element.getScrollTop(el) != 0){
 					this.isTop = false;
 					return;
 				}
@@ -370,7 +370,7 @@
 				if(!this.isTop){
 					return;
 				}
-				if($util.getScrollTop(this.$el) != 0){
+				if($dap.element.getScrollTop(this.$el) != 0){
 					if(this.transformY>-this.elHeight){
 						this.transformY = -this.elHeight;
 					}
@@ -378,7 +378,7 @@
 					return;
 				}
 				let el = this.getScrollEl(event.target);
-				if(el != this.$el && $util.getScrollTop(el) != 0){
+				if(el != this.$el && $dap.element.getScrollTop(el) != 0){
 					if(this.transformY>-this.elHeight){
 						this.transformY = -this.elHeight;
 					}
@@ -412,7 +412,7 @@
 				let y = this.transformY + move / this.amount;
 
 				//如果移动距离大于distance指定的距离，则变为可释放状态
-				if (y > $util.rem2px(this.distance)) {
+				if (y > $dap.element.rem2px(this.distance)) {
 					this.status = 1;
 				} else {
 					this.status = 0;
@@ -435,7 +435,7 @@
 				if(!this.isTop){
 					return;
 				}
-				if($util.getScrollTop(this.$el) != 0){
+				if($dap.element.getScrollTop(this.$el) != 0){
 					if(this.transformY>-this.elHeight){
 						this.transformY = -this.elHeight;
 					}
@@ -443,7 +443,7 @@
 					return;
 				}
 				let el = this.getScrollEl(event.target);
-				if(el != this.$el && $util.getScrollTop(el) != 0){
+				if(el != this.$el && $dap.element.getScrollTop(el) != 0){
 					if(this.transformY>-this.elHeight){
 						this.transformY = -this.elHeight;
 					}
@@ -478,7 +478,7 @@
 				let y = this.transformY + move / this.amount;
 
 				//如果移动距离大于distance指定的距离，则变为可释放状态
-				if (y > $util.rem2px(this.distance)) {
+				if (y > $dap.element.rem2px(this.distance)) {
 					this.status = 1;
 				} else {
 					this.status = 0;
@@ -555,7 +555,7 @@
 						this.$refs.refresh.style.webkitTransition = 'all 300ms';
 						this.$nextTick(() => {
 							setTimeout(() => {
-								this.transformY = $util.rem2px(this.distance);
+								this.transformY = $dap.element.rem2px(this.distance);
 								setTimeout(() => {
 									this.$refs.refresh.style.transition = '';
 									this.$refs.refresh.style.webkitTransition = '';
@@ -585,14 +585,14 @@
 				if(el === this.$el){
 					return this.$el;
 				}
-				if($util.getScrollHeight(el) > el.clientHeight){
+				if($dap.element.getScrollHeight(el) > el.clientHeight){
 					return el;
 				}
 				return this.getScrollEl(el.parentNode);
 			}
 		},
 		beforeUnmount() {
-			document.body.off(`mousemove.pullRefresh_${this.uid} mouseup.pullRefresh_${this.uid}`);
+			$dap.event.off(document.body,`mousemove.pullRefresh_${this.uid} mouseup.pullRefresh_${this.uid}`)
 		}
 	}
 </script>

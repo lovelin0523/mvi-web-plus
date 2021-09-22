@@ -6,7 +6,7 @@
 
 <script>
 	import { h } from "vue"
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name:'m-col',
 		props:{
@@ -54,58 +54,58 @@
 					cls.push('mvi-col-offset-'+this.offset)
 				}
 				
-				if($util.isObject(this.xs)){
-					if($util.isNumber(this.xs.span)){
+				if($dap.common.isObject(this.xs)){
+					if($dap.number.isNumber(this.xs.span)){
 						cls.push('mvi-col-xs-' + this.xs.span)
 					}
-					if($util.isNumber(this.xs.offset)){
+					if($dap.number.isNumber(this.xs.offset)){
 						cls.push('mvi-col-offset-xs-' + this.xs.offset)
 					}
-				}else if($util.isNumber(this.xs)){
+				}else if($dap.number.isNumber(this.xs)){
 					cls.push('mvi-col-xs-' + this.xs)
 				}
 				
-				if($util.isObject(this.sm)){
-					if($util.isNumber(this.sm.span)){
+				if($dap.common.isObject(this.sm)){
+					if($dap.number.isNumber(this.sm.span)){
 						cls.push('mvi-col-sm-' + this.sm.span);
 					}
-					if($util.isNumber(this.sm.offset)){
+					if($dap.number.isNumber(this.sm.offset)){
 						cls.push('mvi-col-offset-sm-' + this.sm.offset)
 					}
-				}else if($util.isNumber(this.sm)){
+				}else if($dap.number.isNumber(this.sm)){
 					cls.push('mvi-col-sm-' + this.sm)
 				}
 				
-				if($util.isObject(this.md)){
-					if($util.isNumber(this.md.span)){
+				if($dap.common.isObject(this.md)){
+					if($dap.number.isNumber(this.md.span)){
 						cls.push('mvi-col-md-' + this.md.span)
 					}
-					if($util.isNumber(this.md.offset)){
+					if($dap.number.isNumber(this.md.offset)){
 						cls.push('mvi-col-offset-md-' + this.md.offset)
 					}
-				}else if($util.isNumber(this.md)){
+				}else if($dap.number.isNumber(this.md)){
 					cls.push('mvi-col-md-' + this.md)
 				}
 				
-				if($util.isObject(this.lg)){
-					if($util.isNumber(this.lg.span)){
+				if($dap.common.isObject(this.lg)){
+					if($dap.number.isNumber(this.lg.span)){
 						cls.push('mvi-col-lg-' + this.lg.span)
 					}
-					if($util.isNumber(this.lg.offset)){
+					if($dap.number.isNumber(this.lg.offset)){
 						cls.push('mvi-col-offset-lg-' + this.lg.offset)
 					}
-				}else if($util.isNumber(this.lg)){
+				}else if($dap.number.isNumber(this.lg)){
 					cls.push('mvi-col-lg-' + this.lg)
 				}
 				
-				if($util.isObject(this.xl)){
-					if($util.isNumber(this.xl.span)){
+				if($dap.common.isObject(this.xl)){
+					if($dap.number.isNumber(this.xl.span)){
 						cls.push('mvi-col-xl-' + this.xl.span)
 					}
-					if($util.isNumber(this.xl.offset)){
+					if($dap.number.isNumber(this.xl.offset)){
 						cls.push('mvi-col-offset-xl-' + this.xl.offset)
 					}
-				}else if($util.isNumber(this.xl)){
+				}else if($dap.number.isNumber(this.xl)){
 					cls.push('mvi-col-xl-' + this.xl)
 				}
 				

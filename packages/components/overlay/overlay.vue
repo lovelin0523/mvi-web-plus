@@ -10,7 +10,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name: "m-overlay",
 		data(){
@@ -110,19 +110,19 @@
 				if(this.$$el.offsetParent){
 					this.offsetParent = this.$$el.offsetParent;
 					//元素含垂直滚动条(文档高度大于可视高度)
-					if($util.getScrollHeight(this.offsetParent) > this.offsetParent.clientHeight){
+					if($dap.element.getScrollHeight(this.offsetParent) > this.offsetParent.clientHeight){
 						if(this.usePadding){
 							//获取滚动条宽度
-							let scrollWidth = this.offsetParent.offsetWidth - this.offsetParent.clientWidth - parseFloat($util.getCssStyle(this.offsetParent,'border-right-width')) - parseFloat($util.getCssStyle(this.offsetParent,'border-left-width'));
+							let scrollWidth = this.offsetParent.offsetWidth - this.offsetParent.clientWidth - parseFloat($dap.element.getCssStyle(this.offsetParent,'border-right-width')) - parseFloat($dap.element.getCssStyle(this.offsetParent,'border-left-width'));
 							//记录原先右侧内边距的值
-							this.paddingRight = parseFloat($util.getCssStyle(this.offsetParent,'padding-right'));
+							this.paddingRight = parseFloat($dap.element.getCssStyle(this.offsetParent,'padding-right'));
 							//设置右侧内边距值
 							this.offsetParent.style.setProperty('padding-right',this.paddingRight+scrollWidth+'px','important');
 						}
 						//记录滚动条距离
-						this.scrollTop = $util.getScrollTop(this.offsetParent);
+						this.scrollTop = $dap.element.getScrollTop(this.offsetParent);
 						//记录overflow-y值
-						this.overflowY = $util.getCssStyle(this.offsetParent,'overflow-y');
+						this.overflowY = $dap.element.getCssStyle(this.offsetParent,'overflow-y');
 						//设置overflow-y为hidden
 						this.offsetParent.style.setProperty('overflow-y','hidden','important');
 						//设置遮罩层距离顶部的距离
@@ -131,19 +131,19 @@
 						this.hasVerticalScroll = true;
 					}
 					//元素含水平滚动条(文档宽度大于可视宽度)
-					if($util.getScrollWidth(this.offsetParent) > this.offsetParent.clientWidth){
+					if($dap.element.getScrollWidth(this.offsetParent) > this.offsetParent.clientWidth){
 						if(this.usePadding){
 							//获取滚动条高度
-							let scrollHeight = this.offsetParent.offsetHeight - this.offsetParent.clientHeight - parseFloat($util.getCssStyle(this.offsetParent,'border-bottom-width')) - parseFloat($util.getCssStyle(this.offsetParent,'border-top-width'));
+							let scrollHeight = this.offsetParent.offsetHeight - this.offsetParent.clientHeight - parseFloat($dap.element.getCssStyle(this.offsetParent,'border-bottom-width')) - parseFloat($dap.element.getCssStyle(this.offsetParent,'border-top-width'));
 							//记录原先底部侧内边距的值
-							this.paddingBottom = parseFloat($util.getCssStyle(this.offsetParent,'padding-bottom'));
+							this.paddingBottom = parseFloat($dap.element.getCssStyle(this.offsetParent,'padding-bottom'));
 							//设置底部内边距值
 							this.offsetParent.style.setProperty('padding-bottom',this.paddingBottom+scrollHeight+'px','important');
 						}
 						//记录滚动条距离
-						this.scrollLeft = $util.getScrollLeft(this.offsetParent);
+						this.scrollLeft = $dap.element.getScrollLeft(this.offsetParent);
 						//记录overflow-x值
-						this.overflowX = $util.getCssStyle(this.offsetParent,'overflow-x');
+						this.overflowX = $dap.element.getCssStyle(this.offsetParent,'overflow-x');
 						//设置overflow-x为hidden
 						this.offsetParent.style.setProperty('overflow-x','hidden','important');
 						//设置遮罩层距离左侧的距离

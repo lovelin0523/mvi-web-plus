@@ -44,7 +44,7 @@
 
 <script>
 import { getCurrentInstance } from "vue"
-import $util from '../../util/util'
+import $dap from "dap-util"
 import mIcon from "../icon/icon"
 import mLayer from "../layer/layer"
 export default {
@@ -282,7 +282,7 @@ export default {
 		},
 		selectedIconType() {
 			let type = 'success';
-			if ($util.isObject(this.selectedIcon)) {
+			if ($dap.common.isObject(this.selectedIcon)) {
 				if (typeof this.selectedIcon.type == 'string') {
 					type = this.selectedIcon.type;
 				}
@@ -293,7 +293,7 @@ export default {
 		},
 		selectedIconSize() {
 			let size = null;
-			if ($util.isObject(this.selectedIcon)) {
+			if ($dap.common.isObject(this.selectedIcon)) {
 				if (typeof this.selectedIcon.size == 'string') {
 					size = this.selectedIcon.size;
 				}
@@ -302,7 +302,7 @@ export default {
 		},
 		selectedIconUrl() {
 			let url = null;
-			if ($util.isObject(this.selectedIcon)) {
+			if ($dap.common.isObject(this.selectedIcon)) {
 				if (typeof this.selectedIcon.url == 'string') {
 					url = this.selectedIcon.url;
 				}
@@ -311,7 +311,7 @@ export default {
 		},
 		selectedIconSpin() {
 			let spin = false;
-			if ($util.isObject(this.selectedIcon)) {
+			if ($dap.common.isObject(this.selectedIcon)) {
 				if (typeof this.selectedIcon.spin == 'boolean') {
 					spin = this.selectedIcon.spin;
 				}
@@ -320,7 +320,7 @@ export default {
 		},
 		selectedIconColor() {
 			let color = null;
-			if ($util.isObject(this.selectedIcon)) {
+			if ($dap.common.isObject(this.selectedIcon)) {
 				if (typeof this.selectedIcon.color == 'string') {
 					color = this.selectedIcon.color;
 				}
@@ -346,7 +346,7 @@ export default {
 				return;
 			}
 			if (this.hoverClass) {
-				$util.addClass(e.currentTarget, this.hoverClass);
+				$dap.element.addClass(e.currentTarget, this.hoverClass);
 			}
 		},
 		//鼠标移出选项
@@ -355,7 +355,7 @@ export default {
 				return;
 			}
 			if (this.hoverClass) {
-				$util.removeClass(e.currentTarget, this.hoverClass);
+				$dap.element.removeClass(e.currentTarget, this.hoverClass);
 			}
 		},
 		//点击选项

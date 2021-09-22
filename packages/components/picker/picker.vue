@@ -27,7 +27,7 @@
 
 <script>
 import { getCurrentInstance } from "vue"
-import $util from '../../util/util';
+import $dap from "dap-util"
 import mLoading from "../loading/loading"
 export default {
 	name: 'm-picker',
@@ -110,17 +110,17 @@ export default {
 			if (this.selectHeight.includes('px')) {
 				return parseFloat(this.selectHeight);
 			} else if (this.selectHeight.includes('rem')) {
-				return $util.rem2px(parseFloat(this.selectHeight));
+				return $dap.element.rem2px(parseFloat(this.selectHeight));
 			}
 		},
 		loadingStyle() {
 			let style = {};
-			style.height = `calc(${this.computedHeight.multiplication(this.visibleCounts)}px + 0.88rem)`;
+			style.height = `calc(${$dap.number.mutiply(this.computedHeight,this.visibleCounts)}px + 0.88rem)`;
 			return style;
 		},
 		contentStyle() {
 			let style = {};
-			style.height = `${this.computedHeight.multiplication(this.visibleCounts)}px`;
+			style.height = `${$dap.number.mutiply(this.computedHeight,this.visibleCounts)}px`;
 			return style;
 		},
 		computedOptions() {
@@ -162,8 +162,8 @@ export default {
 	},
 	mounted() {
 		this.init();
-		document.body.on(`mousemove.picker_${this.uid}`, this.mousemove);
-		document.body.on(`mouseup.picker_${this.uid}`, this.mouseup);
+		$dap.event.on(document.body,`mousemove.picker_${this.uid}`, this.mousemove)
+		$dap.event.on(document.body,`mouseup.picker_${this.uid}`, this.mouseup)
 	},
 	methods: {
 		//初始化
@@ -175,26 +175,24 @@ export default {
 		},
 		//滑动临界值
 		crisis(index) {
-			let max = (this.visibleCounts - 1).division(2).multiplication(this.computedHeight);
-			let min =
-				-(this.visibleCounts - 1).division(2).multiplication(this.computedHeight) +
-				(this.visibleCounts - this.computedOptions[index].values.length).multiplication(this.computedHeight);
+			let max = $dap.number.divide(this.visibleCounts - 1,2)
+			max = $dap.number.mutiply(max, this.computedHeight)
+			let min = -$dap.number.divide(this.visibleCounts - 1,2)
+			min = $dap.number.mutiply(min,this.computedHeight)
+			min += $dap.number.mutiply(this.visibleCounts - this.computedOptions[index].values.length,this.computedHeight)
 			return {
 				max,
 				min
-			};
+			}
 		},
 		//根据offset计算序列
 		getActive(value) {
-			let num = Math.abs((value - (this.visibleCounts - 1).division(2).multiplication(this.computedHeight)).division(this.computedHeight));
-			return Math.round(num);
+			let num = Math.abs($dap.number.divide(value - $dap.number.mutiply($dap.number.divide(this.visibleCounts - 1,2),this.computedHeight),this.computedHeight))
+			return Math.round(num)
 		},
 		//根据序列计算offset
 		getOffset(index) {
-			return (this.visibleCounts - 1)
-				.division(2)
-				.subtraction(index)
-				.multiplication(this.computedHeight);
+			return $dap.number.mutiply($dap.number.subtract($dap.number.divide(this.visibleCounts - 1,2),index),this.computedHeight)
 		},
 		//确认
 		doConfirm() {
@@ -314,9 +312,9 @@ export default {
 				this.addTransition(this.columnIndex, 1000)
 					.then(() => {
 						if (moveTotal > 0) {
-							this.offsets[this.columnIndex] = this.offsets[this.columnIndex] + ($util.rem2px(10) * totalTimeStamp) / 1000;
+							this.offsets[this.columnIndex] = this.offsets[this.columnIndex] + ($dap.element.rem2px(10) * totalTimeStamp) / 1000;
 						} else {
-							this.offsets[this.columnIndex] = this.offsets[this.columnIndex] - ($util.rem2px(10) * totalTimeStamp) / 1000;
+							this.offsets[this.columnIndex] = this.offsets[this.columnIndex] - ($dap.element.rem2px(10) * totalTimeStamp) / 1000;
 						}
 						return this.addTransition(this.columnIndex, 300);
 					})
@@ -343,9 +341,9 @@ export default {
 				this.addTransition(this.columnIndex, 1000)
 					.then(() => {
 						if (moveTotal > 0) {
-							this.offsets[this.columnIndex] = this.offsets[this.columnIndex] + ($util.rem2px(10) * totalTimeStamp) / 1000;
+							this.offsets[this.columnIndex] = this.offsets[this.columnIndex] + ($dap.element.rem2px(10) * totalTimeStamp) / 1000;
 						} else {
-							this.offsets[this.columnIndex] = this.offsets[this.columnIndex] - ($util.rem2px(10) * totalTimeStamp) / 1000;
+							this.offsets[this.columnIndex] = this.offsets[this.columnIndex] - ($dap.element.rem2px(10) * totalTimeStamp) / 1000;
 						}
 						return this.addTransition(this.columnIndex, 300);
 					})
@@ -408,7 +406,7 @@ export default {
 		}
 	},
 	beforeUnmount() {
-		document.body.off(`mousemove.picker_${this.uid} mouseup.picker_${this.uid}`);
+		$dap.event.off(document.body,`mousemove.picker_${this.uid} mouseup.picker_${this.uid}`)
 	}
 };
 </script>

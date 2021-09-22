@@ -10,7 +10,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util.js"
+	import $dap from "dap-util"
 	import Drag from "../drag/drag";
 	export default {
 		name: "m-slider",
@@ -198,7 +198,7 @@
 				if(this.isdrag){
 					return;
 				}
-				if($util.isContains(this.$refs.btn,event.target)){
+				if($dap.element.isContains(this.$refs.btn,event.target)){
 					return;
 				}
 				if (this.vertical) {

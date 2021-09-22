@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import $util from '../../util/util';
+import $dap from "dap-util"
 import mIcon from "../icon/icon"
 import mPopup from "../popup/popup"
 export default {
@@ -135,7 +135,7 @@ export default {
 	computed: {
 		selectIconType() {
 			let t = 'success';
-			if ($util.isObject(this.selectIcon)) {
+			if ($dap.common.isObject(this.selectIcon)) {
 				if (typeof this.selectIcon.type == 'string') {
 					t = this.selectIcon.type;
 				}
@@ -146,7 +146,7 @@ export default {
 		},
 		selectIconUrl() {
 			let url = null;
-			if ($util.isObject(this.selectIcon)) {
+			if ($dap.common.isObject(this.selectIcon)) {
 				if (typeof this.selectIcon.url == 'string') {
 					url = this.selectIcon.url;
 				}
@@ -155,7 +155,7 @@ export default {
 		},
 		selectIconSpin() {
 			let spin = false;
-			if ($util.isObject(this.selectIcon)) {
+			if ($dap.common.isObject(this.selectIcon)) {
 				if (typeof this.selectIcon.spin == 'boolean') {
 					spin = this.selectIcon.spin;
 				}
@@ -164,7 +164,7 @@ export default {
 		},
 		selectIconSize() {
 			let size = null;
-			if ($util.isObject(this.selectIcon)) {
+			if ($dap.common.isObject(this.selectIcon)) {
 				if (typeof this.selectIcon.size == 'string') {
 					size = this.selectIcon.size;
 				}
@@ -173,7 +173,7 @@ export default {
 		},
 		selectIconColor() {
 			let color = null;
-			if ($util.isObject(this.selectIcon)) {
+			if ($dap.common.isObject(this.selectIcon)) {
 				if (typeof this.selectIcon.color == 'string') {
 					color = this.selectIcon.color;
 				}
@@ -183,7 +183,7 @@ export default {
 		iconType() {
 			return icon => {
 				let t = null;
-				if ($util.isObject(icon)) {
+				if ($dap.common.isObject(icon)) {
 					if (typeof icon.type == 'string') {
 						t = icon.type;
 					}
@@ -196,7 +196,7 @@ export default {
 		iconUrl() {
 			return icon => {
 				let url = null;
-				if ($util.isObject(icon)) {
+				if ($dap.common.isObject(icon)) {
 					if (typeof icon.url == 'string') {
 						url = icon.url;
 					}
@@ -207,7 +207,7 @@ export default {
 		iconSpin() {
 			return icon => {
 				let spin = false;
-				if ($util.isObject(icon)) {
+				if ($dap.common.isObject(icon)) {
 					if (typeof icon.spin == 'boolean') {
 						spin = icon.spin;
 					}
@@ -218,7 +218,7 @@ export default {
 		iconSize() {
 			return icon => {
 				let size = null;
-				if ($util.isObject(icon)) {
+				if ($dap.common.isObject(icon)) {
 					if (typeof icon.size == 'string') {
 						size = icon.size;
 					}
@@ -229,7 +229,7 @@ export default {
 		iconColor() {
 			return icon => {
 				let color = null;
-				if ($util.isObject(icon)) {
+				if ($dap.common.isObject(icon)) {
 					if (typeof icon.color == 'string') {
 						color = icon.color;
 					}
@@ -241,7 +241,7 @@ export default {
 		equalValue() {
 			return (item, index) => {
 				//比较value
-				if ((typeof item.value == 'string' && item.value) || $util.isNumber(item.value)) {
+				if ((typeof item.value == 'string' && item.value) || $dap.number.isNumber(item.value)) {
 					return this.modelValue === item.value;
 				} else {
 					return this.modelValue === index;
@@ -345,7 +345,7 @@ export default {
 		},
 		//获取当前选择的value值
 		valueFilter(value, index) {
-			if ((typeof value == 'string' && value) || $util.isNumber(value)) {
+			if ((typeof value == 'string' && value) || $dap.number.isNumber(value)) {
 				return value;
 			} else {
 				return index;

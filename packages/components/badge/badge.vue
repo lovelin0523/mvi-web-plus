@@ -5,78 +5,82 @@
 </template>
 
 <script>
-	import $util from "../../util/util.js"
+	import $dap from "dap-util"
 	export default {
 		name: "m-badge",
 		props: {
+			//背景色
 			background: {
 				type: String,
 				default: null
 			},
+			//字体颜色
 			color: {
 				type: String,
 				default: null
 			},
+			//是否圆点
 			dot: {
 				type: Boolean,
 				default: false
 			},
+			//尺寸
 			size: {
 				type: String,
 				default: 'medium',
 				validator(value) {
-					return ['large', 'medium'].includes(value);
+					return ['large', 'medium'].includes(value)
 				}
 			}
 		},
 		watch: {
-			dot(newValue){
-				if(newValue){
-					this.$el.innerHTML = '';
-				}else{
-					this.$nextTick(()=>{
-						let html = '';
-						this.$slots.default().forEach(item=>{
-							if(item && $util.isElement(item.el)){
-								html += item.el.outerHTML;
+			dot(newValue) {
+				if (newValue) {
+					this.$el.innerHTML = ''
+				} else {
+					this.$nextTick(() => {
+						let html = ''
+						this.$slots.default().forEach(item => {
+							if (item && $dap.element.isElement(item.el)) {
+								html += item.el.outerHTML
 							}
 						})
-						this.$el.innerHTML = html;
+						this.$el.innerHTML = html
 					})
 				}
-				this.$nextTick(()=>{
-					this.setPadding();
+				this.$nextTick(() => {
+					this.setPadding()
 				})
 			}
 		},
 		computed: {
 			badgeStyle() {
-				let style = {};
+				let style = {}
 				if (this.background) {
-					style.backgroundColor = this.background;
+					style.backgroundColor = this.background
 				}
 				if (this.color) {
-					style.color = this.color;
+					style.color = this.color
 				}
-				return style;
+				return style
 			}
 		},
 		mounted() {
-			if(this.dot){
-				this.$el.innerHTML = '';
+			if (this.dot) {
+				this.$el.innerHTML = ''
 			}
-			this.setPadding();
+			this.setPadding()
 		},
-		methods:{
-			setPadding(){
+		methods: {
+			setPadding() {
 				if (this.dot) {
-					this.$el.style.padding = 0;
-				} else{
+					this.$el.style.padding = 0
+				} else {
 					if (this.$el.offsetWidth >= this.$el.offsetHeight) {
-						if(this.size == 'large'){
-							this.$el.style.padding = '0 0.15rem';
-						}else{
-							this.$el.style.padding = '0 0.12rem';
+						if (this.size == 'large') {
+							this.$el.style.padding = '0 0.15rem'
+						} else {
+							this.$el.style.padding = '0 0.12rem'
 						}
 					}
 				}

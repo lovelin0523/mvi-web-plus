@@ -29,7 +29,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mOverlay from "../overlay/overlay"
 	import mIcon from "../icon/icon"
 	export default {
@@ -147,7 +147,7 @@
 		computed:{
 			iconType() {
 				let t = 'times';
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.type == "string") {
 						t = this.timesIcon.type;
 					}
@@ -158,7 +158,7 @@
 			},
 			iconUrl() {
 				let url = null;
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.url == "string") {
 						url = this.timesIcon.url;
 					}
@@ -167,7 +167,7 @@
 			},
 			iconSpin() {
 				let spin = false;
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.spin == "boolean") {
 						spin = this.timesIcon.spin;
 					}
@@ -176,7 +176,7 @@
 			},
 			iconSize(){
 				let size = null;
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.size == "string") {
 						size = this.timesIcon.size;
 					}
@@ -185,7 +185,7 @@
 			},
 			iconColor(){
 				let color = null;
-				if ($util.isObject(this.timesIcon)) {
+				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.color == "string") {
 						color = this.timesIcon.color;
 					}
@@ -284,10 +284,10 @@
 			//弹出层显示前
 			beforeEnter(el){
 				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
-				if(el.data('mvi-modal-beforeEnter-trigger')){
+				if($dap.data.get(el,'mvi-modal-beforeEnter-trigger')){
 					return;
 				}
-				el.data('mvi-modal-beforeEnter-trigger',true);
+				$dap.data.set(el,'mvi-modal-beforeEnter-trigger',true)
 				this.$emit('show',el);
 				if(typeof this.modalComponentWatch == 'function'){
 					this.modalComponentWatch.apply(this,['show',el])
@@ -296,10 +296,10 @@
 			//弹出层显示时
 			enter(el){
 				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
-				if(el.data('mvi-modal-enter-trigger')){
+				if($dap.data.get(el,'mvi-modal-enter-trigger')){
 					return;
 				}
-				el.data('mvi-modal-enter-trigger',true);
+				$dap.data.set(el,'mvi-modal-enter-trigger',true)
 				this.modalSize();
 				this.$emit('showing',el);
 				if(typeof this.modalComponentWatch == 'function'){
@@ -316,8 +316,8 @@
 			//弹出层隐藏前
 			beforeLeave(el){
 				//清除标记
-				el.data('mvi-modal-beforeEnter-trigger',false);
-				el.data('mvi-modal-enter-trigger',false);
+				$dap.data.remove(el,'mvi-modal-beforeEnter-trigger')
+				$dap.data.remove(el,'mvi-modal-enter-trigger')
 				
 				this.$emit('hide',el);
 				if(typeof this.modalComponentWatch == 'function'){

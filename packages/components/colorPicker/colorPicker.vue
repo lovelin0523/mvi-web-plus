@@ -17,7 +17,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import Drag from "../drag/drag";
 	import Prop from "../prop/prop";
 	export default {
@@ -195,8 +195,8 @@
 				}
 				let reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
 				if(this.modelValue && reg.test(this.modelValue)){//如果值为16进制的
-					this.rgb = $util.hex2rgb(this.modelValue);
-					this.hsv = $util.rgb2hsv(this.rgb);
+					this.rgb = $dap.color.hex2rgb(this.modelValue);
+					this.hsv = $dap.color.rgb2hsv(this.rgb);
 					this.opacity = 1;
 				}else{//为rgb格式的
 					try{
@@ -213,10 +213,10 @@
 						}else{
 							this.opacity = 1;
 						}
-						this.hsv = $util.rgb2hsv(this.rgb);
+						this.hsv = $dap.color.rgb2hsv(this.rgb);
 						//如果是hex，则变为16进制值
 						if(this.hex){
-							this.$emit('update:modelValue',$util.rgb2hex(this.rgb));
+							this.$emit('update:modelValue',$dap.color.rgb2hex(this.rgb));
 						}
 					}catch(e){
 						throw new Error('Color values are not RGB (RGBA) format and hexadecimal format');
@@ -236,7 +236,7 @@
 				this.$refs.panelSlide.style.left = s / 100 * this.$refs.panel.offsetWidth - this.$refs.panelSlide.offsetWidth / 2 + "px";
 				this.$refs.panelSlide.style.top = (1 - v / 100) * this.$refs.panel.offsetHeight - this.$refs.panelSlide.offsetHeight / 2 + "px";
 				this.$refs.hueSlide.style.left = h / 360 * this.$refs.hue.offsetWidth - this.$refs.hueSlide.offsetWidth / 2 + "px";
-				let sv_rgb = $util.hsv2rgb([h, 100, 100]);
+				let sv_rgb = $dap.color.hsv2rgb([h, 100, 100]);
 				this.$refs.panel.style.background = "rgba(" + sv_rgb[0] + "," + sv_rgb[1] + "," + sv_rgb[2] + "," + this.opacity +
 					")"; //设置选色面板的颜色
 				if(this.$refs.alphaSlide && this.$refs.alpha && this.$refs.bg){
@@ -249,18 +249,18 @@
 			//根据滑块位置设置颜色
 			setColorBySlides() {
 				return new Promise((resolve)=>{
-					let placementSV = $util.getElementPoint(this.$refs.panelSlide,this.$refs.panel);
-					let placementHue = $util.getElementPoint(this.$refs.hueSlide, this.$refs.hue);
+					let placementSV = $dap.element.getElementPoint(this.$refs.panelSlide,this.$refs.panel);
+					let placementHue = $dap.element.getElementPoint(this.$refs.hueSlide, this.$refs.hue);
 					this.hsv[1] = Math.round((placementSV.left + this.$refs.panelSlide.offsetWidth / 2) / this.$refs.panel.offsetWidth * 100);
 					this.hsv[2] = Math.round((1 - (placementSV.top + this.$refs.panelSlide.offsetHeight / 2) / this.$refs.panel.offsetHeight) * 100);
 					this.hsv[0] = Math.round(((placementHue.left + this.$refs.hueSlide.offsetWidth / 2) / this.$refs.hue.offsetWidth) * 360);
-					this.rgb = $util.hsv2rgb(this.hsv); //转rgb值
-					let sv_rgb = $util.hsv2rgb([this.hsv[0], 100, 100]);
+					this.rgb = $dap.color.hsv2rgb(this.hsv); //转rgb值
+					let sv_rgb = $dap.color.hsv2rgb([this.hsv[0], 100, 100]);
 					this.$refs.panel.style.background = "rgba(" + sv_rgb[0] + "," + sv_rgb[1] + "," + sv_rgb[2] + "," + this.opacity +
 						")"; //设置选色面板的颜色
 					let placementAlpha = null;
 					if(this.$refs.alphaSlide && this.$refs.alpha && this.$refs.bg){
-						placementAlpha = $util.getElementPoint(this.$refs.alphaSlide, this.$refs.alpha);
+						placementAlpha = $dap.element.getElementPoint(this.$refs.alphaSlide, this.$refs.alpha);
 						this.opacity = Math.round(((placementAlpha.left + this.$refs.alphaSlide.offsetWidth / 2) / this.$refs.alpha.offsetWidth) *
 							100) / 100;
 						if (this.opacity >= 1) {
@@ -275,11 +275,11 @@
 					if(this.opacity == 1){
 						let value = `rgb(${this.rgb.toString()})`;
 						if(this.hex){
-							value = $util.rgb2hex(this.rgb);
+							value = $dap.color.rgb2hex(this.rgb);
 						}
 						this.$emit('update:modelValue',value);
 						this.$emit('change',{
-							hex:$util.rgb2hex(this.rgb),
+							hex:$dap.color.rgb2hex(this.rgb),
 							rgb:this.rgb,
 							opacity:this.opacity,
 							hsv:this.hsv
@@ -287,11 +287,11 @@
 					}else{
 						let value = `rgba(${this.rgb.toString()},${this.opacity})`;
 						if(this.hex){
-							value = $util.rgb2hex(this.rgb);
+							value = $dap.color.rgb2hex(this.rgb);
 						}
 						this.$emit('update:modelValue',value);
 						this.$emit('change',{
-							hex:$util.rgb2hex(this.rgb),
+							hex:$dap.color.rgb2hex(this.rgb),
 							rgb:this.rgb,
 							opacity:this.opacity,
 							hsv:this.hsv

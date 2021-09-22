@@ -48,8 +48,8 @@
 </template>
 
 <script>
-import $util from '../../util/util.js';
-import editorItem from './edotir-item';
+import $dap from "dap-util"
+import editorItem from './edotir-item'
 export default {
 	name: 'm-editor',
 	data() {
@@ -604,7 +604,7 @@ export default {
 				if (Array.isArray(this.defaultMenus[key])) {
 					let newArray = [];
 					this.defaultMenus[key].forEach(item => {
-						if ($util.isObject(item) && item.label && item.value) {
+						if ($dap.common.isObject(item) && item.label && item.value) {
 							let obj = {
 								label: item.label,
 								value: item.value
@@ -613,7 +613,7 @@ export default {
 								obj.icon = item.icon;
 							}
 							newArray.push(obj);
-						} else if (typeof item == 'string' || $util.isNumber(item)) {
+						} else if (typeof item == 'string' || $dap.number.isNumber(item)) {
 							newArray.push({
 								label: item,
 								value: item
@@ -750,7 +750,7 @@ export default {
 			if (this.disabled) {
 				return;
 			}
-			let video = $util.string2dom(`<video src="${url}" class="mvi-editor-video"></video>`);
+			let video = $dap.element.string2dom(`<video src="${url}" class="mvi-editor-video"></video>`);
 			if (this.defaultVideoShowProps.muted) {
 				video.setAttribute('muted', 'muted');
 			}
@@ -825,7 +825,7 @@ export default {
 				return null;
 			}
 			let node = this.range.commonAncestorContainer;
-			if ($util.isElement(node)) {
+			if ($dap.element.isElement(node)) {
 				return node;
 			} else {
 				return node.parentNode;
@@ -1082,7 +1082,7 @@ export default {
 		},
 		//判断某个节点是否在指定标签下，可对外提供
 		compareTag(el, tag) {
-			if ($util.isContains(this.$refs.content, el)) {
+			if ($dap.element.isContains(this.$refs.content, el)) {
 				if (el.tagName.toLocaleUpperCase() == tag.toLocaleUpperCase()) {
 					return true;
 				} else {
@@ -1094,8 +1094,8 @@ export default {
 		},
 		//判断某个节点是否在指定样式下，可对外提供
 		compareCss(el, cssName, cssValue) {
-			if ($util.isContains(this.$refs.content, el)) {
-				if ($util.getCssStyle(el, cssName) == cssValue) {
+			if ($dap.element.isContains(this.$refs.content, el)) {
+				if ($dap.element.getCssStyle(el, cssName) == cssValue) {
 					return true;
 				} else {
 					return this.compareCss(el.parentNode, cssName, cssValue);
@@ -1106,7 +1106,7 @@ export default {
 		},
 		//根据标签名获取某个节点，可对外提供
 		getCompareTag(el, tag) {
-			if ($util.isContains(this.$refs.content, el)) {
+			if ($dap.element.isContains(this.$refs.content, el)) {
 				if (el.tagName.toLocaleUpperCase() == tag.toLocaleUpperCase()) {
 					return el;
 				} else {
@@ -1118,8 +1118,8 @@ export default {
 		},
 		//根据css获取某个节点，可对外提供
 		getCompareTagForCss(el, cssName, cssValue) {
-			if ($util.isContains(this.$refs.content, el)) {
-				if ($util.getCssStyle(el, cssName) == cssValue) {
+			if ($dap.element.isContains(this.$refs.content, el)) {
+				if ($dap.element.getCssStyle(el, cssName) == cssValue) {
 					return el;
 				} else {
 					return this.getCompareTagForCss(el.parentNode, cssName, cssValue);
@@ -1151,7 +1151,7 @@ export default {
 				this.text = this.$refs.content.innerText;
 			} else if (this.$refs.codeView) {
 				this.html = this.$refs.codeView.innerText;
-				let el = $util.string2dom(`<div>${this.$refs.codeView.innerText}</div>`);
+				let el = $dap.element.string2dom(`<div>${this.$refs.codeView.innerText}</div>`);
 				this.text = el.innerText;
 			}
 		},

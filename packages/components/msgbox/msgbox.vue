@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name:'m-msgbox',
 		data(){
@@ -58,7 +58,7 @@
 			computedMessage(){
 				if(typeof this.message == "string"){
 					return this.message;
-				}else if($util.isObject(this.message)){
+				}else if($dap.common.isObject(this.message)){
 					return JSON.stringify(this.message);
 				}else{
 					return String(this.message);
@@ -72,14 +72,14 @@
 				}
 			},
 			computedTimeout(){
-				if($util.isNumber(this.timeout) && this.timeout > 0){
+				if($dap.number.isNumber(this.timeout) && this.timeout > 0){
 					return this.timeout;
 				}else{
 					return 1500;
 				}
 			},
 			computedZIndex(){
-				if($util.isNumber(this.zIndex)){
+				if($dap.number.isNumber(this.zIndex)){
 					return this.zIndex;
 				}else{
 					return 1100;

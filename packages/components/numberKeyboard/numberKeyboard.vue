@@ -24,7 +24,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mOverlay from "../overlay/overlay"
 	export default {
 		name:"m-number-keyboard",
@@ -121,7 +121,7 @@
 					this.$emit('update:modelValue',value);
 				},
 				get(){
-					if($util.isNumber(this.modelValue)){
+					if($dap.number.isNumber(this.modelValue)){
 						return this.modelValue.toString();
 					}else{
 						return this.modelValue;
@@ -216,7 +216,7 @@
 				if(this.deleteDisabeld){
 					return;
 				}
-				let value = $util.deleteStr(this.computedValue,this.computedValue.length-1,1);
+				let value = $dap.string.delete(this.computedValue,this.computedValue.length-1,1);
 				this.computedValue = value;
 				this.$emit('delete',value);
 			},
@@ -244,10 +244,10 @@
 			//弹出层显示前
 			beforeEnter(el){
 				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
-				if(el.data('mvi-keyboard-beforeEnter-trigger')){
+				if($dap.data.get(el,'mvi-keyboard-beforeEnter-trigger')){
 					return;
 				}
-				el.data('mvi-keyboard-beforeEnter-trigger',true);
+				$dap.data.set(el,'mvi-keyboard-beforeEnter-trigger',true)
 				this.$emit('show',el);
 				if(typeof this.keyboardComponentWatch == 'function'){
 					this.keyboardComponentWatch.apply(this,['show',el])
@@ -256,10 +256,10 @@
 			//弹出层显示时
 			enter(el){
 				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
-				if(el.data('mvi-keyboard-enter-trigger')){
+				if($dap.data.get(el,'mvi-keyboard-enter-trigger')){
 					return;
 				}
-				el.data('mvi-keyboard-enter-trigger',true);
+				$dap.data.set(el,'mvi-keyboard-enter-trigger',true)
 				this.$emit('showing',el);
 				if(typeof this.keyboardComponentWatch == 'function'){
 					this.keyboardComponentWatch.apply(this,['showing',el])
@@ -275,8 +275,8 @@
 			//弹出层隐藏前
 			beforeLeave(el){
 				//清除标记
-				el.data('mvi-keyboard-beforeEnter-trigger',false);
-				el.data('mvi-keyboard-enter-trigger',false);
+				$dap.data.remove(el,'mvi-keyboard-beforeEnter-trigger')
+				$dap.data.remove(el,'mvi-keyboard-enter-trigger')
 				
 				this.$emit('hide',el);
 				if(typeof this.keyboardComponentWatch == 'function'){

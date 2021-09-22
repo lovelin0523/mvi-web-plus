@@ -1,7 +1,7 @@
 import {
 	createApp
 } from "vue"
-import $util from "../../util/util"
+import $dap from "dap-util"
 import dialogComponent from "./dialog"
 import dialogForPCComponent from "./dialogForPC"
 
@@ -9,7 +9,7 @@ const Dialog = {
 	//初始化参数
 	initParams: (type, options) => {
 		let opts = {}
-		if ($util.isObject(options)) {
+		if ($dap.common.isObject(options)) {
 			opts.title = options.title;
 			opts.message = options.message;
 			opts.width = options.width;
@@ -58,7 +58,7 @@ const Dialog = {
 	alert: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('alert', options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(dialogComponent, {
 				...opts,
@@ -80,7 +80,7 @@ const Dialog = {
 	confirm: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('confirm', options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(dialogComponent, {
 				...opts,
@@ -102,7 +102,7 @@ const Dialog = {
 	prompt: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('prompt', options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(dialogComponent, {
 				...opts,
@@ -127,7 +127,7 @@ const Dialog = {
 	Alert: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('Alert', options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(dialogForPCComponent, {
 				...opts,
@@ -149,7 +149,7 @@ const Dialog = {
 	Confirm: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('Confirm', options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(dialogForPCComponent, {
 				...opts,
@@ -171,7 +171,7 @@ const Dialog = {
 	Prompt: function(options){
 		return new Promise((resolve, reject) => {
 			let opts = Dialog.initParams('Prompt', options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(dialogForPCComponent, {
 				...opts,

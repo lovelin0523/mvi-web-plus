@@ -12,7 +12,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name: "m-circle-progress",
 		data() {
@@ -85,17 +85,17 @@
 		},
 		computed: {
 			viewBox() {
-				let width = $util.rem2px(0.2);
-				if ($util.isElement(this.ele)) {
-					width = $util.getCssStyle(this.ele.querySelector('path'), 'stroke-width');
+				let width = $dap.element.rem2px(0.2);
+				if ($dap.element.isElement(this.ele)) {
+					width = $dap.element.getCssStyle(this.ele.querySelector('path'), 'stroke-width');
 					width = parseFloat(width);
 				}
 				return `0 0 ${this.pathSize+2*width} ${this.pathSize+2*width}`;
 			},
 			pathD() {
-				let width = $util.rem2px(0.2);
-				if ($util.isElement(this.ele)) {
-					width = $util.getCssStyle(this.ele.querySelector('path'), 'stroke-width');
+				let width = $dap.element.rem2px(0.2);
+				if ($dap.element.isElement(this.ele)) {
+					width = $dap.element.getCssStyle(this.ele.querySelector('path'), 'stroke-width');
 					width = parseFloat(width);
 				}
 				return `M ${this.pathSize/2+width} ${this.pathSize/2+width} m 0, -${this.pathSize/2} a ${this.pathSize/2}, ${this.pathSize/2} 0 1, ${this.clockWise?1:0} 0, ${this.pathSize} a ${this.pathSize/2}, ${this.pathSize/2} 0 1, ${this.clockWise?1:0} 0, -${this.pathSize}`;

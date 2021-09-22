@@ -23,7 +23,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
 		name:"m-navbar",
@@ -99,7 +99,7 @@
 			},
 			leftIconType() {
 				let t = null;
-				if ($util.isObject(this.leftIcon)) {
+				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.type == "string") {
 						t = this.leftIcon.type;
 					}
@@ -110,7 +110,7 @@
 			},
 			leftIconUrl() {
 				let url = null;
-				if ($util.isObject(this.leftIcon)) {
+				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.url == "string") {
 						url = this.leftIcon.url;
 					}
@@ -119,7 +119,7 @@
 			},
 			leftIconSpin() {
 				let spin = false;
-				if ($util.isObject(this.leftIcon)) {
+				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.spin == "boolean") {
 						spin = this.leftIcon.spin;
 					}
@@ -128,7 +128,7 @@
 			},
 			leftIconSize(){
 				let size = null;
-				if ($util.isObject(this.leftIcon)) {
+				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.size == "string") {
 						size = this.leftIcon.size;
 					}
@@ -137,7 +137,7 @@
 			},
 			leftIconColor(){
 				let color = null;
-				if ($util.isObject(this.leftIcon)) {
+				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.color == "string") {
 						color = this.leftIcon.color;
 					}
@@ -146,7 +146,7 @@
 			},
 			rightIconType() {
 				let t = null;
-				if ($util.isObject(this.rightIcon)) {
+				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.type == "string") {
 						t = this.rightIcon.type;
 					}
@@ -157,7 +157,7 @@
 			},
 			rightIconUrl() {
 				let url = null;
-				if ($util.isObject(this.rightIcon)) {
+				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.url == "string") {
 						url = this.rightIcon.url;
 					}
@@ -166,7 +166,7 @@
 			},
 			rightIconSpin() {
 				let spin = false;
-				if ($util.isObject(this.rightIcon)) {
+				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.spin == "boolean") {
 						spin = this.rightIcon.spin;
 					}
@@ -175,7 +175,7 @@
 			},
 			rightIconSize(){
 				let size = null;
-				if ($util.isObject(this.rightIcon)) {
+				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.size == "string") {
 						size = this.rightIcon.size;
 					}
@@ -184,7 +184,7 @@
 			},
 			rightIconColor(){
 				let color = null;
-				if ($util.isObject(this.rightIcon)) {
+				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.color == "string") {
 						color = this.rightIcon.color;
 					}

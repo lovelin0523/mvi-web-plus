@@ -24,7 +24,7 @@
 
 <script>
 	import { getCurrentInstance } from "vue"
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
 		name:"m-swiper",
@@ -160,26 +160,26 @@
 				if(this.vertical){//垂直
 					if(this.height){//设置了height变量
 						if(this.height.includes('rem')){
-							width = $util.rem2px(parseFloat(this.height));
+							width = $dap.element.rem2px(parseFloat(this.height));
 						}else if(this.height.includes('px')){
 							width = parseFloat(this.height);
 						}else{
-							width = parseFloat($util.getCssStyle(this.$el,'height'));
+							width = parseFloat($dap.element.getCssStyle(this.$el,'height'));
 						}
 					}else{
-						width = parseFloat($util.getCssStyle(this.$el,'height'));
+						width = parseFloat($dap.element.getCssStyle(this.$el,'height'));
 					}
 				}else {//水平
 					if(this.width){//设置了width变量
 						if(this.width.includes('rem')){
-							width = $util.rem2px(parseFloat(this.width));
+							width = $dap.element.rem2px(parseFloat(this.width));
 						}else if(this.width.includes('px')){
 							width = parseFloat(this.width);
 						}else{
-							width = parseFloat($util.getCssStyle(this.$el,'width'));
+							width = parseFloat($dap.element.getCssStyle(this.$el,'width'));
 						}
 					}else{
-						width = parseFloat($util.getCssStyle(this.$el,'width'));
+						width = parseFloat($dap.element.getCssStyle(this.$el,'width'));
 					}
 				}
 				return Number(width.toFixed(2));
@@ -188,9 +188,9 @@
 			activeIndex(){
 				let index = 0;
 				if(this.totalMove <= 0){
-					index = this.mathNext(Math.abs(this.transform.division(this.slideSize)));
+					index = this.mathNext(Math.abs($dap.number.divide(this.transform,this.slideSize)))
 				}else {
-					index = this.mathPrev(Math.abs(this.transform.division(this.slideSize)));
+					index = this.mathPrev(Math.abs($dap.number.divide(this.transform,this.slideSize)))
 				}
 				if(index > this.children.length-1){
 					index = this.children.length - 1;
@@ -339,8 +339,8 @@
 					})
 				}
 				this.setDefaultSlide();
-				document.body.on(`mousemove.swiper_${this.uid}`,this.swiperMouseMove);
-				document.body.on(`mouseup.swiper_${this.uid}`,this.swiperMouseUp);
+				$dap.event.on(document.body,`mousemove.swiper_${this.uid}`,this.swiperMouseMove)
+				$dap.event.on(document.body,`mouseup.swiper_${this.uid}`,this.swiperMouseUp)
 			}
 		},
 		methods:{
@@ -407,33 +407,33 @@
 				if(this.totalMove>0){//向右滑动或者向下滑动
 					if(this.transform >= 0){
 						this.amounts++;
-						this.transform = this.transform.add(move.division(this.amounts));
+						this.transform = $dap.number.add(this.transform,$dap.number.divide(move,this.amounts))
 						this.start = end;
 						return;
 					}
 				}else{//向左滑动或者向上滑动
-					if(this.transform <= -(this.children.length - 1).multiplication(this.slideSize)){
+					if(this.transform <= -$dap.number.mutiply(this.children.length - 1,this.slideSize)){
 						this.amounts++;
-						this.transform = this.transform.add(move.division(this.amounts));
+						this.transform = $dap.number.add(this.transform,$dap.number.divide(move,this.amounts))
 						this.start = end;
 						return;
 					}
 				}
 				this.start = end;
-				this.transform = this.transform.add(move);
+				this.transform = $dap.number.add(this.transform,move)
 			},
 			//触摸结束(非fade)
 			swiperTouchEnd(event){
 				if(this.children.length == 0){
-					return;
+					return
 				}
 				if(!this.touchable){
-					return;
+					return
 				}
 				this.addTransition().then(()=>{
-					this.transform = -this.activeIndex.multiplication(this.slideSize);
+					this.transform = -$dap.number.mutiply(this.activeIndex,this.slideSize)
 					setTimeout(()=>{
-						this.slideDone();
+						this.slideDone()
 					},this.speed)
 				})
 			},
@@ -484,41 +484,45 @@
 					end = event.pageX;
 				}
 				let move = end - this.start;
-				this.totalMove = end - this.initStart;//此次触摸总偏移值
-				if(this.totalMove>0){//向右滑动或者向下滑动
+				//此次触摸总偏移值
+				this.totalMove = end - this.initStart
+				//向右滑动或者向下滑动
+				if(this.totalMove>0){
 					if(this.transform >= 0){
-						this.amounts++;
-						this.transform = this.transform.add(move.division(this.amounts));
-						this.start = end;
-						return;
-					}
-				}else{//向左滑动或者向上滑动
-					if(this.transform <= -(this.children.length - 1).multiplication(this.slideSize)){
-						this.amounts++;
-						this.transform = this.transform.add(move.division(this.amounts));
-						this.start = end;
-						return;
+						this.amounts++
+						this.transform = $dap.number.add(this.transform,$dap.number.divide(move,this.amounts))
+						this.start = end
+						return
 					}
 				}
-				this.start = end;
-				this.transform = this.transform.add(move);
+				//向左滑动或者向上滑动
+				else{
+					if(this.transform <= -$dap.number.mutiply(this.children.length - 1,this.slideSize)){
+						this.amounts++
+						this.transform = $dap.number.add(this.transform,$dap.number.divide(move,this.amounts))
+						this.start = end
+						return
+					}
+				}
+				this.start = end
+				this.transform = $dap.number.add(this.transform,move)
 			},
 			//鼠标松开(非fade)
 			swiperMouseUp(event){
 				if(this.children.length == 0){
-					return;
+					return
 				}
 				if(!this.touchable){
-					return;
+					return
 				}
 				if(!this.mouseDown){
-					return;
+					return
 				}
-				this.mouseDown = false;
+				this.mouseDown = false
 				this.addTransition().then(()=>{
-					this.transform = -this.activeIndex.multiplication(this.slideSize);
+					this.transform = -$dap.number.mutiply(this.activeIndex,this.slideSize)
 					setTimeout(()=>{
-						this.slideDone();
+						this.slideDone()
 					},this.speed)
 				})
 			},
@@ -532,7 +536,7 @@
 						return;
 					}
 					this.removeTransition().then(()=>{
-						this.transform = -this.computedInitalSlide.multiplication(this.slideSize);
+						this.transform = -$dap.number.mutiply(this.computedInitalSlide,this.slideSize)
 						this.$nextTick(()=>{
 							setTimeout(()=>{
 								if(!this.$refs.wrapper){
@@ -572,7 +576,7 @@
 				return new Promise((resolve,reject)=>{
 					if(this.loop){
 						//循环模式下如果滑动到最后一张，则跳到第二张
-						if(this.transform == -(this.children.length-1).multiplication(this.slideSize)){
+						if(this.transform == -$dap.number.mutiply(this.children.length-1,this.slideSize)){
 							this.removeTransition().then(()=>{
 								this.transform = -this.slideSize;
 								this.$nextTick(()=>{
@@ -590,7 +594,7 @@
 							})
 						}else if(this.transform == 0){//循环模式下如果滑动到第一张，则跳到倒数第二张
 							this.removeTransition().then(()=>{
-								this.transform = -(this.children.length-2).multiplication(this.slideSize);
+								this.transform = -$dap.number.mutiply(this.children.length-2,this.slideSize)
 								this.$nextTick(()=>{
 									setTimeout(()=>{
 										this.addTransition().then(()=>{
@@ -656,7 +660,7 @@
 							}
 						}
 					}else{
-						if(this.transform <= -(this.children.length - 1).multiplication(this.slideSize)){
+						if(this.transform <= -$dap.number.mutiply(this.children.length - 1,this.slideSize)){
 							resolve()
 							return;
 						}
@@ -666,7 +670,7 @@
 							clearInterval(this.timer);
 							this.timer = null;
 						}
-						this.transform = this.transform.subtraction(this.slideSize);
+						this.transform = $dap.number.subtract(this.transform,this.slideSize)
 						setTimeout(()=>{
 							this.slideDone().then(()=>{
 								this.apiDoSlide = false;
@@ -720,7 +724,7 @@
 							clearInterval(this.timer);
 							this.timer = null;
 						}
-						this.transform = this.transform.add(this.slideSize);
+						this.transform = $dap.number.add(this.transform,this.slideSize)
 						setTimeout(()=>{
 							this.slideDone().then(()=>{
 								this.apiDoSlide = false;
@@ -787,7 +791,7 @@
 								this.timer = null;
 							}
 							this.addTransition().then(()=>{
-								this.transform = this.transform.add((this.oldIndex - index).multiplication(this.slideSize));
+								this.transform = $dap.number.add(this.transform,$dap.number.mutiply(this.oldIndex - index,this.slideSize))
 								setTimeout(()=>{
 									this.slideDone().then(()=>{
 										this.apiDoSlide = false;
@@ -796,7 +800,7 @@
 								},this.speed)
 							})
 						}else{//下N张
-							if(this.transform <= -(this.children.length - 1).multiplication(this.slideSize)){
+							if(this.transform <= -$dap.number.mutiply(this.children.length - 1,this.slideSize)){
 								resolve()
 								return;
 							}
@@ -807,7 +811,7 @@
 								this.timer = null;
 							}
 							this.addTransition().then(()=>{
-								this.transform = this.transform.subtraction((index - this.oldIndex).multiplication(this.slideSize));
+								this.transform = $dap.number.subtract(this.transform,$dap.number.mutiply(index - this.oldIndex,this.slideSize))
 								setTimeout(()=>{
 									this.slideDone().then(()=>{
 										this.apiDoSlide = false;
@@ -829,7 +833,7 @@
 			}
 			//非fade模式下
 			if(!this.fade){
-				document.body.off(`mousemove.swiper_${this.uid} mouseup.swiper_${this.uid}`);
+				$dap.event.off(document.body,`mousemove.swiper_${this.uid} mouseup.swiper_${this.uid}`)
 			}
 		}
 	}

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name: "m-roll",
 		data(){
@@ -84,7 +84,7 @@
 			containerStyle(){
 				let style = {};
 				if(this.rollEl){
-					style.height = $util.getCssStyle(this.rollEl,'height');
+					style.height = $dap.element.getCssStyle(this.rollEl,'height');
 				}
 				return style;
 			}
@@ -115,7 +115,7 @@
 					return;
 				}
 				this.status = 0;
-				let placement = $util.getElementPoint(this.$refs.roll, this.$el);
+				let placement = $dap.element.getElementPoint(this.$refs.roll, this.$el);
 				let interval = 0;
 				if (this.direction == 'left') {
 					interval = Math.round((placement.left+this.$refs.roll.offsetWidth)/(this.$el.offsetWidth+this.$refs.roll.offsetWidth) * this.interval);
@@ -191,7 +191,7 @@
 				}else{
 					return;
 				}
-				let placement = $util.getElementPoint(this.$refs.roll, this.$el);
+				let placement = $dap.element.getElementPoint(this.$refs.roll, this.$el);
 				//去除动画
 				this.$refs.roll.style.transition = "";
 				this.$refs.roll.style.webkitTransition = "";

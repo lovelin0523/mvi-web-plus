@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import $util from '../../util/util';
+import $dap from "dap-util"
 export default {
 	name: 'm-transition-slide',
 	data() {
@@ -83,7 +83,7 @@ export default {
 		beforeLeave(el){
 			//只记录第一次的高度
 			if(!this.height){
-				this.height = $util.getCssStyle(el,'height');
+				this.height = $dap.element.getCssStyle(el,'height');
 			}
 			//设置元素高度
 			el.style.height = this.height;

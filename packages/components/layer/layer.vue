@@ -11,7 +11,7 @@
 
 <script>
 	import { getCurrentInstance } from "vue"
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mTriangle from "../triangle/triangle"
 	export default {
 		name: 'm-layer',
@@ -220,8 +220,8 @@
 				this.layerShow = this.modelValue;
 			}
 			//添加事件
-			window.on(`resize.layer_${this.uid}`,this.resizeSet);
-			window.on(`click.layer_${this.uid}`,this.hideLayer);
+			$dap.event.on(window,`resize.layer_${this.uid}`,this.resizeSet)
+			$dap.event.on(window,`click.layer_${this.uid}`,this.hideLayer)
 		},
 		methods: {
 			//窗口变化时处理
@@ -238,7 +238,7 @@
 			autoAdjust(){
 				//获取绑定元素位置
 				let $target = this.getTargetEl();
-				let point = $util.getElementBounding($target);
+				let point = $dap.element.getElementBounding($target);
 				this.realPlacement = this.placement;
 				if(this.placement == 'bottom'){
 					//如果底部距离不够
@@ -689,7 +689,7 @@
 			//点击他处关闭悬浮层
 			hideLayer(event){
 				if(this.layerShow && this.firstShow && this.closable){
-					if($util.isContains(this.$el,event.target) || $util.isContains(this.getTargetEl(),event.target)){
+					if($dap.element.isContains(this.$el,event.target) || $dap.element.isContains(this.getTargetEl(),event.target)){
 						return;
 					}
 					this.$emit('update:modelValue',false);
@@ -698,10 +698,10 @@
 			//悬浮层显示前
 			beforeEnter(el){
 				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
-				if(el.data('mvi-layer-beforeEnter-trigger')){
+				if($dap.data.get(el,'mvi-layer-beforeEnter-trigger')){
 					return;
 				}
-				el.data('mvi-layer-beforeEnter-trigger',true);
+				$dap.data.set(el,'mvi-layer-beforeEnter-trigger',true)
 				
 				this.$emit('show',el)
 				if(typeof this.layerComponentWatch == 'function'){
@@ -711,10 +711,10 @@
 			//悬浮层显示时
 			enter(el){
 				//解决v-if和v-show作用在同一元素上时触发两次钩子函数的bug
-				if(el.data('mvi-layer-enter-trigger')){
+				if($dap.data.get(el,'mvi-layer-enter-trigger')){
 					return;
 				}
-				el.data('mvi-layer-enter-trigger',true);
+				$dap.data.set(el,'mvi-layer-enter-trigger',true)
 				
 				this.$nextTick(()=>{
 					//智能修改位置
@@ -741,8 +741,8 @@
 			//悬浮层隐藏前
 			beforeLeave(el){
 				//清除标记
-				el.data('mvi-layer-beforeEnter-trigger',false);
-				el.data('mvi-layer-enter-trigger',false);
+				$dap.data.remove(el,'mvi-layer-beforeEnter-trigger')
+				$dap.data.remove(el,'mvi-layer-enter-trigger')
 				
 				this.$emit('hide',el)
 				if(typeof this.layerComponentWatch == 'function'){
@@ -765,7 +765,7 @@
 			},
 			//重置位置
 			reset(){
-				if(!$util.isElement(this.$el)){
+				if(!$dap.element.isElement(this.$el)){
 					return;
 				}
 				//设置offset
@@ -783,21 +783,21 @@
 				}
 				let $target = this.getTargetEl();
 				let $root = this.getRootEl();
-				let pt = $util.getElementPoint($target,$root);
+				let pt = $dap.element.getElementPoint($target,$root);
 				if(this.fixed){
 					if(this.fixedAuto){
 						let flag = true;
 						let element = $target.offsetParent;
 						while (flag && element){
-							if($util.getCssStyle(element,'transform') != 'none'){
+							if($dap.element.getCssStyle(element,'transform') != 'none'){
 								flag = false;
 							}else {
 								element = element.offsetParent;
 							}
 						}
-						pt = $util.getElementPoint($target,element)
+						pt = $dap.element.getElementPoint($target,element)
 					}else {
-						pt = $util.getElementBounding($target)
+						pt = $dap.element.getElementBounding($target)
 					}
 				}
 				if(this.realPlacement == 'bottom' || this.realPlacement == 'bottom-start' || this.realPlacement == 'bottom-end'){
@@ -934,7 +934,7 @@
 			}
 		},
 		beforeUnmount() {
-			window.off(`resize.layer_${this.uid} click.layer_${this.uid}`)
+			$dap.event.off(window,`resize.layer_${this.uid} click.layer_${this.uid}`)
 		}
 	}
 </script>

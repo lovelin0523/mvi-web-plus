@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name: "m-verify",
 		data() {
@@ -119,9 +119,9 @@
 					for (let i = 0; i < this.value.length; i++) {
 						let deg = Math.random() * 30 * Math.PI / 180; //产生0~30之间的随机弧度
 						this.values[i] = this.value[i].toLowerCase();
-						let x = canvas_width / 2 - $util.rem2px(this.offset) + i * $util.rem2px(this.space); //文字在canvas上的x坐标
-						let y = canvas_height / 2 + Math.random() * $util.rem2px(0.2); //文字在canvas上的y坐标
-						context.font = "bold " + $util.rem2px(this.fontSize) + "px Consolas";
+						let x = canvas_width / 2 - $dap.element.rem2px(this.offset) + i * $dap.element.rem2px(this.space); //文字在canvas上的x坐标
+						let y = canvas_height / 2 + Math.random() * $dap.element.rem2px(0.2); //文字在canvas上的y坐标
+						context.font = "bold " + $dap.element.rem2px(this.fontSize) + "px Consolas";
 						context.translate(x, y);
 						context.rotate(deg);
 						context.fillStyle = this.getColors();
@@ -135,9 +135,9 @@
 						let deg = Math.random() * 30 * Math.PI / 180; //产生0~30之间的随机弧度
 						let txt = this.codes[j]; //得到随机的一个内容
 						this.values[i] = txt.toLowerCase();
-						let x = canvas_width / 2 - $util.rem2px(this.offset) + i * $util.rem2px(this.space); //文字在canvas上的x坐标
-						let y = canvas_height / 2 + Math.random() * $util.rem2px(0.2); //文字在canvas上的y坐标
-						context.font = "bold " + $util.rem2px(this.fontSize) + "px Consolas";
+						let x = canvas_width / 2 - $dap.element.rem2px(this.offset) + i * $dap.element.rem2px(this.space); //文字在canvas上的x坐标
+						let y = canvas_height / 2 + Math.random() * $dap.element.rem2px(0.2); //文字在canvas上的y坐标
+						context.font = "bold " + $dap.element.rem2px(this.fontSize) + "px Consolas";
 						context.translate(x, y);
 						context.rotate(deg);
 						context.fillStyle = this.getColors();

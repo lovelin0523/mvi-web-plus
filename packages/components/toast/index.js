@@ -1,14 +1,14 @@
 import {
 	createApp
 } from "vue"
-import $util from "../../util/util"
+import $dap from "dap-util"
 import ToastComponent from './toast'
 
 const Toast = {
 	//初始化参数
 	initParams: options => {
 		let opts = {}
-		if ($util.isObject(options)) {
+		if ($dap.common.isObject(options)) {
 			opts.type = options.type;
 			opts.message = options.message;
 			opts.timeout = options.timeout;
@@ -34,7 +34,7 @@ const Toast = {
 				Toast.$el.remove();
 			}
 			let opts = Toast.initParams(options);
-			let mountNode = $util.string2dom('<div></div>');
+			let mountNode = $dap.element.string2dom('<div></div>');
 			document.body.appendChild(mountNode);
 			const instance = createApp(ToastComponent, {
 				...opts,

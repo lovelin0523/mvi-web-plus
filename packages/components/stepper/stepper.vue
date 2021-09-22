@@ -16,7 +16,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
 		name:"m-stepper",
@@ -209,7 +209,7 @@
 				if(this.arrivalMin){
 					return;
 				}
-				this.realValue = this.realValue.subtraction(this.step);
+				this.realValue = $dap.number.subtract(this.realValue,this.step)
 				this.updateValue();
 			},
 			//加法
@@ -223,7 +223,7 @@
 				if(this.arrivalMax){
 					return;
 				}
-				this.realValue = this.realValue.add(this.step);
+				this.realValue = $dap.number.add(this.realValue,this.step)
 				this.updateValue();
 			},
 			//输入框修改值

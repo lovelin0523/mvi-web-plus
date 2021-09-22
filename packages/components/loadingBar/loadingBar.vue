@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import $util from "../../util/util"
+	import $dap from "dap-util"
 	export default {
 		name:"m-loading-bar",
 		data(){
@@ -46,7 +46,7 @@
 				}
 			},
 			computedZIndex(){
-				if($util.isNumber(this.zIndex)){
+				if($dap.number.isNumber(this.zIndex)){
 					return this.zIndex;
 				}else{
 					return null;

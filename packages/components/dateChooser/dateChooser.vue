@@ -114,7 +114,7 @@
 
 <script>
 import { getCurrentInstance } from "vue"
-import $util from '../../util/util';
+import $dap from "dap-util"
 import mLayer from "../layer/layer"
 import mIcon from "../icon/icon"
 import mCalendar from "../calendar/calendar"
@@ -369,8 +369,8 @@ export default {
 	},
 	mounted() {
 		if(this.trigger == 'hover'){
-			this.$el.on('mouseenter.dateChooser',this.openCalendar)
-			this.$el.on('mouseleave.dateChooser',this.closeCalendar)
+			$dap.event.on(this.$el,'mouseenter.dateChooser',this.openCalendar)
+			$dap.event.on(this.$el,'mouseleave.dateChooser',this.closeCalendar)
 		}
 	},
 	methods: {
@@ -490,8 +490,8 @@ export default {
 			if (date.getFullYear() <= this.startYear && date.getMonth() == 0) {
 				return;
 			}
-			let prevMonths = $util.getPrevMonths(2, date);
-			date = prevMonths[1];
+			let prevMonths = $dap.date.getPrevMonths(date,2)
+			date = prevMonths[1]
 			this.$emit('update:modelValue', date);
 			this.$emit('change',date);
 		},
@@ -527,7 +527,7 @@ export default {
 			if (date.getFullYear() >= this.endYear && date.getMonth() == 11) {
 				return;
 			}
-			let nextMonths = $util.getNextMonths(2, date);
+			let nextMonths = $dap.date.getNextMonths(date,2);
 			date = nextMonths[1];
 			this.$emit('update:modelValue', date);
 			this.$emit('change',date);
@@ -553,7 +553,7 @@ export default {
 	},
 	beforeUnmount() {
 		if(this.trigger == 'hover'){
-			this.$el.off('mouseenter.dateChooser mouseleave.dateChooser')
+			$dap.event.off(this.$el,'mouseenter.dateChooser mouseleave.dateChooser')
 		}
 	}
 };
