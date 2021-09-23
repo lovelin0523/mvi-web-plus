@@ -1,13 +1,15 @@
 <template>
 	<m-button @click="change">Button</m-button>
-	{{value}}
 	<div id="root" style="height: 13rem;width: 7rem;border: 1px solid #bbb;overflow: auto;position: relative;">
-		<m-radio v-model="value" :value="{a:1}"></m-radio>
-		<m-radio v-model="value" :value="{c:2}"></m-radio>
-		<m-radio v-model="value" :value="{b:2}"></m-radio>
-		<m-radio v-model="value" :value="3"></m-radio>
-		<m-radio v-model="value" :value="4"></m-radio>
-		<m-radio v-model="value" :value="5"></m-radio>
+		<m-collapse v-model="value">
+		    <m-collapse-item title="标题1" label="这是一个简单的标题">
+		        风萧萧兮易水寒
+		    </m-collapse-item>
+		    <m-collapse-item title="标题2" label="这是一个简单的标题" content="风萧萧兮易水寒,壮士一去兮不复还"></m-collapse-item>
+		    <m-collapse-item title="标题3" label="这是一个简单的标题">
+		        <div class="mvi-bg-error" v-prop="0.5"></div>
+		    </m-collapse-item>
+		</m-collapse>
 	</div>
 </template>
 
@@ -21,7 +23,11 @@
 		name: 'App',
 		data() {
 			return {
-				arr:[{a:1},{b:2}],
+				arr: [{
+					a: 1
+				}, {
+					b: 2
+				}],
 				observe: {
 					attributes: true,
 					childList: true,
@@ -46,18 +52,20 @@
 						console.log('元素开始离开视图');
 					},
 					leave: el => {
-						console.log('元素完全离开视图');
+						console.log(' 元素完全离开视图');
 					}
 				},
 				show: false,
 				checkbox: [],
 				checked: 1,
-				value: '#ff3300',
+				value: 0,
 				active: 1,
 				date: new Date(),
 				options: [{
 						label: 'iPhone 12',
-						value: 0
+						value: {
+							a: 1
+						}
 					},
 					{
 						label: 'iPhone 11',
@@ -150,16 +158,16 @@
 						console.log(value);
 					}
 				},
-				uploadOpt:{
-					select:files=>{
+				uploadOpt: {
+					select: files => {
 						console.log(files)
 					}
 				},
-				scrollOpt:{
-					top:el=>{
+				scrollOpt: {
+					top: el => {
 						console.log(el);
 					},
-					bottom:el=>{
+					bottom: el => {
 						console.log(el);
 					}
 				}
@@ -170,13 +178,13 @@
 		},
 		methods: {
 			change(e) {
-				this.show = !this.show
+				//this.show = !this.show
 			},
 			shown(e) {
 				console.log(e)
 			}
 		}
-	};
+	}
 </script>
 
 <style lang="less">

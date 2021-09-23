@@ -2,7 +2,7 @@
 	<m-popup :model-value="modelValue" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex"
 		:timeout="timeout" placement="bottom" :round="round" :use-padding="usePadding" :mount-el="mountEl">
 		<div class="mvi-acionsheet">
-			<div class="mvi-acionsheet-title" v-if="title" :style="{color:(titleColor?titleColor:'')}">
+			<div class="mvi-acionsheet-title" v-if="title" :style="{color:titleColor || ''}">
 				<span v-text="title"></span>
 			</div>
 			<div class="mvi-acionsheet-list">
@@ -41,174 +41,192 @@
 		name: "m-actionsheet",
 		emits: ['update:modelValue', 'select'],
 		props: {
+			//是否显示
 			modelValue: {
 				type: Boolean,
 				default: false
 			},
+			//遮罩层颜色
 			overlayColor: {
 				type: String,
 				default: null
 			},
+			//层级
 			zIndex: {
 				type: Number,
 				default: 900
 			},
+			//动画时间
 			timeout: {
 				type: Number,
 				default: 300
 			},
+			//是否显示圆角
 			round: {
 				type: Boolean,
 				default: true
 			},
+			//标题
 			title: {
 				type: String,
 				default: null
 			},
+			//标题颜色
 			titleColor: {
 				type: String,
 				default: null
 			},
+			//点击遮罩是否可关闭
 			closable: {
 				type: Boolean,
 				default: true
 			},
+			//配置项
 			options: {
 				type: Array,
 				default: function() {
 					return []
 				}
 			},
+			//是否显示取消按钮
 			showCancel: {
 				type: Boolean,
 				default: true
 			},
+			//取消按钮文字
 			cancelText: {
 				type: String,
 				default: '取消'
 			},
+			//取消按钮颜色
 			cancelColor: {
 				type: String,
 				default: null
 			},
-			active: { //列表和取消按钮是否显示点击态
+			//列表和取消按钮是否显示点击态
+			active: { 
 				type: Boolean,
 				default: true
 			},
-			mountEl: { //挂载元素
+			//挂载元素
+			mountEl: { 
 				type: String,
 				default: null
 			},
-			selectClose: { //选择完是否自动关闭
+			//选择完是否自动关闭
+			selectClose: { 
 				type: Boolean,
 				default: true
 			},
-			usePadding: { //局部显示时是否考虑滚动条影响
+			//局部显示时是否考虑滚动条影响
+			usePadding: { 
 				type: Boolean,
 				default: false
 			},
-			color: { //列表字体颜色
+			//列表字体颜色
+			color: { 
 				type: String,
 				default: null
 			},
-			size: { //尺寸
+			//尺寸
+			size: { 
 				type: String,
 				default: 'medium',
 				validator(value) {
-					return ['medium', 'large'].lastIndexOf(value) > -1
+					return ['medium', 'large'].includes(value)
 				}
 			}
 		},
 		computed: {
 			iconType() {
 				return icon => {
-					let t = null;
+					let t = null
 					if ($dap.common.isObject(icon)) {
 						if (typeof icon.type == "string") {
-							t = icon.type;
+							t = icon.type
 						}
 					} else if (typeof icon == "string") {
-						t = icon;
+						t = icon
 					}
-					return t;
+					return t
 				}
 			},
 			iconUrl() {
 				return icon => {
-					let url = null;
+					let url = null
 					if ($dap.common.isObject(icon)) {
 						if (typeof icon.url == "string") {
-							url = icon.url;
+							url = icon.url
 						}
 					}
-					return url;
+					return url
 				}
 			},
 			iconSpin() {
 				return icon => {
-					let spin = false;
+					let spin = false
 					if ($dap.common.isObject(icon)) {
 						if (typeof icon.spin == "boolean") {
-							spin = icon.spin;
+							spin = icon.spin
 						}
 					}
-					return spin;
+					return spin
 				}
 			},
 			iconSize() {
 				return icon => {
-					let size = null;
+					let size = null
 					if ($dap.common.isObject(icon)) {
 						if (typeof icon.size == "string") {
-							size = icon.size;
+							size = icon.size
 						}
 					}
-					return size;
+					return size
 				}
 			},
 			iconColor() {
 				return icon => {
-					let color = null;
+					let color = null
 					if ($dap.common.isObject(icon)) {
 						if (typeof icon.color == "string") {
-							color = icon.color;
+							color = icon.color
 						}
 					}
-					return color;
+					return color
 				}
 			},
 			itemClass() {
 				return item => {
-					let cls = ['mvi-acionsheet-item', "mvi-actionsheet-item-" + this.size];
+					let cls = ['mvi-acionsheet-item', "mvi-actionsheet-item-" + this.size]
 					if (item.class) {
 						cls.push(item.class)
 					}
 					if (this.active && !item.loading && !item.disabled) {
-						cls.push('mvi-acionsheet-active');
+						cls.push('mvi-acionsheet-active')
 					}
-					return cls;
+					return cls
 				}
 			},
 			itemStyle() {
 				return item => {
-					let style = {};
+					let style = {}
 					//非禁用状态
 					if (!this.itemDisabled(item)) {
 						if (item.color) {
-							style.color = item.color;
+							style.color = item.color
 						} else if (this.color) {
-							style.color = this.color;
+							style.color = this.color
 						}
 					}
-					return style;
+					return style
 				}
 			},
 			itemDisabled() {
 				return item => {
 					if (typeof item.disabled == 'boolean') {
-						return item.disabled;
+						return item.disabled
 					} else {
-						return false;
+						return false
 					}
 				}
 			}
@@ -222,20 +240,20 @@
 			//点击遮罩关闭
 			hide(event) {
 				if (this.closable) {
-					this.doCancel();
+					this.doCancel()
 				}
 			},
 			//取消
 			doCancel() {
-				this.$emit('update:modelValue', false);
+				this.$emit('update:modelValue', false)
 			},
 			//点击选项
 			doSelect(item, index) {
 				if (item.disabled || item.loading) {
-					return;
+					return
 				}
 				if (this.selectClose) {
-					this.$emit('update:modelValue', false);
+					this.$emit('update:modelValue', false)
 				}
 				this.$emit('select', {
 					item: Object.assign({}, item),

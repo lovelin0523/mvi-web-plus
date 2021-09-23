@@ -11,41 +11,44 @@
 	export default {
 		name: "m-loading",
 		props: {
+			//颜色
 			color: {
 				type: String,
 				default: "#bbb"
 			},
+			//尺寸
 			size: {
 				type: String,
-				default:'0.4rem'
+				default: '0.4rem'
 			},
+			//类型
 			type: {
 				type: Number,
 				default: 0,
 				validator(value) {
-					return value == 0 || value == 1;
+					return value == 0 || value == 1
 				}
 			}
 		},
-		computed:{
-			loadingStyle(){
-				let style = {};
-				style.background = this.color;
-				style.width = 'calc('+this.size+'/20)';
-				style.height = 'calc('+this.size+'/4)';
-				style.transformOrigin = 'calc('+this.size+'/40) calc('+this.size+'/2)';
-				style.webkitTransformOrigin = 'calc('+this.size+'/40) calc('+this.size+'/2)';
-				return style;
+		computed: {
+			loadingStyle() {
+				let style = {}
+				style.background = this.color
+				style.width = 'calc(' + this.size + '/20)'
+				style.height = 'calc(' + this.size + '/4)'
+				style.transformOrigin = 'calc(' + this.size + '/40) calc(' + this.size + '/2)'
+				style.webkitTransformOrigin = 'calc(' + this.size + '/40) calc(' + this.size + '/2)'
+				return style
 			},
-			loading2Style(){
-				let style = {};
-				style.boxShadow = '0 calc('+this.size+'/20) 0 0 '+this.color;
-				style.webkitBoxShadow = '0 calc('+this.size+'/20) 0 0 '+this.color;
-				style.width = this.size;
-				style.height = this.size;
-				style.transformOrigin = 'calc('+this.size+'/2) calc('+this.size+'2 + '+this.size+'/40)';
-				style.webkitTransformOrigin = 'calc('+this.size+'/2) calc('+this.size+'2 + '+this.size+'/40)';
-				return style;
+			loading2Style() {
+				let style = {}
+				style.boxShadow = '0 calc(' + this.size + '/20) 0 0 ' + this.color
+				style.webkitBoxShadow = '0 calc(' + this.size + '/20) 0 0 ' + this.color
+				style.width = this.size
+				style.height = this.size
+				style.transformOrigin = 'calc(' + this.size + '/2) calc(' + this.size + '2 + ' + this.size + '/40)'
+				style.webkitTransformOrigin = 'calc(' + this.size + '/2) calc(' + this.size + '2 + ' + this.size + '/40)'
+				return style
 			}
 		}
 	}
@@ -53,7 +56,7 @@
 
 <style lang="less" scoped>
 	@import "../../css/mvi-basic.less";
-	
+
 	//type = 0
 	@keyframes mvi-loading {
 		0% {

@@ -1,9 +1,11 @@
 <template>
 	<div :class="navbarClass" :style="'z-index:'+(fixed?zIndex:'')">
-		<div @click="leftClick" :class="['mvi-navbar-left',leftClass?leftClass:'']" :style="leftStyle" v-if="leftIconType||leftIconUrl||$slots.left||leftText">
+		<div @click="leftClick" :class="['mvi-navbar-left',leftClass?leftClass:'']" :style="leftStyle"
+			v-if="leftIconType||leftIconUrl||$slots.left||leftText">
 			<slot name="left" v-if="$slots.left"></slot>
-			<m-icon :class="[leftText?'mvi-navbar-left-icon':'']" v-if="(leftIconType||leftIconUrl) && !$slots.left" :type="leftIconType"
-			:url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize" :color="leftIconColor" />
+			<m-icon :class="[leftText?'mvi-navbar-left-icon':'']" v-if="(leftIconType||leftIconUrl) && !$slots.left"
+				:type="leftIconType" :url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize"
+				:color="leftIconColor" />
 			<span class="mvi-navbar-left-text" v-if="leftText && !$slots.left" v-text="leftText"></span>
 		</div>
 		<div @click="titleClick" class="mvi-navbar-center" :style="centerStyle" v-if="$slots.title||title">
@@ -13,11 +15,12 @@
 			</div>
 		</div>
 		<div @click="rightClick" :class="['mvi-navbar-right',rightClass?rightClass:'']" :style="rightStyle"
-		v-if="rightIconType||rightIconUrl||$slots.right||rightText">
+			v-if="rightIconType||rightIconUrl||$slots.right||rightText">
 			<slot name="right" v-if="$slots.right"></slot>
 			<span class="mvi-navbar-right-text" v-if="rightText && !$slots.right" v-text="rightText"></span>
-			<m-icon :class="[rightText?'mvi-navbar-right-icon':'']" v-if="(rightIconType||rightIconSpin) && !$slots.right"
-			:type="rightIconType" :url="rightIconUrl" :spin="rightIconSpin" :size="rightIconSize" :color="rightIconColor" />
+			<m-icon :class="[rightText?'mvi-navbar-right-icon':'']"
+				v-if="(rightIconType||rightIconSpin) && !$slots.right" :type="rightIconType" :url="rightIconUrl"
+				:spin="rightIconSpin" :size="rightIconSize" :color="rightIconColor" />
 		</div>
 	</div>
 </template>
@@ -26,132 +29,143 @@
 	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
-		name:"m-navbar",
-		props:{
-			title:{
-				type:String,
-				default:null
+		name: "m-navbar",
+		props: {
+			//标题
+			title: {
+				type: String,
+				default: null
 			},
-			leftText:{
-				type:String,
-				default:null
+			//左侧文本
+			leftText: {
+				type: String,
+				default: null
 			},
-			rightText:{
-				type:String,
-				default:null
+			//右侧文本
+			rightText: {
+				type: String,
+				default: null
 			},
-			leftIcon:{
-				type:[String,Object],
-				default:null
+			//左侧图标
+			leftIcon: {
+				type: [String, Object],
+				default: null
 			},
-			rightIcon:{
-				type:[String,Object],
-				default:null
+			//右侧图标
+			rightIcon: {
+				type: [String, Object],
+				default: null
 			},
-			fixed:{
-				type:Boolean,
-				default:false
+			//是否固定顶部
+			fixed: {
+				type: Boolean,
+				default: false
 			},
-			border:{
-				type:Boolean,
-				default:false
+			//是否显示下边框
+			border: {
+				type: Boolean,
+				default: false
 			},
-			zIndex:{
-				type:Number,
-				default:400
+			//层级
+			zIndex: {
+				type: Number,
+				default: 400
 			},
-			leftClass:{
-				type:String,
-				default:null
+			//左侧class
+			leftClass: {
+				type: String,
+				default: null
 			},
-			titleClass:{
-				type:String,
-				default:null
+			//标题class
+			titleClass: {
+				type: String,
+				default: null
 			},
-			rightClass:{
-				type:String,
-				default:null
+			//右侧class
+			rightClass: {
+				type: String,
+				default: null
 			},
 		},
-		emits:['left-click','right-click','title-click'],
-		computed:{
-			leftStyle(){
-				let style = {};
-				if(this.title || this.$slots.title){
-					style.width = '20%';
-				}else if(this.rightIconType||this.rightIconUrl||this.$slots.right||this.rightText){
-					style.width = '50%';
-				}else{
-					style.width = '100%';
+		emits: ['left-click', 'right-click', 'title-click'],
+		computed: {
+			leftStyle() {
+				let style = {}
+				if (this.title || this.$slots.title) {
+					style.width = '20%'
+				} else if (this.rightIconType || this.rightIconUrl || this.$slots.right || this.rightText) {
+					style.width = '50%'
+				} else {
+					style.width = '100%'
 				}
-				return style;
+				return style
 			},
-			rightStyle(){
-				let style = {};
-				if(this.title || this.$slots.title){
-					style.width = '20%';
-				}else if(this.leftIconType||this.leftIconUrl||this.$slots.left||this.leftText){
-					style.width = '50%';
-				}else{
-					style.width = '100%';
+			rightStyle() {
+				let style = {}
+				if (this.title || this.$slots.title) {
+					style.width = '20%'
+				} else if (this.leftIconType || this.leftIconUrl || this.$slots.left || this.leftText) {
+					style.width = '50%'
+				} else {
+					style.width = '100%'
 				}
-				return style;
+				return style
 			},
 			leftIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.type == "string") {
-						t = this.leftIcon.type;
+						t = this.leftIcon.type
 					}
 				} else if (typeof this.leftIcon == "string") {
-					t = this.leftIcon;
+					t = this.leftIcon
 				}
-				return t;
+				return t
 			},
 			leftIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.url == "string") {
-						url = this.leftIcon.url;
+						url = this.leftIcon.url
 					}
 				}
-				return url;
+				return url
 			},
 			leftIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.spin == "boolean") {
-						spin = this.leftIcon.spin;
+						spin = this.leftIcon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
-			leftIconSize(){
-				let size = null;
+			leftIconSize() {
+				let size = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.size == "string") {
-						size = this.leftIcon.size;
+						size = this.leftIcon.size
 					}
 				}
-				return size;
+				return size
 			},
-			leftIconColor(){
-				let color = null;
+			leftIconColor() {
+				let color = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.color == "string") {
-						color = this.leftIcon.color;
+						color = this.leftIcon.color
 					}
 				}
-				return color;
+				return color
 			},
 			rightIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.type == "string") {
-						t = this.rightIcon.type;
+						t = this.rightIcon.type
 					}
 				} else if (typeof this.rightIcon == "string") {
-					t = this.rightIcon;
+					t = this.rightIcon
 				}
 				return t;
 			},
@@ -159,70 +173,71 @@
 				let url = null;
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.url == "string") {
-						url = this.rightIcon.url;
+						url = this.rightIcon.url
 					}
 				}
-				return url;
+				return url
 			},
 			rightIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.spin == "boolean") {
-						spin = this.rightIcon.spin;
+						spin = this.rightIcon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
-			rightIconSize(){
-				let size = null;
+			rightIconSize() {
+				let size = null
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.size == "string") {
-						size = this.rightIcon.size;
+						size = this.rightIcon.size
 					}
 				}
-				return size;
+				return size
 			},
-			rightIconColor(){
-				let color = null;
+			rightIconColor() {
+				let color = null
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.color == "string") {
-						color = this.rightIcon.color;
+						color = this.rightIcon.color
 					}
 				}
-				return color;
+				return color
 			},
-			navbarClass(){
-				let cls = ['mvi-navbar'];
-				if(this.fixed){
-					cls.push('mvi-navbar-fixed');
+			navbarClass() {
+				let cls = ['mvi-navbar']
+				if (this.fixed) {
+					cls.push('mvi-navbar-fixed')
 				}
-				if(this.border){
-					cls.push('mvi-navbar-border');
+				if (this.border) {
+					cls.push('mvi-navbar-border')
 				}
-				return cls;
+				return cls
 			},
-			centerStyle(){
-				let style = {};
-				if((this.rightIconType||this.rightIconUrl||this.$slots.right||this.rightText) || (this.leftIconType||this.leftIconUrl||this.$slots.left||this.leftText)){
-					style.width = '60%';
-				} else{
-					style.width = '100%';
+			centerStyle() {
+				let style = {}
+				if ((this.rightIconType || this.rightIconUrl || this.$slots.right || this.rightText) || (this
+						.leftIconType || this.leftIconUrl || this.$slots.left || this.leftText)) {
+					style.width = '60%'
+				} else {
+					style.width = '100%'
 				}
-				return style;
+				return style
 			}
 		},
-		components:{
+		components: {
 			mIcon
 		},
-		methods:{
-			leftClick(){
-				this.$emit('left-click');
+		methods: {
+			leftClick() {
+				this.$emit('left-click')
 			},
-			rightClick(){
-				this.$emit('right-click');
+			rightClick() {
+				this.$emit('right-click')
 			},
-			titleClick(){
-				this.$emit('title-click');
+			titleClick() {
+				this.$emit('title-click')
 			}
 		}
 	}
@@ -230,8 +245,8 @@
 
 <style lang="less" scoped>
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-navbar{
+
+	.mvi-navbar {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: center;
@@ -244,24 +259,24 @@
 		color: @font-color-default;
 		font-size: @font-size-h6;
 	}
-	
-	.mvi-navbar-border{
+
+	.mvi-navbar-border {
 		border-bottom: 1px solid @border-color;
 	}
-	
-	.mvi-navbar-fixed{
+
+	.mvi-navbar-fixed {
 		position: fixed;
 		top: 0;
 		left: 0;
 	}
-	
-	.mvi-navbar-left{
+
+	.mvi-navbar-left {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: flex-start;
 		align-items: center;
 		position: absolute;
-		left:0;
+		left: 0;
 		top: 0;
 		height: 100%;
 		vertical-align: middle;
@@ -271,23 +286,25 @@
 		white-space: nowrap;
 		cursor: pointer;
 	}
-	
-	.mvi-navbar-left-icon{
+
+	.mvi-navbar-left-icon {
 		margin-right: @mp-xs;
 	}
-	.mvi-navbar-left-text{
+
+	.mvi-navbar-left-text {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-	
-	.mvi-navbar-center{
-		display:flex;
+
+	.mvi-navbar-center {
+		display: flex;
 		display: -webkit-flex;
 		align-items: center;
-		height: 100%;	
+		height: 100%;
 	}
-	.mvi-navbar-title{
+
+	.mvi-navbar-title {
 		display: block;
 		text-align: center;
 		overflow: hidden;
@@ -296,7 +313,7 @@
 		width: 100%;
 	}
 
-	.mvi-navbar-right{
+	.mvi-navbar-right {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: flex-end;
@@ -311,14 +328,14 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-	
-	.mvi-navbar-right-icon{
+
+	.mvi-navbar-right-icon {
 		margin-left: @mp-xs;
 	}
-	.mvi-navbar-right-text{
+
+	.mvi-navbar-right-text {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
-
 </style>

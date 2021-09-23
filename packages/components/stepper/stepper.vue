@@ -1,15 +1,16 @@
 <template>
 	<div :class="'mvi-stepper mvi-stepper-'+size">
-		<div :disabled="disabledMinus || arrivalMin || disabled || null" :class="minusClass" v-if="showMinus" :style="minusStyle" 
-		@click="doMinus">
+		<div :disabled="disabledMinus || arrivalMin || disabled || null" :class="minusClass" v-if="showMinus"
+			:style="minusStyle" @click="doMinus">
 			<m-icon type="minus" />
 		</div>
-		<div :disabled="disabledInput || null" :class="['mvi-stepper-input',border?'mvi-stepper-border':'']" :style="inputStyle" v-if="showInput">
-			<input ref="input" v-model="realValue" :disabled="disabled || disabledInput || null" type="text" @blur="changeValue"
-			 @keyup.enter="changeValue" :style="inputElStyle">
+		<div :disabled="disabledInput || null" :class="['mvi-stepper-input',border?'mvi-stepper-border':'']"
+			:style="inputStyle" v-if="showInput">
+			<input ref="input" v-model="realValue" :disabled="disabled || disabledInput || null" type="text"
+				@blur="changeValue" @keyup.enter="changeValue" :style="inputElStyle">
 		</div>
-		<div :disabled="disabledPlus || arrivalMax || disabled || null" :class="plusClass" v-if="showPlus" :style="plusStyle" 
-		@click="doPlus">
+		<div :disabled="disabledPlus || arrivalMax || disabled || null" :class="plusClass" v-if="showPlus"
+			:style="plusStyle" @click="doPlus">
 			<m-icon type="plus" />
 		</div>
 	</div>
@@ -19,238 +20,257 @@
 	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
-		name:"m-stepper",
-		emits:['update:modelValue','change'],
-		props:{
-			modelValue:{
-				type:[String,Number],
-				default:0
+		name: "m-stepper",
+		emits: ['update:modelValue', 'change'],
+		props: {
+			//输入框的值
+			modelValue: {
+				type: [String, Number],
+				default: 0
 			},
-			step:{
-				type:Number,
-				default:1
+			//步进
+			step: {
+				type: Number,
+				default: 1
 			},
-			size:{
-				type:String,
-				default:'medium',
-				validator(value){
-					return ['small','medium','large'].includes(value)
+			//尺寸
+			size: {
+				type: String,
+				default: 'medium',
+				validator(value) {
+					return ['small', 'medium', 'large'].includes(value)
 				}
 			},
-			min:{
-				type:Number,
-				default:null
+			//最小值
+			min: {
+				type: Number,
+				default: null
 			},
-			max:{
-				type:Number,
-				default:null
+			//最大值
+			max: {
+				type: Number,
+				default: null
 			},
-			digit:{//显示小数位数
-				type:Number,
-				default:0
+			//显示小数位数
+			digit: { 
+				type: Number,
+				default: 0
 			},
-			disabled:{
-				type:Boolean,
-				default:false
+			//是否禁用
+			disabled: {
+				type: Boolean,
+				default: false
 			},
-			disabledPlus:{
-				type:Boolean,
-				default:false
+			//是否禁用加号
+			disabledPlus: {
+				type: Boolean,
+				default: false
 			},
-			disabledMinus:{
-				type:Boolean,
-				default:false
+			//是否禁用减号
+			disabledMinus: {
+				type: Boolean,
+				default: false
 			},
-			disabledInput:{
-				type:Boolean,
-				default:false
+			//是否禁用输入框
+			disabledInput: {
+				type: Boolean,
+				default: false
 			},
-			showPlus:{
-				type:Boolean,
-				default:true
+			//是否显示加号
+			showPlus: {
+				type: Boolean,
+				default: true
 			},
-			showMinus:{
-				type:Boolean,
-				default:true
+			//是否显示减号
+			showMinus: {
+				type: Boolean,
+				default: true
 			},
-			showInput:{
-				type:Boolean,
-				default:true
+			//是否显示输入框
+			showInput: {
+				type: Boolean,
+				default: true
 			},
-			inputWidth:{//输入框宽度
-				type:String,
-				default:null
+			//输入框宽度
+			inputWidth: { 
+				type: String,
+				default: null
 			},
-			background:{//按钮与输入框的背景色
-				type:String,
-				default:null
+			//按钮与输入框的背景色
+			background: { 
+				type: String,
+				default: null
 			},
-			color:{//按钮与输入框的字体颜色
-				type:String,
-				default:null
+			//按钮与输入框的字体颜色
+			color: { 
+				type: String,
+				default: null
 			},
-			active:{//是否显示点击态
-				type:Boolean,
-				default:true
+			//是否显示点击态
+			active: { 
+				type: Boolean,
+				default: true
 			},
-			inputAlign:{//输入框数字对齐方式
-				type:String,
-				default:'center',
-				validator(value){
-					return ['left','center','right'].includes(value)
+			//输入框数字对齐方式
+			inputAlign: { 
+				type: String,
+				default: 'center',
+				validator(value) {
+					return ['left', 'center', 'right'].includes(value)
 				}
 			},
-			border:{//是否显示边框
-				type:Boolean,
-				default:false
+			//是否显示边框
+			border: { 
+				type: Boolean,
+				default: false
 			}
 		},
-		computed:{
-			arrivalMin(){
-				if(this.min != null){
-					return this.realValue<=this.min;
-				}else{
-					return false;
+		computed: {
+			arrivalMin() {
+				if (this.min != null) {
+					return this.realValue <= this.min
+				} else {
+					return false
 				}
 			},
-			arrivalMax(){
-				if(this.max != null){
-					return this.realValue>=this.max;
-				}else{
-					return false;
+			arrivalMax() {
+				if (this.max != null) {
+					return this.realValue >= this.max
+				} else {
+					return false
 				}
 			},
-			inputStyle(){
-				let style = {};
-				if(this.inputWidth){
-					style.width = this.inputWidth;
+			inputStyle() {
+				let style = {}
+				if (this.inputWidth) {
+					style.width = this.inputWidth
 				}
-				if(this.color){
-					style.color = this.color;
+				if (this.color) {
+					style.color = this.color
 				}
-				if(this.background){
-					style.backgroundColor = this.background;
+				if (this.background) {
+					style.backgroundColor = this.background
 				}
-				return style;
+				return style
 			},
-			inputElStyle(){
-				let style = {};
-				if(this.inputAlign){
-					style.textAlign = this.inputAlign;
+			inputElStyle() {
+				let style = {}
+				if (this.inputAlign) {
+					style.textAlign = this.inputAlign
 				}
-				return style;
+				return style
 			},
-			minusStyle(){
-				let style = {};
-				if(this.color){
-					style.color = this.color;
+			minusStyle() {
+				let style = {}
+				if (this.color) {
+					style.color = this.color
 				}
-				if(this.background){
-					style.backgroundColor = this.background;
+				if (this.background) {
+					style.backgroundColor = this.background
 				}
-				return style;
+				return style
 			},
-			plusStyle(){
-				let style = {};
-				if(this.color){
-					style.color = this.color;
+			plusStyle() {
+				let style = {}
+				if (this.color) {
+					style.color = this.color
 				}
-				if(this.background){
-					style.backgroundColor = this.background;
+				if (this.background) {
+					style.backgroundColor = this.background
 				}
-				return style;
+				return style
 			},
-			minusClass(){
-				let cls = ['mvi-stepper-minus'];
-				if(!(this.disabledMinus || this.arrivalMin || this.disabled) && this.active){
-					cls.push('mvi-stepper-active');
-				}
-				if(this.border){
-					cls.push('mvi-stepper-border');
-				}
-				return cls;
-			},
-			plusClass(){
-				let cls = ['mvi-stepper-plus'];
-				if(!(this.disabledPlus || this.arrivalMax || this.disabled) && this.active){
+			minusClass() {
+				let cls = ['mvi-stepper-minus']
+				if (!(this.disabledMinus || this.arrivalMin || this.disabled) && this.active) {
 					cls.push('mvi-stepper-active')
 				}
-				if(this.border){
-					cls.push('mvi-stepper-border');
+				if (this.border) {
+					cls.push('mvi-stepper-border')
 				}
-				return cls;
+				return cls
 			},
-			realValue:{
-				set(value){
-					if(this.modelValue !== value){
-						this.$emit('update:modelValue',value);
+			plusClass() {
+				let cls = ['mvi-stepper-plus']
+				if (!(this.disabledPlus || this.arrivalMax || this.disabled) && this.active) {
+					cls.push('mvi-stepper-active')
+				}
+				if (this.border) {
+					cls.push('mvi-stepper-border')
+				}
+				return cls
+			},
+			realValue: {
+				set(value) {
+					if (this.modelValue !== value) {
+						this.$emit('update:modelValue', value)
 					}
 				},
-				get(){
-					return this.modelValue;
+				get() {
+					return this.modelValue
 				}
 			}
 		},
-		components:{
+		components: {
 			mIcon
 		},
 		mounted() {
-			this.updateValue();
+			this.updateValue()
 		},
-		methods:{
+		methods: {
 			//减法
-			doMinus(){
-				if(this.disabled){
-					return;
+			doMinus() {
+				if (this.disabled) {
+					return
 				}
-				if(this.disabledMinus){
-					return;
+				if (this.disabledMinus) {
+					return
 				}
-				if(this.arrivalMin){
-					return;
+				if (this.arrivalMin) {
+					return
 				}
-				this.realValue = $dap.number.subtract(this.realValue,this.step)
-				this.updateValue();
+				this.realValue = $dap.number.subtract(this.realValue, this.step)
+				this.updateValue()
 			},
 			//加法
-			doPlus(){
-				if(this.disabled){
-					return;
+			doPlus() {
+				if (this.disabled) {
+					return
 				}
-				if(this.disabledPlus){
-					return;
+				if (this.disabledPlus) {
+					return
 				}
-				if(this.arrivalMax){
-					return;
+				if (this.arrivalMax) {
+					return
 				}
-				this.realValue = $dap.number.add(this.realValue,this.step)
-				this.updateValue();
+				this.realValue = $dap.number.add(this.realValue, this.step)
+				this.updateValue()
 			},
 			//输入框修改值
-			changeValue(){
-				if(this.disabled){
-					return;
+			changeValue() {
+				if (this.disabled) {
+					return
 				}
-				if(this.disabledInput){
-					return;
+				if (this.disabledInput) {
+					return
 				}
-				this.updateValue();
+				this.updateValue()
 			},
 			//更新value值
-			updateValue(){
-				let val = parseFloat(this.realValue);
-				if(isNaN(val)){
-					val = 0;
+			updateValue() {
+				let val = parseFloat(this.realValue)
+				if (isNaN(val)) {
+					val = 0
 				}
-				val = Number(val.toFixed(this.digit));
-				if(val <= this.min && this.min != null){
-					val = this.min;
+				val = Number(val.toFixed(this.digit))
+				if (val <= this.min && this.min != null) {
+					val = this.min
 				}
-				if(val >= this.max && this.max != null){
-					val = this.max;
+				if (val >= this.max && this.max != null) {
+					val = this.max
 				}
-				if(this.realValue !== val){
-					this.realValue = val;
+				if (this.realValue !== val) {
+					this.realValue = val
 				}
 			}
 		}
@@ -259,16 +279,17 @@
 
 <style lang="less" scoped>
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-stepper{
+
+	.mvi-stepper {
 		display: inline-flex;
 		display: -webkit-inline-flex;
 		justify-content: flex-start;
 		align-items: center;
 		position: relative;
 	}
-	
-	.mvi-stepper-minus,.mvi-stepper-plus{
+
+	.mvi-stepper-minus,
+	.mvi-stepper-plus {
 		display: inline-flex;
 		display: -webkit-inline-flex;
 		justify-content: center;
@@ -281,46 +302,50 @@
 		user-select: none;
 		-webkit-user-select: none;
 		-moz-user-select: none;
-		
-		&[disabled]{
+
+		&[disabled] {
 			opacity: .5;
 		}
 	}
-	
-	.mvi-stepper-minus{
+
+	.mvi-stepper-minus {
 		margin-right: @mp-xs;
 	}
-	
-	.mvi-stepper-active:active::before{
+
+	.mvi-stepper-active:active::before {
 		.mvi-active();
 	}
-	
-	.mvi-stepper-small>.mvi-stepper-minus,.mvi-stepper-small>.mvi-stepper-plus{
+
+	.mvi-stepper-small>.mvi-stepper-minus,
+	.mvi-stepper-small>.mvi-stepper-plus {
 		width: @small-height;
 		height: @small-height;
 		font-size: @font-size-small;
 	}
-	
-	.mvi-stepper-medium>.mvi-stepper-minus,.mvi-stepper-medium>.mvi-stepper-plus{
-		width:@medium-height;
-		height:@medium-height;
+
+	.mvi-stepper-medium>.mvi-stepper-minus,
+	.mvi-stepper-medium>.mvi-stepper-plus {
+		width: @medium-height;
+		height: @medium-height;
 		font-size: @font-size-default;
 	}
-	
-	.mvi-stepper-large>.mvi-stepper-minus,.mvi-stepper-large>.mvi-stepper-plus{
-		width:@large-height;
-		height:@large-height;
+
+	.mvi-stepper-large>.mvi-stepper-minus,
+	.mvi-stepper-large>.mvi-stepper-plus {
+		width: @large-height;
+		height: @large-height;
 		font-size: @font-size-h6;
 	}
-	.mvi-stepper-input{
+
+	.mvi-stepper-input {
 		min-width: 0;
 		background-color: @bg-color-dark;
 		margin-right: @mp-xs;
 		border-radius: @radius-default;
 		width: 1.5rem;
 		color: @font-color-sub;
-		
-		&>input{
+
+		&>input {
 			position: relative;
 			display: block;
 			background-color: transparent;
@@ -336,39 +361,45 @@
 			margin: 0;
 			font-size: @font-size-default;
 			vertical-align: middle;
-			&::-webkit-input-placeholder,&::placeholder{
+
+			&::-webkit-input-placeholder,
+			&::placeholder {
 				color: inherit;
 				opacity: .5;
 				vertical-align: middle;
 				font-family: inherit;
 				font-size: inherit;
 			}
-			
-			&[disabled]{
+
+			&[disabled] {
 				background-color: inherit;
 				color: inherit;
-				opacity:.5;
+				opacity: .5;
 			}
 		}
-		
-		
-		&[disabled]{
+
+
+		&[disabled] {
 			opacity: .5;
 		}
 	}
-	.mvi-stepper-small>.mvi-stepper-input{
+
+	.mvi-stepper-small>.mvi-stepper-input {
 		height: @small-height;
 		font-size: @font-size-small;
 	}
-	.mvi-stepper-medium>.mvi-stepper-input{
+
+	.mvi-stepper-medium>.mvi-stepper-input {
 		height: @medium-height;
 		font-size: @font-size-default;
 	}
-	.mvi-stepper-large>.mvi-stepper-input{
+
+	.mvi-stepper-large>.mvi-stepper-input {
 		height: @large-height;
 		font-size: @font-size-h6;
 	}
-	&.mvi-stepper-border{
+
+	&.mvi-stepper-border {
 		border: 1px solid @border-color;
 	}
 </style>

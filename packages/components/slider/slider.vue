@@ -4,213 +4,224 @@
 		</div>
 		<div class="mvi-slider-button" ref="btn">
 			<slot name="button" v-if="$slots.button"></slot>
-			<div v-else :class="['mvi-slider-button-el',buttonClass?buttonClass:'']" :style="buttonElStyle"></div>
+			<div v-else :class="['mvi-slider-button-el',buttonClass || '']" :style="buttonElStyle"></div>
 		</div>
 	</div>
 </template>
 
 <script>
 	import $dap from "dap-util"
-	import Drag from "../drag/drag";
+	import Drag from "../drag/drag"
 	export default {
 		name: "m-slider",
 		data() {
 			return {
-				btn:null,
+				btn: null,
 				drag: null,
-				isdrag:false
+				isdrag: false
 			}
 		},
-		emits:['update:modelValue','change'],
+		emits: ['update:modelValue', 'change'],
 		props: {
-			modelValue: { //当前值
+			//当前值
+			modelValue: { 
 				type: Number,
 				default: 0
 			},
-			min: { //最小值
+			//最小值
+			min: { 
 				type: Number,
 				default: 0
 			},
-			max: { //最大值
+			//最大值
+			max: { 
 				type: Number,
 				default: 100
 			},
-			barHeight: { //进度粗细
+			//进度粗细
+			barHeight: { 
 				type: String,
 				default: null
 			},
-			activeColor: { //激活的进度颜色
+			//激活的进度颜色
+			activeColor: { 
 				type: String,
 				default: null
 			},
-			barColor: { //进度条默认颜色
+			//进度条默认颜色
+			barColor: { 
 				type: String,
 				default: null
 			},
-			disabled: { //是否禁用
+			//是否禁用
+			disabled: { 
 				type: Boolean,
 				default: false
 			},
-			vertical: { //是否垂直
+			//是否垂直
+			vertical: { 
 				type: Boolean,
 				default: false
 			},
-			round:{
-				type:Boolean,
-				default:false
+			//滑动条是否显示圆形的圆角弧度
+			round: {
+				type: Boolean,
+				default: false
 			},
-			square:{
-				type:Boolean,
-				default:false
+			//滑动条是否不显示圆角弧度
+			square: {
+				type: Boolean,
+				default: false
 			},
-			buttonClass: { //拖拽按钮额外样式类
+			//拖拽按钮额外样式类
+			buttonClass: { 
 				type: String,
 				default: null
 			}
 		},
 		computed: {
 			sliderStyle() {
-				let style = {};
+				let style = {}
 				if (this.barHeight) {
 					if (this.vertical) {
-						style.width = this.barHeight;
+						style.width = this.barHeight
 					} else {
-						style.height = this.barHeight;
+						style.height = this.barHeight
 					}
 				}
 				if (this.barColor) {
-					style.backgroundColor = this.barColor;
+					style.backgroundColor = this.barColor
 				}
-				return style;
+				return style
 			},
 			sliderBarStyle() {
-				let style = {};
+				let style = {}
 				if (this.activeColor) {
-					style.backgroundColor = this.activeColor;
+					style.backgroundColor = this.activeColor
 				}
+				let percent = $dap.number.divide($dap.number.subtract(this.modelValue, this.min), $dap.number.subtract(this.max,
+					this.min))
 				if (this.vertical) {
-					style.height = `calc(${(this.modelValue - this.min) / (this.max - this.min)} * 100%)`;
+					style.height = `calc(${percent} * 100%)`
 				} else {
-					style.width = `calc(${(this.modelValue - this.min) / (this.max - this.min)} * 100%)`;
+					style.width = `calc(${percent} * 100%)`
 				}
-				return style;
+				return style
 			},
 			buttonElStyle() {
-				let style = {};
+				let style = {}
 				if (this.barHeight) {
-					style.width = `calc(${this.barHeight} * 2)`;
-					style.height = `calc(${this.barHeight} * 2)`;
+					style.width = `calc(${this.barHeight} * 2)`
+					style.height = `calc(${this.barHeight} * 2)`
 				}
-				if(this.btn){
-					this.setBtnOffset();
+				if (this.btn) {
+					this.setBtnOffset()
 				}
-				return style;
+				return style
 			},
-			sliderClass(){
-				let cls = ['mvi-slider'];
-				if(this.round){
-					cls.push('mvi-slider-radius-round');
-				}else if(this.square){
-					cls.push('mvi-slider-radius-square');
+			sliderClass() {
+				let cls = ['mvi-slider']
+				if (this.round) {
+					cls.push('mvi-slider-radius-round')
+				} else if (this.square) {
+					cls.push('mvi-slider-radius-square')
 				}
-				if(this.vertical){
-					cls.push('mvi-slider-vertical');
+				if (this.vertical) {
+					cls.push('mvi-slider-vertical')
 				}
-				return cls;
+				return cls
 			}
 		},
 		mounted() {
-			this.btn = this.$refs.btn;
-			this.drag = new Drag(this.$refs.btn,{
-				container:this.$el,
+			this.btn = this.$refs.btn
+			this.drag = new Drag(this.$refs.btn, {
+				container: this.$el,
 				mode: 'on',
 				draggableY: this.vertical && (!this.disabled),
 				draggableX: (!this.vertical) && (!this.disabled),
-				drag:this.onDrag,
-				dragged:()=>{
-					this.$nextTick(()=>{
-						setTimeout(()=>{
-							this.isdrag = false;
-						},10)
+				drag: this.onDrag,
+				dragged: () => {
+					this.$nextTick(() => {
+						setTimeout(() => {
+							this.isdrag = false
+						}, 10)
 					})
 				}
-			});
-			this.drag.init();
+			})
+			this.drag.init()
 		},
-		watch:{
-			disabled(newValue){
-				if(this.drag){
-					if(newValue){
-						if(this.vertical){
-							this.drag.draggableY = false;
-						}else{
-							this.drag.draggableX = false;
+		watch: {
+			disabled(newValue) {
+				if (this.drag) {
+					if (newValue) {
+						if (this.vertical) {
+							this.drag.draggableY = false
+						} else {
+							this.drag.draggableX = false
 						}
-					}else{
-						if(this.vertical){
-							this.drag.draggableY = true;
-						}else{
-							this.drag.draggableX = true;
+					} else {
+						if (this.vertical) {
+							this.drag.draggableY = true
+						} else {
+							this.drag.draggableX = true
 						}
 					}
 				}
-				
+
 			},
-			vertical(newValue){
-				this.$nextTick(()=>{
-					this.setBtnOffset();
+			vertical(newValue) {
+				this.$nextTick(() => {
+					this.setBtnOffset()
 				})
 			}
 		},
 		methods: {
 			//拖拽
 			onDrag(res) {
-				this.isdrag = true;
+				this.isdrag = true
 				if (this.vertical) {
-					let top = res.placement.top;
-					let value = ((top + this.$refs.btn.offsetHeight / 2) / this.$el.offsetHeight) * (this.max - this.min) + this.min;
-					this.$emit('update:modelValue', value);
-					this.$emit('change',value);
+					let top = res.placement.top
+					let value = $dap.number.add($dap.number.mutiply($dap.number.divide($dap.number.add(top, $dap.number.divide(this.$refs.btn.offsetHeight,2)),this.$el.offsetHeight), $dap.number.subtract(this.max, this.min)), this.min)
+					this.$emit('update:modelValue', value)
+					this.$emit('change', value)
 				} else {
-					let left = res.placement.left;
-					let value = ((left + this.$refs.btn.offsetWidth / 2) / this.$el.offsetWidth) * (this.max - this.min) + this.min;
-					this.$emit('update:modelValue', value);
-					this.$emit('change',value);
+					let left = res.placement.left
+					let value = $dap.number.add($dap.number.mutiply($dap.number.divide($dap.number.add(left,$dap.number.divide(this.$refs.btn.offsetWidth,2)),this.$el.offsetWidth),$dap.number.subtract(this.max - this.min)),this.min)
+					this.$emit('update:modelValue', value)
+					this.$emit('change', value)
 				}
 			},
 			//设置按钮的移动距离
 			setBtnOffset() {
 				if (this.vertical) {
-					this.$refs.btn.style.left = "50%";
-					this.$refs.btn.style.top = ((this.modelValue - this.min) / (this.max - this.min)) * this.$el.offsetHeight - this.$refs.btn.offsetHeight /
-						2 + "px";
+					this.$refs.btn.style.left = "50%"
+					this.$refs.btn.style.top = $dap.number.subtract($dap.number.mutiply($dap.number.divide($dap.number.subtract(this.modelValue, this.min),$dap.number.subtract(this.max - this.min)),this.$el.offsetHeight), $dap.number.divide( this.$refs.btn.offsetHeight, 2)) + "px"
 				} else {
-					this.$refs.btn.style.top = "50%";
-					this.$refs.btn.style.left = ((this.modelValue - this.min) / (this.max - this.min)) * this.$el.offsetWidth - this.$refs.btn.offsetWidth /
-						2 + "px";
+					this.$refs.btn.style.top = "50%"
+					this.$refs.btn.style.left = $dap.number.subtract($dap.number.mutiply($dap.number.divide($dap.number.subtract(this.modelValue, this.min),$dap.number.subtract(this.max - this.min)),this.$el.offsetWidth), $dap.number.divide( this.$refs.btn.offsetWidth, 2)) + "px"
 				}
 			},
 			//跳转到指定位置
 			dragTo(event) {
 				if (this.disabled) {
-					return;
+					return
 				}
-				if(this.isdrag){
-					return;
+				if (this.isdrag) {
+					return
 				}
-				if($dap.element.isContains(this.$refs.btn,event.target)){
-					return;
+				if ($dap.element.isContains(this.$refs.btn, event.target)) {
+					return
 				}
 				if (this.vertical) {
-					let top = event.offsetY;
-					let value = (top / this.$el.offsetHeight) * (this.max - this.min) + this.min;
-					this.$emit('update:modelValue', value);
-					this.$emit('change',value);
+					let top = event.offsetY
+					let value = $dap.number.add($dap.number.mutiply($dap.number.divide(top, this.$el.offsetHeight), $dap.number.subtract(this.max, this.min)), this.min)
+					this.$emit('update:modelValue', value)
+					this.$emit('change', value)
 				} else {
-					let left = event.offsetX;
-					let value = (left / this.$el.offsetWidth) * (this.max - this.min) + this.min;
-					this.$emit('update:modelValue', value);
-					this.$emit('change',value);
+					let left = event.offsetX
+					let value = $dap.number.add($dap.number.mutiply($dap.number.divide(left, this.$el.offsetWidth), $dap.number.subtract(this.max, this.min)), this.min)
+					this.$emit('update:modelValue', value)
+					this.$emit('change', value)
 				}
 			}
 		}
@@ -219,7 +230,7 @@
 
 <style scoped lang="less">
 	@import "../../css/mvi-basic.less";
-	
+
 	.mvi-slider {
 		position: relative;
 		display: block;
@@ -245,7 +256,7 @@
 		margin: 0 @mp-sm;
 	}
 
-	.mvi-slider.mvi-slider-radius-square{
+	.mvi-slider.mvi-slider-radius-square {
 		border-radius: 0;
 	}
 

@@ -29,93 +29,113 @@
 	import mIcon from "../icon/icon"
 	export default {
 		name: "m-search",
-		emits: ['update:modelValue', 'search', 'cancel', 'left-click', 'right-click', 'focus', 'blur', 'input','clear'],
+		emits: ['update:modelValue', 'search', 'cancel', 'left-click', 'right-click', 'focus', 'blur', 'input', 'clear'],
 		data() {
 			return {
 				focus: false
 			}
 		},
 		props: {
+			//输入框的值
 			modelValue: {
 				type: [String, Number],
 				default: ''
 			},
+			//输入框类型
 			type: {
 				type: String,
 				default: 'text'
 			},
+			//输入框占位符
 			placeholder: {
 				type: String,
 				default: ''
 			},
-			label: { //搜索框左侧文本
+			//搜索框左侧文本
+			label: { 
 				type: String,
 				default: null
 			},
-			labelClass: { //左侧文本额外样式
+			//左侧文本额外样式
+			labelClass: { 
 				type: String,
 				default: null
 			},
-			round: { //搜索框是否圆形
+			//搜索框是否圆形
+			round: { 
 				type: Boolean,
 				default: false
 			},
-			background: { //输入框区域背景色
+			//输入框区域背景色
+			background: { 
 				type: String,
 				default: null
 			},
-			color: { //输入框区域字体色
+			//输入框区域字体色
+			color: { 
 				type: String,
 				default: null
 			},
-			maxlength: { //输入的最大长度
+			//输入的最大长度
+			maxlength: { 
 				type: Number,
 				default: -1
 			},
-			autofocus: { //是否自动聚焦
+			//是否自动聚焦
+			autofocus: { 
 				type: Boolean,
 				default: false
 			},
-			showCancel: { //是否在输入框右侧显示取消按钮
+			//是否在输入框右侧显示取消按钮
+			showCancel: { 
 				type: Boolean,
 				default: false
 			},
-			cancelText: { //取消按钮文字
+			//取消按钮文字
+			cancelText: { 
 				type: String,
 				default: '取消'
 			},
-			cancelClass: { //取消按钮额外样式
+			//取消按钮额外样式
+			cancelClass: { 
 				type: String,
 				default: null
 			},
-			disabled: { //是否禁用
+			//是否禁用
+			disabled: { 
 				type: Boolean,
 				default: false
 			},
-			readonly: { //是否只读
+			//是否只读
+			readonly: { 
 				type: Boolean,
 				default: false
 			},
-			align: { //输入框内容对齐方式
+			//输入框内容对齐方式
+			align: { 
 				type: String,
 				default: 'left',
 				validator(value) {
 					return ['left', 'center', 'right'].includes(value)
 				}
 			},
-			leftIcon: { //左侧图标
+			//左侧图标
+			leftIcon: { 
 				type: [String, Object],
 				default: null
 			},
-			rightIcon: { //右侧图标
+			//右侧图标
+			rightIcon: { 
 				type: [String, Object],
 				default: null
 			},
-			clearable: { //使用清除图标
+			//使用清除图标
+			clearable: { 
 				type: Boolean,
 				default: false
 			},
-			inputMode: { //输入框调起移动端键盘类型
+			//输入框调起移动端键盘类型
+			inputMode: { 
 				type: [String, Boolean],
 				default: false,
 				validator(value) {
@@ -126,121 +146,121 @@
 		computed: {
 			showClear() {
 				if (this.disabled || this.readonly) {
-					return false;
+					return false
 				}
 				if (this.focus) {
 					if (this.realValue === '') {
-						return false;
+						return false
 					} else {
-						return true;
+						return true
 					}
 				} else {
-					return false;
+					return false
 				}
 			},
 			leftIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.type == "string") {
-						t = this.leftIcon.type;
+						t = this.leftIcon.type
 					}
 				} else if (typeof this.leftIcon == "string") {
-					t = this.leftIcon;
+					t = this.leftIcon
 				}
-				return t;
+				return t
 			},
 			leftIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.url == "string") {
-						url = this.leftIcon.url;
+						url = this.leftIcon.url
 					}
 				}
-				return url;
+				return url
 			},
 			leftIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.spin == "boolean") {
-						spin = this.leftIcon.spin;
+						spin = this.leftIcon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
 			leftIconSize() {
-				let size = null;
+				let size = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.size == "string") {
-						size = this.leftIcon.size;
+						size = this.leftIcon.size
 					}
 				}
-				return size;
+				return size
 			},
 			leftIconColor() {
-				let color = null;
+				let color = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.color == "string") {
-						color = this.leftIcon.color;
+						color = this.leftIcon.color
 					}
 				}
-				return color;
+				return color
 			},
 			rightIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.type == "string") {
-						t = this.rightIcon.type;
+						t = this.rightIcon.type
 					}
 				} else if (typeof this.rightIcon == "string") {
-					t = this.rightIcon;
+					t = this.rightIcon
 				}
-				return t;
+				return t
 			},
 			rightIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.url == "string") {
-						url = this.rightIcon.url;
+						url = this.rightIcon.url
 					}
 				}
-				return url;
+				return url
 			},
 			rightIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.spin == "boolean") {
-						spin = this.rightIcon.spin;
+						spin = this.rightIcon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
 			rightIconSize() {
-				let size = null;
+				let size = null
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.size == "string") {
-						size = this.rightIcon.size;
+						size = this.rightIcon.size
 					}
 				}
-				return size;
+				return size
 			},
 			rightIconColor() {
-				let color = null;
+				let color = null
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.color == "string") {
-						color = this.rightIcon.color;
+						color = this.rightIcon.color
 					}
 				}
-				return color;
+				return color
 			},
 			computedType() {
 				if (this.type == 'number') {
-					return 'text';
+					return 'text'
 				} else {
-					return this.type;
+					return this.type
 				}
 			},
 			computedInputMode() {
-				let mode = false;
+				let mode = false
 				if (typeof this.inputMode == 'string') {
 					mode = this.inputMode
 				}
@@ -252,35 +272,35 @@
 					style.textAlign = this.align
 				}
 				if (this.leftIconType || this.leftIconUrl) {
-					style.paddingLeft = 0;
+					style.paddingLeft = 0
 				}
 				if (this.showClear && this.clearable) {
-					style.paddingRight = 0;
+					style.paddingRight = 0
 				} else if (this.rightIconType || this.rightIconUrl) {
-					style.paddingRight = 0;
+					style.paddingRight = 0
 				}
-				return style;
+				return style
 			},
-			realValue:{
-				set(value){
-					if(this.modelValue !== value){
-						this.$emit('update:modelValue',value);
+			realValue: {
+				set(value) {
+					if (this.modelValue !== value) {
+						this.$emit('update:modelValue', value)
 					}
 				},
-				get(){
-					let value = this.modelValue === null ? '':this.modelValue.toString();
+				get() {
+					let value = this.modelValue === null ? '' : this.modelValue.toString()
 					//数字类型会过滤非数字字符
-					if(this.type == 'number'){
-						value = value.replace(/\D/g, '');
+					if (this.type == 'number') {
+						value = value.replace(/\D/g, '')
 					}
 					//如果设置了maxlength，则进行字符串截取
 					if (this.maxlength > 0 && value.length > this.maxlength) {
-						value = value.substr(0, this.maxlength);
+						value = value.substr(0, this.maxlength)
 					}
-					if(this.modelValue !== value){
-						this.$emit('update:modelValue',value);
+					if (this.modelValue !== value) {
+						this.$emit('update:modelValue', value)
 					}
-					return value;
+					return value
 				}
 			}
 		},
@@ -290,70 +310,70 @@
 		methods: {
 			//输入框获取焦点
 			getFocus() {
-				if(this.disabled){
-					return;
+				if (this.disabled) {
+					return
 				}
 				this.$emit('focus', this.realValue)
 				setTimeout(() => {
-					this.focus = true;
+					this.focus = true
 				}, 200)
 			},
 			//输入框失去焦点
 			getBlur() {
-				if(this.disabled){
-					return;
+				if (this.disabled) {
+					return
 				}
 				this.$emit('blur', this.realValue)
 				setTimeout(() => {
-					this.focus = false;
+					this.focus = false
 				}, 200)
 			},
 			//输入监听
 			searchInput() {
-				if(this.disabled){
-					return;
+				if (this.disabled) {
+					return
 				}
-				this.$emit('input',this.realValue);
+				this.$emit('input', this.realValue)
 			},
 			//搜索
 			doSearch() {
 				if (this.disabled) {
-					return;
+					return
 				}
-				this.$emit('search', this.realValue);
+				this.$emit('search', this.realValue)
 			},
 			//取消
 			doCancel() {
 				if (this.disabled) {
-					return;
+					return
 				}
-				this.$emit('cancel', this.realValue);
+				this.$emit('cancel', this.realValue)
 			},
 			//左侧图标点击
 			leftClick() {
 				if (this.disabled) {
-					return;
+					return
 				}
-				this.$emit('left-click', this.realValue);
+				this.$emit('left-click', this.realValue)
 			},
 			//右侧图标点击
 			rightClick() {
 				if (this.disabled) {
-					return;
+					return
 				}
-				this.$emit('right-click', this.realValue);
+				this.$emit('right-click', this.realValue)
 			},
 			//清除输入框
 			clearInput() {
-				if(this.disabled){
-					return;
+				if (this.disabled) {
+					return
 				}
-				if(!this.clearable){
-					return;
+				if (!this.clearable) {
+					return
 				}
-				this.realValue = '';
-				this.$refs.input.focus();
-				this.$emit('clear','');
+				this.realValue = ''
+				this.$refs.input.focus()
+				this.$emit('clear', '')
 			}
 		}
 	}

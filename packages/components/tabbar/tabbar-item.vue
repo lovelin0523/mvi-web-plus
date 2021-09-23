@@ -2,7 +2,7 @@
 	<div :disabled="disabled || null" :class="computedClass" :style="computedStyle" @click="setActive">
 		<div class="mvi-tabbar-item-child">
 			<span class="mvi-tabbar-icon" v-if="iconType || iconUrl" :style="{marginBottom:(name?'':'0px')}">
-				<m-icon :type="iconType" :url="iconUrl" :spin="iconSpin" :size="iconSize" :color="iconColor"/>
+				<m-icon :type="iconType" :url="iconUrl" :spin="iconSpin" :size="iconSize" :color="iconColor" />
 			</span>
 			<span :class="['mvi-tabbar-name',(iconType || iconUrl)?'mvi-tabbar-name-small':'']" v-text="name"></span>
 		</div>
@@ -13,213 +13,215 @@
 	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
-		name:"m-tabbar-item",
-		inject:['tabbar'],
-		props:{
+		name: "m-tabbar-item",
+		inject: ['tabbar'],
+		props: {
 			//路由参数配置
-			route:{
-				type:[String,Object],
-				default:null
+			route: {
+				type: [String, Object],
+				default: null
 			},
 			//图标
-			icon:{
-				type:[String,Object],
-				default:null
+			icon: {
+				type: [String, Object],
+				default: null
 			},
 			//名称
-			name:{
-				type:String,
-				default:null
+			name: {
+				type: String,
+				default: null
 			},
 			//值
-			value:{
-				type:[String,Number],
-				default:null
+			value: {
+				type: [String, Number],
+				default: null
 			},
 			//是否禁用
-			disabled:{
-				type:Boolean,
-				default:false
+			disabled: {
+				type: Boolean,
+				default: false
 			}
 		},
-		computed:{
+		computed: {
 			iconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.type == "string") {
-						t = this.icon.type;
+						t = this.icon.type
 					}
 				} else if (typeof this.icon == "string") {
-					t = this.icon;
+					t = this.icon
 				}
-				return t;
+				return t
 			},
 			iconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.url == "string") {
-						url = this.icon.url;
+						url = this.icon.url
 					}
 				}
-				return url;
+				return url
 			},
 			iconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.spin == "boolean") {
-						spin = this.icon.spin;
+						spin = this.icon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
-			iconSize(){
-				let size = null;
+			iconSize() {
+				let size = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.size == "string") {
-						size = this.icon.size;
+						size = this.icon.size
 					}
 				}
-				return size;
+				return size
 			},
-			iconColor(){
-				let color = null;
+			iconColor() {
+				let color = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.color == "string") {
-						color = this.icon.color;
+						color = this.icon.color
 					}
 				}
-				return color;
+				return color
 			},
-			computedClass(){
-				let cls = ['mvi-tabbar-item'];
-				if(this.value == this.tabbar.modelValue){
-					cls.push('mvi-tabbar-item-active');
+			computedClass() {
+				let cls = ['mvi-tabbar-item']
+				if (this.value == this.tabbar.modelValue) {
+					cls.push('mvi-tabbar-item-active')
 				}
-				if(this.tabbar.active && !this.disabled && this.value != this.tabbar.modelValue){
-					cls.push('mvi-tabbar-active');
+				if (this.tabbar.active && !this.disabled && this.value != this.tabbar.modelValue) {
+					cls.push('mvi-tabbar-active')
 				}
-				return cls;
+				return cls
 			},
-			computedStyle(){
-				let style = {};
+			computedStyle() {
+				let style = {}
 				//激活
-				if(this.value===this.tabbar.modelValue){
-					if(this.tabbar.activeColor){
-						style.color = this.tabbar.activeColor;
+				if (this.value === this.tabbar.modelValue) {
+					if (this.tabbar.activeColor) {
+						style.color = this.tabbar.activeColor
 					}
-				}else {
-					if(this.tabbar.inactiveColor){
-						style.color = this.tabbar.inactiveColor;
+				} else {
+					if (this.tabbar.inactiveColor) {
+						style.color = this.tabbar.inactiveColor
 					}
 				}
-				return style;
+				return style
 			},
-			computedRoute(){
-				if(!this.route){
-					return null;
+			computedRoute() {
+				if (!this.route) {
+					return null
 				}
-				let route = {};
-				if(typeof this.route == 'string'){
+				let route = {}
+				if (typeof this.route == 'string') {
 					route = {
-						path:this.route
+						path: this.route
 					}
-				}else if($dap.common.isObject(this.route)){
+				} else if ($dap.common.isObject(this.route)) {
 					//路径
-					if(typeof this.route.path == 'string' && this.route.path){
-						route.path = this.route.path;
+					if (typeof this.route.path == 'string' && this.route.path) {
+						route.path = this.route.path
 					}
 					//路由名称
-					if(typeof this.route.name == 'string' && this.route.name){
-						route.name = this.route.name;
+					if (typeof this.route.name == 'string' && this.route.name) {
+						route.name = this.route.name
 					}
 					//路由参数
-					if($dap.common.isObject(this.route.query)){
-						route.query = this.route.query;
-					}else {
-						route.query = {};
+					if ($dap.common.isObject(this.route.query)) {
+						route.query = this.route.query
+					} else {
+						route.query = {}
 					}
 					//动态路由参数
-					if($dap.common.isObject(this.route.params)){
-						route.params = this.route.params;
-					}else {
-						route.params = {};
+					if ($dap.common.isObject(this.route.params)) {
+						route.params = this.route.params
+					} else {
+						route.params = {}
 					}
 					//是否使用replace
-					if(typeof this.route.replace == 'boolean'){
-						route.replace = this.route.replace;
-					}else {
-						route.replace = false;
+					if (typeof this.route.replace == 'boolean') {
+						route.replace = this.route.replace
+					} else {
+						route.replace = false
 					}
 				}
-				if(!route.query){
+				if (!route.query) {
 					route.query = {}
 				}
-				if(!route.params){
+				if (!route.params) {
 					route.params = {}
 				}
-				return route;
+				return route
 			}
 		},
-		components:{
+		components: {
 			mIcon
 		},
-		methods:{
-			setActive(){
-				this.tabbar.itemClick(Object.assign({},this.$props));
-				if(this.disabled){
-					return;
+		methods: {
+			setActive() {
+				this.tabbar.itemClick(Object.assign({}, this.$props))
+				if (this.disabled) {
+					return
 				}
-				if(this.tabbar.modelValue === this.value){
-					return;
+				if (this.tabbar.modelValue === this.value) {
+					return
 				}
 				//如果路由存在
-				if(this.computedRoute && this.$router && this.$router.replace && this.$router.push){
+				if (this.computedRoute && this.$router && this.$router.replace && this.$router.push) {
 					//path存在首先使用path
-					if(this.computedRoute.path){
-						if(this.computedRoute.replace){
+					if (this.computedRoute.path) {
+						if (this.computedRoute.replace) {
 							this.$router.replace({
-								path:this.computedRoute.path,
-								query:this.computedRoute.query,
-								params:this.computedRoute.params
+								path: this.computedRoute.path,
+								query: this.computedRoute.query,
+								params: this.computedRoute.params
 							})
-						}else {
+						} else {
 							this.$router.push({
-								path:this.computedRoute.path,
-								query:this.computedRoute.query,
-								params:this.computedRoute.params
+								path: this.computedRoute.path,
+								query: this.computedRoute.query,
+								params: this.computedRoute.params
 							})
 						}
-					}else if(this.computedRoute.name){//使用路由名称
-						if(this.computedRoute.replace){
+					} 
+					//使用路由名称
+					else if (this.computedRoute.name) { 
+						if (this.computedRoute.replace) {
 							this.$router.replace({
-								name:this.computedRoute.name,
-								query:this.computedRoute.query,
-								params:this.computedRoute.params
+								name: this.computedRoute.name,
+								query: this.computedRoute.query,
+								params: this.computedRoute.params
 							})
-						}else {
+						} else {
 							this.$router.push({
-								name:this.computedRoute.name,
-								query:this.computedRoute.query,
-								params:this.computedRoute.params
+								name: this.computedRoute.name,
+								query: this.computedRoute.query,
+								params: this.computedRoute.params
 							})
 						}
 					}
 				}
-				this.tabbar.getActiveValue(Object.assign({},this.$props));
+				this.tabbar.getActiveValue(Object.assign({}, this.$props))
 			},
-			
+
 		}
 	}
 </script>
 
 <style scoped lang="less">
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-tabbar-item{
+
+	.mvi-tabbar-item {
 		position: relative;
 		display: flex;
 		display: -webkit-flex;
-		justify-content:center;
+		justify-content: center;
 		align-items: center;
 		vertical-align: middle;
 		height: 100%;
@@ -229,23 +231,23 @@
 		-moz-user-select: none;
 		-webkit-user-select: none;
 	}
-	
-	.mvi-tabbar-item-child{
+
+	.mvi-tabbar-item-child {
 		display: flex;
 		display: -webkit-flex;
-		justify-content:flex-start;
+		justify-content: flex-start;
 		align-items: center;
 		flex-direction: column;
 		-ms-flex-direction: column;
 		-webkit-flex-direction: column;
 		vertical-align: middle;
 	}
-	
-	.mvi-tabbar-item.mvi-tabbar-item-active{
+
+	.mvi-tabbar-item.mvi-tabbar-item-active {
 		color: @info-normal;
 	}
-	
-	.mvi-tabbar-icon{
+
+	.mvi-tabbar-icon {
 		display: block;
 		width: 100%;
 		text-align: center;
@@ -253,23 +255,24 @@
 		padding: 0;
 		font-size: @font-size-h4;
 	}
-	
-	.mvi-tabbar-name{
+
+	.mvi-tabbar-name {
 		display: block;
 		width: 100%;
 		text-align: center;
 		font-size: @font-size-h6;
 		white-space: nowrap;
-		
-		&.mvi-tabbar-name-small{
+
+		&.mvi-tabbar-name-small {
 			font-size: @font-size-small;
 		}
 	}
-	.mvi-tabbar-active:active::before{
+
+	.mvi-tabbar-active:active::before {
 		.mvi-active();
 	}
-	
-	.mvi-tabbar-item[disabled]{
+
+	.mvi-tabbar-item[disabled] {
 		opacity: .5;
 	}
 </style>

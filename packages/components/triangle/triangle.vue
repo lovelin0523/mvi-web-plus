@@ -8,58 +8,62 @@
 	export default {
 		name: 'm-triangle',
 		props: {
+			//背景色
 			background: {
 				type: String,
 				default: null
 			},
+			//边框颜色
 			borderColor: {
 				type: String,
 				default: null
 			},
+			//大小
 			size: {
 				type: String,
-				default:'0.14rem'
+				default: '0.14rem'
 			},
+			//位置
 			placement: {
 				type: String,
 				default: 'top',
 				validator(value) {
-					return ['top', 'left', 'right', 'bottom'].includes(value);
+					return ['top', 'left', 'right', 'bottom'].includes(value)
 				}
 			}
 		},
 		computed: {
 			triangleStyle() {
-				let style = {};
-				style.borderWidth = this.size;
+				let style = {}
+				style.borderWidth = this.size
 				if (this.placement == 'top') {
-					style.borderBottomColor = this.borderColor || '';
+					style.borderBottomColor = this.borderColor || ''
 				} else if (this.placement == 'bottom') {
-					style.borderTopColor = this.borderColor || '';
+					style.borderTopColor = this.borderColor || ''
 				} else if (this.placement == 'left') {
-					style.borderRightColor = this.borderColor || '';
+					style.borderRightColor = this.borderColor || ''
 				} else if (this.placement == 'right') {
-					style.borderLeftColor = this.borderColor || '';
+					style.borderLeftColor = this.borderColor || ''
 				}
-				return style;
+				return style
 			},
-			triangleElStyle(){
-				let style = {};
-				style.borderWidth = `calc(${this.size} - 1px)`;
+			triangleElStyle() {
+				let style = {}
+				style.borderWidth = `calc(${this.size} - 1px)`
 				if (this.placement == 'top') {
-					style.borderBottomColor = this.background || '';
-					style.marginLeft = `-${this.size}`;
+					style.borderBottomColor = this.background || ''
+					style.marginLeft = `-${this.size}`
 				} else if (this.placement == 'bottom') {
-					style.borderTopColor = this.background || '';
-					style.marginLeft = `-${this.size}`;
+					style.borderTopColor = this.background || ''
+					style.marginLeft = `-${this.size}`
 				} else if (this.placement == 'left') {
-					style.borderRightColor = this.background || '';
-					style.marginTop = `-${this.size}`;
+					style.borderRightColor = this.background || ''
+					style.marginTop = `-${this.size}`
 				} else if (this.placement == 'right') {
-					style.borderLeftColor = this.background || '';
-					style.marginTop = `-${this.size}`;
+					style.borderLeftColor = this.background || ''
+					style.marginTop = `-${this.size}`
 				}
-				return style;
+				return style
 			}
 		}
 	}
@@ -75,7 +79,7 @@
 		height: 0;
 		border-color: transparent;
 		border-style: solid;
-		
+
 		&[data-placement='top'] {
 			border-top: none;
 			border-bottom-color: @border-color;
@@ -96,24 +100,25 @@
 			border-left-color: @border-color;
 		}
 	}
-	
+
 	//内部背景色
-	.mvi-triangle-el{
+	.mvi-triangle-el {
 		position: absolute;
 		display: inline-block;
 		width: 0;
 		height: 0;
 		border-color: transparent;
 		border-style: solid;
+
 		&[data-placement='top'] {
 			border-top: none;
 			border-bottom-color: @bg-color-default;
-			left:1px;
-			top:1.5px;
+			left: 1px;
+			top: 1.5px;
 			right: auto;
 			bottom: 0;
 		}
-		
+
 		&[data-placement='bottom'] {
 			border-bottom: none;
 			border-top-color: @bg-color-default;
@@ -122,16 +127,16 @@
 			top: auto;
 			right: auto;
 		}
-		
+
 		&[data-placement='left'] {
 			border-left: none;
 			border-right-color: @bg-color-default;
-			left:1.5px;
+			left: 1.5px;
 			top: 1px;
 			right: auto;
 			bottom: auto;
 		}
-		
+
 		&[data-placement='right'] {
 			border-right: none;
 			border-left-color: @bg-color-default;
@@ -141,5 +146,4 @@
 			left: auto;
 		}
 	}
-
 </style>

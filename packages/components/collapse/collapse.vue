@@ -6,67 +6,77 @@
 
 <script>
 	export default {
-		name:"m-collapse",
-		data(){
+		name: "m-collapse",
+		data() {
 			return {
-				children:[]
+				children: []
 			}
 		},
-		emits:['update:modelValue','before-slide-down','slide-down','before-slide-up','slide-up'],
-		props:{
-			modelValue:{//默认展开的面板索引
-				type:[Number,Array],
-				default:null
+		emits: ['update:modelValue', 'before-slide-down', 'slide-down', 'before-slide-up', 'slide-up'],
+		props: {
+			//默认展开的面板索引
+			modelValue: { 
+				type: [Number, Array],
+				default: null
 			},
-			accordion:{//是否手风琴模式
-				type:Boolean,
-				default:false
+			//是否手风琴模式
+			accordion: { 
+				type: Boolean,
+				default: false
 			},
-			inBorder:{//是否显示每个面板的内下边框
-				type:Boolean,
-				default:true
+			//是否显示每个面板的内下边框
+			inBorder: { 
+				type: Boolean,
+				default: true
 			},
-			outBorder:{//是否展示每个面板的外下边框
-				type:Boolean,
-				default:true
+			//是否展示每个面板的外下边框
+			outBorder: { 
+				type: Boolean,
+				default: true
 			},
-			disabled:{//是否禁用
-				type:Boolean,
-				default:false
+			//是否禁用
+			disabled: { 
+				type: Boolean,
+				default: false
 			},
-			active:{//点击标题栏是否显示点击态
-				type:Boolean,
-				default:true
+			//点击标题栏是否显示点击态
+			active: { 
+				type: Boolean,
+				default: true
 			},
-			noWrap:{//是否对标题栏的标题和内容使用单行限制
-				type:Boolean,
-				default:false
+			//是否对标题栏的标题和内容使用单行限制
+			noWrap: { 
+				type: Boolean,
+				default: false
 			},
-			openArrow:{//展开时右侧图标
-				type:[String,Object],
-				default:'angle-up'
+			//展开时右侧图标
+			openArrow: { 
+				type: [String, Object],
+				default: 'angle-up'
 			},
-			closeArrow:{//关闭时右侧图标
-				type:[String,Object],
-				default:'angle-down'
+			//关闭时右侧图标
+			closeArrow: { 
+				type: [String, Object],
+				default: 'angle-down'
 			},
-			timeout:{//折叠或者展开的动画时长,单位ms
-				type:Number,
-				default:300
+			//折叠或者展开的动画时长,单位ms
+			timeout: { 
+				type: Number,
+				default: 300
 			}
 		},
 		provide(){
 			return {
 				collapse:this
-			};
+			}
 		}
 	}
 </script>
 
 <style lang="less" scoped>
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-collapse{
+
+	.mvi-collapse {
 		display: block;
 		width: 100%;
 		vertical-align: middle;

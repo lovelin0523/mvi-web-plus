@@ -3,7 +3,8 @@
 		<transition name="mvi-notify" @after-leave="afterLeave" @after-enter="afterEnter">
 			<div v-show="show" :class="['mvi-notify','mvi-notify-'+computedType]" :style="notifyStyle">
 				<div class="mvi-notify-content">
-					<m-icon v-if="iconType || iconUrl" :type="iconType" :url="iconUrl" :spin="iconSpin" :size="iconSize" :color="iconColor" />
+					<m-icon v-if="iconType || iconUrl" :type="iconType" :url="iconUrl" :spin="iconSpin" :size="iconSize"
+						:color="iconColor" />
 					<span v-text="computedMessage"></span>
 				</div>
 			</div>
@@ -15,207 +16,209 @@
 	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
-		name:"m-notify",
-		data(){
+		name: "m-notify",
+		data() {
 			return {
-				timer:null,//计时器
-				show:false,//是否显示
+				//计时器
+				timer: null,
+				//是否显示
+				show: false
 			}
 		},
-		props:{
+		props: {
 			//提示类型
-			type:{
-				type:String,
-				default:null
+			type: {
+				type: String,
+				default: null
 			},
 			//展示文字
-			message:{
-				type:String,
-				default:null
+			message: {
+				type: String,
+				default: null
 			},
 			//字体颜色
-			color:{
-				type:String,
-				default:null
+			color: {
+				type: String,
+				default: null
 			},
 			//背景色
-			background:{
-				type:String,
-				default:null
+			background: {
+				type: String,
+				default: null
 			},
 			//层级
-			zIndex:{
-				type:Number,
-				default:null
+			zIndex: {
+				type: Number,
+				default: null
 			},
 			//自动关闭间隔
-			timeout:{
-				type:Number,
-				default:null
+			timeout: {
+				type: Number,
+				default: null
 			},
 			//图标
-			icon:{
-				type:[String,Object],
-				default:null
+			icon: {
+				type: [String, Object],
+				default: null
 			},
 			//移除方法
-			remove:{
-				type:Function,
-				default:function(){
-					return function(){}
+			remove: {
+				type: Function,
+				default: function() {
+					return function() {}
 				}
 			},
 			//初始化方法
-			init:{
-				type:Function,
-				default:function(){
-					return function(){}
+			init: {
+				type: Function,
+				default: function() {
+					return function() {}
 				}
 			}
 		},
-		computed:{
+		computed: {
 			//类型
-			computedType(){
-				let arry = ['success','info','primary','error','warn'];
-				if(arry.includes(this.type)){
-					return this.type;
-				}else{
-					return 'success';
+			computedType() {
+				let arr = ['success', 'info', 'primary', 'error', 'warn']
+				if (arr.includes(this.type)) {
+					return this.type
+				} else {
+					return 'success'
 				}
 			},
 			//消息文本
-			computedMessage(){
-				if(typeof this.message == "string"){
-					return this.message;
-				}else if($dap.common.isObject(this.message)){
-					return JSON.stringify(this.message);
-				}else {
-					return String(this.message);
+			computedMessage() {
+				if (typeof this.message == "string") {
+					return this.message
+				} else if ($dap.common.isObject(this.message)) {
+					return JSON.stringify(this.message)
+				} else {
+					return String(this.message)
 				}
 			},
 			//自定义文字颜色
-			computedColor(){
-				if(typeof this.color == "string"){
-					return this.color;
-				}else{
-					return null;
+			computedColor() {
+				if (typeof this.color == "string") {
+					return this.color
+				} else {
+					return null
 				}
 			},
 			//自定义背景色
-			computedBackground(){
-				if(typeof this.background == "string"){
-					return this.background;
-				}else{
-					return null;
+			computedBackground() {
+				if (typeof this.background == "string") {
+					return this.background
+				} else {
+					return null
 				}
 			},
 			//自定义zIndex
-			computedZIndex(){
-				if($dap.number.isNumber(this.zIndex)){
-					return this.zIndex;
-				}else{
-					return 1100;
+			computedZIndex() {
+				if ($dap.number.isNumber(this.zIndex)) {
+					return this.zIndex
+				} else {
+					return 1100
 				}
 			},
 			//自动关闭时间
-			computedTimeout(){
-				if($dap.number.isNumber(this.timeout) && this.timeout>0){
-					return this.timeout;
-				}else{
-					return 1500;
+			computedTimeout() {
+				if ($dap.number.isNumber(this.timeout) && this.timeout > 0) {
+					return this.timeout
+				} else {
+					return 1500
 				}
 			},
 			//图标类型
 			iconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.type == "string") {
-						t = this.icon.type;
+						t = this.icon.type
 					}
 				} else if (typeof this.icon == "string") {
-					t = this.icon;
+					t = this.icon
 				}
-				return t;
+				return t
 			},
 			//图标url
 			iconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.url == "string") {
-						url = this.icon.url;
+						url = this.icon.url
 					}
 				}
-				return url;
+				return url
 			},
 			//图标是否旋转
 			iconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.spin == "boolean") {
-						spin = this.icon.spin;
+						spin = this.icon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
 			//图标大小
-			iconSize(){
-				let size = null;
+			iconSize() {
+				let size = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.size == "string") {
-						size = this.icon.size;
+						size = this.icon.size
 					}
 				}
-				return size;
+				return size
 			},
 			//图标颜色
-			iconColor(){
-				let color = null;
+			iconColor() {
+				let color = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.color == "string") {
-						color = this.icon.color;
+						color = this.icon.color
 					}
 				}
-				return color;
+				return color
 			},
 			//通知样式
-			notifyStyle(){
-				let style = {};
-				style.zIndex = this.computedZIndex;
-				if(this.computedBackground){
-					style.backgroundColor = this.computedBackground;
+			notifyStyle() {
+				let style = {}
+				style.zIndex = this.computedZIndex
+				if (this.computedBackground) {
+					style.backgroundColor = this.computedBackground
 				}
-				if(this.computedColor){
-					style.color = this.computedColor;
+				if (this.computedColor) {
+					style.color = this.computedColor
 				}
-				return style;
+				return style
 			}
 		},
-		components:{
+		components: {
 			mIcon
 		},
 		mounted() {
-			this.show = true;
-			this.init(this);
+			this.show = true
+			this.init(this)
 		},
-		methods:{
+		methods: {
 			//完全显示后
-			afterEnter(el){
-				if(this.computedTimeout > 0){
-					this.timer = setTimeout(()=>{
-						this.show = false;
-					},this.computedTimeout)
+			afterEnter(el) {
+				if (this.computedTimeout > 0) {
+					this.timer = setTimeout(() => {
+						this.show = false
+					}, this.computedTimeout)
 				}
 			},
 			//完全隐藏后
-			afterLeave(el){
-				this.clearTimer();
-				this.remove();
+			afterLeave(el) {
+				this.clearTimer()
+				this.remove()
 			},
 			//清除计时器
-			clearTimer(){
-				if(this.timer){
-					clearTimeout(this.timer);
-					this.timer = null;
+			clearTimer() {
+				if (this.timer) {
+					clearTimeout(this.timer)
+					this.timer = null
 				}
 			}
 		}
@@ -224,8 +227,8 @@
 
 <style lang="less" scoped>
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-notify{
+
+	.mvi-notify {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: center;
@@ -238,54 +241,58 @@
 		margin: 0;
 		padding: 0 @mp-sm;
 	}
-	
-	.mvi-notify-success{
+
+	.mvi-notify-success {
 		background-color: @success-normal;
 		color: #fff;
 	}
-	
-	.mvi-notify-info{
+
+	.mvi-notify-info {
 		background-color: @info-normal;
 		color: #fff;
 	}
-	
-	.mvi-notify-primary{
+
+	.mvi-notify-primary {
 		background-color: @primary-normal;
 		color: #fff;
 	}
-	
-	.mvi-notify-error{
+
+	.mvi-notify-error {
 		background-color: @error-normal;
 		color: #fff;
 	}
-	
-	.mvi-notify-warn{
+
+	.mvi-notify-warn {
 		background-color: @warn-normal;
 		color: #fff;
 	}
-	
-	.mvi-notify-content{
+
+	.mvi-notify-content {
 		display: block;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		vertical-align: middle;
-		&>.mvi-icon{
+
+		&>.mvi-icon {
 			margin-right: @mp-sm;
 		}
-		&>span{
+
+		&>span {
 			vertical-align: middle;
 		}
 	}
-	
-	.mvi-notify-enter-active,.mvi-notify-leave-active{
+
+	.mvi-notify-enter-active,
+	.mvi-notify-leave-active {
 		transition: all 300ms;
 		-webkit-transition: all 300ms;
 		-moz-transition: all 300ms;
 		-ms-transition: all 300ms;
 	}
-	
-	.mvi-notify-enter-from,.mvi-notify-leave-to{
+
+	.mvi-notify-enter-from,
+	.mvi-notify-leave-to {
 		opacity: 0;
 		transform: translateY(-100%);
 		-webkit-transform: translateY(-100%);

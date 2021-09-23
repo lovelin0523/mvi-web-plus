@@ -9,30 +9,30 @@ const MsgBox = {
 	initParams: options => {
 		let opts = {}
 		if ($dap.common.isObject(options)) {
-			opts.message = options.message;
-			opts.timeout = options.timeout;
-			opts.animation = options.animation;
-			opts.zIndex = options.zIndex;
-			opts.color = options.color;
-			opts.background = options.background;
+			opts.message = options.message
+			opts.timeout = options.timeout
+			opts.animation = options.animation
+			opts.zIndex = options.zIndex
+			opts.color = options.color
+			opts.background = options.background
 		} else {
-			opts.message = options;
+			opts.message = options
 		}
-		return opts;
+		return opts
 	},
 
 	//弹窗调用
 	msgbox: options => {
 		return new Promise((resolve, reject) => {
-			let opts = MsgBox.initParams(options);
-			let mountNode = $dap.element.string2dom('<div></div>');
-			document.body.appendChild(mountNode);
+			let opts = MsgBox.initParams(options)
+			let mountNode = $dap.element.string2dom('<div></div>')
+			document.body.appendChild(mountNode)
 			const instance = createApp(msgBoxComponent, {
 				...opts,
 				remove: () => {
-					instance.unmount();
-					mountNode.remove();
-					resolve();
+					instance.unmount()
+					mountNode.remove()
+					resolve()
 				}
 			})
 			instance.mount(mountNode)
@@ -41,8 +41,8 @@ const MsgBox = {
 
 	//注册函数
 	install: app => {
-		app.config.globalProperties.$msgbox = MsgBox.msgbox;
-		app.provide('$msgbox', MsgBox.msgbox);
+		app.config.globalProperties.$msgbox = MsgBox.msgbox
+		app.provide('$msgbox', MsgBox.msgbox)
 	}
 }
 
