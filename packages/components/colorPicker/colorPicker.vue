@@ -101,14 +101,14 @@
 							this.setColorBySlides()
 						},
 						dragged: () => {
-							this.drag = false;
+							this.drag = false
 							this.$nextTick(() => {
 								setTimeout(() => {
 									this.isDrag = false
 								}, 10)
 							})
 						}
-					});
+					})
 					this.panelDrag.init()
 				}
 				//设置色相面板拖拽功能
@@ -133,7 +133,7 @@
 								}, 10)
 							})
 						}
-					});
+					})
 					this.hueDrag.init()
 				}
 				//设置透明度面板拖拽功能
@@ -151,14 +151,14 @@
 							this.setColorBySlides()
 						},
 						dragged: () => {
-							this.drag = false;
+							this.drag = false
 							this.$nextTick(() => {
 								setTimeout(() => {
 									this.isDrag = false
 								}, 10)
 							})
 						}
-					});
+					})
 					this.alphaDrag.init()
 				}
 			},
@@ -172,7 +172,7 @@
 				this.$refs.panelSlide.style.top = e.offsetY - this.$refs.panelSlide.offsetHeight / 2 + "px"
 				this.setColorBySlides().then(() => {
 					this.drag = false
-				});
+				})
 			},
 			//点击色相面板直接设置颜色
 			clickHueSetColor(e) {
@@ -183,7 +183,7 @@
 				this.$refs.hueSlide.style.left = e.offsetX - this.$refs.hueSlide.offsetWidth / 2 + "px"
 				this.setColorBySlides().then(() => {
 					this.drag = false
-				});
+				})
 			},
 			//点击透明度面板直接设置颜色
 			clickAlphaSetColor(e) {
@@ -238,7 +238,7 @@
 			//根据颜色设置滑块位置
 			setSlidesByColor() {
 				if (this.drag) {
-					return;
+					return
 				}
 				let h = this.hsv[0]
 				let s = this.hsv[1]

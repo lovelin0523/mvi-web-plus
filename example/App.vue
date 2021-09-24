@@ -1,14 +1,25 @@
 <template>
 	<m-button @click="change">Button</m-button>
+	<m-form>
+	    <m-form-el label="用户名">
+	        <m-field placeholder="请输入用户名"></m-field>
+	    </m-form-el>
+	    <m-form-el label="手机号">
+	        <m-field placeholder="请输入手机号"></m-field>
+	    </m-form-el>
+	    <m-form-el label="密码">
+	        <m-field placeholder="请输入密码"></m-field>
+	    </m-form-el>
+	</m-form>
 	<div id="root" style="height: 13rem;width: 7rem;border: 1px solid #bbb;overflow: auto;position: relative;">
-		<m-color-picker v-model="value"></m-color-picker>
+		<m-field v-model="value"/>
 	</div>
 </template>
 
 <script>
 	import {
 		ref,
-		reactive,
+		reactive, 
 		inject
 	} from 'vue'
 	export default {
@@ -177,7 +188,8 @@
 		},
 		methods: {
 			change(e) {
-				 this.show = !this.show
+				this.show = !this.show
+				
 			},
 			shown(e) {
 				console.log(e)

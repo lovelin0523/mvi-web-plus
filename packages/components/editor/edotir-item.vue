@@ -1,41 +1,72 @@
 <template>
 	<div class="mvi-eitor-item" :data-id="`mvi-editor-root-${uid}-${value}`">
-		<m-tooltip v-if="editor.useTooltip && editor.defaultTooltips[value]" :disabled="editor.disabled || (value!='codeView' && editor.codeViewShow)" :title="editor.defaultTooltips[value]" trigger="hover" :placement="editor.defaultTooltipProps.placement" :timeout="editor.defaultTooltipProps.timeout" :color="editor.defaultTooltipProps.color" :text-color="editor.defaultTooltipProps.textColor" :border-color="editor.defaultTooltipProps.borderColor" :offset="editor.defaultTooltipProps.offset" :z-index="editor.defaultTooltipProps.zIndex" :fixed="editor.defaultTooltipProps.fixed" :fixed-auto="editor.defaultTooltipProps.fixedAuto" :width="editor.defaultTooltipProps.width" :animation="editor.defaultTooltipProps.animation" :show-triangle="editor.defaultTooltipProps.showTriangle">
-			<div class="mvi-editor-target" @click="targetTrigger" :disabled="editor.disabled || (value!='codeView' && editor.codeViewShow) || null"  :data-id="`mvi-editor-target-${uid}-${value}`" :style="editorTargetStyle">
+		<m-tooltip v-if="editor.useTooltip && editor.defaultTooltips[value]"
+			:disabled="editor.disabled || (value!='codeView' && editor.codeViewShow)"
+			:title="editor.defaultTooltips[value]" trigger="hover" :placement="editor.defaultTooltipProps.placement"
+			:timeout="editor.defaultTooltipProps.timeout" :color="editor.defaultTooltipProps.color"
+			:text-color="editor.defaultTooltipProps.textColor" :border-color="editor.defaultTooltipProps.borderColor"
+			:offset="editor.defaultTooltipProps.offset" :z-index="editor.defaultTooltipProps.zIndex"
+			:fixed="editor.defaultTooltipProps.fixed" :fixed-auto="editor.defaultTooltipProps.fixedAuto"
+			:width="editor.defaultTooltipProps.width" :animation="editor.defaultTooltipProps.animation"
+			:show-triangle="editor.defaultTooltipProps.showTriangle">
+			<div class="mvi-editor-target" @click="targetTrigger"
+				:disabled="editor.disabled || (value!='codeView' && editor.codeViewShow) || null"
+				:data-id="`mvi-editor-target-${uid}-${value}`" :style="editorTargetStyle">
 				<m-icon :type="editor.defaultMenuIcons[value]" />
 			</div>
 		</m-tooltip>
-		<div v-else :class="['mvi-editor-target',menuActive?'mvi-editor-active':'']" @click="targetTrigger" :disabled="editor.disabled || (value!='codeView' && editor.codeViewShow) || null" :data-id="`mvi-editor-target-${uid}-${value}`" :style="editorTargetStyle">
+		<div v-else :class="['mvi-editor-target',menuActive?'mvi-editor-active':'']" @click="targetTrigger"
+			:disabled="editor.disabled || (value!='codeView' && editor.codeViewShow) || null"
+			:data-id="`mvi-editor-target-${uid}-${value}`" :style="editorTargetStyle">
 			<m-icon :type="editor.defaultMenuIcons[value]" />
 		</div>
-		<m-layer v-model="layerShow" ref="layer" :placement="editor.defaultLayerProps.placement" :z-index="editor.defaultLayerProps.zIndex" :fixed="editor.defaultLayerProps.fixed" :fixed-auto="editor.defaultLayerProps.fixedAuto" :offset="editor.defaultLayerProps.offset" :wrapper-class="editor.defaultLayerProps.wrapperClass" :timeout="editor.defaultLayerProps.timeout" :show-triangle="editor.defaultLayerProps.showTriangle" :animation="editor.defaultLayerProps.animation" :shadow="editor.defaultLayerProps.shadow" :border="editor.defaultLayerProps.border" :border-color="editor.defaultLayerProps.borderColor" :background="editor.defaultLayerProps.background" :closable="(editor.trigger=='click'?true:false)" :target="`[data-id='mvi-editor-target-${uid}-${value}']`" :root="`[data-id='mvi-editor-root-${uid}-${value}']`">
+		<m-layer v-model="layerShow" ref="layer" :placement="editor.defaultLayerProps.placement"
+			:z-index="editor.defaultLayerProps.zIndex" :fixed="editor.defaultLayerProps.fixed"
+			:fixed-auto="editor.defaultLayerProps.fixedAuto" :offset="editor.defaultLayerProps.offset"
+			:wrapper-class="editor.defaultLayerProps.wrapperClass" :timeout="editor.defaultLayerProps.timeout"
+			:show-triangle="editor.defaultLayerProps.showTriangle" :animation="editor.defaultLayerProps.animation"
+			:shadow="editor.defaultLayerProps.shadow" :border="editor.defaultLayerProps.border"
+			:border-color="editor.defaultLayerProps.borderColor" :background="editor.defaultLayerProps.background"
+			:closable="(editor.trigger=='click'?true:false)" :target="`[data-id='mvi-editor-target-${uid}-${value}']`"
+			:root="`[data-id='mvi-editor-root-${uid}-${value}']`">
 			<div class="mvi-editor-layer">
 				<!-- 插入图片或者视频 -->
 				<div class="mvi-editor-medias" v-if="value == 'image' || value == 'video' ">
-					<m-tabs v-model="tabIndex" flex="flex-start" offset="0.4rem" :active-color="editor.activeColor" inactive-color="#808080">
+					<m-tabs v-model="tabIndex" flex="flex-start" offset="0.4rem" :active-color="editor.activeColor"
+						inactive-color="#808080">
 						<m-tab v-for="(item,index) in menu" :title="item.label">
-							<div :ref="el=>uploadElArray[index] = el" class="mvi-editor-upload" v-if="item.value == 'upload'">
+							<div :ref="el=>uploadElArray[index] = el" class="mvi-editor-upload"
+								v-if="item.value == 'upload'">
 								<m-icon type='upload-square' />
 							</div>
 							<div v-if="item.value == 'remote'" class="mvi-editor-remote">
-								<input class="mvi-editor-remote-input" @focus="inputFocus" @blur="inputBlur" v-model.trim="remoteUrl" :placeholder="value=='image'?'图片链接':'视频链接'" type="text" />
-								<div class="mvi-editor-remote-insert" :style="activeColorStyle" @click="insertRemote">插入</div>
+								<input class="mvi-editor-remote-input" @focus="inputFocus" @blur="inputBlur"
+									v-model.trim="remoteUrl" :placeholder="value=='image'?'图片链接':'视频链接'" type="text" />
+								<div class="mvi-editor-remote-insert" :style="activeColorStyle" @click="insertRemote">插入
+								</div>
 							</div>
 						</m-tab>
 					</m-tabs>
 				</div>
 				<!-- 插入链接 -->
 				<div v-else-if="value == 'link'" class="mvi-editor-links">
-					<m-tabs flex="flex-start" offset="0.4rem" :active-color="editor.activeColor" inactive-color="#808080">
+					<m-tabs flex="flex-start" offset="0.4rem" :active-color="editor.activeColor"
+						inactive-color="#808080">
 						<m-tab :title="menu[0].label">
 							<div v-if="menu[0].value == 'link'" class="mvi-editor-link">
-								<input ref="linkText" class="mvi-editor-link-input" @focus="inputFocus" @blur="inputBlur" v-model.trim="linkText" placeholder="链接文字" type="text" />
-								<input ref="linkUrl" class="mvi-editor-link-input" @focus="inputFocus" @blur="inputBlur" v-model.trim="linkUrl" placeholder="链接地址" type="text">
+								<input ref="linkText" class="mvi-editor-link-input" @focus="inputFocus"
+									@blur="inputBlur" v-model.trim="linkText" placeholder="链接文字" type="text" />
+								<input ref="linkUrl" class="mvi-editor-link-input" @focus="inputFocus" @blur="inputBlur"
+									v-model.trim="linkUrl" placeholder="链接地址" type="text">
 								<div class="mvi-editor-link-footer">
-									<m-checkbox label="新窗口打开" label-placement="right" icon-size="0.24rem" label-size="0.24rem" label-color="#808080" :fill-color="editor.activeColor" v-model="linkTarget"></m-checkbox>
+									<m-checkbox label="新窗口打开" label-placement="right" icon-size="0.24rem"
+										label-size="0.24rem" label-color="#808080" :fill-color="editor.activeColor"
+										v-model="linkTarget"></m-checkbox>
 									<div class="mvi-editor-link-operation">
-										<span class="mvi-editor-link-delete" v-if="menuActive" @click="deleteLink">删除链接</span>
-										<span class="mvi-editor-link-insert" :style="activeColorStyle" @click="insertLink">插入</span>
+										<span class="mvi-editor-link-delete" v-if="menuActive"
+											@click="deleteLink">删除链接</span>
+										<span class="mvi-editor-link-insert" :style="activeColorStyle"
+											@click="insertLink">插入</span>
 									</div>
 								</div>
 							</div>
@@ -44,28 +75,44 @@
 				</div>
 				<!-- 设置颜色 -->
 				<div class="mvi-editor-colors" v-else-if="value == 'foreColor' || value == 'backColor'">
-					<m-tooltip :disabled="!(item.label && editor.useTooltip)" trigger="hover" :title="item.label" v-for="(item,index) in menu" :placement="editor.defaultTooltipProps.placement" :timeout="editor.defaultTooltipProps.timeout" :color="editor.defaultTooltipProps.color" :text-color="editor.defaultTooltipProps.textColor" :border-color="editor.defaultTooltipProps.borderColor" :offset="editor.defaultTooltipProps.offset" :z-index="editor.defaultTooltipProps.zIndex" :fixed="editor.defaultTooltipProps.fixed" :width="editor.defaultTooltipProps.width" :wrapper-class="editor.defaultTooltipProps.wrapperClass" :animation="editor.defaultTooltipProps.animation" class="mvi-editor-color">
-						<span @click="doSelect(item)" class="mvi-editor-color-el" :style="{backgroundColor:item.value}"></span>
+					<m-tooltip :disabled="!(item.label && editor.useTooltip)" trigger="hover" :title="item.label"
+						v-for="(item,index) in menu" :placement="editor.defaultTooltipProps.placement"
+						:timeout="editor.defaultTooltipProps.timeout" :color="editor.defaultTooltipProps.color"
+						:text-color="editor.defaultTooltipProps.textColor"
+						:border-color="editor.defaultTooltipProps.borderColor"
+						:offset="editor.defaultTooltipProps.offset" :z-index="editor.defaultTooltipProps.zIndex"
+						:fixed="editor.defaultTooltipProps.fixed" :width="editor.defaultTooltipProps.width"
+						:wrapper-class="editor.defaultTooltipProps.wrapperClass"
+						:animation="editor.defaultTooltipProps.animation" class="mvi-editor-color">
+						<span @click="doSelect(item)" class="mvi-editor-color-el"
+							:style="{backgroundColor:item.value}"></span>
 					</m-tooltip>
 				</div>
 				<!-- 插入表格 -->
 				<div v-else-if="value == 'table'" class="mvi-editor-tables">
-					<m-tabs flex="flex-start" offset="0.4rem" :active-color="editor.activeColor" inactive-color="#808080">
+					<m-tabs flex="flex-start" offset="0.4rem" :active-color="editor.activeColor"
+						inactive-color="#808080">
 						<m-tab :title="menuActive?'编辑表格':menu[0].label">
 							<div v-if="menu[0].value == 'table'" class="mvi-editor-table">
 								<div class="mvi-editor-table-edit" v-if="menuActive">
-									<span @click="addTableRow" class="mvi-editor-table-add" :style="activeColorStyle">增加行</span>
+									<span @click="addTableRow" class="mvi-editor-table-add"
+										:style="activeColorStyle">增加行</span>
 									<span @click="removeTableRow" class="mvi-editor-table-delete">删除行</span>
-									<span @click="addTableColumn" class="mvi-editor-table-add" :style="activeColorStyle">增加列</span>
+									<span @click="addTableColumn" class="mvi-editor-table-add"
+										:style="activeColorStyle">增加列</span>
 									<span @click="removeTableColumn" class="mvi-editor-table-delete">删除列</span>
 								</div>
 								<div class="mvi-editor-table-create" v-else>
-									创建<input ref="rowsInput" class="mvi-editor-table-input" @focus="inputFocus" @blur="inputBlur" v-model.trim.number="tableRows" />
-									行<input ref="columnsInput" class="mvi-editor-table-input" @focus="inputFocus" @blur="inputBlur" v-model.trim.number="tableColumns" />列的表格
+									创建<input ref="rowsInput" class="mvi-editor-table-input" @focus="inputFocus"
+										@blur="inputBlur" v-model.trim.number="tableRows" />
+									行<input ref="columnsInput" class="mvi-editor-table-input" @focus="inputFocus"
+										@blur="inputBlur" v-model.trim.number="tableColumns" />列的表格
 								</div>
 								<div class="mvi-editor-table-footer">
-									<span class="mvi-editor-table-delete" v-if="menuActive" @click="deleteTable">删除表格</span>
-									<span class="mvi-editor-table-insert" :style="activeColorStyle" v-else @click="insertTable">插入</span>
+									<span class="mvi-editor-table-delete" v-if="menuActive"
+										@click="deleteTable">删除表格</span>
+									<span class="mvi-editor-table-insert" :style="activeColorStyle" v-else
+										@click="insertTable">插入</span>
 								</div>
 							</div>
 						</m-tab>
@@ -82,7 +129,7 @@
 		</m-layer>
 		<!-- table模板 -->
 		<table v-if="value == 'table'" style="display: none;" ref="table" class="mvi-editor-table-demo" cellpadding="0"
-		 cellspacing="0" mvi-editor-insert-table>
+			cellspacing="0" mvi-editor-insert-table>
 			<tbody mvi-editor-insert-table>
 				<tr v-for="item in tableRows" mvi-editor-insert-table>
 					<td v-for="el in tableColumns" mvi-editor-insert-table><br></td>
@@ -93,7 +140,9 @@
 </template>
 
 <script>
-	import { getCurrentInstance } from "vue"
+	import {
+		getCurrentInstance
+	} from "vue"
 	import $dap from "dap-util"
 	import Upload from "../upload/upload"
 	import mTooltip from "../tooltip/tooltip"
@@ -105,52 +154,64 @@
 	export default {
 		name: 'm-editor-item',
 		props: {
-			value: { //key值
+			//key值
+			value: { 
 				type: String,
 				default: null
 			},
-			menu: { //菜单项值
+			//菜单项值
+			menu: { 
 				type: [Array, Boolean],
 				default: function() {
-					return false;
+					return false
 				}
 			}
 		},
 		setup() {
-			const instance = getCurrentInstance();
+			const instance = getCurrentInstance()
 			return {
-				uid:instance.uid
+				uid: instance.uid
 			}
 		},
 		data() {
 			return {
-				layerShow: false, //layer开关
-				tabIndex: 0, //媒体layer浮层默认显示的tab序列
-				remoteUrl: '', //插入的网络图片或者视频地址
-				linkUrl: '', //插入的链接
-				linkText: '', //链接内容
-				linkTarget: false, //链接是否在新窗口打开
-				tableRows: 5, //表格行数
-				tableColumns: 5, //表格列数
-				menuActive: false, //菜单项是否激活状态，激活状态下如果是浮层显示浮层内容有些会有不同
-				uploadElArray:[],//上传元素数组
+				//layer开关
+				layerShow: false,
+				//媒体layer浮层默认显示的tab序列
+				tabIndex: 0, 
+				//插入的网络图片或者视频地址
+				remoteUrl: '', 
+				//插入的链接
+				linkUrl: '', 
+				//链接内容
+				linkText: '', 
+				//链接是否在新窗口打开
+				linkTarget: false, 
+				//表格行数
+				tableRows: 5, 
+				//表格列数
+				tableColumns: 5, 
+				//菜单项是否激活状态，激活状态下如果是浮层显示浮层内容有些会有不同
+				menuActive: false, 
+				//上传元素数组
+				uploadElArray: [] 
 			}
 		},
 		inject: ['editor'],
 		computed: {
 			//激活颜色设置
-			activeColorStyle(){
+			activeColorStyle() {
 				let style = {}
-				if(this.editor.activeColor){
-					style.color = this.editor.activeColor;
+				if (this.editor.activeColor) {
+					style.color = this.editor.activeColor
 				}
-				return style;
+				return style
 			},
 			//菜单项样式
-			editorTargetStyle(){
+			editorTargetStyle() {
 				let style = {}
-				if(this.editor.activeColor && this.menuActive){
-					style.color = this.editor.activeColor;
+				if (this.editor.activeColor && this.menuActive) {
+					style.color = this.editor.activeColor
 				}
 				return style
 			},
@@ -161,29 +222,36 @@
 			//上传文件配置
 			uploadOptions() {
 				return {
-					allowedFileType: this.value == 'image' ? this.editor.defaultUploadImageProps.allowedFileType : this.editor.defaultUploadVideoProps
+					allowedFileType: this.value == 'image' ? this.editor.defaultUploadImageProps.allowedFileType : this
+						.editor.defaultUploadVideoProps
 						.allowedFileType,
-					multiple: this.value == 'image' ? this.editor.defaultUploadImageProps.multiple : this.editor.defaultUploadVideoProps
+					multiple: this.value == 'image' ? this.editor.defaultUploadImageProps.multiple : this.editor
+						.defaultUploadVideoProps
 						.multiple,
-					accept: this.value == 'image' ? this.editor.defaultUploadImageProps.accept : this.editor.defaultUploadVideoProps.accept,
-					minSize: this.value == 'image' ? this.editor.defaultUploadImageProps.minSize : this.editor.defaultUploadVideoProps
+					accept: this.value == 'image' ? this.editor.defaultUploadImageProps.accept : this.editor
+						.defaultUploadVideoProps.accept,
+					minSize: this.value == 'image' ? this.editor.defaultUploadImageProps.minSize : this.editor
+						.defaultUploadVideoProps
 						.minSize,
-					maxSize: this.value == 'image' ? this.editor.defaultUploadImageProps.maxSize : this.editor.defaultUploadVideoProps
+					maxSize: this.value == 'image' ? this.editor.defaultUploadImageProps.maxSize : this.editor
+						.defaultUploadVideoProps
 						.maxSize,
-					minLength: this.value == 'image' ? this.editor.defaultUploadImageProps.minLength : this.editor.defaultUploadVideoProps
+					minLength: this.value == 'image' ? this.editor.defaultUploadImageProps.minLength : this.editor
+						.defaultUploadVideoProps
 						.minLength,
-					maxLength: this.value == 'image' ? this.editor.defaultUploadImageProps.maxLength : this.editor.defaultUploadVideoProps
+					maxLength: this.value == 'image' ? this.editor.defaultUploadImageProps.maxLength : this.editor
+						.defaultUploadVideoProps
 						.maxLength,
 					select: files => {
-						this.editor.restoreRange();
+						this.editor.restoreRange()
 						//使用base64
 						if (this.editor.useBase64) {
 							files.forEach((file) => {
 								$dap.file.dataFileToBase64(file).then(base64 => {
 									if (this.value == 'image') {
-										this.editor.insertImage(base64);
+										this.editor.insertImage(base64)
 									} else {
-										this.editor.insertVideo(base64);
+										this.editor.insertVideo(base64)
 									}
 								})
 							})
@@ -222,68 +290,81 @@
 				}
 			}
 		},
-		components:{
-			mTooltip,mIcon,mLayer,mTabs,mTab,mCheckbox
+		components: {
+			mTooltip,
+			mIcon,
+			mLayer,
+			mTabs,
+			mTab,
+			mCheckbox
 		},
 		mounted() {
 			if (this.editor.trigger == 'hover') {
-				$dap.event.on(this.$el,'mouseenter.editor', this.showLayer)
-				$dap.event.on(this.$el,'mouseleave.editor', this.hideLayer)
+				$dap.event.on(this.$el, 'mouseenter.editor', this.showLayer)
+				$dap.event.on(this.$el, 'mouseleave.editor', this.hideLayer)
 			}
 		},
 		methods: {
 			//输入框获取焦点
-			inputFocus(event){
-				if(this.editor.activeColor){
-					event.currentTarget.style.borderColor = this.editor.activeColor;
+			inputFocus(event) {
+				if (this.editor.activeColor) {
+					event.currentTarget.style.borderColor = this.editor.activeColor
 				}
 			},
 			//输入框失去焦点
-			inputBlur(event){
-				if(this.editor.activeColor){
-					event.currentTarget.style.borderColor = '';
+			inputBlur(event) {
+				if (this.editor.activeColor) {
+					event.currentTarget.style.borderColor = ''
 				}
 			},
 			//菜单项下拉选择
 			doSelect(item) {
 				if (this.editor.disabled) {
-					return;
+					return
 				}
-				this.editor.restoreRange();
+				this.editor.restoreRange()
 				switch (this.value) {
-					case 'tag': //设置dom标签
-						document.execCommand('formatBlock', false, item.value);
-						break;
-					case 'fontFamily': //设置字体
-						document.execCommand('fontName', false, item.value);
-						break;
-					case 'list': //设置列表
+					//设置dom标签
+					case 'tag': 
+						document.execCommand('formatBlock', false, item.value)
+						break
+					//设置字体
+					case 'fontFamily': 
+						document.execCommand('fontName', false, item.value)
+						break
+					//设置列表
+					case 'list': 
+						//有序列表
 						if (item.value == 'ol') {
-							//有序列表
-							document.execCommand('insertOrderedList');
-						} else {
-							//无序列表
-							document.execCommand('insertUnorderedList');
+							document.execCommand('insertOrderedList')
+						} 
+						//无序列表
+						else {
+							document.execCommand('insertUnorderedList')
 						}
-						break;
-					case 'justify': //对齐方式
+						break
+					//对齐方式
+					case 'justify': 
 						if (item.value == 'left') {
-							document.execCommand('justifyLeft');
+							document.execCommand('justifyLeft')
 						} else if (item.value == 'center') {
-							document.execCommand('justifyCenter');
+							document.execCommand('justifyCenter')
 						} else if (item.value == 'right') {
-							document.execCommand('justifyRight');
+							document.execCommand('justifyRight')
 						} else if (item.value == 'justify') {
-							document.execCommand('justifyFull');
+							document.execCommand('justifyFull')
 						}
-						break;
-					case 'foreColor': //字体颜色
-						document.execCommand('foreColor', false, item.value);
-						break;
-					case 'backColor': //背景色
-						document.execCommand('hiliteColor', false, item.value);
-						break;
-					default: //自定义操作
+						break
+					//字体颜色
+					case 'foreColor': 
+						document.execCommand('foreColor', false, item.value)
+						break
+					//背景色
+					case 'backColor': 
+						document.execCommand('hiliteColor', false, item.value)
+						break
+					//自定义操作
+					default: 
 						this.editor.$emit('custom', {
 							key: this.value,
 							itemKey: item.value
@@ -294,18 +375,18 @@
 			//显示浮层
 			showLayer() {
 				if (this.editor.disabled) {
-					return;
+					return
 				}
 				if (this.hasSelect) {
-					this.layerShow = true;
+					this.layerShow = true
 					this.$nextTick(() => {
 						if (this.editor.range) {
 							if (this.value == 'link') {
-								this.linkInsertSet();
+								this.linkInsertSet()
 							} else if (this.value == 'table') {
-								this.tableInsertSet();
+								this.tableInsertSet()
 							} else if (this.value == 'image' || this.value == 'video') {
-								this.uploadSet();
+								this.uploadSet()
 							}
 						}
 					})
@@ -314,19 +395,19 @@
 			//隐藏浮层
 			hideLayer() {
 				if (this.editor.disabled) {
-					return;
+					return
 				}
 				if (this.hasSelect) {
-					this.layerShow = false;
+					this.layerShow = false
 				}
 			},
 			//菜单项点击
 			targetTrigger() {
 				if (this.editor.disabled) {
-					return;
+					return
 				}
 				if (this.value != 'codeView' && this.editor.codeViewShow) {
-					return;
+					return
 				}
 				if (this.hasSelect) {
 					if (this.editor.trigger == 'click') {
@@ -341,82 +422,82 @@
 					//直接设置
 					switch (this.value) {
 						case 'undo': //撤销
-							document.execCommand('undo');
-							break;
+							document.execCommand('undo')
+							break
 						case 'redo': //恢复
-							document.execCommand('redo');
-							break;
+							document.execCommand('redo')
+							break
 						case 'removeFormat': //移出全部样式
-							document.execCommand('removeFormat');
-							break;
+							document.execCommand('removeFormat')
+							break
 						case 'selectAll': //全选
-							document.execCommand('selectAll');
-							break;
+							document.execCommand('selectAll')
+							break
 						case 'divider': //分割线
-							document.execCommand('insertHorizontalRule');
-							document.execCommand('insertHtml', false, '<p><br></p>');
-							break;
+							document.execCommand('insertHorizontalRule')
+							document.execCommand('insertHtml', false, '<p><br></p>')
+							break
 						case 'bold': //加粗
-							document.execCommand('bold');
-							break;
+							document.execCommand('bold')
+							break
 						case 'italic': //斜体
-							document.execCommand('italic');
-							break;
+							document.execCommand('italic')
+							break
 						case 'underline': //下划线
-							document.execCommand('underline');
-							break;
+							document.execCommand('underline')
+							break
 						case 'strikeThrough': //删除线
-							document.execCommand('strikeThrough');
-							break;
+							document.execCommand('strikeThrough')
+							break
 						case 'subscript': //下标
-							document.execCommand('subscript');
-							break;
+							document.execCommand('subscript')
+							break
 						case 'superscript': //上标
-							document.execCommand('superscript');
-							break;
+							document.execCommand('superscript')
+							break
 						case 'quote': //引用
 							if (this.menuActive) {
 								this.removeBlock()
 							} else {
-								document.execCommand('formatBlock', false, 'blockquote');
+								document.execCommand('formatBlock', false, 'blockquote')
 							}
-							break;
+							break
 						case 'code': //代码
 							if (this.menuActive) {
 								this.removeCode()
 							} else {
-								document.execCommand('formatBlock', false, 'pre');
+								document.execCommand('formatBlock', false, 'pre')
 							}
-							break;
+							break
 						case 'codeView': //显示源码
-							this.editor.codeViewShow = !this.editor.codeViewShow;
+							this.editor.codeViewShow = !this.editor.codeViewShow
 							this.$nextTick(() => {
 								if (this.editor.codeViewShow) {
-									this.editor.$refs.codeView.innerText = this.editor.html;
-									this.editor.menuRefs.forEach(child=>{
-										if(child.value != 'codeView'){
-											child.menuActive = false;
-										}else {
-											child.menuActive = true;
+									this.editor.$refs.codeView.innerText = this.editor.html
+									this.editor.menuRefs.forEach(child => {
+										if (child.value != 'codeView') {
+											child.menuActive = false
+										} else {
+											child.menuActive = true
 										}
 									})
 								} else {
-									this.editor.$refs.content.innerHTML = this.editor.html;
-									this.editor.menuRefs.forEach(child=>{
-										if(child.value != 'codeView'){
+									this.editor.$refs.content.innerHTML = this.editor.html
+									this.editor.menuRefs.forEach(child => {
+										if (child.value != 'codeView') {
 											this.editor.changeActive()
-										}else {
-											child.menuActive = false;
+										} else {
+											child.menuActive = false
 										}
 									})
 								}
-								this.editor.collapseToEnd();
+								this.editor.collapseToEnd()
 							})
-							break;
+							break
 						default: //自定义
 							this.editor.$emit('custom', {
 								key: this.value,
-								menu:this
+								menu: this
 							})
 					}
 				}
@@ -424,25 +505,25 @@
 			//插入远程图片或者视频
 			insertRemote() {
 				if (this.editor.disabled) {
-					return;
+					return
 				}
 				if (!this.remoteUrl) {
 					this.hideLayer()
 					return
 				}
-				this.editor.restoreRange();
+				this.editor.restoreRange()
 				if (this.value == 'image') {
 					this.editor.insertImage(this.remoteUrl)
 				} else {
 					this.editor.insertVideo(this.remoteUrl)
 				}
-				this.remoteUrl = '';
-				this.tabIndex = 0;
-				this.hideLayer();
+				this.remoteUrl = ''
+				this.tabIndex = 0
+				this.hideLayer()
 			},
 			//上传设置
 			uploadSet() {
-				if (this.uploadElArray.length>0) {
+				if (this.uploadElArray.length > 0) {
 					for (let i = 0; i < this.uploadElArray.length; i++) {
 						let upload = new Upload(this.uploadElArray[i], this.uploadOptions)
 						upload.init()
@@ -452,24 +533,24 @@
 			//插入链接
 			insertLink() {
 				if (this.editor.disabled) {
-					return;
+					return
 				}
 				if (!this.linkUrl) {
 					this.hideLayer()
 					return
 				}
 				if (!this.linkText) {
-					this.linkText = this.linkUrl;
+					this.linkText = this.linkUrl
 				}
-				let link = $dap.element.string2dom(`<a href="${this.linkUrl}">${this.linkText}</a>`);
+				let link = $dap.element.string2dom(`<a href="${this.linkUrl}">${this.linkText}</a>`)
 				if (this.linkTarget) {
-					link.setAttribute('target', '_blank');
+					link.setAttribute('target', '_blank')
 				}
-				this.editor.restoreRange();
+				this.editor.restoreRange()
 				if (this.menuActive) {
-					let node = this.editor.getSelectNode();
-					if (this.editor.compareTag(node,'a')) {
-						let a = this.editor.getCompareTag(node,'a');
+					let node = this.editor.getSelectNode()
+					if (this.editor.compareTag(node, 'a')) {
+						let a = this.editor.getCompareTag(node, 'a')
 						a.remove()
 					}
 				}
@@ -478,24 +559,28 @@
 			},
 			//链接插入设置
 			linkInsertSet() {
-				if (this.menuActive) { //激活状态
-					let node = this.editor.getSelectNode();
-					let a = this.editor.getCompareTag(node,'a');
-					this.linkUrl = a.getAttribute('href'); //初始化赋值
-					this.linkText = a.innerText; //初始化赋值
-					this.linkTarget = a.hasAttribute('target'); //初始化赋值
+				//激活状态
+				if (this.menuActive) { 
+					let node = this.editor.getSelectNode()
+					let a = this.editor.getCompareTag(node, 'a')
+					//初始化赋值
+					this.linkUrl = a.getAttribute('href')
+					//初始化赋值
+					this.linkText = a.innerText
+					//初始化赋值
+					this.linkTarget = a.hasAttribute('target')
 					this.$nextTick(() => {
 						this.$refs.linkText.focus()
 					})
 				} else {
-					this.linkUrl = '';
-					this.linkTarget = false;
-					let text = this.editor.range.toString();
+					this.linkUrl = ''
+					this.linkTarget = false
+					let text = this.editor.range.toString()
 					if (text) {
-						this.linkText = text;
+						this.linkText = text
 						this.$refs.linkUrl.focus()
 					} else {
-						this.linkText = '';
+						this.linkText = ''
 						this.$refs.linkText.focus()
 					}
 				}
@@ -503,239 +588,250 @@
 			//删除链接
 			deleteLink() {
 				if (this.editor.disabled) {
-					return;
+					return
 				}
-				this.editor.restoreRange();
-				let node = this.editor.getSelectNode();
-				if (this.editor.compareTag(node,'a')) {
-					let a = this.editor.getCompareTag(node,'a')
-					if(a){
-						a.remove();
-						this.menuActive = false;
+				this.editor.restoreRange()
+				let node = this.editor.getSelectNode()
+				if (this.editor.compareTag(node, 'a')) {
+					let a = this.editor.getCompareTag(node, 'a')
+					if (a) {
+						a.remove()
+						this.menuActive = false
 					}
 				}
-				this.editor.updateHtmlText();
-				this.editor.updateValue();
+				this.editor.updateHtmlText()
+				this.editor.updateValue()
 				this.hideLayer()
 			},
 			//表格插入设置
 			tableInsertSet() {
 				if (this.$refs.rowsInput) {
-					this.$refs.rowsInput.focus();
+					this.$refs.rowsInput.focus()
 				}
 			},
 			//插入表格
 			insertTable() {
 				if (!this.tableRows || !this.tableColumns) {
 					this.hideLayer()
-					return;
+					return
 				}
-				if (!$dap.common.matchingText(this.tableRows, 'number') || !$dap.common.matchingText(this.tableColumns, 'number')) {
-					this.hideLayer();
-					return;
+				if (!$dap.common.matchingText(this.tableRows.toString(), 'number') || !$dap.common.matchingText(this.tableColumns.toString(),
+						'number')) {
+					this.hideLayer()
+					return
 				}
-				let table = this.$refs.table.cloneNode(true);
-				table.style.display = '';
-				this.editor.restoreRange();
-				document.execCommand('insertHtml', false, table.outerHTML);
+				let table = this.$refs.table.cloneNode(true)
+				table.style.display = ''
+				this.editor.restoreRange()
+				document.execCommand('insertHtml', false, table.outerHTML)
 				this.hideLayer()
 			},
 			//增加行
 			addTableRow() {
-				let node = this.editor.getSelectNode();
-				if(this.editor.compareTag(node,'tr')){
-					let tr = this.editor.getCompareTag(node,'tr');
-					this.copyRowAppend(tr);
-				}else if (this.editor.compareTag(node,'tbody')) { //tbody
-					let tbody = this.editor.getCompareTag(node,'tbody');
-					let children = $dap.element.children(tbody, 'tr');
-					this.copyRowAppend(children[children.length - 1]);
-				} else if (this.editor.compareTag(node,'table')) { //table
-					let table = this.editor.getCompareTag(node,'table')
-					let tbody = $dap.element.children(table, 'tbody')[0];
-					let children = $dap.element.children(tbody, 'tr');
-					this.copyRowAppend(children[children.length - 1]);
+				let node = this.editor.getSelectNode()
+				//tr
+				if (this.editor.compareTag(node, 'tr')) {
+					let tr = this.editor.getCompareTag(node, 'tr')
+					this.copyRowAppend(tr)
+				} 
+				//tbody
+				else if (this.editor.compareTag(node, 'tbody')) { 
+					let tbody = this.editor.getCompareTag(node, 'tbody')
+					let children = $dap.element.children(tbody, 'tr')
+					this.copyRowAppend(children[children.length - 1])
+				} 
+				//table
+				else if (this.editor.compareTag(node, 'table')) { 
+					let table = this.editor.getCompareTag(node, 'table')
+					let tbody = $dap.element.children(table, 'tbody')[0]
+					let children = $dap.element.children(tbody, 'tr')
+					this.copyRowAppend(children[children.length - 1])
 				}
-				this.editor.updateHtmlText();
-				this.editor.updateValue();
-				this.hideLayer();
+				this.editor.updateHtmlText()
+				this.editor.updateValue()
+				this.hideLayer()
 			},
 			//删除行
 			removeTableRow() {
-				let node = this.editor.getSelectNode();
-				if(this.editor.compareTag(node,'tr')){
-					let tr = this.editor.getCompareTag(node,'tr');
+				let node = this.editor.getSelectNode()
+				//tr
+				if (this.editor.compareTag(node, 'tr')) {
+					let tr = this.editor.getCompareTag(node, 'tr')
 					tr.remove()
-				}else if (this.editor.compareTag(node,'tbody')) { //tbody
-					let tbody = this.editor.getCompareTag(node,'tbody');
-					let children = $dap.element.children(tbody, 'tr');
+				} 
+				//tbody
+				else if (this.editor.compareTag(node, 'tbody')) { 
+					let tbody = this.editor.getCompareTag(node, 'tbody')
+					let children = $dap.element.children(tbody, 'tr')
 					children[children.length - 1].remove()
-				} else if (this.editor.compareTag(node,'table')) { //table
-					let table = this.editor.getCompareTag(node,'table')
-					let tbody = $dap.element.children(table, 'tbody')[0];
-					let children = $dap.element.children(tbody, 'tr');
+				} 
+				//table
+				else if (this.editor.compareTag(node, 'table')) { 
+					let table = this.editor.getCompareTag(node, 'table')
+					let tbody = $dap.element.children(table, 'tbody')[0]
+					let children = $dap.element.children(tbody, 'tr')
 					children[children.length - 1].remove()
 				}
-				this.editor.updateHtmlText();
-				this.editor.updateValue();
-				this.hideLayer();
+				this.editor.updateHtmlText()
+				this.editor.updateValue()
+				this.hideLayer()
 			},
 			//增加列
 			addTableColumn() {
-				let node = this.editor.getSelectNode();
-				if(this.editor.compareTag(node,'td')){
-					let td = this.editor.getCompareTag(node,'td');
+				let node = this.editor.getSelectNode()
+				if (this.editor.compareTag(node, 'td')) {
+					let td = this.editor.getCompareTag(node, 'td')
 					this.copyColumnAppend(td)
-				}else if(this.editor.compareTag(node,'tr')){
-					let tr = this.editor.getCompareTag(node,'tr');
-					let children = $dap.element.children(tr, 'td');
-					this.copyColumnAppend(children[children.length - 1]);
-				}else if(this.editor.compareTag(node,'tbody')){
-					let tbody = this.editor.getCompareTag(node,'tbody');
-					let tr = $dap.element.children(tbody, 'tr')[0];
-					let childrenTd = $dap.element.children(tr, 'td');
-					this.copyColumnAppend(childrenTd[childrenTd.length - 1]);
-				}else if(this.editor.compareTag(node,'table')){
-					let table = this.editor.getCompareTag(node,'table');
-					let tbody = $dap.element.children(table, 'tbody')[0];
-					let tr = $dap.element.children(tbody, 'tr')[0];
-					let childrenTd = $dap.element.children(tr, 'td');
-					this.copyColumnAppend(childrenTd[childrenTd.length - 1]);
+				} else if (this.editor.compareTag(node, 'tr')) {
+					let tr = this.editor.getCompareTag(node, 'tr')
+					let children = $dap.element.children(tr, 'td')
+					this.copyColumnAppend(children[children.length - 1])
+				} else if (this.editor.compareTag(node, 'tbody')) {
+					let tbody = this.editor.getCompareTag(node, 'tbody')
+					let tr = $dap.element.children(tbody, 'tr')[0]
+					let childrenTd = $dap.element.children(tr, 'td')
+					this.copyColumnAppend(childrenTd[childrenTd.length - 1])
+				} else if (this.editor.compareTag(node, 'table')) {
+					let table = this.editor.getCompareTag(node, 'table')
+					let tbody = $dap.element.children(table, 'tbody')[0]
+					let tr = $dap.element.children(tbody, 'tr')[0]
+					let childrenTd = $dap.element.children(tr, 'td')
+					this.copyColumnAppend(childrenTd[childrenTd.length - 1])
 				}
-				this.editor.updateHtmlText();
-				this.editor.updateValue();
-				this.hideLayer();
+				this.editor.updateHtmlText()
+				this.editor.updateValue()
+				this.hideLayer()
 			},
 			//删除列
 			removeTableColumn() {
-				let node = this.editor.getSelectNode();
-				if(this.editor.compareTag(node,'td')){
-					let td = this.editor.getCompareTag(node,'td');
-					this.removeColumn(td);
-				}else if(this.editor.compareTag(node,'tr')){
-					let tr = this.editor.getCompareTag(node,'tr');
-					let children = $dap.element.children(tr, 'td');
-					this.removeColumn(children[children.length - 1]);
-				}else if(this.editor.compareTag(node,'tbody')){
-					let tbody = this.editor.getCompareTag(node,'tbody');
-					let tr = $dap.element.children(tbody, 'tr')[0];
-					let childrenTd = $dap.element.children(tr, 'td');
-					this.removeColumn(childrenTd[childrenTd.length - 1]);
-				}else if(this.editor.compareTag(node,'table')){
-					let table = this.editor.getCompareTag(node,'table');
-					let tbody = $dap.element.children(table, 'tbody')[0];
-					let tr = $dap.element.children(tbody, 'tr')[0];
-					let childrenTd = $dap.element.children(tr, 'td');
-					this.removeColumn(childrenTd[childrenTd.length - 1]);
+				let node = this.editor.getSelectNode()
+				if (this.editor.compareTag(node, 'td')) {
+					let td = this.editor.getCompareTag(node, 'td')
+					this.removeColumn(td)
+				} else if (this.editor.compareTag(node, 'tr')) {
+					let tr = this.editor.getCompareTag(node, 'tr')
+					let children = $dap.element.children(tr, 'td')
+					this.removeColumn(children[children.length - 1])
+				} else if (this.editor.compareTag(node, 'tbody')) {
+					let tbody = this.editor.getCompareTag(node, 'tbody')
+					let tr = $dap.element.children(tbody, 'tr')[0]
+					let childrenTd = $dap.element.children(tr, 'td')
+					this.removeColumn(childrenTd[childrenTd.length - 1])
+				} else if (this.editor.compareTag(node, 'table')) {
+					let table = this.editor.getCompareTag(node, 'table')
+					let tbody = $dap.element.children(table, 'tbody')[0]
+					let tr = $dap.element.children(tbody, 'tr')[0]
+					let childrenTd = $dap.element.children(tr, 'td')
+					this.removeColumn(childrenTd[childrenTd.length - 1])
 				}
-				this.editor.updateHtmlText();
-				this.editor.updateValue();
-				this.hideLayer();
+				this.editor.updateHtmlText()
+				this.editor.updateValue()
+				this.hideLayer()
 			},
 			//删除表格
 			deleteTable() {
-				this.editor.restoreRange();
+				this.editor.restoreRange()
 				let node = this.editor.getSelectNode()
-				let table = this.editor.getCompareTag(node,'table');
-				if(table){
-					table.remove();
-					this.menuActive = false;
+				let table = this.editor.getCompareTag(node, 'table')
+				if (table) {
+					table.remove()
+					this.menuActive = false
 				}
-				this.editor.updateHtmlText();
-				this.editor.updateValue();
-				this.hideLayer();
+				this.editor.updateHtmlText()
+				this.editor.updateValue()
+				this.hideLayer()
 			},
 			//在指定节点后插入节点
 			insertNodeAfter(newNode, targetNode) {
-				let parent = targetNode.parentNode;
-				let children = $dap.element.children(parent);
+				let parent = targetNode.parentNode
+				let children = $dap.element.children(parent)
 				if (children[children.length - 1] == targetNode) {
 					parent.appendChild(newNode)
 				} else {
-					parent.insertBefore(newNode, targetNode.nextSibling);
+					parent.insertBefore(newNode, targetNode.nextSibling)
 				}
 			},
 			//复制表格行进行增加
 			copyRowAppend(row) {
-				let newRow = row.cloneNode(true);
+				let newRow = row.cloneNode(true)
 				newRow.querySelectorAll('td').forEach(td => {
-					td.innerHTML = '<br>';
+					td.innerHTML = '<br>'
 				})
-				this.insertNodeAfter(newRow, row);
+				this.insertNodeAfter(newRow, row)
 			},
 			//复制表格列进行增加
 			copyColumnAppend(column) {
 				//该列在父元素中的序列
-				let index = [].indexOf.call($dap.element.children(column.parentNode, column.tagName), column);
+				let index = [].indexOf.call($dap.element.children(column.parentNode, column.tagName), column)
 				column.parentNode.parentNode.querySelectorAll('tr').forEach(tr => {
-					let td = $dap.element.children(tr, 'td')[index];
-					let newColumn = td.cloneNode(true);
-					newColumn.innerHTML = '<br>';
-					this.insertNodeAfter(newColumn, td);
+					let td = $dap.element.children(tr, 'td')[index]
+					let newColumn = td.cloneNode(true)
+					newColumn.innerHTML = '<br>'
+					this.insertNodeAfter(newColumn, td)
 				})
 			},
 			//根据表格列删除指定的一列
 			removeColumn(column) {
 				//该列在父元素中的序列
-				let index = [].indexOf.call($dap.element.children(column.parentNode, column.tagName), column);
+				let index = [].indexOf.call($dap.element.children(column.parentNode, column.tagName), column)
 				column.parentNode.parentNode.querySelectorAll('tr').forEach(tr => {
-					let td = $dap.element.children(tr, 'td')[index];
-					td.remove();
+					let td = $dap.element.children(tr, 'td')[index]
+					td.remove()
 				})
 			},
 			//删除代码块
 			removeCode() {
 				let node = this.editor.getSelectNode()
-				let pres = this.editor.$refs.content.querySelectorAll('pre');
-				let pre = null;
+				let pres = this.editor.$refs.content.querySelectorAll('pre')
+				let pre = null
 				let innerHTML = ''
 				for (let i = 0; i < pres.length; i++) {
 					if ($dap.element.isContains(pres[i], node)) {
-						pre = pres[i];
-						innerHTML = pre.innerHTML;
-						break;
+						pre = pres[i]
+						innerHTML = pre.innerHTML
+						break
 					}
 				}
-				let pEl = $dap.element.string2dom("<p>" + innerHTML + "</p>");
-				this.insertNodeAfter(pEl,pre)
+				let pEl = $dap.element.string2dom("<p>" + innerHTML + "</p>")
+				this.insertNodeAfter(pEl, pre)
 				pre.remove()
-				if(this.editor.range){
+				if (this.editor.range) {
 					this.editor.range.setStartAfter(pEl)
-					this.menuActive = false;
+					this.menuActive = false
 				}
-				this.editor.updateHtmlText();
-				this.editor.updateValue();
+				this.editor.updateHtmlText()
+				this.editor.updateValue()
 			},
 			//删除引用
-			removeBlock(){
+			removeBlock() {
 				let node = this.editor.getSelectNode()
-				let blockquotes = this.editor.$refs.content.querySelectorAll('blockquote');
-				let blockquote = null;
+				let blockquotes = this.editor.$refs.content.querySelectorAll('blockquote')
+				let blockquote = null
 				let innerHTML = ''
 				for (let i = 0; i < blockquotes.length; i++) {
 					if ($dap.element.isContains(blockquotes[i], node)) {
-						blockquote = blockquotes[i];
-						innerHTML = blockquote.innerHTML;
-						break;
+						blockquote = blockquotes[i]
+						innerHTML = blockquote.innerHTML
+						break
 					}
 				}
-				let pEl = $dap.element.string2dom("<p>" + innerHTML + "</p>");
-				if(pEl instanceof HTMLCollection){
+				let pEl = $dap.element.string2dom("<p>" + innerHTML + "</p>")
+				if (pEl instanceof HTMLCollection) {
 					pEl = $dap.element.string2dom("<div>" + innerHTML + "</div>")
 				}
-				this.insertNodeAfter(pEl,blockquote)
+				this.insertNodeAfter(pEl, blockquote)
 				blockquote.remove()
-				if(this.editor.range){
+				if (this.editor.range) {
 					this.editor.range.setStartAfter(pEl)
-					this.menuActive = false;
+					this.menuActive = false
 				}
-				this.editor.updateHtmlText();
-				this.editor.updateValue();
+				this.editor.updateHtmlText()
+				this.editor.updateValue()
 			}
 		},
 		beforeUnmount() {
 			if (this.editor.trigger == 'hover') {
-				$dap.event.off(this.$el,'mouseenter.editor mouseleave.editor')
+				$dap.event.off(this.$el, 'mouseenter.editor mouseleave.editor')
 			}
 		}
 	}
@@ -808,7 +904,7 @@
 				width: calc(@small-height/2*8 + @mp-sm*2);
 				padding: @mp-sm @mp-sm @mp-xs @mp-sm;
 
-				.mvi-editor-color{
+				.mvi-editor-color {
 					margin-bottom: @mp-xs;
 				}
 

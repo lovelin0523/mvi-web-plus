@@ -38,7 +38,7 @@
 		data() {
 			return {
 				//是否点击达到了获取焦点效果
-				focus: false, 
+				focus: false,
 				target: null
 			}
 		},
@@ -234,7 +234,7 @@
 				if (this.multiple) {
 					let labels = []
 					this.options.forEach((item, index) => {
-						if (this.modelValue instanceof Array && this.modelValue.includes(item.value)) {
+						if (Array.isArray(this.modelValue) && this.modelValue.includes(item.value)) {
 							labels.push(item.label)
 						}
 					})
@@ -355,20 +355,20 @@
 					if (!Array.isArray(arr)) {
 						throw new TypeError('modelValue should be an array')
 					}
-					let flag = arr.some(tmp=>{
-						return $dap.common.equal(tmp,item.value)
+					let flag = arr.some(tmp => {
+						return $dap.common.equal(tmp, item.value)
 					})
 					if (flag) {
-						arr = arr.filter(tmp=>{
-							return !$dap.common.equal(tmp,item.value)
+						arr = arr.filter(tmp => {
+							return !$dap.common.equal(tmp, item.value)
 						})
 					} else {
 						arr.push(item.value)
 					}
 					this.$emit('update:modelValue', arr)
-					this.$emit('change', this.options.filter(tmp=>{
-						return arr.some(tmp2=>{
-							return $dap.common.equal(tmp.value,tmp2)
+					this.$emit('change', this.options.filter(tmp => {
+						return arr.some(tmp2 => {
+							return $dap.common.equal(tmp.value, tmp2)
 						})
 					}))
 				} else {

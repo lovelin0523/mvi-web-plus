@@ -1,27 +1,42 @@
 <template>
 	<div :class="fieldClass" :disabled="disabled || null" :data-type="type">
-		<div class="mvi-field-prepend" v-if="(prependIconType || prependIconUrl || $slots.prepend) && type!='textarea'" :style="prependStyle" @click="prependClick">
+		<div class="mvi-field-prepend" v-if="(prependIconType || prependIconUrl || $slots.prepend) && type!='textarea'"
+			:style="prependStyle" @click="prependClick">
 			<slot v-if="$slots.prepend" name="prepend"></slot>
-			<m-icon v-else-if="prependIconType || prependIconUrl" :type="prependIconType" :url="prependIconUrl" :spin="prependIconSpin" :size="prependIconSize" :color="prependIconColor" />
+			<m-icon v-else-if="prependIconType || prependIconUrl" :type="prependIconType" :url="prependIconUrl"
+				:spin="prependIconSpin" :size="prependIconSize" :color="prependIconColor" />
 		</div>
 		<div :class="fieldBodyClass" :style="fieldBodyStyle">
-			<div class="mvi-field-prefix" v-if="(prefixIconType || prefixIconUrl || $slots.prefix) && type!='textarea'" @click="prefixClick">
+			<div class="mvi-field-prefix" v-if="(prefixIconType || prefixIconUrl || $slots.prefix) && type!='textarea'"
+				@click="prefixClick">
 				<slot v-if="$slots.prefix" name="prefix"></slot>
-				<m-icon v-else-if="prefixIconType || prefixIconUrl" :type="prefixIconType" :url="prefixIconUrl" :spin="prefixIconSpin" :size="prefixIconSize" :color="prefixIconColor" />
+				<m-icon v-else-if="prefixIconType || prefixIconUrl" :type="prefixIconType" :url="prefixIconUrl"
+					:spin="prefixIconSpin" :size="prefixIconSize" :color="prefixIconColor" />
 			</div>
-			<textarea ref="textarea" v-if="type=='textarea'" :disabled="disabled || null" :readonly="readonly || null" class="mvi-field-input" :style="inputStyle" :placeholder="placeholder" v-model="realValue" autocomplete="off" @focus="inputFocus" @blur="inputBlur" :maxlength="maxlength" :name="name" :autofocus="autofocus" :rows="rowsFilter" @input="input"></textarea>
-			<input v-else ref="input" :disabled="disabled || null" :readonly="readonly || null" class="mvi-field-input" :style="inputStyle" :type="computedType" :placeholder="placeholder" v-model="realValue" autocomplete="off" :inputmode="computedInputMode" @focus="inputFocus" @blur="inputBlur" :maxlength="maxlength" :name="name" :autofocus="autofocus" @input="input">
-			<div class="mvi-field-clear" @click="doClear" v-if="clearable && type!='textarea'" v-show="showClearIcon" :style="clearStyle">
-				<m-icon type="times-o"/>
+			<textarea ref="textarea" v-if="type=='textarea'" :disabled="disabled || null" :readonly="readonly || null"
+				class="mvi-field-input" :style="inputStyle" :placeholder="placeholder" v-model="realValue"
+				autocomplete="off" @focus="inputFocus" @blur="inputBlur" :maxlength="maxlength" :name="name"
+				:autofocus="autofocus" :rows="rowsFilter" @input="input"></textarea>
+			<input v-else ref="input" :disabled="disabled || null" :readonly="readonly || null" class="mvi-field-input"
+				:style="inputStyle" :type="computedType" :placeholder="placeholder" v-model="realValue"
+				autocomplete="off" :inputmode="computedInputMode" @focus="inputFocus" @blur="inputBlur"
+				:maxlength="maxlength" :name="name" :autofocus="autofocus" @input="input">
+			<div class="mvi-field-clear" @click="doClear" v-if="clearable && type!='textarea'" v-show="showClearIcon"
+				:style="clearStyle">
+				<m-icon type="times-o" />
 			</div>
-			<div class="mvi-field-suffix" v-if="(suffixIconType || suffixIconUrl || $slots.suffix) && type!='textarea'" @click="suffixClick">
+			<div class="mvi-field-suffix" v-if="(suffixIconType || suffixIconUrl || $slots.suffix) && type!='textarea'"
+				@click="suffixClick">
 				<slot v-if="$slots.suffix" name="suffix"></slot>
-				<m-icon v-else-if="suffixIconType || suffixIconUrl" :type="suffixIconType" :url="suffixIconUrl" :spin="suffixIconSpin" :size="suffixIconSize" :color="suffixIconColor" />
+				<m-icon v-else-if="suffixIconType || suffixIconUrl" :type="suffixIconType" :url="suffixIconUrl"
+					:spin="suffixIconSpin" :size="suffixIconSize" :color="suffixIconColor" />
 			</div>
 		</div>
-		<div class="mvi-field-append" v-if="(appendIconType || appendIconUrl || $slots.append) && type!='textarea'" :style="appendStyle" @click="appendClick">
+		<div class="mvi-field-append" v-if="(appendIconType || appendIconUrl || $slots.append) && type!='textarea'"
+			:style="appendStyle" @click="appendClick">
 			<slot v-if="$slots.append" name="append"></slot>
-			<m-icon v-else-if="appendIconType || appendIconUrl" :type="appendIconType" :url="appendIconUrl" :spin="appendIconSpin" :size="appendIconSize" :color="appendIconColor" />
+			<m-icon v-else-if="appendIconType || appendIconUrl" :type="appendIconType" :url="appendIconUrl"
+				:spin="appendIconSpin" :size="appendIconSize" :color="appendIconColor" />
 		</div>
 	</div>
 </template>
@@ -30,661 +45,668 @@
 	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
-		name:'m-field',
-		emits:['update:modelValue','prepend-click','prefix-click','append-click','suffix-click','focus','blur','input','clear'],
-		data(){
+		name: 'm-field',
+		emits: ['update:modelValue', 'prepend-click', 'prefix-click', 'append-click', 'suffix-click', 'focus', 'blur',
+			'input', 'clear'
+		],
+		data() {
 			return {
-				focus:false
+				focus: false
 			}
 		},
-		props:{
+		props: {
 			//是否禁用
-			disabled:{
-				type:Boolean,
-				default:false
+			disabled: {
+				type: Boolean,
+				default: false
 			},
 			//是否只读
-			readonly:{
-				type:Boolean,
-				default:false
+			readonly: {
+				type: Boolean,
+				default: false
 			},
 			//输入框的值
-			modelValue:{
-				type:[String,Number],
-				default:''
+			modelValue: {
+				type: [String, Number],
+				default: ''
 			},
 			//输入框的占位符
-			placeholder:{
-				type:String,
-				default:''
+			placeholder: {
+				type: String,
+				default: ''
 			},
 			//输入框类型
-			type:{
-				type:String,
-				default:'text'
+			type: {
+				type: String,
+				default: 'text'
 			},
 			//输入框大小
-			size:{
-				type:String,
-				default:'medium',
-				validator(value){
-					return ['small','medium','large'].includes(value)
+			size: {
+				type: String,
+				default: 'medium',
+				validator(value) {
+					return ['small', 'medium', 'large'].includes(value)
 				}
 			},
 			//输入框最大字符长度
-			maxlength:{
-				type:Number,
-				default:-1
+			maxlength: {
+				type: Number,
+				default: -1
 			},
 			//输入框是否圆角
-			round:{
-				type:Boolean,
-				default:false
+			round: {
+				type: Boolean,
+				default: false
 			},
 			//输入框是否方形
-			square:{
-				type:Boolean,
-				default:false
+			square: {
+				type: Boolean,
+				default: false
 			},
 			//前缀
-			prefix:{
-				type:[String,Object],
-				default:null
+			prefix: {
+				type: [String, Object],
+				default: null
 			},
 			//后缀
-			suffix:{
-				type:[String,Object],
-				default:null
+			suffix: {
+				type: [String, Object],
+				default: null
 			},
 			//前置
-			prepend:{
-				type:[String,Object],
-				default:null
+			prepend: {
+				type: [String, Object],
+				default: null
 			},
 			//后置
-			append:{
-				type:[String,Object],
-				default:null
+			append: {
+				type: [String, Object],
+				default: null
 			},
 			//点击样式
-			activeType:{
-				type:String,
-				default:'info',
-				validator(value){
-					return ['info','success','warn','primary','error'].includes(value)
+			activeType: {
+				type: String,
+				default: 'info',
+				validator(value) {
+					return ['info', 'success', 'warn', 'primary', 'error'].includes(value)
 				}
 			},
 			//点击颜色
-			activeColor:{
-				type:String,
-				default:null
+			activeColor: {
+				type: String,
+				default: null
 			},
 			//前置背景色
-			prependBackground:{
-				type:String,
-				default:null
+			prependBackground: {
+				type: String,
+				default: null
 			},
 			//前置字体颜色
-			prependColor:{
-				type:String,
-				default:null
+			prependColor: {
+				type: String,
+				default: null
 			},
 			//后置背景色
-			appendBackground:{
-				type:String,
-				default:null
+			appendBackground: {
+				type: String,
+				default: null
 			},
 			//后置字体颜色
-			appendColor:{
-				type:String,
-				default:null
+			appendColor: {
+				type: String,
+				default: null
 			},
 			//自定义边框颜色
-			borderColor:{
-				type:String,
-				default:null
+			borderColor: {
+				type: String,
+				default: null
 			},
 			//是否使用清除图标
-			clearable:{
-				type:Boolean,
-				default:false
+			clearable: {
+				type: Boolean,
+				default: false
 			},
 			//输入框内容对齐方式
-			align:{
-				type:String,
-				default:'left',
-				validator(value){
-					return ['left','center','right'].includes(value);
+			align: {
+				type: String,
+				default: 'left',
+				validator(value) {
+					return ['left', 'center', 'right'].includes(value)
 				}
 			},
 			//原生name
-			name:{
-				type:String,
-				default:null
+			name: {
+				type: String,
+				default: null
 			},
 			//是否自动获取焦点
-			autofocus:{
-				type:Boolean,
-				default:false
+			autofocus: {
+				type: Boolean,
+				default: false
 			},
 			//输入框调起移动端键盘类型
-			inputMode:{
-				type:[String,Boolean],
-				default:false,
-				validator(value){
-					return [false,'none','text','decimal','numeric','tel','search','email','url'].includes(value)
+			inputMode: {
+				type: [String, Boolean],
+				default: false,
+				validator(value) {
+					return [false, 'none', 'text', 'decimal', 'numeric', 'tel', 'search', 'email', 'url'].includes(value)
 				}
 			},
 			//文本域行数
-			rows:{
-				type:Number,
-				default:1
+			rows: {
+				type: Number,
+				default: 1
 			},
 			//文本域高度自适应
-			autosize:{
-				type:[Boolean,Object],
-				default:false
+			autosize: {
+				type: [Boolean, Object],
+				default: false
 			}
 		},
-		computed:{
+		computed: {
 			//是否显示清除图标
-			showClearIcon(){
-				if(this.disabled || this.readonly){
-					return false;
+			showClearIcon() {
+				if (this.disabled || this.readonly) {
+					return false
 				}
-				if(this.realValue &&　this.focus){
-					return true;
-				}else{
-					return false;
+				if (this.realValue && this.focus) {
+					return true
+				} else {
+					return false
 				}
 			},
 			//清除图标样式
-			clearStyle(){
+			clearStyle() {
 				let style = {}
-				if((this.suffixIconType || this.suffixIconUrl || this.$slots.suffix) && this.type != 'textarea'){
-					style.borderRadius = 0;
+				if ((this.suffixIconType || this.suffixIconUrl || this.$slots.suffix) && this.type != 'textarea') {
+					style.borderRadius = 0
 				}
 				return style
 			},
 			//前置样式
-			prependStyle(){
+			prependStyle() {
 				let style = {}
-				if(this.prependBackground){
+				if (this.prependBackground) {
 					style.backgroundColor = this.prependBackground
 				}
-				if(this.prependColor){
+				if (this.prependColor) {
 					style.color = this.prependColor
 				}
 				return style
 			},
 			//后置样式
-			appendStyle(){
+			appendStyle() {
 				let style = {}
-				if(this.appendBackground){
+				if (this.appendBackground) {
 					style.backgroundColor = this.appendBackground
 				}
-				if(this.appendColor){
+				if (this.appendColor) {
 					style.color = this.appendColor
 				}
 				return style
 			},
 			//输入框样式
-			inputStyle(){
+			inputStyle() {
 				let style = {}
-				if((this.$slots.prefix || this.prefixIconType || this.prefixIconUrl) && this.type !='textarea'){
-					style.paddingLeft = 0;
+				if ((this.$slots.prefix || this.prefixIconType || this.prefixIconUrl) && this.type != 'textarea') {
+					style.paddingLeft = 0
 				}
-				if((this.$slots.suffix || this.suffixIconType || this.suffixIconUrl || (this.showClearIcon && this.clearable)) && 
-				this.type!='textarea'){
-					style.paddingRight = 0;
+				if ((this.$slots.suffix || this.suffixIconType || this.suffixIconUrl || (this.showClearIcon && this
+						.clearable)) &&
+					this.type != 'textarea') {
+					style.paddingRight = 0
 				}
-				if(this.align){
-					style.textAlign = this.align;
+				if (this.align) {
+					style.textAlign = this.align
 				}
 				return style
 			},
 			//输入框父容器样式
-			fieldBodyStyle(){
+			fieldBodyStyle() {
 				let style = {}
-				if(this.focus){
-					if(this.activeColor){
+				if (this.focus) {
+					if (this.activeColor) {
 						style.borderColor = this.activeColor
 					}
-				}else {
-					if(this.borderColor){
+				} else {
+					if (this.borderColor) {
 						style.borderColor = this.borderColor
 					}
 				}
 				return style
 			},
 			//输入框父容器样式类
-			fieldBodyClass(){
-				let cls = ['mvi-field-body'];
-				if((this.prependIconType || this.prependIconUrl || this.$slots.prepend) && this.type!='textarea'){
-					cls.push('mvi-field-body-left');
+			fieldBodyClass() {
+				let cls = ['mvi-field-body']
+				if ((this.prependIconType || this.prependIconUrl || this.$slots.prepend) && this.type != 'textarea') {
+					cls.push('mvi-field-body-left')
 				}
-				if((this.appendIconType || this.appendIconUrl || this.$slots.append) && this.type!='textarea'){
-					cls.push('mvi-field-body-right');
+				if ((this.appendIconType || this.appendIconUrl || this.$slots.append) && this.type != 'textarea') {
+					cls.push('mvi-field-body-right')
 				}
-				if(!this.activeColor && this.activeType && this.focus){
-					cls.push('mvi-field-body-'+this.activeType)
+				if (!this.activeColor && this.activeType && this.focus) {
+					cls.push('mvi-field-body-' + this.activeType)
 				}
-				return cls;
+				return cls
 			},
 			//输入框组件样式类
-			fieldClass(){
-				let cls = ['mvi-field','mvi-field-'+this.size];
-				if(this.round && this.type!='textarea'){
+			fieldClass() {
+				let cls = ['mvi-field', 'mvi-field-' + this.size]
+				if (this.round && this.type != 'textarea') {
 					cls.push('mvi-field-round')
-				}else if(this.square){
+				} else if (this.square) {
 					cls.push('mvi-field-square')
 				}
 				return cls
 			},
 			//输入框的类型
-			computedType(){
-				if(this.type == 'number'){
+			computedType() {
+				if (this.type == 'number') {
 					return 'text'
-				}else{
+				} else {
 					return this.type
 				}
 			},
 			//输入框键盘类型
-			computedInputMode(){
-				let mode = false;
-				if(typeof this.inputMode == 'string'){
+			computedInputMode() {
+				let mode = false
+				if (typeof this.inputMode == 'string') {
 					mode = this.inputMode
 				}
 				return mode
 			},
 			//前置图标类型
 			prependIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.prepend)) {
 					if (typeof this.prepend.type == "string") {
-						t = this.prepend.type;
+						t = this.prepend.type
 					}
 				} else if (typeof this.prepend == "string") {
-					t = this.prepend;
+					t = this.prepend
 				}
-				return t;
+				return t
 			},
 			//前置图标url
 			prependIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.prepend)) {
 					if (typeof this.prepend.url == "string") {
-						url = this.prepend.url;
+						url = this.prepend.url
 					}
 				}
-				return url;
+				return url
 			},
 			//前置图标旋转
 			prependIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.prepend)) {
 					if (typeof this.prepend.spin == "boolean") {
-						spin = this.prepend.spin;
+						spin = this.prepend.spin
 					}
 				}
-				return spin;
+				return spin
 			},
 			//前置图标大小
 			prependIconSize() {
-				let size = null;
+				let size = null
 				if ($dap.common.isObject(this.prepend)) {
 					if (typeof this.prepend.size == "string") {
-						size = this.prepend.size;
+						size = this.prepend.size
 					}
 				}
-				return size;
+				return size
 			},
 			//前置图标颜色
 			prependIconColor() {
-				let color = null;
+				let color = null
 				if ($dap.common.isObject(this.prepend)) {
 					if (typeof this.prepend.color == "string") {
-						color = this.prepend.color;
+						color = this.prepend.color
 					}
 				}
-				return color;
+				return color
 			},
 			//后置图标类型
 			appendIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.append)) {
 					if (typeof this.append.type == "string") {
-						t = this.append.type;
+						t = this.append.type
 					}
 				} else if (typeof this.append == "string") {
-					t = this.append;
+					t = this.append
 				}
-				return t;
+				return t
 			},
 			//后置图标url
 			appendIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.append)) {
 					if (typeof this.append.url == "string") {
-						url = this.append.url;
+						url = this.append.url
 					}
 				}
-				return url;
+				return url
 			},
 			//后置图标旋转
 			appendIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.append)) {
 					if (typeof this.append.spin == "boolean") {
-						spin = this.append.spin;
+						spin = this.append.spin
 					}
 				}
-				return spin;
+				return spin
 			},
 			//后置图标大小
-			appendIconSize(){
-				let size = null;
+			appendIconSize() {
+				let size = null
 				if ($dap.common.isObject(this.append)) {
 					if (typeof this.append.size == "string") {
-						size = this.append.size;
+						size = this.append.size
 					}
 				}
-				return size;
+				return size
 			},
 			//后置图标颜色
-			appendIconColor(){
-				let color = null;
+			appendIconColor() {
+				let color = null
 				if ($dap.common.isObject(this.append)) {
 					if (typeof this.append.color == "string") {
-						color = this.append.color;
+						color = this.append.color
 					}
 				}
-				return color;
+				return color
 			},
 			//前缀图标类型
 			prefixIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.prefix)) {
 					if (typeof this.prefix.type == "string") {
-						t = this.prefix.type;
+						t = this.prefix.type
 					}
 				} else if (typeof this.prefix == "string") {
-					t = this.prefix;
+					t = this.prefix
 				}
-				return t;
+				return t
 			},
 			//前缀图标url
 			prefixIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.prefix)) {
 					if (typeof this.prefix.url == "string") {
-						url = this.prefix.url;
+						url = this.prefix.url
 					}
 				}
-				return url;
+				return url
 			},
 			//前缀图标旋转
 			prefixIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.prefix)) {
 					if (typeof this.prefix.spin == "boolean") {
-						spin = this.prefix.spin;
+						spin = this.prefix.spin
 					}
 				}
-				return spin;
+				return spin
 			},
 			//前缀图标大小
 			prefixIconSize() {
-				let size = null;
+				let size = null
 				if ($dap.common.isObject(this.prefix)) {
 					if (typeof this.prefix.size == "string") {
-						size = this.prefix.size;
+						size = this.prefix.size
 					}
 				}
-				return size;
+				return size
 			},
 			//前缀图标颜色
 			prefixIconColor() {
-				let color = null;
+				let color = null
 				if ($dap.common.isObject(this.prefix)) {
 					if (typeof this.prefix.color == "string") {
-						color = this.prefix.color;
+						color = this.prefix.color
 					}
 				}
-				return color;
+				return color
 			},
 			//后缀图标类型
 			suffixIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.suffix)) {
 					if (typeof this.suffix.type == "string") {
-						t = this.suffix.type;
+						t = this.suffix.type
 					}
 				} else if (typeof this.suffix == "string") {
-					t = this.suffix;
+					t = this.suffix
 				}
-				return t;
+				return t
 			},
 			//后缀图标url
 			suffixIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.suffix)) {
 					if (typeof this.suffix.url == "string") {
-						url = this.suffix.url;
+						url = this.suffix.url
 					}
 				}
-				return url;
+				return url
 			},
 			//后缀图标旋转
 			suffixIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.suffix)) {
 					if (typeof this.suffix.spin == "boolean") {
-						spin = this.suffix.spin;
+						spin = this.suffix.spin
 					}
 				}
-				return spin;
+				return spin
 			},
 			//后缀图标大小
 			suffixIconSize() {
-				let size = null;
+				let size = null
 				if ($dap.common.isObject(this.suffix)) {
 					if (typeof this.suffix.size == "string") {
-						size = this.suffix.size;
+						size = this.suffix.size
 					}
 				}
-				return size;
+				return size
 			},
 			//后缀图标颜色
 			suffixIconColor() {
-				let color = null;
+				let color = null
 				if ($dap.common.isObject(this.suffix)) {
 					if (typeof this.suffix.color == "string") {
-						color = this.suffix.color;
+						color = this.suffix.color
 					}
 				}
-				return color;
+				return color
 			},
 			//文本域的rows
 			rowsFilter() {
-				let rows = this.rows;
+				let rows = this.rows
 				if ($dap.common.isObject(this.autosize)) {
 					if ($dap.number.isNumber(this.autosize.minRows)) {
 						if (this.rows < this.autosize.minRows) {
-							rows = this.autosize.minRows;
+							rows = this.autosize.minRows
 						}
 					}
 					if ($dap.number.isNumber(this.autosize.maxRows)) {
 						if (this.rows > this.autosize.maxRows) {
-							rows = this.autosize.maxRows;
+							rows = this.autosize.maxRows
 						}
 					}
 				}
-				return rows;
+				return rows
 			},
 			//输入框的值
-			realValue:{
-				set(value){
-					if(this.modelValue !== value){
-						this.$emit('update:modelValue',value);
+			realValue: {
+				set(value) {
+					if (this.modelValue !== value) {
+						this.$emit('update:modelValue', value)
 					}
 				},
-				get(){
-					let value = this.modelValue === null ? '':this.modelValue.toString();
+				get() {
+					let value = this.modelValue === null ? '' : this.modelValue.toString()
 					//数字类型会过滤非数字字符
-					if(this.type == 'number'){
-						value = value.replace(/\D/g, '');
+					if (this.type == 'number') {
+						value = value.replace(/\D/g, '')
 					}
 					//如果设置了maxlength，则进行字符串截取
 					if (this.maxlength > 0 && value.length > this.maxlength) {
-						value = value.substr(0, this.maxlength);
+						value = value.substr(0, this.maxlength)
 					}
-					if(this.modelValue !== value){
-						this.$emit('update:modelValue',value);
+					if (this.modelValue !== value) {
+						this.$emit('update:modelValue', value)
 					}
-					return value;
+					return value
 				}
 			}
 		},
-		components:{
+		components: {
 			mIcon
 		},
-		watch:{
+		watch: {
 			realValue(newValue) {
-				this.$nextTick(()=>{
+				this.$nextTick(() => {
 					if (this.$refs.textarea && (this.autosize == true || $dap.common.isObject(this.autosize))) {
-						this.autosizeSet();
+						this.autosizeSet()
 					}
 				})
 			},
 			rows(newValue) {
-				this.$nextTick(()=>{
+				this.$nextTick(() => {
 					if (this.$refs.textarea) {
-						this.setMaxMinHeight();
+						this.setMaxMinHeight()
 					}
 				})
 			},
 			autosize(newValue) {
-				this.$nextTick(()=>{
+				this.$nextTick(() => {
 					if (this.$refs.textarea) {
-						this.setMaxMinHeight();
+						this.setMaxMinHeight()
 					}
 				})
 			}
 		},
 		mounted() {
 			if (this.$refs.textarea) {
-				this.setMaxMinHeight();
+				this.setMaxMinHeight()
 				if (this.autosize == true || $dap.common.isObject(this.autosize)) {
-					this.autosizeSet();
+					this.autosizeSet()
 				}
 			}
 		},
-		methods:{
+		methods: {
 			//高度自适应设置
 			autosizeSet() {
-				this.$refs.textarea.style.overflow = 'hidden';
-				this.$refs.textarea.style.height = 'auto';
-				this.$refs.textarea.scrollTop = 0;
-				this.$refs.textarea.style.height = $dap.element.getScrollHeight(this.$refs.textarea) + 'px';
+				this.$refs.textarea.style.overflow = 'hidden'
+				this.$refs.textarea.style.height = 'auto'
+				this.$refs.textarea.scrollTop = 0
+				this.$refs.textarea.style.height = $dap.element.getScrollHeight(this.$refs.textarea) + 'px'
 			},
 			//行数转为高度
 			rows2Height(rows) {
-				let lineHeight = Math.floor(parseFloat($dap.element.getCssStyle(this.$refs.textarea, 'line-height')));
-				return rows * lineHeight;
+				let lineHeight = Math.floor(parseFloat($dap.element.getCssStyle(this.$refs.textarea, 'line-height')))
+				return rows * lineHeight
 			},
 			//设置最大高度和最小高度
 			setMaxMinHeight() {
 				if ($dap.common.isObject(this.autosize)) {
 					if ($dap.number.isNumber(this.autosize.maxRows)) {
-						let maxHeight = this.rows2Height(this.autosize.maxRows) + parseFloat($dap.element.getCssStyle(this.$refs.textarea, 'padding-top')) + parseFloat($dap.element.getCssStyle(this.$refs.textarea, 'padding-bottom'));
-						this.$refs.textarea.style.maxHeight = maxHeight + "px";
+						let maxHeight = this.rows2Height(this.autosize.maxRows) + parseFloat($dap.element.getCssStyle(this
+							.$refs.textarea, 'padding-top')) + parseFloat($dap.element.getCssStyle(this.$refs.textarea,
+							'padding-bottom'))
+						this.$refs.textarea.style.maxHeight = maxHeight + "px"
 					}
 					if ($dap.number.isNumber(this.autosize.minRows)) {
-						let minHeight = this.rows2Height(this.autosize.minRows) + parseFloat($dap.element.getCssStyle(this.$refs.textarea, 'padding-top')) + parseFloat($dap.element.getCssStyle(this.$refs.textarea, 'padding-bottom'));
-						this.$refs.textarea.style.minHeight = minHeight + "px";
+						let minHeight = this.rows2Height(this.autosize.minRows) + parseFloat($dap.element.getCssStyle(this
+							.$refs.textarea, 'padding-top')) + parseFloat($dap.element.getCssStyle(this.$refs.textarea,
+							'padding-bottom'))
+						this.$refs.textarea.style.minHeight = minHeight + "px"
 					}
 				} else {
-					this.$refs.textarea.style.maxHeight = "";
-					this.$refs.textarea.style.minHeight = "";
+					this.$refs.textarea.style.maxHeight = ""
+					this.$refs.textarea.style.minHeight = ""
 				}
 			},
 			//输入框获取焦点
-			inputFocus(){
-				if(this.disabled){
-					return;
+			inputFocus() {
+				if (this.disabled) {
+					return
 				}
-				this.$emit('focus',this.realValue)
-				setTimeout(()=>{
-					this.focus = true;
-				},200)
+				this.$emit('focus', this.realValue)
+				setTimeout(() => {
+					this.focus = true
+				}, 200)
 			},
 			//输入框失去焦点
-			inputBlur(){
-				if(this.disabled){
-					return;
+			inputBlur() {
+				if (this.disabled) {
+					return
 				}
-				this.$emit('blur',this.realValue)
-				setTimeout(()=>{
-					this.focus = false;
-				},200)
+				this.$emit('blur', this.realValue)
+				setTimeout(() => {
+					this.focus = false
+				}, 200)
 			},
 			//输入框实时输入
-			input(e){
-				if(this.disabled){
-					return;
+			input(e) {
+				if (this.disabled) {
+					return
 				}
-				this.$emit('input',this.realValue);
+				this.$emit('input', this.realValue)
 			},
 			//点击前置
-			prependClick(){
-				if(this.disabled){
-					return;
+			prependClick() {
+				if (this.disabled) {
+					return
 				}
-				this.$emit('prepend-click',this.realValue)
+				this.$emit('prepend-click', this.realValue)
 			},
 			//点击前缀
-			prefixClick(){
-				if(this.disabled){
-					return;
+			prefixClick() {
+				if (this.disabled) {
+					return
 				}
-				this.$emit('prefix-click',this.realValue)
+				this.$emit('prefix-click', this.realValue)
 			},
 			//点击后置
-			appendClick(){
-				if(this.disabled){
-					return;
+			appendClick() {
+				if (this.disabled) {
+					return
 				}
-				this.$emit('append-click',this.realValue)
+				this.$emit('append-click', this.realValue)
 			},
 			//点击后缀
-			suffixClick(){
-				if(this.disabled){
-					return;
+			suffixClick() {
+				if (this.disabled) {
+					return
 				}
-				this.$emit('suffix-click',this.realValue)
+				this.$emit('suffix-click', this.realValue)
 			},
 			//清除
-			doClear(){
-				if(this.disabled){
-					return;
+			doClear() {
+				if (this.disabled) {
+					return
 				}
-				if(!this.clearable){
-					return;
+				if (!this.clearable) {
+					return
 				}
-				this.realValue = '';
-				let el = this.$refs.input || this.$refs.textarea;
-				el.focus();
-				this.$emit('clear','')
-			},
+				this.realValue = ''
+				let el = this.$refs.input || this.$refs.textarea
+				el.focus()
+				this.$emit('clear', '')
+			}
 		}
 	}
 </script>
 
 <style scoped lang="less">
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-field{
+
+	.mvi-field {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: flex-start;
@@ -693,108 +715,118 @@
 		border-radius: @radius-default;
 		color: @font-color-default;
 		background-color: #fff;
-		
-		&.mvi-field-small{
+
+		&.mvi-field-small {
 			font-size: @font-size-small;
-			
-			&:not([data-type='textarea']){
+
+			&:not([data-type='textarea']) {
 				height: @small-height;
-				
-				.mvi-field-input{
+
+				.mvi-field-input {
 					padding: 0 @mp-sm;
 				}
 			}
-			
-			&[data-type="textarea"] .mvi-field-input{
-				padding:@mp-sm;
-				line-height:.28rem;
+
+			&[data-type="textarea"] .mvi-field-input {
+				padding: @mp-sm;
+				line-height: .28rem;
 			}
-			
-			.mvi-field-prepend,.mvi-field-append,.mvi-field-prefix,.mvi-field-suffix{
+
+			.mvi-field-prepend,
+			.mvi-field-append,
+			.mvi-field-prefix,
+			.mvi-field-suffix {
 				padding: 0 @mp-sm;
 			}
 		}
-		
-		&.mvi-field-medium{
+
+		&.mvi-field-medium {
 			font-size: @font-size-default;
-			
-			&:not([data-type='textarea']){
+
+			&:not([data-type='textarea']) {
 				height: @medium-height;
-				
-				.mvi-field-input{
+
+				.mvi-field-input {
 					padding: 0 @mp-sm;
 				}
 			}
-			
-			&[data-type="textarea"] .mvi-field-input{
+
+			&[data-type="textarea"] .mvi-field-input {
 				padding: @mp-sm;
-				line-height:.44rem;
+				line-height: .44rem;
 			}
-			
-			.mvi-field-prepend,.mvi-field-append,.mvi-field-prefix,.mvi-field-suffix{
+
+			.mvi-field-prepend,
+			.mvi-field-append,
+			.mvi-field-prefix,
+			.mvi-field-suffix {
 				padding: 0 @mp-md;
 			}
-			
+
 		}
-		
-		&.mvi-field-large{
+
+		&.mvi-field-large {
 			font-size: @font-size-h6;
-			
-			&:not([data-type='textarea']){
+
+			&:not([data-type='textarea']) {
 				height: @large-height;
-				
-				.mvi-field-input{
+
+				.mvi-field-input {
 					padding: 0 @mp-sm;
 				}
 			}
-			
-			&[data-type="textarea"] .mvi-field-input{
+
+			&[data-type="textarea"] .mvi-field-input {
 				padding: @mp-sm;
 				line-height: .56rem;
 			}
-			
-			.mvi-field-prepend,.mvi-field-append,.mvi-field-prefix,.mvi-field-suffix{
+
+			.mvi-field-prepend,
+			.mvi-field-append,
+			.mvi-field-prefix,
+			.mvi-field-suffix {
 				padding: 0 @mp-lg;
 			}
 		}
-		
-		&.mvi-field-round{
+
+		&.mvi-field-round {
 			border-radius: @radius-round;
 		}
-		
-		&.mvi-field-square{
+
+		&.mvi-field-square {
 			border-radius: 0;
 		}
-		
-		&[disabled]{
+
+		&[disabled] {
 			opacity: .6;
 		}
 	}
-	
-	.mvi-field-append,.mvi-field-prepend{
+
+	.mvi-field-append,
+	.mvi-field-prepend {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: 100%;
 		border-radius: 0;
 		background-color: @border-color;
-		
-		&:hover{
+
+		&:hover {
 			cursor: pointer;
 		}
 	}
-	
-	.mvi-field-prepend{
+
+	.mvi-field-prepend {
 		border-top-left-radius: inherit;
 		border-bottom-left-radius: inherit;
 	}
-	
-	.mvi-field-append{
+
+	.mvi-field-append {
 		border-top-right-radius: inherit;
 		border-bottom-right-radius: inherit;
 	}
-	
-	.mvi-field-body{
+
+	.mvi-field-body {
 		display: flex;
 		display: -webkit-flex;
 		justify-content: flex-start;
@@ -809,36 +841,39 @@
 		-webkit-transition: border-color 600ms;
 		-ms-transition: border-color 600ms;
 		-moz-transition: border-color 600ms;
-		
-		.mvi-field-prefix,.mvi-field-suffix,.mvi-field-clear{
+
+		.mvi-field-prefix,
+		.mvi-field-suffix,
+		.mvi-field-clear {
 			display: flex;
 			display: -webkit-flex;
 			justify-content: center;
 			align-items: center;
 			height: 100%;
 			border-radius: 0;
-			
-			&:hover{
+
+			&:hover {
 				cursor: pointer;
 			}
 		}
-		
-		.mvi-field-clear{
+
+		.mvi-field-clear {
 			opacity: .6;
 			padding: 0 @mp-sm;
 		}
-		
-		.mvi-field-prefix{
+
+		.mvi-field-prefix {
 			border-top-left-radius: inherit;
 			border-bottom-left-radius: inherit;
 		}
-		
-		.mvi-field-suffix,.mvi-field-clear{
+
+		.mvi-field-suffix,
+		.mvi-field-clear {
 			border-top-right-radius: inherit;
 			border-bottom-right-radius: inherit;
 		}
-		
-		.mvi-field-input{
+
+		.mvi-field-input {
 			appearance: none;
 			-webkit-appearance: none;
 			-moz-appearance: none;
@@ -857,47 +892,50 @@
 			line-height: 1.5;
 			resize: none;
 			font-family: inherit;
-			
-			&::-webkit-input-placeholder,&::placeholder,&::-moz-placeholder,&:-ms-input-placeholder{
+
+			&::-webkit-input-placeholder,
+			&::placeholder,
+			&::-moz-placeholder,
+			&:-ms-input-placeholder {
 				color: inherit;
 				font-family: inherit;
 				font-size: inherit;
 				opacity: .5;
 				vertical-align: middle;
 			}
-			
-			&[disabled]{
+
+			&[disabled] {
 				background-color: inherit;
 				color: inherit;
 			}
 		}
-		
-		&.mvi-field-body-info{
+
+		&.mvi-field-body-info {
 			border-color: @info-normal;
 		}
-		
-		&.mvi-field-body-success{
+
+		&.mvi-field-body-success {
 			border-color: @success-normal;
 		}
-		
-		&.mvi-field-body-warn{
+
+		&.mvi-field-body-warn {
 			border-color: @warn-normal;
 		}
-		
-		&.mvi-field-body-primary{
+
+		&.mvi-field-body-primary {
 			border-color: @primary-normal;
 		}
-		
-		&.mvi-field-body-error{
+
+		&.mvi-field-body-error {
 			border-color: @error-normal;
 		}
-		
-		&.mvi-field-body-left{
+
+		&.mvi-field-body-left {
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
 		}
-			
-		&.mvi-field-body-right{
+
+		&.mvi-field-body-right {
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
 		}
