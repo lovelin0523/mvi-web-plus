@@ -9,12 +9,12 @@
 			</div>
 			<div :class="['mvi-cell-content',noWrap?'mvi-cell-nowrap':'']" v-if="$slots.content || content">
 				<slot name="content" v-if="$slots.content"></slot>
-				<span v-else-if="content" v-text="content" :class="(contentClass?contentClass:'')"></span>
+				<span v-else-if="content" v-text="content" :class="contentClass || ''"></span>
 			</div>
 			<m-icon class="mvi-cell-arrow" v-if="arrowType||arrowUrl" :type="arrowType" :url="arrowUrl"
 				:spin="arrowSpin" :size="arrowSize" :color="arrowColor" />
 		</div>
-		<div :class="['mvi-cell-label',labelClass?labelClass:'']" v-if="label || $slots.label" :style="labelTextStyle">
+		<div :class="['mvi-cell-label',labelClass || '']" v-if="label || $slots.label" :style="labelTextStyle">
 			<slot name="label" v-if="$slots.label"></slot>
 			<span v-text="label" v-else-if="label"></span>
 		</div>
@@ -209,7 +209,7 @@
 					style.textOverflow = 'ellipsis'
 					style.webkitBoxOrient = 'vertical'
 					style.overflow = 'hidden'
-					if (typeof this.ellipsis == "boolean") { 
+					if (typeof this.ellipsis == "boolean") {
 						style.webkitLineClamp = 3
 					} else {
 						style.webkitLineClamp = this.ellipsis

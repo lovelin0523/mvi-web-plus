@@ -9,7 +9,8 @@
 		name: "m-collapse",
 		data() {
 			return {
-				children: []
+				//存放collapse-item组件的uid
+				uids: []
 			}
 		},
 		emits: ['update:modelValue', 'before-slide-down', 'slide-down', 'before-slide-up', 'slide-up'],

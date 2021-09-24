@@ -9,7 +9,7 @@
 				<div v-for="(item,index) in new Array(6)" class="mvi-calendar-date-row">
 					<div class="mvi-calendar-date-day" v-for="(item2,index2) in days.slice(index*7,index*7+7)">
 						<div :disabled="(!item2.currentMonth) || null"
-							:class="['mvi-calendar-date-day-item',(nonCurrentClick?active:(active&&item2.currentMonth))?'mvi-calendar-active':'',dateNowClass(item2),dateCurrentClass(item2)]"
+							:class="['mvi-calendar-date-day-item',!item2.currentMonth && nonCurrentClick ? 'mvi-calendar-allowed':'',(nonCurrentClick?active:(active&&item2.currentMonth))?'mvi-calendar-active':'',dateNowClass(item2),dateCurrentClass(item2)]"
 							v-text="item2.date.getDate()" @click="onDateClick(item2)"></div>
 					</div>
 				</div>
@@ -28,7 +28,7 @@
 		<div v-if="view=='year'">
 			<div class="mvi-calendar-year-row" v-for="(item,index) in new Array(3)">
 				<div class="mvi-calendar-year-y" v-for="(item2,index2) in years.slice(index*4,index*4+4)">
-					<div :class="['mvi-calendar-year-item',(!(item2.year<startYear || item2.year>endYear) && active)?'mvi-calendar-active':'',yearNowClass(item2),yearCurrentClass(item2)]"
+					<div :class="['mvi-calendar-year-item',(item2.year >= startYear && item2.year <= endYear && active)?'mvi-calendar-active':'',yearNowClass(item2),yearCurrentClass(item2)]"
 						v-text="item2.year" @click="onYearClick(item2)"
 						:disabled="item2.year<startYear || item2.year>endYear || null"></div>
 				</div>
@@ -67,8 +67,8 @@
 					if (value.length != 12) {
 						return false
 					}
-					return value.every(item=>{
-						return typeof item == 'string' && item
+					return value.every(item => {
+						return $dap.number.isNumber(item) || (typeof item == 'string' && item)
 					})
 				}
 			},
@@ -79,7 +79,12 @@
 					return ['日', '一', '二', '三', '四', '五', '六']
 				},
 				validator(value) {
-					return value.length == 7
+					if (value.length != 7) {
+						return false
+					}
+					return value.every(item => {
+						return $dap.number.isNumber(item) || (typeof item == 'string' && item)
+					})
 				}
 			},
 			//开始年
@@ -504,6 +509,10 @@
 	//禁用
 	.mvi-calendar-date-day-item[disabled],
 	.mvi-calendar-year-item[disabled] {
-		opacity: .5;
+		opacity: .6;
+		
+		&.mvi-calendar-allowed{
+			cursor: pointer !important;
+		}
 	}
 </style>

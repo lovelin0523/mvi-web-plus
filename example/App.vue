@@ -1,35 +1,29 @@
 <template>
-	<m-button @click="change">Button</m-button>
-	<m-actionsheet @select="shown" v-model="show" title="LOL" :z-index="1400" :options="options"></m-actionsheet>
-</template> 
+	<m-button square @click="change">Button</m-button>
+	<div>{{value}}</div>
+	<m-collapse accordion v-model="value">
+	    <m-collapse-item title="标题1" label="这是一个简单的标题">
+	        风萧萧兮易水寒
+	    </m-collapse-item>
+	    <m-collapse-item title="标题2" label="这是一个简单的标题" content="风萧萧兮易水寒,壮士一去兮不复还"></m-collapse-item>
+	    <m-collapse-item title="标题3" label="这是一个简单的标题">
+	        <div class="mvi-bg-error" v-prop="0.5"></div>
+	    </m-collapse-item>
+	</m-collapse>
+</template>
 
 <script>
 	import {
 		ref,
-		reactive, 
+		reactive,
 		inject
 	} from 'vue'
 	export default {
 		name: 'App',
 		data() {
 			return {
-				show:false,
-				options:[
-					{
-						label:'艾欧尼亚',
-						color:'#ff3300',
-						disabled:true
-					},
-					{
-						label:'弗雷尔卓德',
-						color:'#10928a'
-					},
-					{
-						label:'德玛西亚',
-						class:'mvi-text-primary',
-						disabled:true
-					}
-				]
+				show: false,
+				value:2
 			}
 		},
 		mounted() {

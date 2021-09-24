@@ -2,7 +2,7 @@
 	<Button :disabled="disabled || null" :class="buttonClass" :style="btnStyle">
 		<slot name="loading" v-if="loading && $slots.loading"></slot>
 		<span v-else-if="loading">
-			<m-icon :type="iconType" :url="iconUrl" :spin="iconSpin" :size="iconSize" class="mvi-button-load-icon" />
+			<m-icon :type="iconType" :color="iconColor" :url="iconUrl" :spin="iconSpin" :size="iconSize" class="mvi-button-load-icon" />
 			{{loadText}}
 		</span>
 		<slot v-else></slot>
@@ -138,6 +138,15 @@
 					}
 				}
 				return size
+			},
+			iconColor(){
+				let color = null
+				if ($dap.common.isObject(this.loadIcon)) {
+					if (typeof this.loadIcon.color == "string") {
+						color = this.loadIcon.color
+					}
+				}
+				return color
 			},
 			btnStyle() {
 				let obj = {}
@@ -341,7 +350,7 @@
 
 	//禁用
 	.mvi-button[disabled] {
-		opacity: .5;
+		opacity: .6;
 		touch-action: none;
 	}
 

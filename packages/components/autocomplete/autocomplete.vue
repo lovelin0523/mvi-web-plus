@@ -46,17 +46,17 @@
 		emits: ['update:modelValue', 'focus', 'blur', 'input', 'left-click', 'right-click', 'select', 'clear'],
 		props: {
 			//输入框的值
-			modelValue: { 
+			modelValue: {
 				type: [String, Number],
 				default: ''
 			},
 			//占位符
-			placeholder: { 
+			placeholder: {
 				type: String,
 				default: ''
 			},
 			//组件大小
-			size: { 
+			size: {
 				type: String,
 				default: 'medium',
 				validator(value) {
@@ -64,14 +64,14 @@
 				}
 			},
 			//可选值数组
-			list: { 
+			list: {
 				type: Array,
 				default: function() {
 					return []
 				}
 			},
 			//激活样式
-			activeType: { 
+			activeType: {
 				type: String,
 				default: 'info',
 				validator(value) {
@@ -79,107 +79,107 @@
 				}
 			},
 			//激活颜色
-			activeColor: { 
+			activeColor: {
 				type: String,
 				default: null
 			},
 			//过滤方法
-			filterMethod: { 
+			filterMethod: {
 				type: [Function, Boolean],
 				default: false
 			},
 			//是否启用清除图标
-			clearable: { 
+			clearable: {
 				type: Boolean,
 				default: false
 			},
 			//是否禁用
-			disabled: { 
+			disabled: {
 				type: Boolean,
 				default: false
 			},
 			//layer位置
-			placement: { 
+			placement: {
 				type: String,
 				default: 'bottom-start'
 			},
 			//layer的fixed
-			fixed: { 
+			fixed: {
 				type: Boolean,
 				default: false
 			},
 			//layer适配transform父元素
-			fixedAuto: { 
+			fixedAuto: {
 				type: Boolean,
 				default: false
 			},
 			//layer的width
-			width: { 
+			width: {
 				type: String,
 				default: null
 			},
 			//layer的z-index
-			zIndex: { 
+			zIndex: {
 				type: Number,
 				default: 400
 			},
 			//layer最大高度
-			height: { 
+			height: {
 				type: String,
 				default: null
 			},
 			//layer的offset
-			offset: { 
+			offset: {
 				type: String,
 				default: '0.1rem'
 			},
 			//layer的额外样式
-			wrapperClass: { 
+			wrapperClass: {
 				type: String,
 				default: null
 			},
 			//layer显示与隐藏动画
-			animation: { 
+			animation: {
 				type: String,
 				default: null
 			},
 			//layer动画时间
-			timeout: { 
+			timeout: {
 				type: Number,
 				default: 300
 			},
 			//原生name
-			name: { 
+			name: {
 				type: String,
 				default: null
 			},
 			//layer层列表悬浮样式
-			hoverClass: { 
+			hoverClass: {
 				type: String,
 				default: null
 			},
 			//左侧图标
-			leftIcon: { 
+			leftIcon: {
 				type: [String, Object],
 				default: null
 			},
 			//右侧图标
-			rightIcon: { 
+			rightIcon: {
 				type: [String, Object],
 				default: null
 			},
 			//是否圆角
-			round: { 
+			round: {
 				type: Boolean,
 				default: false
 			},
 			//是否方形
-			square: { 
+			square: {
 				type: Boolean,
 				default: false
 			},
 			//对齐方式
-			align: { 
+			align: {
 				type: String,
 				default: 'left',
 				validator(value) {

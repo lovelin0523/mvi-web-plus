@@ -1,12 +1,12 @@
 <template>
-	<div class="mvi-circle-progress" :style="{width:size?size:'',height:size?size:''}">
+	<div class="mvi-circle-progress" :style="{width:size || '',height:size || ''}">
 		<svg :viewBox="viewBox">
 			<path :d="pathD" :style="trackStyle" class="mvi-circle-progress-track"></path>
 			<path :d="pathD" :style="barStyle" class="mvi-circle-progress-bar"></path>
 		</svg>
 		<div v-if="showTip" class="mvi-circle-progress-tip">
 			<slot v-if="$slots.tip" name="tip" :value="value"></slot>
-			<span v-else :class="tipClass?tipClass:''" v-text="computedValue"></span>
+			<span v-else :class="tipClass || ''" v-text="computedValue"></span>
 		</div>
 	</div>
 </template>
@@ -43,57 +43,57 @@
 				default: null
 			},
 			//进度颜色
-			color: { 
+			color: {
 				type: String,
 				default: null
 			},
 			//轨道颜色
-			trackColor: { 
+			trackColor: {
 				type: String,
 				default: null
 			},
 			//填充色
-			fill: { 
+			fill: {
 				type: String,
 				default: null
 			},
 			//是否显示动画效果
-			animation: { 
+			animation: {
 				type: Boolean,
 				default: true
 			},
 			//动画效果的时长
-			timeout: { 
+			timeout: {
 				type: Number,
 				default: 400
 			},
 			//是否显示文字
-			showTip: { 
+			showTip: {
 				type: Boolean,
 				default: false
 			},
 			//中间显示的文本
-			tipText: { 
+			tipText: {
 				type: String,
 				default: null
 			},
 			//进度条厚度
-			strokeWidth: { 
+			strokeWidth: {
 				type: String,
 				default: null
 			},
 			//进度条端点是否有圆角
-			round: { 
+			round: {
 				type: Boolean,
 				default: false
 			},
 			//是否顺时针增加
-			clockWise: { 
+			clockWise: {
 				type: Boolean,
 				default: true
 			},
 			//文字内容添加额外的样式类
-			tipClass: { 
+			tipClass: {
 				type: String,
 				default: null
 			}
