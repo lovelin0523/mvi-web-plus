@@ -6,8 +6,8 @@
 </template>
 
 <script>
+	import $dap from "dap-util"
 	import mTabItem from "./tabbar-item"
-
 	export default {
 		name: "m-tabbar",
 		components: {
@@ -85,7 +85,7 @@
 			},
 			tabbarStyle() {
 				let style = {}
-				if (this.fixed) {
+				if (this.fixed && $dap.number.isNumber(this.zIndex)) {
 					style.zIndex = this.zIndex
 				}
 				if (this.flex) {

@@ -192,7 +192,7 @@
 			},
 			layerStyle() {
 				let style = {}
-				if (this.zIndex) {
+				if ($dap.number.isNumber(this.zIndex)) {
 					style.zIndex = this.zIndex
 				}
 				if (this.timeout) {

@@ -81,7 +81,7 @@
 				type: Boolean,
 				default: true
 			},
-			//配置项
+			//配置项，每个配置项包含label、loading、sub、icon、placement、class、color、disabled
 			options: {
 				type: Array,
 				default: function() {
@@ -104,32 +104,32 @@
 				default: null
 			},
 			//列表和取消按钮是否显示点击态
-			active: { 
+			active: {
 				type: Boolean,
 				default: true
 			},
 			//挂载元素
-			mountEl: { 
+			mountEl: {
 				type: String,
 				default: null
 			},
 			//选择完是否自动关闭
-			selectClose: { 
+			selectClose: {
 				type: Boolean,
 				default: true
 			},
 			//局部显示时是否考虑滚动条影响
-			usePadding: { 
+			usePadding: {
 				type: Boolean,
 				default: false
 			},
 			//列表字体颜色
-			color: { 
+			color: {
 				type: String,
 				default: null
 			},
 			//尺寸
-			size: { 
+			size: {
 				type: String,
 				default: 'medium',
 				validator(value) {

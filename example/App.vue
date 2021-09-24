@@ -1,20 +1,7 @@
 <template>
 	<m-button @click="change">Button</m-button>
-	<m-form>
-	    <m-form-el label="用户名">
-	        <m-field placeholder="请输入用户名"></m-field>
-	    </m-form-el>
-	    <m-form-el label="手机号">
-	        <m-field placeholder="请输入手机号"></m-field>
-	    </m-form-el>
-	    <m-form-el label="密码">
-	        <m-field placeholder="请输入密码"></m-field>
-	    </m-form-el>
-	</m-form>
-	<div id="root" style="height: 13rem;width: 7rem;border: 1px solid #bbb;overflow: auto;position: relative;">
-		<m-field v-model="value"/>
-	</div>
-</template>
+	<m-actionsheet @select="shown" v-model="show" title="LOL" :z-index="1400" :options="options"></m-actionsheet>
+</template> 
 
 <script>
 	import {
@@ -26,162 +13,24 @@
 		name: 'App',
 		data() {
 			return {
-				pickerOpt:{ 
-					values:['mvi','elementUI','iView','vant'],//设置选项
-					defaultIndex:0//设置默认选项序列
-				},
-				arr: [{
-					a: 1
-				}, {
-					b: 2
-				}],
-				observe: {
-					attributes: true,
-					childList: true,
-					subtree: true,
-					attributesChange: (attributeName, oldValue, newValue) => {
-						console.log(attributeName, oldValue, newValue)
+				show:false,
+				options:[
+					{
+						label:'艾欧尼亚',
+						color:'#ff3300',
+						disabled:true
 					},
-					childNodesChange: (addNodes, removeNodes) => {
-						console.log(addNodes, removeNodes)
+					{
+						label:'弗雷尔卓德',
+						color:'#10928a'
+					},
+					{
+						label:'德玛西亚',
+						class:'mvi-text-primary',
+						disabled:true
 					}
-				},
-				counts: 100000,
-				spyOpt: {
-					el: '#app',
-					beforeEnter: el => {
-						console.log('元素开始进入视图');
-					},
-					enter: el => {
-						console.log('元素完全进入视图');
-					},
-					beforeLeave: el => {
-						console.log('元素开始离开视图');
-					},
-					leave: el => {
-						console.log(' 元素完全离开视图');
-					}
-				},
-				show: false,
-				checkbox: [],
-				checked: 1,
-				value: '#ff3399',
-				active: 1,
-				date: new Date(),
-				options: [{
-						label: 'iPhone 12',
-						value: {
-							a: 1
-						}
-					},
-					{
-						label: 'iPhone 11',
-						value: 1,
-						disabled: true
-					},
-					{
-						label: 'iPhone 12 Pro',
-						value: 2
-					},
-					{
-						label: 'iPhone 12 Pro Max',
-						value: 3
-					},
-					{
-						label: 'iPhone 12 mini',
-						value: 4
-					}
-				],
-				refresh: true,
-				images: [
-					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_4_1624705387843.jfif',
-					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_3_1624705387828.jfif',
-					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_2_1624705387812.jfif',
-					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_1_1624705387797.jfif',
-					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_0_1624705387765.jfif'
-				],
-				data: [{
-						id: 4,
-						name: '张三',
-						age: 12
-					},
-					{
-						id: 12,
-						name: '李四',
-						age: 22
-					},
-					{
-						id: 11,
-						name: '王婆',
-						age: 45
-					}
-				],
-				columns: [{
-						key: 'checkbox',
-						value: '',
-						iconColor:'#fff',
-						fillColor:"#ff3300",
-						iconType:'user'
-					},
-					{
-						key: 'id',
-						value: 'ID',
-						sortable: true
-					},
-					{
-						key: 'name',
-						value: '姓名',
-						sortable: true
-					},
-					{
-						key: 'age',
-						value: '年龄',
-						sortable: true
-					}
-				],
-				page: 1,
-				tabs: [{
-						value: 0,
-						name: '首页'
-					},
-					{
-						value: 1,
-						name: '附近'
-					},
-					{
-						value: 2,
-						name: '关注'
-					},
-					{
-						value: 3,
-						name: '我的'
-					}
-				],
-				list: ['iPhone', 'iPhone 12', 'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 11', 'HUAWEI',
-					'HUAWEI MATE 40'
-				],
-				anchorOpt: {
-					root: '#root',
-					target: '#target',
-					time: 400,
-					callback: (value) => {
-						console.log(value);
-					}
-				},
-				uploadOpt: {
-					select: files => {
-						console.log(files)
-					}
-				},
-				scrollOpt: {
-					top: el => {
-						console.log(el);
-					},
-					bottom: el => {
-						console.log(el);
-					}
-				}
-			};
+				]
+			}
 		},
 		mounted() {
 
@@ -189,7 +38,6 @@
 		methods: {
 			change(e) {
 				this.show = !this.show
-				
 			},
 			shown(e) {
 				console.log(e)
@@ -208,23 +56,5 @@
 		overflow-y: auto;
 		height: 100%;
 		position: relative;
-	}
-
-	.demo {
-		width: 4rem;
-		height: 2rem;
-		margin: .2rem auto;
-		position: relative;
-		border: 1px solid #000000;
-
-		&::before {
-			content: '';
-			width: 100%;
-			height: 1px;
-			background-color: #000000;
-			position: absolute;
-			bottom: -1rem;
-			left: 0;
-		}
 	}
 </style>

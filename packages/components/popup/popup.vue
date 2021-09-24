@@ -202,7 +202,7 @@
 				if (this.color) {
 					style.color = this.color
 				}
-				if (this.zIndex) {
+				if ($dap.number.isNumber(this.zIndex)) {
 					style.zIndex = this.zIndex + 10
 				}
 				style.transition = 'all ' + this.timeout + 'ms'

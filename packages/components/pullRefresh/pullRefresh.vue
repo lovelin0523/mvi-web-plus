@@ -136,7 +136,7 @@
 				} else if (this.loadingColor && this.status == 2) {
 					style.color = this.loadingColor
 				}
-				if (this.zIndex) {
+				if ($dap.number.isNumber(this.zIndex)) {
 					style.zIndex = this.zIndex
 				}
 				return style
