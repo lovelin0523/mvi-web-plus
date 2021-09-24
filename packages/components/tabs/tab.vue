@@ -9,117 +9,116 @@
 <script>
 	import $dap from "dap-util"
 	export default {
-		name:"m-tab",
-		inject:['tabs'],
-		data(){
+		name: "m-tab",
+		inject: ['tabs'],
+		data() {
 			return {
-				show:false,
-				back:false,
-				firstShow:false
+				show: false,
+				back: false,
+				firstShow: false
 			}
 		},
 		created() {
-			this.tabs.children.push(this);
-			if(this.tabs.modelValue == this.tabIndex){
-				this.show = true;
-				if(!this.firstShow){
-					this.firstShow = true;
+			this.tabs.children.push(this)
+			if (this.tabs.modelValue == this.tabIndex) {
+				this.show = true
+				if (!this.firstShow) {
+					this.firstShow = true
 				}
 			}
 		},
-		props:{
-			title:{//标题
-				type:String,
-				default:""
+		props: {
+			//标题
+			title: { 
+				type: String,
+				default: ""
 			},
-			icon:{//标题左侧显示的图标
-				type:[String,Object],
-				default:null
+			//标题侧边显示的图标
+			icon: { 
+				type: [String, Object],
+				default: null
 			},
-			disabled:{//是否禁用选项卡
-				type:Boolean,
-				default:false
+			//是否禁用选项卡
+			disabled: { 
+				type: Boolean,
+				default: false
 			},
-			placement:{
-				type:String,
-				default:'left',
-				validator(value){
-					return ['left','right'].includes(value)
+			//图标位置
+			placement: {
+				type: String,
+				default: 'left',
+				validator(value) {
+					return ['left', 'right'].includes(value)
 				}
 			}
 		},
-		computed:{
-			tabStyle(){
-				let style = {};
-				if(this.tabs.animation == 'slide'){
-					style.transition = 'left '+this.tabs.timeout+'ms,opacity '+this.tabs.timeout+'ms';
-					style.webkitTransition = 'left '+this.tabs.timeout+'ms,opacity '+this.tabs.timeout+'ms';
-				}else if(this.tabs.animation == 'fade'){
-					style.transition = 'opacity '+this.tabs.timeout+'ms';
-					style.webkitTransition = 'opacity '+this.tabs.timeout+'ms';
+		computed: {
+			tabStyle() {
+				let style = {}
+				if (this.tabs.animation == 'slide') {
+					style.transition = 'left ' + this.tabs.timeout + 'ms,opacity ' + this.tabs.timeout + 'ms'
+					style.webkitTransition = 'left ' + this.tabs.timeout + 'ms,opacity ' + this.tabs.timeout + 'ms'
+				} else if (this.tabs.animation == 'fade') {
+					style.transition = 'opacity ' + this.tabs.timeout + 'ms'
+					style.webkitTransition = 'opacity ' + this.tabs.timeout + 'ms'
 				}
-				if(this.tabs.contentBackground){
-					style.backgroundColor = this.tabs.contentBackground;
+				if (this.tabs.contentBackground) {
+					style.backgroundColor = this.tabs.contentBackground
 				}
-				return style;
+				return style
 			},
 			iconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.type == "string") {
-						t = this.icon.type;
+						t = this.icon.type
 					}
 				} else if (typeof this.icon == "string") {
-					t = this.icon;
+					t = this.icon
 				}
-				return t;
+				return t
 			},
 			iconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.url == "string") {
-						url = this.icon.url;
+						url = this.icon.url
 					}
 				}
-				return url;
+				return url
 			},
 			iconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.spin == "boolean") {
-						spin = this.icon.spin;
+						spin = this.icon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
-			iconSize(){
-				let size = null;
+			iconSize() {
+				let size = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.size == "string") {
-						size = this.icon.size;
+						size = this.icon.size
 					}
 				}
-				return size;
+				return size
 			},
-			iconColor(){
-				let color = null;
+			iconColor() {
+				let color = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.color == "string") {
-						color = this.icon.color;
+						color = this.icon.color
 					}
 				}
-				return color;
+				return color
 			},
 			//tab在tabs中的序列值
 			tabIndex() {
-				let index = 0;
-				for (let i = 0; i < this.tabs.children.length; i++) {
-					if (this.tabs.children[i] == this) {
-						index = i;
-						break;
-					}
-				}
-				return index;
+				return this.tabs.children.findIndex(item => {
+					return $dap.common.equal(item, this)
+				})
 			},
 		}
 	}
@@ -127,8 +126,8 @@
 
 <style lang="less" scoped>
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-tab{
+
+	.mvi-tab {
 		display: block;
 		position: absolute;
 		left: 0;
@@ -137,25 +136,30 @@
 		padding: 0;
 		background-color: #fff;
 	}
-	.mvi-tab-fade-enter-from,.mvi-tab-fade-leave-to,
-	.mvi-tab-fade-back-enter-from,.mvi-tab-fade-back-leave-to{
+
+	.mvi-tab-fade-enter-from,
+	.mvi-tab-fade-leave-to,
+	.mvi-tab-fade-back-enter-from,
+	.mvi-tab-fade-back-leave-to {
 		opacity: 0;
 	}
-	
-	.mvi-tab-slide-enter-from{
+
+	.mvi-tab-slide-enter-from {
 		left: 100%;
 		opacity: 0;
 	}
-	.mvi-tab-slide-leave-to{
+
+	.mvi-tab-slide-leave-to {
 		left: -100%;
 		opacity: 0;
 	}
-	
-	.mvi-tab-slide-back-enter-from{
+
+	.mvi-tab-slide-back-enter-from {
 		left: -100%;
 		opacity: 0;
 	}
-	.mvi-tab-slide-back-leave-to{
+
+	.mvi-tab-slide-back-leave-to {
 		left: 100%;
 		opacity: 0;
 	}

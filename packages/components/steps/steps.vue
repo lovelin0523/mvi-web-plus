@@ -1,6 +1,5 @@
 <template>
-	<div :class="['mvi-steps',vertical?'mvi-steps-vertical':'']"
-	:style="{backgroundColor:background?background:''}">
+	<div :class="['mvi-steps',vertical?'mvi-steps-vertical':'']" :style="{backgroundColor:background || ''}">
 		<slot></slot>
 	</div>
 </template>
@@ -8,141 +7,148 @@
 <script>
 	import $dap from "dap-util"
 	export default {
-		name:"m-steps",
-		data(){
+		name: "m-steps",
+		data() {
 			return {
-				children:[]
+				children: []
 			}
 		},
-		props:{
-			active:{//当前步骤
-				type:Number,
-				default:0
+		props: {
+			//当前步骤
+			active: {
+				type: Number,
+				default: 0
 			},
-			vertical:{//是否垂直
-				type:Boolean,
-				default:false
+			//是否垂直
+			vertical: {
+				type: Boolean,
+				default: false
 			},
-			activeColor:{//激活状态的颜色
-				type:String,
-				default:null
+			//激活状态的颜色
+			activeColor: {
+				type: String,
+				default: null
 			},
-			inactiveColor:{//未激活状态的颜色
-				type:String,
-				default:null
+			//未激活状态的颜色
+			inactiveColor: {
+				type: String,
+				default: null
 			},
-			activeIcon:{//激活状态的图标
-				type:[String,Object],
-				default:null
+			//激活状态的图标
+			activeIcon: {
+				type: [String, Object],
+				default: null
 			},
-			inactiveIcon:{//未激活状态的图标
-				type:[String,Object],
-				default:null
+			//未激活状态的图标
+			inactiveIcon: {
+				type: [String, Object],
+				default: null
 			},
-			background:{//背景色
-				type:String,
-				default:null
+			//背景色
+			background: {
+				type: String,
+				default: null
 			}
 		},
-		provide(){
+		provide() {
 			return {
-				steps:this
+				steps: this
 			}
 		},
-		computed:{
+		computed: {
 			activeIconType() {
-				let t = 'success-o';
+				let t = 'success-o'
 				if ($dap.common.isObject(this.activeIcon)) {
 					if (typeof this.activeIcon.type == "string") {
-						t = this.activeIcon.type;
+						t = this.activeIcon.type
 					}
 				} else if (typeof this.activeIcon == "string") {
-					t = this.activeIcon;
+					t = this.activeIcon
 				}
-				return t;
+				return t
 			},
 			activeIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.activeIcon)) {
 					if (typeof this.activeIcon.url == "string") {
-						url = this.activeIcon.url;
+						url = this.activeIcon.url
 					}
 				}
-				return url;
+				return url
 			},
 			activeIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.activeIcon)) {
 					if (typeof this.activeIcon.spin == "boolean") {
-						spin = this.activeIcon.spin;
+						spin = this.activeIcon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
-			activeIconSize(){
-				let size = null;
+			activeIconSize() {
+				let size = null
 				if ($dap.common.isObject(this.activeIcon)) {
 					if (typeof this.activeIcon.size == "string") {
-						size = this.activeIcon.size;
+						size = this.activeIcon.size
 					}
 				}
-				return size;
+				return size
 			},
-			activeIconColor(){
-				let color = null;
+			activeIconColor() {
+				let color = null
 				if ($dap.common.isObject(this.activeIcon)) {
 					if (typeof this.activeIcon.color == "string") {
-						color = this.activeIcon.color;
+						color = this.activeIcon.color
 					}
 				}
-				return color;
+				return color
 			},
 			inactiveIconType() {
-				let t = null;
+				let t = null
 				if ($dap.common.isObject(this.inactiveIcon)) {
 					if (typeof this.inactiveIcon.type == "string") {
-						t = this.inactiveIcon.type;
+						t = this.inactiveIcon.type
 					}
 				} else if (typeof this.inactiveIcon == "string") {
-					t = this.inactiveIcon;
+					t = this.inactiveIcon
 				}
-				return t;
+				return t
 			},
 			inactiveIconUrl() {
-				let url = null;
+				let url = null
 				if ($dap.common.isObject(this.inactiveIcon)) {
 					if (typeof this.inactiveIcon.url == "string") {
-						url = this.inactiveIcon.url;
+						url = this.inactiveIcon.url
 					}
 				}
-				return url;
+				return url
 			},
 			inactiveIconSpin() {
-				let spin = false;
+				let spin = false
 				if ($dap.common.isObject(this.inactiveIcon)) {
 					if (typeof this.inactiveIcon.spin == "boolean") {
-						spin = this.inactiveIcon.spin;
+						spin = this.inactiveIcon.spin
 					}
 				}
-				return spin;
+				return spin
 			},
-			inactiveIconSize(){
-				let size = null;
+			inactiveIconSize() {
+				let size = null
 				if ($dap.common.isObject(this.inactiveIcon)) {
 					if (typeof this.inactiveIcon.size == "string") {
-						size = this.inactiveIcon.size;
+						size = this.inactiveIcon.size
 					}
 				}
-				return size;
+				return size
 			},
-			inactiveIconColor(){
-				let color = null;
+			inactiveIconColor() {
+				let color = null
 				if ($dap.common.isObject(this.inactiveIcon)) {
 					if (typeof this.inactiveIcon.color == "string") {
-						color = this.inactiveIcon.color;
+						color = this.inactiveIcon.color
 					}
 				}
-				return color;
+				return color
 			}
 		}
 	}
@@ -150,8 +156,8 @@
 
 <style scoped lang="less">
 	@import "../../css/mvi-basic.less";
-	
-	.mvi-steps{
+
+	.mvi-steps {
 		display: flex;
 		display: -webkit-flex;
 		position: relative;
@@ -161,8 +167,8 @@
 		padding: @mp-sm;
 		background-color: #fff;
 	}
-	
-	.mvi-steps.mvi-steps-vertical{
+
+	.mvi-steps.mvi-steps-vertical {
 		flex-direction: column;
 		-ms-flex-direction: column;
 		-webkit-flex-direction: column;

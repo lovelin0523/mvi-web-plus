@@ -1,11 +1,15 @@
 <template>
-	<m-overlay ref="overlay" :model-value="modelValue" color="#000" :fade="false" @showing="overlayShowing" :z-index="zIndex" :use-padding="usePadding" :mountEl="mountEl">
+	<m-overlay ref="overlay" :model-value="modelValue" color="#000" :fade="false" @showing="overlayShowing"
+		:z-index="zIndex" :use-padding="usePadding" :mountEl="mountEl">
 		<m-swiper v-if="firstShow" class="mvi-image-preview-swiper" :initial-slide="active" show-indicators ref="swiper"
-		 :width="swiperWidth" :height="swiperHeight" @change="swiperChange" @mousedown="mouseDown" @mouseup="mouseUp" :show-control="showControl" :fade="fade" :touchable="!isDoubleTouch" :control-class="controlClass">
-			<m-swiper-slide v-for="(item,index) in images" @wheel="wheelImage(index,$event)" 
-			@touchstart="prviewTouchStart(index,$event)" @touchmove="previewTouchMove(index,$event)" 
-			@touchend="previewTouchend(index,$event)" :id="'mvi-preview-slide-'+index" class="mvi-preview-container">
-				<m-image :error-icon="errorIcon" :load-icon="loadIcon" @click="closeOverlay" class="mvi-image-preview" :src="item" fit="response" :ref="el=>imageRefs[index]=el"></m-image>
+			@change="swiperChange" @mousedown="mouseDown" @mouseup="mouseUp" :show-control="showControl" :fade="fade"
+			:touchable="!isDoubleTouch" :control-class="controlClass">
+			<m-swiper-slide v-for="(item,index) in images" @wheel="wheelImage(index,$event)"
+				@touchstart="prviewTouchStart(index,$event)" @touchmove="previewTouchMove(index,$event)"
+				@touchend="previewTouchend(index,$event)" :id="'mvi-preview-slide-'+index"
+				class="mvi-preview-container">
+				<m-image :error-icon="errorIcon" :load-icon="loadIcon" @click="closeOverlay" class="mvi-image-preview"
+					:src="item" fit="response" :ref="el=>imageRefs[index]=el"></m-image>
 			</m-swiper-slide>
 			<template #indicators="data">
 				<div class="mvi-image-preview-page" v-if="showPage">
@@ -17,8 +21,10 @@
 					</div>
 				</div>
 				<div v-if="$slots.descriptions || descriptions.length>0" class="mvi-image-preview-footer">
-					<slot name="descriptions" :total="data.total" :current="data.active" v-if="$slots.descriptions"></slot>
-					<div v-else-if="descriptions.length>0" class="mvi-image-preview-description" v-text="descriptions[data.active]"></div>
+					<slot name="descriptions" :total="data.total" :current="data.active" v-if="$slots.descriptions">
+					</slot>
+					<div v-else-if="descriptions.length>0" class="mvi-image-preview-description"
+						v-text="descriptions[data.active]"></div>
 				</div>
 			</template>
 		</m-swiper>
@@ -27,7 +33,10 @@
 </template>
 
 <script>
-	import { getCurrentInstance } from "vue"
+	import {
+		getCurrentInstance
+	} from "vue"
+	import $dap from "dap-util"
 	import mOverlay from "../overlay/overlay"
 	import mSwiper from "../swiper/swiper.vue"
 	import mSwiperSlide from "../swiper/swiper-slide"
@@ -39,203 +48,215 @@
 				firstShow: false,
 				start: 0,
 				end: 0,
-				isDoubleTouch:false,//是否双指触摸
-				touchDistance:0,//双指触点距离
-				swiperWidth:'100%',//轮播图宽度
-				swiperHeight:'100%',//轮播图高度
-				scale:1,//缩放比例
-				imageRefs:[]//image组件对象数组
+				//是否双指触摸
+				isDoubleTouch: false,
+				//双指触点距离
+				touchDistance: 0,
+				//缩放比例
+				scale: 1,
+				//image组件对象数组
+				imageRefs: []
 			}
 		},
-		emits:['update:modelValue','change'],
+		emits: ['update:modelValue', 'change'],
 		props: {
-			modelValue: { //是否显示
+			//是否显示
+			modelValue: {
 				type: Boolean,
 				default: false
 			},
-			images: { //图片数组
-				type: Array,
-				default: function() {
-					return [];
-				}
-			},
-			descriptions: { //图片描述
+			//图片数组
+			images: {
 				type: Array,
 				default: function() {
 					return []
 				}
 			},
-			active: { //默认显示的图片序列
+			//图片描述
+			descriptions: { 
+				type: Array,
+				default: function() {
+					return []
+				}
+			},
+			//默认显示的图片序列
+			active: { 
 				type: Number,
 				default: 0
 			},
-			mountEl:{//挂载元素
-				type:String,
-				default:null
-			},
-			showPage: { //是否显示页码
-				type: Boolean,
-				default: true
-			},
-			zIndex: { //z-index值
-				type: Number,
-				default: 5000
-			},
-			fade: { //是否使用渐变
-				type: Boolean,
-				default: false
-			},
-			showControl: { //是否显示控制器
-				type: Boolean,
-				default: false
-			},
-			controlClass: { //控制器额外样式
+			//挂载元素
+			mountEl: { 
 				type: String,
 				default: null
 			},
-			usePadding: {//局部显示是否考虑滚动条影响
+			//是否显示页码
+			showPage: { 
+				type: Boolean,
+				default: true
+			},
+			//z-index值
+			zIndex: { 
+				type: Number,
+				default: 5000
+			},
+			//是否使用渐变
+			fade: { 
 				type: Boolean,
 				default: false
 			},
-			errorIcon:{//图片加载失败提示设置
-				type:[String,Object],
-				default:function(){
+			//是否显示控制器
+			showControl: { 
+				type: Boolean,
+				default: false
+			},
+			//控制器额外样式
+			controlClass: { 
+				type: String,
+				default: null
+			},
+			//局部显示是否考虑滚动条影响
+			usePadding: { 
+				type: Boolean,
+				default: false
+			},
+			//图片加载失败提示设置
+			errorIcon: { 
+				type: [String, Object],
+				default: function() {
 					return {
-						size:'1rem'
+						size: '1rem'
 					}
 				}
 			},
-			loadIcon:{//图片加载中提示设置
-				type:[String,Object],
-				default:function(){
+			//图片加载中提示设置
+			loadIcon: { 
+				type: [String, Object],
+				default: function() {
 					return {
-						size:'1rem'
+						size: '1rem'
 					}
 				}
 			}
 		},
-		components:{
-			mOverlay,mSwiper,mSwiperSlide,mImage
+		components: {
+			mOverlay,
+			mSwiper,
+			mSwiperSlide,
+			mImage
 		},
 		setup() {
-			const instance = getCurrentInstance();
+			const instance = getCurrentInstance()
 			return {
-				uid:instance.uid
+				uid: instance.uid
 			}
 		},
-		mounted() {
-			$dap.event.on(window,`resize.imagePreview_${this.uid}`,this.resize)
-		},
 		methods: {
-			//调整大小
-			resize(){
-				if(this.modelValue){
-					this.$nextTick(()=>{
-						this.swiperWidth = this.$refs.overlay.$$el.offsetWidth+'px';
-						this.swiperHeight = this.$refs.overlay.$$el.offsetHeight+'px';
-					})
-				}
-			},
 			//遮罩层显示时
 			overlayShowing() {
 				if (!this.firstShow) {
-					this.firstShow = true;
+					this.firstShow = true
 				}
-				this.$nextTick(()=>{
-					this.swiperWidth = this.$refs.overlay.$$el.offsetWidth+'px';
-					this.swiperHeight = this.$refs.overlay.$$el.offsetHeight+'px';
-				})
 			},
 			//pc端鼠标按下
 			mouseDown(event) {
-				this.start = event.pageX;
+				this.start = event.pageX
 			},
 			//pc端鼠标松开
 			mouseUp(event) {
-				this.end = event.pageX;
+				this.end = event.pageX
 			},
 			//关闭遮罩
 			closeOverlay(e) {
 				if (this.start != this.end) {
-					return;
+					return
 				}
-				this.scale = 1;
-				this.imageRefs.forEach(image=>{
-					image.$el.style.transform = '';
+				this.scale = 1
+				this.imageRefs.forEach(image => {
+					image.$el.style.transform = ''
 				})
-				this.$emit('update:modelValue', false);
+				this.$emit('update:modelValue', false)
 			},
 			//图片变更
 			swiperChange(active) {
-				this.scale = 1;
-				this.imageRefs.forEach(image=>{
-					image.$el.style.transform = '';
+				this.scale = 1
+				this.imageRefs.forEach(image => {
+					image.$el.style.transform = ''
 				})
-				this.$emit('change', active);
+				this.$emit('change', active)
 			},
 			//滚轮
-			wheelImage(index,event) {
-				let deltaY = event.deltaY; //正值向下滚，负值向上滚
-				let el = this.imageRefs[index].$el; //图片元素
-				if (deltaY > 0) { //向下滚，缩小图片
-					if(this.scale > 0.5){
-						this.scale -= 0.1;
+			wheelImage(index, event) {
+				//正值向下滚，负值向上滚
+				let deltaY = event.deltaY
+				//图片元素
+				let el = this.imageRefs[index].$el
+				//向下滚，缩小图片
+				if (deltaY > 0) { 
+					if (this.scale > 0.5) {
+						this.scale -= 0.1
 					}
-				} else { //向上滚，放大图片
-					if(this.scale < 2){
-						this.scale += 0.1;
+				} 
+				//向上滚，放大图片
+				else { 
+					if (this.scale < 2) {
+						this.scale += 0.1
 					}
-					
 				}
-				el.style.transform = `scale(${this.scale})`;
+				el.style.transform = `scale(${this.scale})`
 			},
 			//双指触摸事件
-			prviewTouchStart(index,event){
-				if(event.touches.length == 2){
-					this.isDoubleTouch = true;
-					this.touchDistance = this.getDistance(event.touches[0],event.touches[1]);
-				}else {
-					this.isDoubleTouch = false;
+			prviewTouchStart(index, event) {
+				if (event.touches.length == 2) {
+					this.isDoubleTouch = true
+					this.touchDistance = this.getDistance(event.touches[0], event.touches[1])
+				} else {
+					this.isDoubleTouch = false
 				}
 			},
 			//双指移动事件
-			previewTouchMove(index,event){
-				if(event.touches.length == 2 && this.isDoubleTouch){
-					if(event.cancelable){
+			previewTouchMove(index, event) {
+				if (event.touches.length == 2 && this.isDoubleTouch) {
+					if (event.cancelable) {
 						event.preventDefault()
 					}
-					let el = this.imageRefs[index].$el; //图片元素
-					let distance = this.getDistance(event.touches[0],event.touches[1])
-					if(distance < this.touchDistance){//缩小
-						if(this.scale > 0.5){
-							this.scale += (distance - this.touchDistance) / el.offsetWidth;
-						}
-					}else {//放大
-						if(this.scale < 2){
-							this.scale += (distance - this.touchDistance) / el.offsetWidth;
+					//图片元素
+					let el = this.$refs.images[index].$el
+					let distance = this.getDistance(event.touches[0], event.touches[1])
+					//缩小
+					if (distance < this.touchDistance) {
+						if (this.scale > 0.5) {
+							this.scale = $dap.number.add(this.scale, $dap.number.divide($dap.number.subtract(distance, this
+								.touchDistance), el.offsetWidth))
 						}
 					}
-					el.style.transform = `scale(${this.scale})`;
-					this.touchDistance = distance;
+					//放大
+					else {
+						if (this.scale < 2) {
+							this.scale = $dap.number.add(this.scale, $dap.number.divide($dap.number.subtract(distance, this
+								.touchDistance), el.offsetWidth))
+						}
+					}
+					el.style.transform = `scale(${this.scale})`
+					this.touchDistance = distance
 				}
 			},
 			//双指触摸松开事件
-			previewTouchend(index,event){
-				if(this.isDoubleTouch){
-					setTimeout(()=>{
-						this.isDoubleTouch = false;
-					},300)
+			previewTouchend(index, event) {
+				if (this.isDoubleTouch) {
+					setTimeout(() => {
+						this.isDoubleTouch = false
+					}, 300)
 				}
 			},
 			//获取两点间距离
-			getDistance(p1, p2){
-				let x = p2.pageX - p1.pageX;
-				let y = p2.pageY - p1.pageY;
-				return Math.sqrt((x * x) + (y * y));
+			getDistance(p1, p2) {
+				let x = p2.pageX - p1.pageX
+				let y = p2.pageY - p1.pageY
+				return Math.sqrt((x * x) + (y * y))
 			}
 		},
 		beforeUnmount() {
-			$dap.event.off(window,`resize.imagePreview_${this.uid}`)
+			$dap.event.off(window, `resize.imagePreview_${this.uid}`)
 		}
 	}
 </script>
@@ -246,7 +267,7 @@
 	.mvi-image-preview-swiper {
 		background-color: #000;
 
-		.mvi-preview-container{
+		.mvi-preview-container {
 			overflow: hidden;
 		}
 

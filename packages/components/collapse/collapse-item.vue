@@ -147,21 +147,98 @@
 			},
 			//打开时右侧图标
 			computedOpenArrow() {
-				if ((typeof this.openArrow == 'string' && this.openArrow) ||
-					$dap.common.isObject(this.openArrow)) {
-					return this.openArrow
-				} else {
-					return this.collapse.openArrow
+				let arrow = {
+					type:'angle-up',
+					color:null,
+					size:null,
+					url:null,
+					spin:false
 				}
+				if(typeof this.openArrow == 'string' && this.openArrow){
+					arrow.type = this.openArrow
+				}else if($dap.common.isObject(this.openArrow)){
+					if(typeof this.openArrow.type == 'string' && this.openArrow.type){
+						arrow.type = this.openArrow.type
+					}
+					if(typeof this.openArrow.color == 'string' && this.openArrow.color){
+						arrow.color = this.openArrow.color
+					}
+					if(typeof this.openArrow.size == 'string' && this.openArrow.size){
+						arrow.size = this.openArrow.size
+					}
+					if(typeof this.openArrow.url == 'string' && this.openArrow.url){
+						arrow.url = this.openArrow.url
+					}
+					if(typeof this.openArrow.spin == 'boolean'){
+						arrow.spin = this.openArrow.spin
+					}
+				} else if(typeof this.collapse.openArrow == 'string' && this.collapse.openArrow){
+					arrow.type = this.collapse.openArrow
+				}else if($dap.common.isObject(this.collapse.openArrow)){
+					if(typeof this.collapse.openArrow.type == 'string' && this.collapse.openArrow.type){
+						arrow.type = this.collapse.openArrow.type
+					}
+					if(typeof this.collapse.openArrow.color == 'string' && this.collapse.openArrow.color){
+						arrow.color = this.collapse.openArrow.color
+					}
+					if(typeof this.collapse.openArrow.size == 'string' && this.collapse.openArrow.size){
+						arrow.size = this.collapse.openArrow.size
+					}
+					if(typeof this.collapse.openArrow.url == 'string' && this.collapse.openArrow.url){
+						arrow.url = this.collapse.openArrow.url
+					}
+					if(typeof this.collapse.openArrow.spin == 'boolean'){
+						arrow.spin = this.collapse.openArrow.spin
+					}
+				}
+				return arrow
 			},
 			//关闭时右侧图标
 			computedCloseArrow() {
-				if ((typeof this.closeArrow == 'string' && this.closeArrow) ||
-					$dap.common.isObject(this.openArrow)) {
-					return this.closeArrow
-				} else {
-					return this.collapse.closeArrow
+				let arrow = {
+					type:'angle-down',
+					color:null,
+					size:null,
+					url:null
 				}
+				if(typeof this.closeArrow == 'string' && this.closeArrow){
+					arrow.type = this.closeArrow
+				}else if($dap.common.isObject(this.closeArrow)){
+					if(typeof this.closeArrow.type == 'string' && this.closeArrow.type){
+						arrow.type = this.closeArrow.type
+					}
+					if(typeof this.closeArrow.color == 'string' && this.closeArrow.color){
+						arrow.color = this.closeArrow.color
+					}
+					if(typeof this.closeArrow.size == 'string' && this.closeArrow.size){
+						arrow.size = this.closeArrow.size
+					}
+					if(typeof this.closeArrow.url == 'string' && this.closeArrow.url){
+						arrow.url = this.closeArrow.url
+					}
+					if(typeof this.closeArrow.spin == 'boolean'){
+						arrow.spin = this.closeArrow.spin
+					}
+				} else if(typeof this.collapse.closeArrow == 'string' && this.collapse.closeArrow){
+					arrow.type = this.collapse.closeArrow
+				}else if($dap.common.isObject(this.collapse.closeArrow)){
+					if(typeof this.collapse.closeArrow.type == 'string' && this.collapse.closeArrow.type){
+						arrow.type = this.collapse.closeArrow.type
+					}
+					if(typeof this.collapse.closeArrow.color == 'string' && this.collapse.closeArrow.color){
+						arrow.color = this.collapse.closeArrow.color
+					}
+					if(typeof this.collapse.closeArrow.size == 'string' && this.collapse.closeArrow.size){
+						arrow.size = this.collapse.closeArrow.size
+					}
+					if(typeof this.collapse.closeArrow.url == 'string' && this.collapse.closeArrow.url){
+						arrow.url = this.collapse.closeArrow.url
+					}
+					if(typeof this.collapse.closeArrow.spin == 'boolean'){
+						arrow.spin = this.collapse.closeArrow.spin
+					}
+				}
+				return arrow
 			},
 			//右侧图标
 			arrow() {

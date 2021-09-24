@@ -1,15 +1,7 @@
 <template>
 	<m-button @click="change">Button</m-button>
 	<div id="root" style="height: 13rem;width: 7rem;border: 1px solid #bbb;overflow: auto;position: relative;">
-		<m-collapse v-model="value">
-		    <m-collapse-item title="标题1" label="这是一个简单的标题">
-		        风萧萧兮易水寒
-		    </m-collapse-item>
-		    <m-collapse-item title="标题2" label="这是一个简单的标题" content="风萧萧兮易水寒,壮士一去兮不复还"></m-collapse-item>
-		    <m-collapse-item title="标题3" label="这是一个简单的标题">
-		        <div class="mvi-bg-error" v-prop="0.5"></div>
-		    </m-collapse-item>
-		</m-collapse>
+		<m-color-picker v-model="value"></m-color-picker>
 	</div>
 </template>
 
@@ -18,11 +10,15 @@
 		ref,
 		reactive,
 		inject
-	} from 'vue';
+	} from 'vue'
 	export default {
 		name: 'App',
 		data() {
 			return {
+				pickerOpt:{ 
+					values:['mvi','elementUI','iView','vant'],//设置选项
+					defaultIndex:0//设置默认选项序列
+				},
 				arr: [{
 					a: 1
 				}, {
@@ -58,7 +54,7 @@
 				show: false,
 				checkbox: [],
 				checked: 1,
-				value: 0,
+				value: '#ff3399',
 				active: 1,
 				date: new Date(),
 				options: [{
@@ -111,7 +107,10 @@
 				],
 				columns: [{
 						key: 'checkbox',
-						value: ''
+						value: '',
+						iconColor:'#fff',
+						fillColor:"#ff3300",
+						iconType:'user'
 					},
 					{
 						key: 'id',
@@ -178,7 +177,7 @@
 		},
 		methods: {
 			change(e) {
-				//this.show = !this.show
+				 this.show = !this.show
 			},
 			shown(e) {
 				console.log(e)
