@@ -25,15 +25,15 @@
 		data() {
 			return {
 				//hsv颜色值
-				hsv: new Array(3), 
+				hsv: new Array(3),
 				//透明度
-				opacity: 1, 
+				opacity: 1,
 				//rgb值
-				rgb: new Array(3), 
+				rgb: new Array(3),
 				//是否拖动或者点击引起的值变化
-				drag: false, 
+				drag: false,
 				//是否在拖动
-				isDrag: false, 
+				isDrag: false,
 				panelDrag: null,
 				hueDrag: null,
 				alphaDrag: null,
@@ -43,17 +43,17 @@
 		emits: ['update:modelValue', 'change'],
 		props: {
 			//颜色值
-			modelValue: { 
+			modelValue: {
 				type: String,
 				default: '#ff0000'
 			},
 			//是否显示透明度滑动条
-			showAlpha: { 
+			showAlpha: {
 				type: Boolean,
 				default: true
 			},
 			//双向绑定的数值是否为16进制值
-			hex: { 
+			hex: {
 				type: Boolean,
 				default: false
 			}
@@ -202,13 +202,13 @@
 					return
 				}
 				//如果值为16进制的
-				if (this.modelValue && $dap.common.matchingText(this.modelValue,'hex')) { 
+				if (this.modelValue && $dap.common.matchingText(this.modelValue, 'hex')) {
 					this.rgb = $dap.color.hex2rgb(this.modelValue)
 					this.hsv = $dap.color.rgb2hsv(this.rgb)
 					this.opacity = 1
-				} 
+				}
 				//为rgb格式的
-				else { 
+				else {
 					try {
 						let first = this.modelValue.indexOf('(')
 						let last = this.modelValue.lastIndexOf(')')
@@ -243,23 +243,14 @@
 				let h = this.hsv[0]
 				let s = this.hsv[1]
 				let v = this.hsv[2]
-				this.$refs.panelSlide.style.left = s / 100 * this.$refs.panel.offsetWidth - this.$refs.panelSlide
-					.offsetWidth / 2 + "px"
-				this.$refs.panelSlide.style.top = (1 - v / 100) * this.$refs.panel.offsetHeight - this.$refs.panelSlide
-					.offsetHeight / 2 + "px"
-				this.$refs.hueSlide.style.left = h / 360 * this.$refs.hue.offsetWidth - this.$refs.hueSlide.offsetWidth /
-					2 + "px"
+				this.$refs.panelSlide.style.left = s / 100 * this.$refs.panel.offsetWidth - this.$refs.panelSlide.offsetWidth / 2 + "px"
+				this.$refs.panelSlide.style.top = (1 - v / 100) * this.$refs.panel.offsetHeight - this.$refs.panelSlide.offsetHeight / 2 + "px"
+				this.$refs.hueSlide.style.left = h / 360 * this.$refs.hue.offsetWidth - this.$refs.hueSlide.offsetWidth / 2 + "px"
 				let sv_rgb = $dap.color.hsv2rgb([h, 100, 100])
-				this.$refs.panel.style.background = "rgba(" + sv_rgb[0] + "," + sv_rgb[1] + "," + sv_rgb[2] + "," + this
-					.opacity +
-					")" //设置选色面板的颜色
+				this.$refs.panel.style.background = "rgba(" + sv_rgb[0] + "," + sv_rgb[1] + "," + sv_rgb[2] + "," + this.opacity + ")" //设置选色面板的颜色
 				if (this.$refs.alphaSlide && this.$refs.alpha && this.$refs.bg) {
-					this.$refs.alphaSlide.style.left = this.opacity * this.$refs.alpha.offsetWidth - this.$refs.alphaSlide
-						.offsetWidth / 2 +
-						"px"
-					this.$refs.bg.style.background = "linear-gradient(to right, transparent 0%,rgb(" + sv_rgb[0] + "," +
-						sv_rgb[
-							1] + "," + sv_rgb[2] + ") 100%)"
+					this.$refs.alphaSlide.style.left = this.opacity * this.$refs.alpha.offsetWidth - this.$refs.alphaSlide.offsetWidth / 2 + "px"
+					this.$refs.bg.style.background = "linear-gradient(to right, transparent 0%,rgb(" + sv_rgb[0] + "," + sv_rgb[1] + "," + sv_rgb[2] + ") 100%)"
 				}
 			},
 			//根据滑块位置设置颜色
@@ -267,32 +258,23 @@
 				return new Promise((resolve) => {
 					let placementSV = $dap.element.getElementPoint(this.$refs.panelSlide, this.$refs.panel)
 					let placementHue = $dap.element.getElementPoint(this.$refs.hueSlide, this.$refs.hue)
-					this.hsv[1] = Math.round((placementSV.left + this.$refs.panelSlide.offsetWidth / 2) / this
-						.$refs.panel.offsetWidth * 100)
-					this.hsv[2] = Math.round((1 - (placementSV.top + this.$refs.panelSlide.offsetHeight / 2) / this
-						.$refs.panel.offsetHeight) * 100)
-					this.hsv[0] = Math.round(((placementHue.left + this.$refs.hueSlide.offsetWidth / 2) / this
-						.$refs.hue.offsetWidth) * 360)
+					this.hsv[1] = Math.round((placementSV.left + this.$refs.panelSlide.offsetWidth / 2) / this.$refs.panel.offsetWidth * 100)
+					this.hsv[2] = Math.round((1 - (placementSV.top + this.$refs.panelSlide.offsetHeight / 2) / this.$refs.panel.offsetHeight) * 100)
+					this.hsv[0] = Math.round(((placementHue.left + this.$refs.hueSlide.offsetWidth / 2) / this.$refs.hue.offsetWidth) * 360)
 					this.rgb = $dap.color.hsv2rgb(this.hsv) //转rgb值
 					let sv_rgb = $dap.color.hsv2rgb([this.hsv[0], 100, 100])
-					this.$refs.panel.style.background = "rgba(" + sv_rgb[0] + "," + sv_rgb[1] + "," + sv_rgb[2] +
-						"," + this.opacity +
-						")" //设置选色面板的颜色
+					this.$refs.panel.style.background = "rgba(" + sv_rgb[0] + "," + sv_rgb[1] + "," + sv_rgb[2] + "," + this.opacity + ")" //设置选色面板的颜色
 					let placementAlpha = null
 					if (this.$refs.alphaSlide && this.$refs.alpha && this.$refs.bg) {
 						placementAlpha = $dap.element.getElementPoint(this.$refs.alphaSlide, this.$refs.alpha)
-						this.opacity = Math.round(((placementAlpha.left + this.$refs.alphaSlide.offsetWidth / 2) /
-								this.$refs.alpha.offsetWidth) *
-							100) / 100
+						this.opacity = Math.round(((placementAlpha.left + this.$refs.alphaSlide.offsetWidth / 2) / this.$refs.alpha.offsetWidth) * 100) / 100
 						if (this.opacity >= 1) {
 							this.opacity = 1
 						}
 						if (this.opacity <= 0) {
 							this.opacity = 0
 						}
-						this.$refs.bg.style.background = "linear-gradient(to right, transparent 0%,rgb(" + sv_rgb[
-							0] + "," + sv_rgb[
-							1] + "," + sv_rgb[2] + ") 100%)"
+						this.$refs.bg.style.background = "linear-gradient(to right, transparent 0%,rgb(" + sv_rgb[0] + "," + sv_rgb[1] + "," + sv_rgb[2] + ") 100%)"
 					}
 					if (this.opacity == 1) {
 						let value = `rgb(${this.rgb.toString()})`

@@ -25,7 +25,7 @@
 					:style="{color:(computedBtnColor ? computedBtnColor[1] : '')}"></div>
 				<div class="mvi-dialog-ok" v-text="type == 'alert' ? computedBtnText : computedBtnText[0]"
 					@click="okFun"
-					:style="{color:(type == 'alert' ? (computedBtnColor ? computedBtnColor : '') : computedBtnColor ? computedBtnColor[0] : '')}">
+					:style="{color:(type == 'alert' ? (computedBtnColor || '') : computedBtnColor ? computedBtnColor[0] : '')}">
 				</div>
 			</div>
 		</template>

@@ -8,7 +8,7 @@
 					<m-icon v-if="item.icon" :type="iconType(item.icon)" :url="iconUrl(item.icon)"
 						:spin="iconSpin(item.icon)" class="mvi-dropdown-icon" :size="iconSize(item.icon)"
 						:color="iconColor(item.icon)" />
-					<span class="mvi-dropdown-label-text" v-text="item.label ? item.label : ''"></span>
+					<span class="mvi-dropdown-label-text" v-text="item.label || ''"></span>
 				</div>
 				<div v-if="equalValue(item, index)" class="mvi-dropdown-item-checked" :data-placement="placement">
 					<m-icon :type="selectIconType" :url="selectIconUrl" :spin="selectIconSpin" :size="selectIconSize"
@@ -34,7 +34,7 @@
 		props: {
 			//默认选中的选项
 			modelValue: {
-				type: [String, Number],
+				type: [String, Number, Object],
 				default: null
 			},
 			//菜单列表选中的颜色
@@ -122,15 +122,15 @@
 		},
 		computed: {
 			selectIconType() {
-				let t = 'success'
+				let type = 'success'
 				if ($dap.common.isObject(this.selectIcon)) {
 					if (typeof this.selectIcon.type == 'string') {
-						t = this.selectIcon.type
+						type = this.selectIcon.type
 					}
 				} else if (typeof this.selectIcon == 'string') {
-					t = this.selectIcon
+					type = this.selectIcon
 				}
-				return t
+				return type
 			},
 			selectIconUrl() {
 				let url = null
@@ -228,12 +228,10 @@
 			//判断是否选中项
 			equalValue() {
 				return (item, index) => {
-					//比较value
-					if ((typeof item.value == 'string' && item.value) || $dap.number.isNumber(item.value)) {
-						return this.modelValue === item.value
-					} else {
+					if(item.value === undefined || item.value === null){
 						return this.modelValue === index
 					}
+					return $dap.common.equal(this.modelValue,item.value)
 				}
 			},
 			itemDisabled() {
@@ -312,7 +310,7 @@
 					return
 				}
 				//点击的是已选择的选项
-				if (this.valueFilter(item.value, index) === this.oldIndex) {
+				if ($dap.common.equal(this.valueFilter(item.value, index),this.oldIndex)) {
 					this.$emit('select', {
 						item: Object.assign({}, item),
 						index: index
@@ -334,11 +332,10 @@
 			},
 			//获取当前选择的value值
 			valueFilter(value, index) {
-				if ((typeof value == 'string' && value) || $dap.number.isNumber(value)) {
-					return value
-				} else {
+				if(value === undefined || value === null){
 					return index
 				}
+				return value
 			}
 		}
 	}

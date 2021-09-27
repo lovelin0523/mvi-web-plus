@@ -73,54 +73,54 @@
 				}
 			},
 			//图片描述
-			descriptions: { 
+			descriptions: {
 				type: Array,
 				default: function() {
 					return []
 				}
 			},
 			//默认显示的图片序列
-			active: { 
+			active: {
 				type: Number,
 				default: 0
 			},
 			//挂载元素
-			mountEl: { 
+			mountEl: {
 				type: String,
 				default: null
 			},
 			//是否显示页码
-			showPage: { 
+			showPage: {
 				type: Boolean,
 				default: true
 			},
 			//z-index值
-			zIndex: { 
+			zIndex: {
 				type: Number,
 				default: 5000
 			},
 			//是否使用渐变
-			fade: { 
+			fade: {
 				type: Boolean,
 				default: false
 			},
 			//是否显示控制器
-			showControl: { 
+			showControl: {
 				type: Boolean,
 				default: false
 			},
 			//控制器额外样式
-			controlClass: { 
+			controlClass: {
 				type: String,
 				default: null
 			},
 			//局部显示是否考虑滚动条影响
-			usePadding: { 
+			usePadding: {
 				type: Boolean,
 				default: false
 			},
 			//图片加载失败提示设置
-			errorIcon: { 
+			errorIcon: {
 				type: [String, Object],
 				default: function() {
 					return {
@@ -129,7 +129,7 @@
 				}
 			},
 			//图片加载中提示设置
-			loadIcon: { 
+			loadIcon: {
 				type: [String, Object],
 				default: function() {
 					return {
@@ -191,13 +191,13 @@
 				//图片元素
 				let el = this.imageRefs[index].$el
 				//向下滚，缩小图片
-				if (deltaY > 0) { 
+				if (deltaY > 0) {
 					if (this.scale > 0.5) {
 						this.scale -= 0.1
 					}
-				} 
+				}
 				//向上滚，放大图片
-				else { 
+				else {
 					if (this.scale < 2) {
 						this.scale += 0.1
 					}

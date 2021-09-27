@@ -27,7 +27,7 @@
 			:show-triangle="editor.defaultLayerProps.showTriangle" :animation="editor.defaultLayerProps.animation"
 			:shadow="editor.defaultLayerProps.shadow" :border="editor.defaultLayerProps.border"
 			:border-color="editor.defaultLayerProps.borderColor" :background="editor.defaultLayerProps.background"
-			:closable="(editor.trigger=='click'?true:false)" :target="`[data-id='mvi-editor-target-${uid}-${value}']`"
+			:closable="editor.trigger=='click'" :target="`[data-id='mvi-editor-target-${uid}-${value}']`"
 			:root="`[data-id='mvi-editor-root-${uid}-${value}']`">
 			<div class="mvi-editor-layer">
 				<!-- 插入图片或者视频 -->
@@ -615,8 +615,7 @@
 					this.hideLayer()
 					return
 				}
-				if (!$dap.common.matchingText(this.tableRows.toString(), 'number') || !$dap.common.matchingText(this.tableColumns.toString(),
-						'number')) {
+				if (!$dap.common.matchingText(this.tableRows.toString(), 'number') || !$dap.common.matchingText(this.tableColumns.toString(),'number')) {
 					this.hideLayer()
 					return
 				}

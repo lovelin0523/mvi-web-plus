@@ -17,7 +17,7 @@
 				type: String,
 				default: 'flex-start',
 				validator(value) {
-					return ['flex-start', 'flex-end', 'space-around', 'space-between'].lastIndexOf(value) > -1
+					return ['flex-start', 'flex-end', 'space-around', 'space-between'].includes(value)
 				}
 			},
 			//垂直对齐方式
@@ -25,7 +25,7 @@
 				type: String,
 				default: 'flex-start',
 				validator(value) {
-					return ['flex-start', 'flex-end', 'center'].lastIndexOf(value) > -1
+					return ['flex-start', 'flex-end', 'center'].includes(value)
 				}
 			},
 			//渲染标签

@@ -1,6 +1,6 @@
 <template>
 	<i v-if="url" :class="['mvi-icon-url',spin?'mvi-icon-spin':'']" :style="iconStyle"></i>
-	<i v-else :class="['mvi-icon','icon-'+ type, spin?' mvi-icon-spin':'']" :style="iconStyle"></i>
+	<i v-else :class="['mvi-icon','icon-'+ type, spin?'mvi-icon-spin':'']" :style="iconStyle"></i>
 </template>
 
 <script>

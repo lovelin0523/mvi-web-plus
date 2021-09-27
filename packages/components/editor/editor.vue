@@ -52,14 +52,23 @@
 					placement: 'bottom-start',
 					//浮层z-index
 					zIndex: 400, 
+					//距离触发元素的距离
 					offset: '0.1rem',
+					//主体额外样式
 					wrapperClass: null,
+					//显示与隐藏动画时长
 					timeout: 200,
+					//是否显示三角
 					showTriangle: false,
+					//自定义动画
 					animation: null,
+					//是否显示阴影
 					shadow: true,
+					//是否显示边框
 					border: true,
+					//边框颜色
 					borderColor: '#eee',
+					//背景色
 					background: '#fff'
 				},
 				//默认菜单配置
@@ -594,13 +603,9 @@
 		computed: {
 			//显示的菜单键数组
 			computedMenuKeysForShow() {
-				let arr = []
-				this.computedMenuKeys.forEach(key => {
-					if (this.showMenuItem(key)) {
-						arr.push(key)
-					}
+				return this.computedMenuKeys.filter(key=>{
+					return this.showMenuItem(key)
 				})
-				return arr
 			},
 			//是否显示指定菜单项
 			showMenuItem() {
@@ -609,9 +614,8 @@
 						return this.computedMenus[key]
 					} else if (Array.isArray(this.computedMenus[key])) {
 						return this.computedMenus[key].length > 0
-					} else {
-						return false
-					}
+					} 
+					return false
 				}
 			},
 			//菜单配置值
@@ -639,8 +643,9 @@
 							}
 						})
 						menus[key] = newArray
-					} else if (typeof this.defaultMenus[key] == 'boolean') {
-						//非数组情况只能是布尔值
+					} 
+					//非数组情况只能是布尔值
+					else if (typeof this.defaultMenus[key] == 'boolean') {
 						menus[key] = this.defaultMenus[key]
 					}
 				})

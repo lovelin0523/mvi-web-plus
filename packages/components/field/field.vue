@@ -251,8 +251,7 @@
 				if ((this.$slots.prefix || this.prefixIconType || this.prefixIconUrl) && this.type != 'textarea') {
 					style.paddingLeft = 0
 				}
-				if ((this.$slots.suffix || this.suffixIconType || this.suffixIconUrl || (this.showClearIcon && this
-						.clearable)) &&
+				if ((this.$slots.suffix || this.suffixIconType || this.suffixIconUrl || (this.showClearIcon && this.clearable)) &&
 					this.type != 'textarea') {
 					style.paddingRight = 0
 				}
@@ -317,15 +316,15 @@
 			},
 			//前置图标类型
 			prependIconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.prepend)) {
 					if (typeof this.prepend.type == "string") {
-						t = this.prepend.type
+						type = this.prepend.type
 					}
 				} else if (typeof this.prepend == "string") {
-					t = this.prepend
+					type = this.prepend
 				}
-				return t
+				return type
 			},
 			//前置图标url
 			prependIconUrl() {
@@ -369,15 +368,15 @@
 			},
 			//后置图标类型
 			appendIconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.append)) {
 					if (typeof this.append.type == "string") {
-						t = this.append.type
+						type = this.append.type
 					}
 				} else if (typeof this.append == "string") {
-					t = this.append
+					type = this.append
 				}
-				return t
+				return type
 			},
 			//后置图标url
 			appendIconUrl() {
@@ -421,15 +420,15 @@
 			},
 			//前缀图标类型
 			prefixIconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.prefix)) {
 					if (typeof this.prefix.type == "string") {
-						t = this.prefix.type
+						type = this.prefix.type
 					}
 				} else if (typeof this.prefix == "string") {
-					t = this.prefix
+					type = this.prefix
 				}
-				return t
+				return type
 			},
 			//前缀图标url
 			prefixIconUrl() {
@@ -473,15 +472,15 @@
 			},
 			//后缀图标类型
 			suffixIconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.suffix)) {
 					if (typeof this.suffix.type == "string") {
-						t = this.suffix.type
+						type = this.suffix.type
 					}
 				} else if (typeof this.suffix == "string") {
-					t = this.suffix
+					type = this.suffix
 				}
-				return t
+				return type
 			},
 			//后缀图标url
 			suffixIconUrl() {
@@ -615,15 +614,11 @@
 			setMaxMinHeight() {
 				if ($dap.common.isObject(this.autosize)) {
 					if ($dap.number.isNumber(this.autosize.maxRows)) {
-						let maxHeight = this.rows2Height(this.autosize.maxRows) + parseFloat($dap.element.getCssStyle(this
-							.$refs.textarea, 'padding-top')) + parseFloat($dap.element.getCssStyle(this.$refs.textarea,
-							'padding-bottom'))
+						let maxHeight = this.rows2Height(this.autosize.maxRows) + parseFloat($dap.element.getCssStyle(this.$refs.textarea, 'padding-top')) + parseFloat($dap.element.getCssStyle(this.$refs.textarea,'padding-bottom'))
 						this.$refs.textarea.style.maxHeight = maxHeight + "px"
 					}
 					if ($dap.number.isNumber(this.autosize.minRows)) {
-						let minHeight = this.rows2Height(this.autosize.minRows) + parseFloat($dap.element.getCssStyle(this
-							.$refs.textarea, 'padding-top')) + parseFloat($dap.element.getCssStyle(this.$refs.textarea,
-							'padding-bottom'))
+						let minHeight = this.rows2Height(this.autosize.minRows) + parseFloat($dap.element.getCssStyle(this.$refs.textarea, 'padding-top')) + parseFloat($dap.element.getCssStyle(this.$refs.textarea,'padding-bottom'))
 						this.$refs.textarea.style.minHeight = minHeight + "px"
 					}
 				} else {

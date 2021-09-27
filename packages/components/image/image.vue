@@ -3,14 +3,12 @@
 		<!-- 加载中 -->
 		<div v-if="(loading || lazying)&&showLoading" class="mvi-image-loading">
 			<slot name="loading" v-if="$slots.loading"></slot>
-			<m-icon v-else :type="loadIconType" :url="loadIconUrl" :spin="loadIconSpin" :size="loadIconSize"
-				:color="loadIconColor" />
+			<m-icon v-else :type="loadIconType" :url="loadIconUrl" :spin="loadIconSpin" :size="loadIconSize" :color="loadIconColor" />
 		</div>
 		<!-- 加载失败 -->
 		<div v-else-if="error&&showError" class="mvi-image-error" ref="error">
 			<slot name="error" v-if="$slots.error"></slot>
-			<m-icon v-else :type="errorIconType" :url="errorIconUrl" :spin="errorIconSpin" :size="errorIconSize"
-				:color="errorIconColor" />
+			<m-icon v-else :type="errorIconType" :url="errorIconUrl" :spin="errorIconSpin" :size="errorIconSize" :color="errorIconColor" />
 		</div>
 		<!-- 加载成功 -->
 		<img @load="loadSuccess" @error="loadError" :src="computedSrc" :alt="showError?'':alt" :class="imgClass">
