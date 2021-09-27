@@ -1,10 +1,8 @@
 <template>
 	<m-button square @click="change">Button</m-button>
 	<div>value：{{value}}</div>
-	
-	
 	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;">
-		<m-dropdown v-model:show="show" v-model="value" :options="list"></m-dropdown>
+		<m-field v-model="value" type="textarea" :rows="10"></m-field>
 	</div>
 </template>
 
@@ -19,9 +17,7 @@
 		data() {
 			return {
 				show: false,
-				value:{
-					a:0
-				},
+				value:'',
 				list:[
 					{
 						label:'今日',

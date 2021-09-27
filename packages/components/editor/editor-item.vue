@@ -474,24 +474,13 @@
 							this.$nextTick(() => {
 								if (this.editor.codeViewShow) {
 									this.editor.$refs.codeView.innerText = this.editor.html
-									this.editor.menuRefs.forEach(child => {
-										if (child.value != 'codeView') {
-											child.menuActive = false
-										} else {
-											child.menuActive = true
-										}
-									})
+									this.editor.collapseToEnd()
 								} else {
 									this.editor.$refs.content.innerHTML = this.editor.html
-									this.editor.menuRefs.forEach(child => {
-										if (child.value != 'codeView') {
-											this.editor.changeActive()
-										} else {
-											child.menuActive = false
-										}
-									})
+									this.editor.collapseToEnd()
+									this.editor.changeActive()
 								}
-								this.editor.collapseToEnd()
+								
 							})
 							break
 						default: //自定义

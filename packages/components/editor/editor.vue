@@ -2,8 +2,10 @@
 	<div class="mvi-editor">
 		<div class="mvi-editor-menus" :style="{ border: border ? '' : 'none' }" v-if="showMenus"
 			:disabled="disabled || null">
-			<m-editor-item v-for="(item, index) in computedMenuKeysForShow" :value="item" :menu="computedMenus[item]"
-				:ref="el=>menuRefs[index]=el"></m-editor-item>
+			<template v-for="(item,key,index) in computedMenus">
+				<m-editor-item v-if="showMenuItem(key)" :value="key" :menu="item" :ref="el=>menuRefs[index]=el">
+				</m-editor-item>
+			</template>
 		</div>
 		<div class="mvi-editor-body">
 			<div v-if="codeViewShow" v-text="initalHtml" key="code" :contenteditable="!disabled || null"
@@ -21,17 +23,17 @@
 
 <script>
 	import $dap from "dap-util"
-	import editorItem from './edotir-item'
+	import editorItem from './editor-item'
 	export default {
 		name: 'm-editor',
 		data() {
 			return {
 				//是否禁用输入事件
-				disableInputEvent: false, 
+				disableInputEvent: false,
 				//菜单元素ref
 				menuRefs: [],
 				//选区
-				range: null, 
+				range: null,
 				//源码是否显示
 				codeViewShow: false,
 				//初始值
@@ -41,7 +43,7 @@
 				//text内容
 				text: '',
 				//是否双向绑定改变值
-				isModelChange: false, 
+				isModelChange: false,
 				//默认菜单浮层配置
 				defaultLayerProps: {
 					//是否fixed
@@ -51,7 +53,7 @@
 					//位置
 					placement: 'bottom-start',
 					//浮层z-index
-					zIndex: 400, 
+					zIndex: 400,
 					//距离触发元素的距离
 					offset: '0.1rem',
 					//主体额外样式
@@ -76,7 +78,7 @@
 					//撤销
 					undo: true,
 					//恢复
-					redo: true, 
+					redo: true,
 					//移除格式
 					removeFormat: true,
 					//全选
@@ -84,8 +86,7 @@
 					//分割线
 					divider: true,
 					//标签
-					tag: [
-						{
+					tag: [{
 							label: 'H1',
 							value: 'h1'
 						},
@@ -115,13 +116,13 @@
 						}
 					],
 					//字体
-					fontFamily: ['PingFang SC', 'Helvetica Neue', 'kaiTi', 'Microsoft YaHei', 'Arial', 'sans-serif'], 
+					fontFamily: ['PingFang SC', 'Helvetica Neue', 'kaiTi', 'Microsoft YaHei', 'Arial', 'sans-serif'],
 					//加粗
 					bold: true,
 					//斜体
 					italic: true,
 					//下划线
-					underline: true, 
+					underline: true,
 					//删除线
 					strikeThrough: true,
 					//下标
@@ -263,8 +264,7 @@
 						'#4A1031'
 					],
 					//列表
-					list: [
-						{
+					list: [{
 							label: '有序列表',
 							value: 'ol',
 							icon: 'ol'
@@ -276,8 +276,7 @@
 						}
 					],
 					//对齐方式
-					justify: [
-						{
+					justify: [{
 							label: '左对齐',
 							value: 'left',
 							icon: 'align-left'
@@ -299,17 +298,14 @@
 						}
 					],
 					//引用
-					quote: true, 
+					quote: true,
 					//链接
-					link: [
-						{
-							label: '插入链接',
-							value: 'link'
-						}
-					],
+					link: [{
+						label: '插入链接',
+						value: 'link'
+					}],
 					//插入图片
-					image: [
-						{
+					image: [{
 							label: '本地上传',
 							value: 'upload'
 						},
@@ -319,8 +315,7 @@
 						}
 					],
 					//插入视频
-					video: [
-						{
+					video: [{
 							label: '本地上传',
 							value: 'upload'
 						},
@@ -331,7 +326,7 @@
 					],
 					//插入表格
 					table: [
-						
+
 						{
 							label: '插入表格',
 							value: 'table'
@@ -340,7 +335,7 @@
 					//插入代码
 					code: true,
 					//显示源码
-					codeView: false 
+					codeView: false
 				},
 				//默认的工具提示内容
 				defaultTooltips: {
@@ -387,47 +382,47 @@
 				//默认上传图片配置
 				defaultUploadImageProps: {
 					//是否多选
-					multiple: false, 
+					multiple: false,
 					//限定格式
-					allowedFileType: ['jpg', 'png', 'JPG', 'PNG', 'JPEG', 'jpeg', 'gif', 'GIF', 'jfif', 'JFIF'], 
+					allowedFileType: ['jpg', 'png', 'JPG', 'PNG', 'JPEG', 'jpeg', 'gif', 'GIF', 'jfif', 'JFIF'],
 					//限制类型
-					accept: 'image', 
+					accept: 'image',
 					//限制单个图片最小值，单位kb
-					minSize: -1, 
+					minSize: -1,
 					//限定单个图片最大值，单位kb
 					maxSize: -1,
 					//多选时选择图片的最小数量
 					minLength: -1,
 					//多选时选择图片的最大数量
-					maxLength: -1 
+					maxLength: -1
 				},
 				//默认上传视频配置
 				defaultUploadVideoProps: {
 					//是否多选
-					multiple: false, 
+					multiple: false,
 					//限定格式
-					allowedFileType: ['mp4', 'MP4', 'avi', 'AVI', 'WAV', 'wav'], 
+					allowedFileType: ['mp4', 'MP4', 'avi', 'AVI', 'WAV', 'wav'],
 					//限制类型
-					accept: 'video', 
+					accept: 'video',
 					//限制单个视频最小值，单位kb
-					minSize: -1, 
+					minSize: -1,
 					//限定单个视频最大值，单位kb
-					maxSize: -1, 
+					maxSize: -1,
 					//多选时选择视频的最小数量
-					minLength: -1, 
+					minLength: -1,
 					//多选时选择视频的最大数量
-					maxLength: -1 
+					maxLength: -1
 				},
 				//视频显示设置
 				defaultVideoShowProps: {
 					//视频是否自动播放
-					autoplay: true, 
+					autoplay: true,
 					//视频静音
-					muted: true, 
+					muted: true,
 					//是否显示控制器
 					controls: false,
 					//是否循环
-					loop: false 
+					loop: false
 				},
 				//默认菜单项图标
 				defaultMenuIcons: {
@@ -462,7 +457,7 @@
 		props: {
 			//值
 			modelValue: {
-				type: [String,Number],
+				type: [String, Number],
 				default: ''
 			},
 			//是否自动获取焦点
@@ -601,12 +596,6 @@
 			}
 		},
 		computed: {
-			//显示的菜单键数组
-			computedMenuKeysForShow() {
-				return this.computedMenuKeys.filter(key=>{
-					return this.showMenuItem(key)
-				})
-			},
 			//是否显示指定菜单项
 			showMenuItem() {
 				return key => {
@@ -614,7 +603,7 @@
 						return this.computedMenus[key]
 					} else if (Array.isArray(this.computedMenus[key])) {
 						return this.computedMenus[key].length > 0
-					} 
+					}
 					return false
 				}
 			},
@@ -643,17 +632,13 @@
 							}
 						})
 						menus[key] = newArray
-					} 
+					}
 					//非数组情况只能是布尔值
 					else if (typeof this.defaultMenus[key] == 'boolean') {
 						menus[key] = this.defaultMenus[key]
 					}
 				})
 				return menus
-			},
-			//菜单配置项所有的键数组
-			computedMenuKeys() {
-				return Object.keys(this.computedMenus)
 			},
 			//编辑区域样式类
 			contentClass() {
@@ -766,11 +751,17 @@
 				if (this.disabled) {
 					return
 				}
+				if(!this.$refs.content){
+					return
+				}
 				document.execCommand('insertHtml', false, `<img src="${url}" class="mvi-editor-image" />`)
 			},
 			//对外提供的用以插入视频的api
 			insertVideo(url) {
 				if (this.disabled) {
+					return
+				}
+				if(!this.$refs.content){
 					return
 				}
 				let video = $dap.element.string2dom(`<video src="${url}" class="mvi-editor-video"></video>`)
@@ -807,6 +798,9 @@
 				if (this.disabled) {
 					return
 				}
+				if(!this.$refs.content){
+					return
+				}
 				let selection = window.getSelection()
 				if (selection.getRangeAt && selection.rangeCount) {
 					this.range = selection.getRangeAt(0)
@@ -815,6 +809,9 @@
 			//恢复选区，可对外提供
 			restoreRange() {
 				if (this.disabled) {
+					return
+				}
+				if(!this.$refs.content){
 					return
 				}
 				let selection = window.getSelection()
@@ -842,9 +839,12 @@
 			//根据选区获取节点，可对外提供
 			getSelectNode() {
 				if (this.disabled) {
-					return
+					return null
 				}
 				if (!this.range) {
+					return null
+				}
+				if(!this.$refs.content){
 					return null
 				}
 				let node = this.range.commonAncestorContainer
@@ -862,110 +862,115 @@
 				if (!this.showMenus) {
 					return
 				}
+				if(!this.$refs.content){
+					return
+				}
 				this.saveRange()
 				let node = this.getSelectNode()
 				this.menuRefs.forEach(item => {
-					switch (item.value) {
-						case 'bold':
-							if (this.compareCss(node, 'font-weight', 'bold') || this.compareCss(node,
-									'font-weight', '700')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'italic':
-							if (this.compareCss(node, 'font-style', 'italic')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'underline':
-							if (this.compareCss(node, 'text-decoration-line', 'underline')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'strikeThrough':
-							if (this.compareCss(node, 'text-decoration-line', 'line-through')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'subscript':
-							if (this.compareCss(node, 'vertical-align', 'sub')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'superscript':
-							if (this.compareCss(node, 'vertical-align', 'super')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'link':
-							if (this.compareTag(node, 'a')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'quote':
-							if (this.compareTag(node, 'blockquote')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'table':
-							if (this.compareTag(node, 'table')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'code':
-							if (this.compareTag(node, 'pre')) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						case 'codeView':
-							if (this.codeViewShow) {
-								item.menuActive = true
-							} else {
-								item.menuActive = false
-							}
-							break
-						default:
-							//如果不是自定义的菜单项，则不激活
-							let selectKeys = [
-								'undo',
-								'redo',
-								'removeFormat',
-								'selectAll',
-								'divider',
-								'tag',
-								'fontFamily',
-								'foreColor',
-								'backColor',
-								'list',
-								'justify',
-								'image',
-								'video'
-							]
-							if (selectKeys.includes(item.value)) {
-								item.menuActive = false
-								return
-							}
-							item.menuActive = this.customActive(item.value, node) || false
+					if (item) {
+						switch (item.value) {
+							case 'bold':
+								if (this.compareCss(node, 'font-weight', 'bold') || this.compareCss(node,
+										'font-weight', '700')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'italic':
+								if (this.compareCss(node, 'font-style', 'italic')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'underline':
+								if (this.compareCss(node, 'text-decoration-line', 'underline')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'strikeThrough':
+								if (this.compareCss(node, 'text-decoration-line', 'line-through')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'subscript':
+								if (this.compareCss(node, 'vertical-align', 'sub')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'superscript':
+								if (this.compareCss(node, 'vertical-align', 'super')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'link':
+								if (this.compareTag(node, 'a')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'quote':
+								if (this.compareTag(node, 'blockquote')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'table':
+								if (this.compareTag(node, 'table')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'code':
+								if (this.compareTag(node, 'pre')) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							case 'codeView':
+								if (this.codeViewShow) {
+									item.menuActive = true
+								} else {
+									item.menuActive = false
+								}
+								break
+							default:
+								//如果不是自定义的菜单项，则不激活
+								let selectKeys = [
+									'undo',
+									'redo',
+									'removeFormat',
+									'selectAll',
+									'divider',
+									'tag',
+									'fontFamily',
+									'foreColor',
+									'backColor',
+									'list',
+									'justify',
+									'image',
+									'video'
+								]
+								if (selectKeys.includes(item.value)) {
+									item.menuActive = false
+									return
+								}
+								item.menuActive = this.customActive(item.value, node) || false
+						}
 					}
 				})
 			},
@@ -1108,7 +1113,10 @@
 			},
 			//判断某个节点是否在指定标签下，可对外提供
 			compareTag(el, tag) {
-				if(!$dap.element.isElement(el)){
+				if (!$dap.element.isElement(el)) {
+					return false
+				}
+				if(!this.$refs.content){
 					return false
 				}
 				if ($dap.element.isContains(this.$refs.content, el)) {
@@ -1123,7 +1131,10 @@
 			},
 			//判断某个节点是否在指定样式下，可对外提供
 			compareCss(el, cssName, cssValue) {
-				if(!$dap.element.isElement(el)){
+				if (!$dap.element.isElement(el)) {
+					return false
+				}
+				if(!this.$refs.content){
 					return false
 				}
 				if ($dap.element.isContains(this.$refs.content, el)) {
@@ -1138,7 +1149,10 @@
 			},
 			//根据标签名获取某个节点，可对外提供
 			getCompareTag(el, tag) {
-				if(!$dap.element.isElement(el)){
+				if (!$dap.element.isElement(el)) {
+					return null
+				}
+				if(!this.$refs.content){
 					return null
 				}
 				if ($dap.element.isContains(this.$refs.content, el)) {
@@ -1153,7 +1167,10 @@
 			},
 			//根据css获取某个节点，可对外提供
 			getCompareTagForCss(el, cssName, cssValue) {
-				if(!$dap.element.isElement(el)){
+				if (!$dap.element.isElement(el)) {
+					return null
+				}
+				if(!this.$refs.content){
 					return null
 				}
 				if ($dap.element.isContains(this.$refs.content, el)) {
