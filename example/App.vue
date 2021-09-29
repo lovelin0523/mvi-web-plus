@@ -2,7 +2,7 @@
 	<m-button square @click="change">Button</m-button>
 	<div>value：{{value}}</div>
 	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;">
-		<m-field v-model="value" type="textarea" :rows="10"></m-field>
+		<m-image-preview showControl v-model="show" :images="images" fade></m-image-preview>
 	</div>
 </template>
 
@@ -18,26 +18,9 @@
 			return {
 				show: false,
 				value:'',
-				list:[
-					{
-						label:'今日',
-						value:{
-							a:1
-						},
-						icon:'user'
-					},
-					{
-						label:'昨天',
-						value:{
-							a:0
-						}
-					},
-					{
-						label:'明天',
-						value:{
-							a:2
-						}
-					}
+				images:[
+					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_4_1624705387843.jfif',
+					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_4_1624705387843.jfif'
 				]
 			}
 		},
