@@ -6,9 +6,11 @@
 			<div ref="keyboard" class="mvi-number-keyboard" v-if="firstShow" v-show="keyboardShow" :style="boardStyle"
 				v-bind="$attrs">
 				<div class="mvi-number-keyboard-left">
-					<div :class="leftNumberClass(item)" v-for="(item,index) in numbers" v-text="item"
-						@click="numberClick(item)" v-if="showDecimal?true:(item != '.')" :data-decimal="''+showDecimal">
-					</div>
+					<template v-for="(item,index) in numbers">
+						<div :class="leftNumberClass(item)"  v-text="item"
+							@click="numberClick(item)" v-if="showDecimal?true:(item != '.')" :data-decimal="''+showDecimal">
+						</div>
+					</template>
 				</div>
 				<div class="mvi-number-keyboard-right" v-if="showComplete || showDelete">
 					<div :disabled="deleteDisabeld || null" :class="deleteBtnClass" @click="deleteClick"

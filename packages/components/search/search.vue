@@ -1,8 +1,8 @@
 <template>
 	<div class="mvi-search" :disabled="disabled || null">
-		<div v-if="label" :class="['mvi-search-label',labelClass?labelClass:'']" v-text="label"></div>
+		<div v-if="label" :class="['mvi-search-label',labelClass || '']" v-text="label"></div>
 		<div :class="['mvi-search-input-container',round?'mvi-search-input-round':'']"
-			:style="{backgroundColor:background?background:'',color:color?color:''}">
+			:style="{backgroundColor:background || '',color:color || ''}">
 			<div v-if="leftIconType || leftIconUrl" class="mvi-search-left-icon" @click="leftClick">
 				<m-icon :type="leftIconType" :url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize"
 					:color="leftIconColor" />
@@ -19,7 +19,7 @@
 					:color="rightIconColor" />
 			</div>
 		</div>
-		<div v-if="showCancel" v-text="cancelText" :class="['mvi-search-cancel',cancelClass?cancelClass:'']"
+		<div v-if="showCancel" v-text="cancelText" :class="['mvi-search-cancel',cancelClass || '']"
 			@click="doCancel"></div>
 	</div>
 </template>

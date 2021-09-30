@@ -50,7 +50,7 @@
 			},
 			//选择的值
 			modelValue: {
-				type: [String, Number, Array],
+				type: [String, Number,Object, Array],
 				default: null
 			},
 			//占位符
@@ -234,8 +234,13 @@
 				if (this.multiple) {
 					let labels = []
 					this.options.forEach((item, index) => {
-						if (Array.isArray(this.modelValue) && this.modelValue.includes(item.value)) {
-							labels.push(item.label)
+						if (Array.isArray(this.modelValue)) {
+							let flag = this.modelValue.some(i=>{
+								return $dap.common.equal(i,item.value)
+							})
+							if(flag){
+								labels.push(item.label)
+							}
 						}
 					})
 					if (typeof this.filterMethod == 'function') {
@@ -246,7 +251,7 @@
 				} else {
 					let label = ''
 					this.options.forEach((item, index) => {
-						if (item.value == this.modelValue) {
+						if ($dap.common.equal(this.modelValue,item.value)) {
 							label = item.label
 						}
 					})
@@ -259,11 +264,13 @@
 			},
 			isSelect() {
 				return item => {
-					if (this.multiple && this.showSelectIcon && this.modelValue.includes(item.value)) {
-						return true
-					} else {
-						return false
+					if(this.multiple){
+						let flag = this.modelValue.some(i=>{
+							return $dap.common.equal(i,item.value)
+						})
+						return this.showSelectIcon && flag
 					}
+					return false
 				}
 			},
 			selectedIconType() {

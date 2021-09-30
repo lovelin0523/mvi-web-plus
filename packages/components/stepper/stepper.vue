@@ -4,7 +4,7 @@
 			:style="minusStyle" @click="doMinus">
 			<m-icon type="minus" />
 		</div>
-		<div :disabled="disabledInput || null" :class="['mvi-stepper-input',border?'mvi-stepper-border':'']"
+		<div :disabled="disabled || disabledInput || null" :class="['mvi-stepper-input',border?'mvi-stepper-border':'']"
 			:style="inputStyle" v-if="showInput">
 			<input ref="input" v-model="realValue" :disabled="disabled || disabledInput || null" type="text"
 				@blur="changeValue" @keyup.enter="changeValue" :style="inputElStyle">
@@ -304,7 +304,7 @@
 		-moz-user-select: none;
 
 		&[disabled] {
-			opacity: .5;
+			opacity: .6;
 		}
 	}
 
@@ -362,25 +362,15 @@
 			font-size: @font-size-default;
 			vertical-align: middle;
 
-			&::-webkit-input-placeholder,
-			&::placeholder {
-				color: inherit;
-				opacity: .5;
-				vertical-align: middle;
-				font-family: inherit;
-				font-size: inherit;
-			}
-
 			&[disabled] {
 				background-color: inherit;
 				color: inherit;
-				opacity: .5;
 			}
 		}
 
 
 		&[disabled] {
-			opacity: .5;
+			opacity: .6;
 		}
 	}
 

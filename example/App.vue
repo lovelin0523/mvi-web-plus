@@ -1,8 +1,10 @@
 <template>
 	<m-button square @click="change">Button</m-button>
 	<div>value：{{value}}</div>
-	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;">
-		<m-image-preview showControl v-model="show" :images="images" fade></m-image-preview>
+	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;overflow: auto;">
+		<!-- <div style="height: 10rem;"></div> -->
+		<m-stepper v-model="value" border></m-stepper>
+		<div style="height: 10rem;"></div>
 	</div>
 </template>
 
@@ -17,10 +19,26 @@
 		data() {
 			return {
 				show: false,
-				value:'',
-				images:[
-					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_4_1624705387843.jfif',
-					'https://www.mvi-web.cn/mvi-resources/images/mvi_image_4_1624705387843.jfif'
+				value: 20,
+				page: 1,
+				date: new Date(),
+				options:[
+					{
+						label:'No.1',
+						value:{a:1}
+					},
+					{
+						label:'No.2',
+						value:{a:2}
+					},
+					{
+						label:'No.3',
+						value:{a:3}
+					},
+					{
+						label:'No.4',
+						value:{a:4}
+					}
 				]
 			}
 		},

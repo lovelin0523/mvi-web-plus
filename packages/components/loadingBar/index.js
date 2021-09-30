@@ -16,7 +16,7 @@ const LoadingBar = {
 		}
 		return opts
 	},
-	
+
 	//显示加载进度条
 	showLoadingBar: options => {
 		return new Promise((resolve, reject) => {

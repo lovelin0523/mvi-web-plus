@@ -247,7 +247,7 @@
 	}
 
 	.mvi-slider[disabled] {
-		opacity: .5;
+		opacity: .6;
 	}
 
 	.mvi-slider-vertical {

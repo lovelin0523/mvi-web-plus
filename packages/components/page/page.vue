@@ -2,7 +2,7 @@
 	<div class="mvi-page">
 		<div v-if="firstText || firstIconType || firstIconUrl" :disabled="modelValue==1 || null" @click="pageFirst"
 			:class="['mvi-page-first',(active&&modelValue!=1)?'mvi-page-active':'']"
-			:style="{color:(modelValue==1?'':(color?color:''))}">
+			:style="{color:(modelValue==1?'':color || '')}">
 			<m-icon :class="['mvi-page-icon',firstText?'mvi-page-margin-right':'']" v-if="firstIconType || firstIconUrl"
 				:type="firstIconType" :url="firstIconUrl" :spin="firstIconSpin" :size="firstIconSize"
 				:color="firstIconColor" />
@@ -10,7 +10,7 @@
 		</div>
 		<div v-if="prevText || prevIconType || prevIconUrl" :disabled="modelValue==1 || null" @click="pagePrev"
 			:class="['mvi-page-prev',(active&&modelValue!=1)?'mvi-page-active':'']"
-			:style="{color:(modelValue==1?'':(color?color:''))}">
+			:style="{color:(modelValue==1?'':color || '')}">
 			<m-icon :class="['mvi-page-icon',prevText?'mvi-page-margin-right':'']" v-if="prevIconType|| prevIconUrl"
 				:type="prevIconType" :url="prevIconUrl" :size="prevIconSize" :spin="prevIconSpin"
 				:color="prevIconColor" />
@@ -26,18 +26,18 @@
 				<!-- total超过overNumber -->
 				<div v-if="total>overNumber && modelValue > (overNumber-1)/2+1"
 					:class="['mvi-page-numbers-item',active?'mvi-page-active':'']"
-					@click="toPage(modelValue-(overNumber-1))" :style="{color:color?color:''}">...</div>
+					@click="toPage(modelValue-(overNumber-1))" :style="{color:color || ''}">...</div>
 				<div v-if="total>overNumber"
 					:class="['mvi-page-numbers-item',modelValue==item?'mvi-page-number-active':'',(active&&modelValue!=item)?'mvi-page-active':'']"
 					v-for="(item,index) in arr" v-text="item" @click="toPage(item)" :style="pageStyle(item)"></div>
 				<div v-if="total>overNumber && modelValue < (total - (overNumber-1)/2)"
 					:class="['mvi-page-numbers-item',active?'mvi-page-active':'']"
-					@click="toPage(modelValue+(overNumber-1))" :style="{color:color?color:''}">...</div>
+					@click="toPage(modelValue+(overNumber-1))" :style="{color:color || ''}">...</div>
 			</div>
 		</div>
 		<div v-if="nextText || nextIconType || nextIconUrl" :disabled="modelValue==total || null" @click="pageNext"
 			:class="['mvi-page-next',(active&&modelValue!=total)?'mvi-page-active':'']"
-			:style="{color:modelValue==total?'':(color?color:'')}">
+			:style="{color:modelValue==total?'':(color || '')}">
 			<span v-if="nextText" v-text="nextText"></span>
 			<m-icon :class="['mvi-page-icon',nextText?'mvi-page-margin-left':'']" v-if="nextIconType|| nextIconUrl"
 				:type="nextIconType" :url="nextIconUrl" :size="nextIconSize" :spin="nextIconSpin"
@@ -45,7 +45,7 @@
 		</div>
 		<div v-if="lastText || lastIconType || lastIconUrl" :disabled="modelValue==total || null" @click="pageLast"
 			:class="['mvi-page-last',(active&&modelValue!=total)?'mvi-page-active':'']"
-			:style="{color:(modelValue==total?'':(color?color:''))}">
+			:style="{color:(modelValue==total?'':color || '')}">
 			<span v-if="lastText" v-text="lastText"></span>
 			<m-icon :class="['mvi-page-icon',lastText?'mvi-page-margin-left':'']" v-if="lastIconType || lastIconUrl"
 				:type="lastIconType" :url="lastIconUrl" :size="lastIconSize" :spin="lastIconSpin"
@@ -177,15 +177,15 @@
 				return arr
 			},
 			firstIconType() {
-				let t = 'angle-double-left'
+				let type = 'angle-double-left'
 				if ($dap.common.isObject(this.firstIcon)) {
 					if (typeof this.firstIcon.type == "string") {
-						t = this.firstIcon.type
+						type = this.firstIcon.type
 					}
 				} else if (typeof this.firstIcon == "string") {
-					t = this.firstIcon
+					type = this.firstIcon
 				}
-				return t
+				return type
 			},
 			firstIconUrl() {
 				let url = null
@@ -224,15 +224,15 @@
 				return color
 			},
 			lastIconType() {
-				let t = 'angle-double-right'
+				let type = 'angle-double-right'
 				if ($dap.common.isObject(this.lastIcon)) {
 					if (typeof this.lastIcon.type == "string") {
-						t = this.lastIcon.type
+						type = this.lastIcon.type
 					}
 				} else if (typeof this.lastIcon == "string") {
-					t = this.lastIcon
+					type = this.lastIcon
 				}
-				return t
+				return type
 			},
 			lastIconUrl() {
 				let url = null
@@ -271,15 +271,15 @@
 				return color
 			},
 			prevIconType() {
-				let t = 'angle-left'
+				let type = 'angle-left'
 				if ($dap.common.isObject(this.prevIcon)) {
 					if (typeof this.prevIcon.type == "string") {
-						t = this.prevIcon.type
+						type = this.prevIcon.type
 					}
 				} else if (typeof this.prevIcon == "string") {
-					t = this.prevIcon
+					type = this.prevIcon
 				}
-				return t
+				return type
 			},
 			prevIconUrl() {
 				let url = null
@@ -318,15 +318,15 @@
 				return color
 			},
 			nextIconType() {
-				let t = 'angle-right'
+				let type = 'angle-right'
 				if ($dap.common.isObject(this.nextIcon)) {
 					if (typeof this.nextIcon.type == "string") {
-						t = this.nextIcon.type
+						type = this.nextIcon.type
 					}
 				} else if (typeof this.nextIcon == "string") {
-					t = this.nextIcon
+					type = this.nextIcon
 				}
-				return t
+				return type
 			},
 			nextIconUrl() {
 				let url = null

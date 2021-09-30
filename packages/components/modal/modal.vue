@@ -175,15 +175,15 @@
 		},
 		computed: {
 			iconType() {
-				let t = 'times'
+				let type = 'times'
 				if ($dap.common.isObject(this.timesIcon)) {
 					if (typeof this.timesIcon.type == "string") {
-						t = this.timesIcon.type
+						type = this.timesIcon.type
 					}
 				} else if (typeof this.timesIcon == "string") {
-					t = this.timesIcon
+					type = this.timesIcon
 				}
-				return t
+				return type
 			},
 			iconUrl() {
 				let url = null

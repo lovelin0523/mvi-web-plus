@@ -13,7 +13,7 @@
 				:size="leftIconSize" :color="leftIconColor" />
 		</div>
 		<!-- 左侧文本 -->
-		<div :class="['mvi-input-label',labelClass ? labelClass : '']" v-if="label" :style="labelStyle"><span
+		<div :class="['mvi-input-label',labelClass || '']" v-if="label" :style="labelStyle"><span
 				v-text="label"></span></div>
 		<!-- 文本域 -->
 		<textarea v-if="type == 'textarea'" :placeholder="placeholder" :maxlength="maxlength"
@@ -53,7 +53,7 @@
 		data() {
 			return {
 				//输入框或者文本域是否获取焦点
-				focus: false 
+				focus: false
 			}
 		},
 		emits: ['update:modelValue', 'update:date', 'left-click', 'right-click', 'focus', 'blur', 'input', 'clear'],
@@ -580,7 +580,7 @@
 					if (this.dateType == 'date') {
 						let year = this.date.getFullYear()
 						let month = this.date.getMonth() + 1 < 10 ? '0' + (this.date.getMonth() + 1) : this.date
-						.getMonth() + 1
+							.getMonth() + 1
 						let date = this.date.getDate() < 10 ? '0' + this.date.getDate() : this.date.getDate()
 						if (this.format == 'yyyy年mm月dd日') {
 							return year + '年' + month + '月' + date + '日'
@@ -594,7 +594,7 @@
 					} else if (this.dateType == 'datetime') {
 						let year = this.date.getFullYear()
 						let month = this.date.getMonth() + 1 < 10 ? '0' + (this.date.getMonth() + 1) : this.date
-						.getMonth() + 1
+							.getMonth() + 1
 						let date = this.date.getDate() < 10 ? '0' + this.date.getDate() : this.date.getDate()
 						let hour = this.date.getHours() < 10 ? '0' + this.date.getHours() : this.date.getHours()
 						let minutes = this.date.getMinutes() < 10 ? '0' + this.date.getMinutes() : this.date.getMinutes()
@@ -612,7 +612,7 @@
 					} else if (this.dateType == 'month') {
 						let year = this.date.getFullYear()
 						let month = this.date.getMonth() + 1 < 10 ? '0' + (this.date.getMonth() + 1) : this.date
-						.getMonth() + 1
+							.getMonth() + 1
 						if (this.format == 'yyyy年mm月') {
 							return year + '年' + month + '月'
 						} else if (this.format == 'yyyy/mm') {
@@ -630,6 +630,8 @@
 						} else {
 							return hour + ':' + minutes
 						}
+					} else {
+						return ''
 					}
 				} else {
 					return ''
