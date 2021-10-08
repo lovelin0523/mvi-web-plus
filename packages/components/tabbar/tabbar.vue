@@ -22,7 +22,7 @@
 		props: {
 			//激活标签的value值
 			modelValue: {
-				type: [String, Number],
+				type: [String, Number, Object],
 				default: null
 			},
 			//标签栏的标签配置

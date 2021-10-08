@@ -10,7 +10,8 @@
 		name: "m-steps",
 		data() {
 			return {
-				children: []
+				//存放step组件的uid
+				uids: []
 			}
 		},
 		props: {
@@ -57,15 +58,15 @@
 		},
 		computed: {
 			activeIconType() {
-				let t = 'success-o'
+				let type = 'success-o'
 				if ($dap.common.isObject(this.activeIcon)) {
 					if (typeof this.activeIcon.type == "string") {
-						t = this.activeIcon.type
+						type = this.activeIcon.type
 					}
 				} else if (typeof this.activeIcon == "string") {
-					t = this.activeIcon
+					type = this.activeIcon
 				}
-				return t
+				return type
 			},
 			activeIconUrl() {
 				let url = null

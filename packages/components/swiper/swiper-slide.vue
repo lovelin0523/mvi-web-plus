@@ -11,13 +11,22 @@
 </template>
 
 <script>
+	import { getCurrentInstance,inject } from "vue"
 	import $dap from "dap-util"
 	export default {
 		name: "m-swiper-slide",
+		setup(){
+			const uid = getCurrentInstance().uid
+			const swiper = inject('swiper')
+			swiper.uids.push(uid)
+			return {
+				uid,
+				swiper
+			}
+		},
 		created() {
 			this.swiper.children.push(this)
 		},
-		inject: ['swiper'],
 		computed: {
 			slideStyle() {
 				let style = {}
@@ -32,8 +41,8 @@
 			},
 			//slide在swiper中的序列值
 			slideIndex() {
-				return this.swiper.children.findIndex(item => {
-					return $dap.common.equal(item, this)
+				return this.swiper.uids.findIndex(uid => {
+					return $dap.common.equal(uid, this.uid)
 				})
 			},
 		},

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-	import { getCurrentInstance } from "vue"
+	import { getCurrentInstance,inject } from "vue"
 	import $dap from "dap-util"
 	import mCell from "../cell/cell"
 	import mTransitionSlide from "../transitionSlide/transitionSlide"
@@ -103,20 +103,21 @@
 				default: null
 			}
 		},
-		inject:['collapse'],
 		components: {
 			mCell,
 			mTransitionSlide
 		},
 		created() {
-			this.collapse.uids.push(this.uid)
 			this.cellBorder = this.computedInBorder
 			this.isNeedHideSelf()
 		},
 		setup(){
 			const uid = getCurrentInstance().uid
+			const collapse = inject('collapse')
+			collapse.uids.push(uid)
 			return {
-				uid
+				uid,
+				collapse
 			}
 		},
 		watch: {

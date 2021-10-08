@@ -1,10 +1,10 @@
 <template>
 	<m-button square @click="change">Button</m-button>
-	<div>value：{{value}}</div>
-	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;overflow: auto;">
+	<div>value：{{active}}</div>
+	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;overflow: hidden;">
 		<!-- <div style="height: 10rem;"></div> -->
-		<m-stepper v-model="value" border></m-stepper>
-		<div style="height: 10rem;"></div>
+		<m-table :data="data" outBorder rowBorder stripe headClass="mvi-bg-primary" :columns="columns"></m-table>
+		<!-- <div style="height: 10rem;"></div> -->
 	</div>
 </template>
 
@@ -20,31 +20,71 @@
 			return {
 				show: false,
 				value: 20,
+				active: 0,
 				page: 1,
 				date: new Date(),
-				options:[
-					{
-						label:'No.1',
-						value:{a:1}
+				data: [{
+						name: '张三',
+						age: 24,
+						sex: '男'
 					},
 					{
-						label:'No.2',
-						value:{a:2}
+						name: '李四',
+						age: 20,
+						sex: '男'
 					},
 					{
-						label:'No.3',
-						value:{a:3}
+						name: '王红',
+						age: 22,
+						sex: '女'
 					},
 					{
-						label:'No.4',
-						value:{a:4}
+						name: '赵钱',
+						age: 30,
+						sex: '男'
+					}
+				],
+				columns: [{
+						key: 'name',
+						value: '姓名'
+					},
+					{
+						key: 'age',
+						value: '年龄'
+					},
+					{
+						key: 'sex',
+						value: '性别'
+					}
+				],
+				options: [{
+						label: 'No.1',
+						value: {
+							a: 1
+						}
+					},
+					{
+						label: 'No.2',
+						value: {
+							a: 2
+						}
+					},
+					{
+						label: 'No.3',
+						value: {
+							a: 3
+						}
+					},
+					{
+						label: 'No.4',
+						value: {
+							a: 4
+						}
 					}
 				]
 			}
 		},
-		mounted() {
-
-		},
+		mounted() {},
 		methods: {
 			change(e) {
 				this.show = !this.show

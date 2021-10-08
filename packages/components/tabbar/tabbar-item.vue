@@ -33,7 +33,7 @@
 			},
 			//值
 			value: {
-				type: [String, Number],
+				type: [String, Number, Object],
 				default: null
 			},
 			//是否禁用
@@ -44,15 +44,15 @@
 		},
 		computed: {
 			iconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.type == "string") {
-						t = this.icon.type
+						type = this.icon.type
 					}
 				} else if (typeof this.icon == "string") {
-					t = this.icon
+					type = this.icon
 				}
-				return t
+				return type
 			},
 			iconUrl() {
 				let url = null
@@ -92,10 +92,10 @@
 			},
 			computedClass() {
 				let cls = ['mvi-tabbar-item']
-				if (this.value == this.tabbar.modelValue) {
+				if ($dap.common.equal(this.value,this.tabbar.modelValue)) {
 					cls.push('mvi-tabbar-item-active')
 				}
-				if (this.tabbar.active && !this.disabled && this.value != this.tabbar.modelValue) {
+				if (this.tabbar.active && !this.disabled && !$dap.common.equal(this.value,this.tabbar.modelValue)) {
 					cls.push('mvi-tabbar-active')
 				}
 				return cls
@@ -103,7 +103,7 @@
 			computedStyle() {
 				let style = {}
 				//激活
-				if (this.value === this.tabbar.modelValue) {
+				if ($dap.common.equal(this.value,this.tabbar.modelValue)) {
 					if (this.tabbar.activeColor) {
 						style.color = this.tabbar.activeColor
 					}
@@ -169,7 +169,7 @@
 				if (this.disabled) {
 					return
 				}
-				if (this.tabbar.modelValue === this.value) {
+				if ($dap.common.equal(this.tabbar.modelValue,this.value)) {
 					return
 				}
 				//如果路由存在

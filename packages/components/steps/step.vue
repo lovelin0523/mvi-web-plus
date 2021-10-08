@@ -19,19 +19,19 @@
 				<div :class="['mvi-step-circle',stepIndex<=steps.active?'mvi-step-circle-finish':'']" v-else
 					:style="circleStyle"></div>
 			</div>
-			<div :class="['mvi-step-vertical-line',stepIndex == steps.children.length-1?'mvi-step-line-last':'',stepIndex<steps.active?'mvi-step-line-finish':'']"
+			<div :class="['mvi-step-vertical-line',stepIndex == steps.uids.length-1?'mvi-step-line-last':'',stepIndex<steps.active?'mvi-step-line-finish':'']"
 				:style="lineStyle"></div>
 		</div>
 	</div>
-	<div v-else :class="['mvi-step',stepIndex==steps.children.length-1?'mvi-step-last':'']">
-		<div :class="['mvi-step-label',stepIndex==steps.children.length-1?'mvi-step-label-last':'',stepIndex==0?'mvi-step-label-first':'',stepIndex==steps.active?'mvi-step-label-finish':'']"
+	<div v-else :class="['mvi-step',stepIndex==steps.uids.length-1?'mvi-step-last':'']">
+		<div :class="['mvi-step-label',stepIndex==steps.uids.length-1?'mvi-step-label-last':'',stepIndex==0?'mvi-step-label-first':'',stepIndex==steps.active?'mvi-step-label-finish':'']"
 			:style="labelStyle">
 			<div>
 				<slot></slot>
 			</div>
 		</div>
 		<div class="mvi-step-container">
-			<div :class="['mvi-step-icon',stepIndex==steps.children.length-1?'mvi-step-icon-last':'']"
+			<div :class="['mvi-step-icon',stepIndex==steps.uids.length-1?'mvi-step-icon-last':'']"
 				:style="{backgroundColor:steps.background?steps.background:''}">
 				<m-icon class="mvi-step-icon-active-el" v-if="steps.active == stepIndex && steps.activeIcon"
 					:type="steps.activeIconType" :url="steps.activeIconUrl" :spin="steps.activeIconSpin"
@@ -46,26 +46,32 @@
 				<div :class="['mvi-step-circle',stepIndex<=steps.active?'mvi-step-circle-finish':'']" v-else
 					:style="circleStyle"></div>
 			</div>
-			<div :class="['mvi-step-line',stepIndex == steps.children.length-1?'mvi-step-line-last':'',stepIndex<steps.active?'mvi-step-line-finish':'']"
+			<div :class="['mvi-step-line',stepIndex == steps.uids.length-1?'mvi-step-line-last':'',stepIndex<steps.active?'mvi-step-line-finish':'']"
 				:style="lineStyle"></div>
 		</div>
 	</div>
 </template>
 
 <script>
+	import { getCurrentInstance,inject } from "vue"
 	import $dap from "dap-util"
 	import mIcon from "../icon/icon"
 	export default {
 		name: "m-step",
-		inject: ['steps'],
-		created() {
-			this.steps.children.push(this)
+		setup(){
+			const steps = inject('steps')
+			const uid = getCurrentInstance().uid
+			steps.uids.push(uid)
+			return {
+				uid,
+				steps
+			}
 		},
 		computed: {
 			//step在steps中的序列值
 			stepIndex() {
-				return this.steps.children.findIndex(vm => {
-					return $dap.common.equal(vm, this)
+				return this.steps.uids.findIndex(uid => {
+					return $dap.common.equal(uid, this.uid)
 				})
 			},
 			//label

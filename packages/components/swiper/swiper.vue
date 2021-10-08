@@ -38,6 +38,8 @@
 				elm: null,
 				//强制更新slideSize的参数
 				sizeCounts: 0,
+				//slide子元素uid数组
+				uids:[],
 				//slide子元素数组
 				children: [],
 				//每次更新的触摸点坐标
@@ -703,8 +705,13 @@
 							} else {
 								this.fadeActiveIndex++
 							}
+							if (this.timer) {
+								clearInterval(this.timer)
+								this.timer = null
+							}
 							setTimeout(() => {
 								this.$emit('change', this.fadeActiveIndex)
+								this.setAutoplay()
 								resolve()
 							}, this.speed)
 						} else {
@@ -712,8 +719,13 @@
 							if (this.fadeActiveIndex != this.children.length - 1) {
 								this.$emit('before-change', this.fadeActiveIndex)
 								this.fadeActiveIndex++
+								if (this.timer) {
+									clearInterval(this.timer)
+									this.timer = null
+								}
 								setTimeout(() => {
 									this.$emit('change', this.fadeActiveIndex)
+									this.setAutoplay()
 									resolve()
 								}, this.speed)
 							} else {
@@ -757,8 +769,13 @@
 							} else {
 								this.fadeActiveIndex--
 							}
+							if (this.timer) {
+								clearInterval(this.timer)
+								this.timer = null
+							}
 							setTimeout(() => {
 								this.$emit('change', this.fadeActiveIndex)
+								this.setAutoplay()
 								resolve()
 							}, this.speed)
 						} else {
@@ -766,8 +783,13 @@
 							if (this.fadeActiveIndex != 0) {
 								this.$emit('before-change', this.fadeActiveIndex)
 								this.fadeActiveIndex--
+								if (this.timer) {
+									clearInterval(this.timer)
+									this.timer = null
+								}
 								setTimeout(() => {
 									this.$emit('change', this.fadeActiveIndex)
+									this.setAutoplay()
 									resolve()
 								}, this.speed)
 							} else {
@@ -831,8 +853,13 @@
 						if (this.fadeActiveIndex != index) {
 							this.$emit('before-change', this.fadeActiveIndex)
 							this.fadeActiveIndex = index
+							if (this.timer) {
+								clearInterval(this.timer)
+								this.timer = null
+							}
 							setTimeout(() => {
 								this.$emit('change', this.fadeActiveIndex)
+								this.setAutoplay()
 								resolve()
 							}, this.speed)
 						} else {
