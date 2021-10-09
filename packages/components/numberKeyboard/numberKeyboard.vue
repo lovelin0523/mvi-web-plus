@@ -441,7 +441,7 @@
 		height: 100%;
 		z-index: 20;
 		background-color: #fff;
-		opacity: .4;
+		opacity: .6;
 		box-sizing: content-box;
 		-webkit-box-sizing: content-box;
 	}

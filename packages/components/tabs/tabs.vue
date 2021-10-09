@@ -359,7 +359,7 @@
 	}
 
 	.mvi-tab-header[disabled] {
-		opacity: .3;
+		opacity: .6;
 	}
 
 	.mvi-tab-header[data-type='card'] {

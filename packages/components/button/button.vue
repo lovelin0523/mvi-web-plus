@@ -155,13 +155,13 @@
 					if (this.color) {
 						obj.color = this.color
 						obj.borderColor = this.color
-						obj.background = this.subColor ? this.subColor : '#fff'
+						obj.background = this.subColor || '#fff'
 					}
 				} else {
 					if (this.color) {
 						obj.background = this.color
 						obj.borderColor = this.color
-						obj.color = this.subColor ? this.subColor : '#fff'
+						obj.color = this.subColor || '#fff'
 					}
 				}
 				return obj

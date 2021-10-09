@@ -105,11 +105,11 @@
 				if (this.color) {
 					if (this.plain) {
 						style.borderColor = this.color
-						style.color = this.textColor ? this.textColor : this.color
+						style.color = this.textColor || this.color
 					} else {
 						style.backgroundColor = this.color
 						style.borderColor = this.color
-						style.color = this.textColor ? this.textColor : "#fff"
+						style.color = this.textColor || "#fff"
 					}
 				}
 				if (this.textColor) {

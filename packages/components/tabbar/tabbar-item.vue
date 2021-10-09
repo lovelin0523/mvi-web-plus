@@ -273,6 +273,6 @@
 	}
 
 	.mvi-tabbar-item[disabled] {
-		opacity: .5;
+		opacity: .6;
 	}
 </style>

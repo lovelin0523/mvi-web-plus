@@ -60,7 +60,7 @@
 								:icon="{size:'0.24rem',type:item2.iconType || 'success',color:item2.iconColor || null}"
 								v-model="checkRows" :value="index" @change="selectCheck"
 								:fill-color="item2.fillColor ? item2.fillColor : null"
-								:disabled="item.checkDisabled ? true : false"></m-checkbox>
+								:disabled="item.checkDisabled"></m-checkbox>
 							<slot name="custom" :row="item" :column="item2" :row-index="index" :column-index="index2"
 								v-if="item2.key == 'custom' && $slots.custom"></slot>
 							<span v-else v-html="textFilter(item, item2)"></span>

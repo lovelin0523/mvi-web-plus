@@ -60,7 +60,7 @@
 			},
 			//描述
 			message: {
-				default: null
+				default: ''
 			},
 			//按钮配置
 			btns: {

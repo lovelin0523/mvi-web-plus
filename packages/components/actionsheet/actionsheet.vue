@@ -9,7 +9,7 @@
 				<div :class="itemClass(item)" v-for="(item,index) in options" :style="itemStyle(item)"
 					:disabled="itemDisabled(item) || null" @click="doSelect(item,index)">
 					<m-loading :size="(size=='large'?'0.4rem':'0.36rem')" color="#bbb"
-						v-if="(item.loading?item.loading:false)"></m-loading>
+						v-if="(item.loading || false)"></m-loading>
 					<div class="mvi-acionsheet-content"
 						v-else-if="item.label||item.sub || iconType(item.icon) || iconUrl(item.icon)">
 						<m-icon data-placement="left"
@@ -27,7 +27,7 @@
 			</div>
 			<div class="mvi-acionsheet-divider"></div>
 			<div :class="['mvi-acionsheet-button',active?'mvi-acionsheet-active':'']" v-if="showCancel"
-				v-text="cancelText" @click="doCancel" :style="{color:cancelColor?cancelColor:''}"></div>
+				v-text="cancelText" @click="doCancel" :style="{color:cancelColor || ''}"></div>
 		</div>
 	</m-popup>
 </template>

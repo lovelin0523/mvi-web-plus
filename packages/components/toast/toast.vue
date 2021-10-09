@@ -3,7 +3,7 @@
 		:zIndex="computedZIndex" fade :mount-el="computedMountEl" @shown="toastShown">
 		<div :class="['mvi-toast',computedMessage?'':'mvi-toast-iconless']" :style="toastStyle" v-bind="$attrs">
 			<div class="mvi-toast-icon">
-				<m-loading :color="computedColor?computedColor:'#fff'"
+				<m-loading :color="computedColor || '#fff'"
 					v-if="computedType=='loading' && (!computedIcon.type && !computedIcon.url)" :type="0"
 					:size="computedIcon.size" />
 				<m-icon v-else :type="computedIcon.type" :url="computedIcon.url" :spin="computedIcon.spin"
