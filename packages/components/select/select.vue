@@ -50,7 +50,7 @@
 			},
 			//选择的值
 			modelValue: {
-				type: [String, Number,Object, Array],
+				type: [Object, Number, String, Array],
 				default: null
 			},
 			//占位符

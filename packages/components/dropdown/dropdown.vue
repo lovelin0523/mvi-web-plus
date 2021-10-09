@@ -34,7 +34,7 @@
 		props: {
 			//默认选中的选项
 			modelValue: {
-				type: [String, Number, Object],
+				type: [Object, Number, String, Array],
 				default: null
 			},
 			//菜单列表选中的颜色
@@ -264,16 +264,10 @@
 			dropdownItemClass() {
 				return (item, index) => {
 					let cls = ['mvi-dropdown-item']
-					if (this.itemClass) {
-						if (item.class) {
-							cls.push(item.class)
-						} else {
-							cls.push(this.itemClass)
-						}
-					} else {
-						if (item.class) {
-							cls.push(item.class)
-						}
+					if (item.class) {
+						cls.push(item.class)
+					}else if(this.itemClass){
+						cls.push(this.itemClass)
 					}
 					if (this.equalValue(item, index)) {
 						cls.push('mvi-dropdown-checked')
@@ -283,7 +277,6 @@
 					}
 					return cls
 				}
-				return cls
 			}
 		},
 		components: {
