@@ -1,5 +1,5 @@
 <template>
-	<m-overlay color="rgba(0,10,20,.05)" @hidden="toastHidden" :model-value="show" :use-padding="computedUsePadding"
+	<m-overlay :color="computedOverlayColor" @hidden="toastHidden" :model-value="show" :use-padding="computedUsePadding"
 		:zIndex="computedZIndex" fade :mount-el="computedMountEl" @shown="toastShown">
 		<div :class="['mvi-toast',computedMessage?'':'mvi-toast-iconless']" :style="toastStyle" v-bind="$attrs">
 			<div class="mvi-toast-icon">
@@ -44,6 +44,11 @@
 			timeout: {
 				type: Number,
 				default: null
+			},
+			//遮罩层背景色
+			overlayColor:{
+				type:String,
+				default:null
 			},
 			//弹窗背景色
 			background: {
@@ -156,6 +161,13 @@
 					return this.zIndex
 				} else {
 					return 1100
+				}
+			},
+			computedOverlayColor(){
+				if (typeof this.overlayColor == 'string' && this.overlayColor) {
+					return this.overlayColor
+				} else {
+					return 'rgba(0, 10, 20, .05)'
 				}
 			},
 			computedBackground() {

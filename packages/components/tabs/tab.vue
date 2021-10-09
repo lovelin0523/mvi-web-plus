@@ -7,15 +7,22 @@
 </template>
 
 <script>
+	import { getCurrentInstance, inject } from "vue"
 	import $dap from "dap-util"
 	export default {
 		name: "m-tab",
-		inject: ['tabs'],
+		inject:['tabs'],
 		data() {
 			return {
 				show: false,
 				back: false,
 				firstShow: false
+			}
+		},
+		setup(){
+			const uid = getCurrentInstance().uid
+			return {
+				uid
 			}
 		},
 		created() {
@@ -68,15 +75,15 @@
 				return style
 			},
 			iconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.type == "string") {
-						t = this.icon.type
+						type = this.icon.type
 					}
 				} else if (typeof this.icon == "string") {
-					t = this.icon
+					type = this.icon
 				}
-				return t
+				return type
 			},
 			iconUrl() {
 				let url = null
@@ -116,8 +123,8 @@
 			},
 			//tab在tabs中的序列值
 			tabIndex() {
-				return this.tabs.children.findIndex(item => {
-					return $dap.common.equal(item, this)
+				return this.tabs.children.findIndex(vm => {
+					return $dap.common.equal(vm.uid, this.uid)
 				})
 			},
 		}

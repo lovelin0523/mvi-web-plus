@@ -38,8 +38,6 @@
 				elm: null,
 				//强制更新slideSize的参数
 				sizeCounts: 0,
-				//slide子元素uid数组
-				uids:[],
 				//slide子元素数组
 				children: [],
 				//每次更新的触摸点坐标

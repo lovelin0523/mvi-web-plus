@@ -14,7 +14,7 @@
 </template>
 
 <script>
-	import { getCurrentInstance,inject } from "vue"
+	import { getCurrentInstance } from "vue"
 	import $dap from "dap-util"
 	import mCell from "../cell/cell"
 	import mTransitionSlide from "../transitionSlide/transitionSlide"
@@ -26,6 +26,7 @@
 				cellBorder: false
 			}
 		},
+		inject:['collapse'],
 		props: {
 			//标题栏左侧图标
 			icon: {
@@ -108,16 +109,14 @@
 			mTransitionSlide
 		},
 		created() {
+			this.collapse.children.push(this)
 			this.cellBorder = this.computedInBorder
 			this.isNeedHideSelf()
 		},
 		setup(){
 			const uid = getCurrentInstance().uid
-			const collapse = inject('collapse')
-			collapse.uids.push(uid)
 			return {
-				uid,
-				collapse
+				uid
 			}
 		},
 		watch: {
@@ -149,8 +148,8 @@
 			},
 			//item在collapse中的序列值
 			itemIndex() {
-				return this.collapse.uids.findIndex(uid => {
-					return $dap.common.equal(uid,this.uid)
+				return this.collapse.children.findIndex(vm => {
+					return $dap.common.equal(vm.uid,this.uid)
 				})
 			},
 			//打开时右侧图标

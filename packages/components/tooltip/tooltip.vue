@@ -7,7 +7,7 @@
 		<m-layer v-model="show" :offset="offset" :background="color" border :border-color="borderColor" closable
 			:show-triangle="showTriangle" :z-index="zIndex" :target="`[data-id='mvi-tooltip-target-${uid}']`"
 			:root="`[data-id='mvi-tooltip-${uid}']`" :placement="placement" :fixed="fixed" :fixed-auto="fixedAuto"
-			:width="width" :timeout="timeout" :animation="animation?animation:'mvi-tooltip'" :shadow="false">
+			:width="width" :timeout="timeout" :animation="animation || 'mvi-tooltip'" :shadow="false">
 			<div class="mvi-tooltip-content" ref="content" :style="contentStyle">
 				<slot v-if="$slots.title" name="title"></slot>
 				<span v-else v-text="title"></span>
@@ -55,7 +55,7 @@
 			//动画时间
 			timeout: {
 				type: Number,
-				default: 400
+				default: 300
 			},
 			//边框颜色
 			borderColor: {

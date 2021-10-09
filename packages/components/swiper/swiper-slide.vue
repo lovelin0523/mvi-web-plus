@@ -17,13 +17,11 @@
 		name: "m-swiper-slide",
 		setup(){
 			const uid = getCurrentInstance().uid
-			const swiper = inject('swiper')
-			swiper.uids.push(uid)
 			return {
-				uid,
-				swiper
+				uid
 			}
 		},
+		inject:['swiper'],
 		created() {
 			this.swiper.children.push(this)
 		},
@@ -41,8 +39,8 @@
 			},
 			//slide在swiper中的序列值
 			slideIndex() {
-				return this.swiper.uids.findIndex(uid => {
-					return $dap.common.equal(uid, this.uid)
+				return this.swiper.children.findIndex(vm => {
+					return $dap.common.equal(vm.uid, this.uid)
 				})
 			},
 		},

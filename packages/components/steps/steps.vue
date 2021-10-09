@@ -10,8 +10,8 @@
 		name: "m-steps",
 		data() {
 			return {
-				//存放step组件的uid
-				uids: []
+				//存放step组件的数组
+				children: []
 			}
 		},
 		props: {

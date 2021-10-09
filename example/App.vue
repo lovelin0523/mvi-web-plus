@@ -3,7 +3,7 @@
 	<div>value：{{active}}</div>
 	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;overflow: hidden;">
 		<!-- <div style="height: 10rem;"></div> -->
-		<m-table :data="data" outBorder rowBorder stripe headClass="mvi-bg-primary" :columns="columns"></m-table>
+		<m-verify></m-verify>
 		<!-- <div style="height: 10rem;"></div> -->
 	</div>
 </template>
