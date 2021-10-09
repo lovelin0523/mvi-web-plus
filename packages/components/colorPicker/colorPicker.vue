@@ -9,7 +9,7 @@
 			<div ref="hueSlide" class="mvi-colorPicker-hue-slide"></div>
 		</div>
 		<!-- 透明度 -->
-		<div v-if="showAlpha" ref="alpha" class="mvi-colorPicker-alpha" @click="clickAlphaSetColor">
+		<div v-if="showAlpha && !hex" ref="alpha" class="mvi-colorPicker-alpha" @click="clickAlphaSetColor">
 			<div ref="alphaSlide" class="mvi-colorPicker-alpha-slide"></div>
 			<div ref="bg" class="mvi-colorPicker-alpha-background"></div>
 		</div>
@@ -137,7 +137,7 @@
 					this.hueDrag.init()
 				}
 				//设置透明度面板拖拽功能
-				if (this.showAlpha && !this.alphaDrag) {
+				if (this.showAlpha && !this.hex && !this.alphaDrag) {
 					this.alphaDrag = new Drag(this.$refs.alphaSlide, {
 						container: this.$refs.alpha,
 						mode: 'on',
