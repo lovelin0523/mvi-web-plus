@@ -33,7 +33,7 @@
 			},
 			//值
 			value: {
-				type: [String, Number, Object],
+				type: [Object, Number, String, Array],
 				default: null
 			},
 			//是否禁用

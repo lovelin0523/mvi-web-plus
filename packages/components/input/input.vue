@@ -384,11 +384,7 @@
 			},
 			//判断是否日期选择
 			isDatePicker() {
-				if (['date', 'datetime', 'month', 'time'].includes(this.type)) {
-					return true
-				} else {
-					return false
-				}
+				return ['date', 'datetime', 'month', 'time'].includes(this.type)
 			},
 			//文本域的rows
 			rowsFilter() {

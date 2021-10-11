@@ -32,7 +32,7 @@
 		</div>
 		<div class="mvi-step-container">
 			<div :class="['mvi-step-icon',stepIndex==steps.children.length-1?'mvi-step-icon-last':'']"
-				:style="{backgroundColor:steps.background?steps.background:''}">
+				:style="stepIconStyle">
 				<m-icon class="mvi-step-icon-active-el" v-if="steps.active == stepIndex && steps.activeIcon"
 					:type="steps.activeIconType" :url="steps.activeIconUrl" :spin="steps.activeIconSpin"
 					:size="steps.activeIconSize" :color="steps.activeIconColor" :style="activeIconStyle" />
@@ -58,6 +58,11 @@
 	import mIcon from "../icon/icon"
 	export default {
 		name: "m-step",
+		data(){
+			return {
+				elm:null
+			}
+		},
 		setup(){
 			const uid = getCurrentInstance().uid
 			return {
@@ -67,6 +72,9 @@
 		inject:['steps'],
 		created() {
 			this.steps.children.push(this)
+		},
+		mounted() {
+			this.elm = this.$el
 		},
 		computed: {
 			//step在steps中的序列值
@@ -154,6 +162,13 @@
 							style.borderTopColor = this.steps.inactiveColor
 						}
 					}
+				}
+				return style
+			},
+			stepIconStyle(){
+				let style = {}
+				if(this.elm){
+					style.backgroundColor = $dap.element.getCssStyle(this.steps.$el,'background-color')
 				}
 				return style
 			}

@@ -62,7 +62,7 @@
 				default: false
 			},
 			//文本颜色
-			textColor: { 
+			subColor: { 
 				type: String,
 				default: null
 			},
@@ -105,15 +105,13 @@
 				if (this.color) {
 					if (this.plain) {
 						style.borderColor = this.color
-						style.color = this.textColor || this.color
+						style.color = this.color
+						style.backgroundColor = this.subColor || '#fff'
 					} else {
 						style.backgroundColor = this.color
 						style.borderColor = this.color
-						style.color = this.textColor || "#fff"
+						style.color = this.subColor || '#fff'
 					}
-				}
-				if (this.textColor) {
-					style.color = this.textColor
 				}
 				return style
 			}

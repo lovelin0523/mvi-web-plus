@@ -359,7 +359,7 @@
 			font-family: @font-family;
 			background-image: none;
 			margin: 0;
-			font-size: @font-size-default;
+			font-size: inherit;
 			vertical-align: middle;
 
 			&[disabled] {

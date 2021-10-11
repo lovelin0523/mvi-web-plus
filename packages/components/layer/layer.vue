@@ -1,5 +1,5 @@
 <template>
-	<transition :name="animation?animation:'mvi-layer'" @before-enter="beforeEnter" @enter="enter"
+	<transition :name="animation || 'mvi-layer'" @before-enter="beforeEnter" @enter="enter"
 		@after-enter="afterEnter" @leave="leave" @before-leave="beforeLeave" @after-leave="afterLeave">
 		<div v-if="firstShow" v-show="layerShow" :class="['mvi-layer',fixed?'mvi-layer-fixed':'']" :style="layerStyle">
 			<div :class="wrapperCls" :style="wrapperStyle">

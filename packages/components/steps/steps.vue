@@ -1,5 +1,5 @@
 <template>
-	<div :class="['mvi-steps',vertical?'mvi-steps-vertical':'']" :style="{backgroundColor:background || ''}">
+	<div :class="['mvi-steps',vertical?'mvi-steps-vertical':'']">
 		<slot></slot>
 	</div>
 </template>
@@ -43,11 +43,6 @@
 			//未激活状态的图标
 			inactiveIcon: {
 				type: [String, Object],
-				default: null
-			},
-			//背景色
-			background: {
-				type: String,
 				default: null
 			}
 		},

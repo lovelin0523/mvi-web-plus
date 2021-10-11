@@ -15,7 +15,11 @@
 				//进场时宽度变化时间
 				widthEnterTime: 4000,
 				//离开时宽度变化时间
-				widthLeaveTime: 2000 
+				widthLeaveTime: 2000,
+				//离开计时器
+				timer:null,
+				//是否已经触发离开
+				hasTriggerLeave:false
 			}
 		},
 		props: {
@@ -77,55 +81,55 @@
 		methods: {
 			//进入
 			enter() {
-				this.removeTransition().then(() => {
-					this.$refs.bar.style.width = 0
-					setTimeout(() => {
-						this.addTransition('enter').then(() => {
-							this.$refs.bar.style.width = window.innerWidth * 0.9 + 'px'
-							this.$refs.bar.style.opacity = 1
-						})
-					}, 10)
-				})
+				this.removeTransition()
+				this.$refs.bar.style.width = 0
+				const width = this.$refs.bar.offsetWidth
+				this.addTransition('enter')
+				this.$refs.bar.style.width = window.innerWidth * 0.9 + 'px'
+				this.$refs.bar.style.opacity = 1
 			},
 			leave() {
-				this.addTransition('leave').then(() => {
-					this.$refs.bar.style.width = window.innerWidth + 'px'
-					this.$refs.bar.style.opacity = 0
-					setTimeout(() => {
-						//执行移除方法
-						this.remove()
-					}, this.widthLeaveTime + this.opacityTime)
-				})
+				if(this.hasTriggerLeave){
+					return
+				}
+				this.hasTriggerLeave = true
+				this.addTransition('leave')
+				this.$refs.bar.style.width = window.innerWidth + 'px'
+				this.$refs.bar.style.opacity = 0
+				this.timer = setTimeout(() => {
+					//执行移除方法
+					this.remove()
+				}, this.widthLeaveTime + this.opacityTime)
 			},
 			//添加动画
 			addTransition(type) {
-				return new Promise((resolve, reject) => {
-					//进入动画
-					if (type == 'enter') {
-						this.$refs.bar.style.transition =
-							`opacity ${this.opacityTime}ms linear, width ${this.widthEnterTime}ms ease-out`
-						this.$refs.bar.style.webkitTransition =
-							`opacity ${this.opacityTime}ms linear, width ${this.widthEnterTime}ms ease-out`
-					} else if (type == 'leave') {
-						this.$refs.bar.style.transition =
-							`opacity ${this.opacityTime}ms ${this.widthLeaveTime}ms linear, width ${this.widthLeaveTime}ms ease`
-						this.$refs.bar.style.webkitTransition =
-							`opacity ${this.opacityTime}ms ${this.widthLeaveTime}ms linear, width ${this.widthLeaveTime}ms ease`
-					}
-					setTimeout(() => {
-						resolve()
-					}, 10)
-				})
+				//进入动画
+				if (type == 'enter') {
+					this.$refs.bar.style.transition =
+						`opacity ${this.opacityTime}ms linear, width ${this.widthEnterTime}ms ease-out`
+					this.$refs.bar.style.webkitTransition =
+						`opacity ${this.opacityTime}ms linear, width ${this.widthEnterTime}ms ease-out`
+				} else if (type == 'leave') {
+					this.$refs.bar.style.transition =
+						`opacity ${this.opacityTime}ms ${this.widthLeaveTime}ms linear, width ${this.widthLeaveTime}ms ease`
+					this.$refs.bar.style.webkitTransition =
+						`opacity ${this.opacityTime}ms ${this.widthLeaveTime}ms linear, width ${this.widthLeaveTime}ms ease`
+				}
+				//单纯触发浏览器重绘
+				const width = this.$refs.bar.offsetWidth
 			},
 			//移除动画
 			removeTransition() {
-				return new Promise((resolve, reject) => {
-					this.$refs.bar.style.transition = ''
-					this.$refs.bar.style.webkitTransition = ''
-					setTimeout(() => {
-						resolve()
-					}, 10)
-				})
+				this.$refs.bar.style.transition = ''
+				this.$refs.bar.style.webkitTransition = ''
+				//单纯触发浏览器重绘
+				const width = this.$refs.bar.offsetWidth
+			}
+		},
+		beforeUnmount() {
+			if(this.timer){
+				clearTimeout(this.timer)
+				this.timer = null
 			}
 		}
 	}

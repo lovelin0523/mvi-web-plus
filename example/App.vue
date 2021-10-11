@@ -1,10 +1,9 @@
 <template>
 	<m-button square @click="change">Button</m-button>
-	<div>value：{{color}}</div>
+	<div>value：{{active}}</div>
 	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;overflow: hidden;">
 		<!-- <div style="height: 10rem;"></div> -->
-		<m-color-picker hex v-model="color"></m-color-picker>
-
+		<m-tabbar v-model="active" :tabs="tabs"></m-tabbar>
 		<!-- <div style="height: 10rem;"></div> -->
 	</div>
 </template>
@@ -25,6 +24,23 @@
 				page: 1,
 				color:'#f30',
 				date: new Date(),
+				tabs: [{
+						value: [0],
+						name: '首页'
+					},
+					{
+						value: '1',
+						name: '附近'
+					},
+					{
+						value: 2,
+						name: '关注'
+					},
+					{
+						value: {a:3},
+						name: '我的'
+					}
+				],
 				data: [{
 						name: '张三',
 						age: 24,

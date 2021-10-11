@@ -115,7 +115,7 @@
 			},
 			msgBoxClass() {
 				let cls = ['mvi-msgbox']
-				if (this.animation == 'translate') {
+				if (this.computedAnimation == 'translate') {
 					cls.push('mvi-msgbox-translate')
 				}
 				return cls
