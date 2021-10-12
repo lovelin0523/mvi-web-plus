@@ -30,6 +30,6 @@
     "url": "https://github.com/lovelin0523/mvi-web-plus"
   },
   "dependencies": {
-    "dap-util": "0.0.7"
+    "dap-util": "^1.0.0"
   }
 }
