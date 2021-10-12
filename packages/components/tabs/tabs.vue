@@ -407,5 +407,6 @@
 
 	.mvi-tabs-content {
 		position: relative;
+		overflow: hidden;
 	}
 </style>

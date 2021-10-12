@@ -53,13 +53,13 @@
 						<td :class="[
 								rowBorder ? 'mvi-table-body-td-border' : '',
 								item.cellClassName && item.cellClassName[item2.key] ? item.cellClassName[item2.key] : '',
-								item2.className ? item2.className : '',
-								cellClass(item, index, item2, index2) ? cellClass(item, index, item2, index2) : ''
+								item2.className || '',
+								cellClass(item, index, item2, index2) || ''
 							]" v-for="(item2, index2) in columnsData" @click="cellClick($event, item, index, item2, index2)">
 							<m-checkbox v-if="item2.key == 'checkbox'"
 								:icon="{size:'0.24rem',type:item2.iconType || 'success',color:item2.iconColor || null}"
 								v-model="checkRows" :value="index" @change="selectCheck"
-								:fill-color="item2.fillColor ? item2.fillColor : null"
+								:fill-color="item2.fillColor || null"
 								:disabled="item.checkDisabled"></m-checkbox>
 							<slot name="custom" :row="item" :column="item2" :row-index="index" :column-index="index2"
 								v-if="item2.key == 'custom' && $slots.custom"></slot>
