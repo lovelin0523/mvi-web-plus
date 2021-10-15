@@ -105,12 +105,7 @@
 		mounted() {},
 		methods: {
 			change(e) {
-				//this.show = !this.show
-				this.$confirm({
-					title:'hello',
-					btnText:['h','a'],
-					btnColor:['#999']
-				})
+				this.show = !this.show
 			},
 			shown(e) {
 				console.log(e)

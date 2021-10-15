@@ -19,10 +19,10 @@
 			<div class="mvi-dialog-footer">
 				<m-button v-if="type!='Alert'" :type="computedBtns.cancel.type" :color="computedBtns.cancel.color"
 					:sub-color="computedBtns.cancel.subColor" :plain="computedBtns.cancel.plain"
-					class="mvi-dialog-cancel" @click="cancelFun">{{computedBtns.cancel.text}}</m-button>
+					class="mvi-dialog-cancel" @click="cancelFun" :size="computedBtns.cancel.size">{{computedBtns.cancel.text}}</m-button>
 				<m-button :type="computedBtns.ok.type" :color="computedBtns.ok.color"
 					:sub-color="computedBtns.ok.subColor" :plain="computedBtns.ok.plain" class="mvi-dialog-ok"
-					@click="okFun">{{computedBtns.ok.text}}</m-button>
+					@click="okFun" :size="computedBtns.ok.size">{{computedBtns.ok.text}}</m-button>
 			</div>
 		</template>
 	</m-modal>
@@ -163,14 +163,16 @@
 						color: null,
 						subColor: null,
 						plain: false,
-						text: '确定'
+						text: '确定',
+						size:'medium'
 					},
 					cancel: {
 						type: 'default',
 						color: null,
 						subColor: null,
 						plain: false,
-						text: '取消'
+						text: '取消',
+						size:'medium'
 					}
 				}
 				if ($dap.common.isObject(this.btns)) {
@@ -190,6 +192,9 @@
 						if (typeof(this.btns.ok.text) == 'string') {
 							btns.ok.text = this.btns.ok.text
 						}
+						if (typeof(this.btns.ok.size) == 'string') {
+							btns.ok.size = this.btns.ok.size
+						}
 					}
 					if ($dap.common.isObject(this.btns.cancel)) {
 						if (typeof(this.btns.cancel.type) == 'string') {
@@ -206,6 +211,9 @@
 						}
 						if (typeof(this.btns.cancel.text) == 'string') {
 							btns.cancel.text = this.btns.cancel.text
+						}
+						if (typeof(this.btns.cancel.size) == 'string') {
+							btns.cancel.size = this.btns.cancel.size
 						}
 					}
 				}
