@@ -134,7 +134,10 @@
 			//点击颜色
 			activeColor: {
 				type: String,
-				default: null
+				default: null,
+				validator(value) {
+					return $dap.common.matchingText(value,'hex')
+				}
 			},
 			//前置背景色
 			prependBackground: {
@@ -266,7 +269,8 @@
 				if (this.focus) {
 					if (this.activeColor) {
 						style.borderColor = this.activeColor
-						style.boxShadow = `0 0 0.16rem ${this.activeColor}`
+						const rgb = $dap.color.hex2rgb(this.activeColor)
+						style.boxShadow = `0 0 0.16rem rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`
 					}
 				} else {
 					if (this.borderColor) {
@@ -906,27 +910,27 @@
 
 		&.mvi-field-body-info {
 			border-color: @info-normal;
-			box-shadow: 0 0 0.16rem @info-normal;
+			box-shadow: 0 0 0.16rem @info-shadow;
 		}
 
 		&.mvi-field-body-success {
 			border-color: @success-normal;
-			box-shadow: 0 0 0.16rem @success-normal;
+			box-shadow: 0 0 0.16rem @success-shadow;
 		}
 
 		&.mvi-field-body-warn {
 			border-color: @warn-normal;
-			box-shadow: 0 0 0.16rem @warn-normal;
+			box-shadow: 0 0 0.16rem @warn-shadow;
 		}
 
 		&.mvi-field-body-primary {
 			border-color: @primary-normal;
-			box-shadow: 0 0 0.16rem @primary-normal;
+			box-shadow: 0 0 0.16rem @primary-shadow;
 		}
 
 		&.mvi-field-body-error {
 			border-color: @error-normal;
-			box-shadow: 0 0 0.16rem @error-normal;
+			box-shadow: 0 0 0.16rem @error-shadow;
 		}
 
 		&.mvi-field-body-left {
