@@ -266,6 +266,7 @@
 				if (this.focus) {
 					if (this.activeColor) {
 						style.borderColor = this.activeColor
+						style.boxShadow = `0 0 0.16rem ${this.activeColor}`
 					}
 				} else {
 					if (this.borderColor) {
@@ -832,10 +833,8 @@
 		background-color: inherit;
 		border-radius: inherit;
 		border: 1px solid @border-color;
-		transition: border-color 600ms;
-		-webkit-transition: border-color 600ms;
-		-ms-transition: border-color 600ms;
-		-moz-transition: border-color 600ms;
+		transition: border-color 600ms,box-shadow 600ms;
+		-webkit-transition: border-color 600ms,box-shadow 600ms;
 
 		.mvi-field-prefix,
 		.mvi-field-suffix,
@@ -907,22 +906,27 @@
 
 		&.mvi-field-body-info {
 			border-color: @info-normal;
+			box-shadow: 0 0 0.16rem @info-normal;
 		}
 
 		&.mvi-field-body-success {
 			border-color: @success-normal;
+			box-shadow: 0 0 0.16rem @success-normal;
 		}
 
 		&.mvi-field-body-warn {
 			border-color: @warn-normal;
+			box-shadow: 0 0 0.16rem @warn-normal;
 		}
 
 		&.mvi-field-body-primary {
 			border-color: @primary-normal;
+			box-shadow: 0 0 0.16rem @primary-normal;
 		}
 
 		&.mvi-field-body-error {
 			border-color: @error-normal;
+			box-shadow: 0 0 0.16rem @error-normal;
 		}
 
 		&.mvi-field-body-left {

@@ -1,6 +1,14 @@
 <template>
 	<m-button square @click="change">Button</m-button>
 	<div>value：{{active}}</div>
+	<div style="width: 6rem;margin: 1rem;">
+		<m-field size="small" active-type="info" class="mvi-mb-2" v-model="value"></m-field>
+		<m-field size="small" active-type="warn" class="mvi-mb-2" v-model="value"></m-field>
+		<m-field size="small" active-type="success" class="mvi-mb-2" v-model="value"></m-field>
+		<m-field size="small" active-type="error" class="mvi-mb-2" v-model="value"></m-field>
+		<m-field size="small" active-type="primary" class="mvi-mb-2" v-model="value"></m-field>
+		<m-field size="small" clearable active-color="#10982a" class="mvi-mb-2" v-model="value"></m-field>
+	</div>
 	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;overflow: hidden;">
 		<!-- <div style="height: 10rem;"></div> -->
 		<m-tabbar v-model="active" :tabs="tabs"></m-tabbar>
@@ -19,7 +27,7 @@
 		data() {
 			return {
 				show: false,
-				value: 20,
+				value: '',
 				active: 0,
 				page: 1,
 				color:'#f30',
