@@ -127,7 +127,10 @@
 			//输入框激活颜色
 			activeColor: {
 				type: String,
-				default: null
+				default: null,
+				validator(value) {
+					return $dap.common.matchingText(value,'hex')
+				}
 			},
 			//是否禁用
 			disabled: {
@@ -220,6 +223,8 @@
 				let style = {}
 				if (this.activeColor && this.focus) {
 					style.borderColor = this.activeColor
+					const rgb = $dap.color.hex2rgb(this.activeColor)
+					style.boxShadow = `0 0 0.16rem rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`
 				}
 				return style
 			},
@@ -470,32 +475,36 @@
 		background-color: inherit;
 		border: 1px solid @border-color;
 		border-radius: inherit;
-		transition: border-color 600ms;
-		-webkit-transition: border-color 600ms;
-		-ms-transition: border-color 600ms;
-		-moz-transition: border-color 600ms;
+		transition: border-color 600ms,box-shadow 600ms;
+		-webkit-transition: border-color 600ms,box-shadow 600ms;
+		box-shadow: none;
 		cursor: pointer;
 		color: inherit;
 
 		//输入框样式
 		&.mvi-select-info {
 			border-color: @info-normal;
+			box-shadow: 0 0 0.16rem @info-shadow;
 		}
 
 		&.mvi-select-success {
 			border-color: @success-normal;
+			box-shadow: 0 0 0.16rem @success-shadow;
 		}
 
 		&.mvi-select-primary {
 			border-color: @primary-normal;
+			box-shadow: 0 0 0.16rem @primary-shadow;
 		}
 
 		&.mvi-select-warn {
 			border-color: @warn-normal;
+			box-shadow: 0 0 0.16rem @warn-shadow;
 		}
 
 		&.mvi-select-error {
 			border-color: @error-normal;
+			box-shadow: 0 0 0.16rem @error-shadow;
 		}
 
 		&[disabled] {

@@ -17,7 +17,7 @@
 				height: null,
 				useAnimation: false,
 				opacity: ''
-			};
+			}
 		},
 		emits: ['before-slide-down', 'slide-down', 'before-slide-up', 'slide-up'],
 		props: {
@@ -76,8 +76,8 @@
 			afterEnter(el) {
 				//移除动画
 				if (this.useAnimation) {
-					el.style.transition = '';
-					el.style.webkitTransition = '';
+					el.style.transition = ''
+					el.style.webkitTransition = ''
 				}
 				//动画结束后恢复高度
 				el.style.height = ''
@@ -101,7 +101,7 @@
 			},
 			leave(el) {
 				//促使浏览器重绘
-				el.offsetWidth;
+				el.offsetWidth
 				//设置隐藏后的高度
 				el.style.height = 0
 			},

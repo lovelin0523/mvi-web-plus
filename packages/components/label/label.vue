@@ -2,16 +2,13 @@
 	<transition v-if="closable" name="mvi-label">
 		<div v-if="show" :class="labelClass" :style="labelStyle">
 			<slot></slot>
-			<span v-if="closable" class="mvi-label-closable" @click="closeLabel">
+			<span class="mvi-label-closable" @click="closeLabel">
 				<m-icon type="times" />
 			</span>
 		</div>
 	</transition>
 	<div v-else :class="labelClass" :style="labelStyle">
 		<slot></slot>
-		<span v-if="closable" class="mvi-label-closable" @click="closeLabel">
-			<m-icon type="times" />
-		</span>
 	</div>
 </template>
 

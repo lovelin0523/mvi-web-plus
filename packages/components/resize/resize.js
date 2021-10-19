@@ -765,10 +765,10 @@ class Resize {
 			let endX = e.pageX
 			let endY = e.pageY
 			this._move(e, endX, endY)
-		});
+		})
 		$dap.event.on(document.body, `mouseup.resize_${this.guid}`, e => {
 			this._leave(e)
-		});
+		})
 	}
 
 	//移除body上的拖动事件

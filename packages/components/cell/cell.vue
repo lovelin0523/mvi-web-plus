@@ -90,15 +90,15 @@
 		},
 		computed: {
 			iconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.icon)) {
 					if (typeof this.icon.type == "string") {
-						t = this.icon.type
+						type = this.icon.type
 					}
 				} else if (typeof this.icon == "string") {
-					t = this.icon
+					type = this.icon
 				}
-				return t
+				return type
 			},
 			iconUrl() {
 				let url = null
@@ -137,15 +137,15 @@
 				return color
 			},
 			arrowType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.arrow)) {
 					if (typeof this.arrow.type == "string") {
-						t = this.arrow.type
+						type = this.arrow.type
 					}
 				} else if (typeof this.arrow == "string") {
-					t = this.arrow
+					type = this.arrow
 				}
-				return t
+				return type
 			},
 			arrowUrl() {
 				let url = null

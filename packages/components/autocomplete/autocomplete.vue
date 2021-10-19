@@ -81,7 +81,10 @@
 			//激活颜色
 			activeColor: {
 				type: String,
-				default: null
+				default: null,
+				validator(value) {
+					return $dap.common.matchingText(value,'hex')
+				}
 			},
 			//过滤方法
 			filterMethod: {
@@ -202,15 +205,15 @@
 				return this.focus && this.computedFilter.length != 0
 			},
 			leftIconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.leftIcon)) {
 					if (typeof this.leftIcon.type == "string") {
-						t = this.leftIcon.type
+						type = this.leftIcon.type
 					}
 				} else if (typeof this.leftIcon == "string") {
-					t = this.leftIcon
+					type = this.leftIcon
 				}
-				return t
+				return type
 			},
 			leftIconUrl() {
 				let url = null
@@ -249,15 +252,15 @@
 				return color
 			},
 			rightIconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.rightIcon)) {
 					if (typeof this.rightIcon.type == "string") {
-						t = this.rightIcon.type
+						type = this.rightIcon.type
 					}
 				} else if (typeof this.rightIcon == "string") {
-					t = this.rightIcon
+					type = this.rightIcon
 				}
-				return t
+				return type
 			},
 			rightIconUrl() {
 				let url = null
@@ -356,6 +359,8 @@
 				let style = {}
 				if (this.activeColor && this.focus) {
 					style.borderColor = this.activeColor
+					const rgb = $dap.color.hex2rgb(this.activeColor)
+					style.boxShadow = `0 0 0.16rem rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`
 				}
 				return style
 			},
@@ -564,10 +569,9 @@
 		height: 100%;
 		border-radius: inherit;
 		border: 1px solid @border-color;
-		transition: border-color 600ms;
-		-webkit-transition: border-color 600ms;
-		-ms-transition: border-color 600ms;
-		-moz-transition: border-color 600ms;
+		transition: border-color 600ms,box-shadow 600ms;
+		-webkit-transition: border-color 600ms,box-shadow 600ms;
+		box-shadow: none;
 
 		input {
 			appearance: none;
@@ -636,22 +640,27 @@
 
 		&.mvi-autocomplete-info {
 			border-color: @info-normal;
+			box-shadow: 0 0 0.16rem @info-shadow;
 		}
 
 		&.mvi-autocomplete-success {
 			border-color: @success-normal;
+			box-shadow: 0 0 0.16rem @success-shadow;
 		}
 
 		&.mvi-autocomplete-primary {
 			border-color: @primary-normal;
+			box-shadow: 0 0 0.16rem @primary-shadow;
 		}
 
 		&.mvi-autocomplete-warn {
 			border-color: @warn-normal;
+			box-shadow: 0 0 0.16rem @warn-shadow;
 		}
 
 		&.mvi-autocomplete-error {
 			border-color: @error-normal;
+			box-shadow: 0 0 0.16rem @error-shadow;
 		}
 	}
 

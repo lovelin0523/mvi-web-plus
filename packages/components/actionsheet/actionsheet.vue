@@ -140,15 +140,15 @@
 		computed: {
 			iconType() {
 				return icon => {
-					let t = null
+					let type = null
 					if ($dap.common.isObject(icon)) {
 						if (typeof icon.type == "string") {
-							t = icon.type
+							type = icon.type
 						}
 					} else if (typeof icon == "string") {
-						t = icon
+						type = icon
 					}
-					return t
+					return type
 				}
 			},
 			iconUrl() {

@@ -100,15 +100,15 @@
 				return color
 			},
 			inactiveIconType() {
-				let t = null
+				let type = null
 				if ($dap.common.isObject(this.inactiveIcon)) {
 					if (typeof this.inactiveIcon.type == "string") {
-						t = this.inactiveIcon.type
+						type = this.inactiveIcon.type
 					}
 				} else if (typeof this.inactiveIcon == "string") {
-					t = this.inactiveIcon
+					type = this.inactiveIcon
 				}
-				return t
+				return type
 			},
 			inactiveIconUrl() {
 				let url = null

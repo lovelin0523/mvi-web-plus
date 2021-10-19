@@ -178,15 +178,15 @@
 				}
 			},
 			pullingIconType() {
-				let t = 'arrow-down'
+				let type = 'arrow-down'
 				if ($dap.common.isObject(this.pullingIcon)) {
 					if (typeof this.pullingIcon.type == "string") {
-						t = this.pullingIcon.type
+						type = this.pullingIcon.type
 					}
 				} else if (typeof this.pullingIcon == "string") {
-					t = this.pullingIcon
+					type = this.pullingIcon
 				}
-				return t
+				return type
 			},
 			pullingIconUrl() {
 				let url = null
@@ -225,15 +225,15 @@
 				return color
 			},
 			loosingIconType() {
-				let t = 'arrow-up'
+				let type = 'arrow-up'
 				if ($dap.common.isObject(this.loosingIcon)) {
 					if (typeof this.loosingIcon.type == "string") {
-						t = this.loosingIcon.type
+						type = this.loosingIcon.type
 					}
 				} else if (typeof this.loosingIcon == "string") {
-					t = this.loosingIcon
+					type = this.loosingIcon
 				}
-				return t
+				return type
 			},
 			loosingIconUrl() {
 				let url = null
@@ -272,15 +272,15 @@
 				return color
 			},
 			loadingIconType() {
-				let t = 'load-e'
+				let type = 'load-e'
 				if ($dap.common.isObject(this.loadingIcon)) {
 					if (typeof this.loadingIcon.type == "string") {
-						t = this.loadingIcon.type
+						type = this.loadingIcon.type
 					}
 				} else if (typeof this.loadingIcon == "string") {
-					t = this.loadingIcon
+					type = this.loadingIcon
 				}
-				return t
+				return type
 			},
 			loadingIconUrl() {
 				let url = null
