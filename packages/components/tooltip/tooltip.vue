@@ -216,8 +216,7 @@
 		line-height: 1;
 		text-align: center;
 	}
-</style>
-<style lang="less">
+	
 	.mvi-tooltip-enter-from,
 	.mvi-tooltip-leave-to {
 		opacity: 0;

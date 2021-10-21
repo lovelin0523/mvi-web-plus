@@ -59,7 +59,7 @@
 					//主体额外样式
 					wrapperClass: null,
 					//显示与隐藏动画时长
-					timeout: 200,
+					timeout: 300,
 					//是否显示三角
 					showTriangle: false,
 					//自定义动画
@@ -367,7 +367,7 @@
 				//默认工具提示组件参数配置
 				defaultTooltipProps: {
 					placement: 'bottom',
-					timeout: 400,
+					timeout: 300,
 					color: '#333',
 					textColor: '#fff',
 					borderColor: '#333',
@@ -1250,67 +1250,6 @@
 	}
 </script>
 
-<style lang="less">
-	@import '../../css/mvi-basic.less';
-
-	.mvi-editor-image {
-		display: inline-block;
-		width: auto;
-		height: auto;
-		max-width: 100%;
-	}
-
-	.mvi-editor-video {
-		display: inline-block;
-		width: auto;
-		height: auto;
-		max-width: 100%;
-	}
-
-	/* 表格demo样式 */
-	.mvi-editor-table-demo {
-		width: 100%;
-		border: 1px solid @border-color;
-		margin: 0;
-		padding: 0;
-		font-size: @font-size-default;
-		color: @font-color-default;
-		border-collapse: collapse;
-		margin-bottom: @mp-sm;
-
-		tbody {
-			margin: 0;
-			padding: 0;
-
-			tr {
-				margin: 0;
-				padding: 0;
-
-				&:first-child {
-					background-color: @bg-color-dark;
-
-					td {
-						font-weight: bold;
-					}
-				}
-
-				td {
-					font-size: @font-size-default;
-					color: @font-color-default;
-					margin: 0;
-					border-bottom: 1px solid @border-color;
-					border-right: 1px solid @border-color;
-					padding: @mp-xs;
-					text-align: center;
-
-					&:last-child {
-						border-right: none;
-					}
-				}
-			}
-		}
-	}
-</style>
 <style lang="less" scoped>
 	@import '../../css/mvi-basic.less';
 
@@ -1393,6 +1332,64 @@
 				opacity: 0.5;
 				line-height: inherit;
 				vertical-align: middle;
+			}
+		}
+	}
+
+	:deep(.mvi-editor-image) {
+		display: inline-block;
+		width: auto;
+		height: auto;
+		max-width: 100%;
+	}
+	
+	:deep(.mvi-editor-video) {
+		display: inline-block;
+		width: auto;
+		height: auto;
+		max-width: 100%;
+	}
+	
+	/* 表格demo样式 */
+	:deep(.mvi-editor-table-demo) {
+		width: 100%;
+		border: 1px solid @border-color;
+		margin: 0;
+		padding: 0;
+		font-size: @font-size-default;
+		color: @font-color-default;
+		border-collapse: collapse;
+		margin-bottom: @mp-sm;
+	
+		tbody {
+			margin: 0;
+			padding: 0;
+	
+			tr {
+				margin: 0;
+				padding: 0;
+	
+				&:first-child {
+					background-color: @bg-color-dark;
+	
+					td {
+						font-weight: bold;
+					}
+				}
+	
+				td {
+					font-size: @font-size-default;
+					color: @font-color-default;
+					margin: 0;
+					border-bottom: 1px solid @border-color;
+					border-right: 1px solid @border-color;
+					padding: @mp-xs;
+					text-align: center;
+	
+					&:last-child {
+						border-right: none;
+					}
+				}
 			}
 		}
 	}
