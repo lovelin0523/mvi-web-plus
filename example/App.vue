@@ -1,7 +1,7 @@
 <template>
 	<m-button square @click="change">Button</m-button>
-	<div>value：{{active}}</div>
-	<m-editor v-model="value"></m-editor>
+	<div>value：{{value}}</div>
+	<m-editor placeholder="请输入" v-model="value"></m-editor>
 	<div style="width: 6rem;margin: 1rem;">
 		
 	</div>
