@@ -1298,6 +1298,7 @@
 				opacity: 0.5;
 				line-height: inherit;
 				vertical-align: middle;
+				cursor: text;
 			}
 		}
 	}
