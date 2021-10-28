@@ -2,8 +2,8 @@
 	<div class="mvi-editor">
 		<div class="mvi-editor-menus" :style="{ border: border ? '' : 'none' }" v-if="showMenus"
 			:disabled="disabled || null">
-			<template v-for="(item,key,index) in computedMenus">
-				<m-editor-item v-if="showMenuItem(key)" :value="key" :menu="item" :ref="el=>menuRefs[index]=el">
+			<template v-for="(item,index) in computedMenuIndex">
+				<m-editor-item v-if="showMenuItem(item[0])" :value="item[0]" :menu="computedMenus[item[0]]" :ref="el=>menuRefs[index]=el">
 				</m-editor-item>
 			</template>
 		</div>
@@ -65,9 +65,7 @@
 					//是否显示边框
 					border: true,
 					//边框颜色
-					borderColor: '#eee',
-					//背景色
-					background: '#fff'
+					borderColor: '#eee'
 				},
 				//默认菜单配置
 				defaultMenus: {
@@ -446,6 +444,33 @@
 					video: 'video',
 					code: 'code',
 					codeView: 'eye'
+				},
+				//默认菜单项序列值
+				defaultMenuIndex:{
+					undo: 0,
+					redo: 0,
+					removeFormat: 0,
+					selectAll: 0,
+					divider: 0,
+					tag: 0,
+					bold: 0,
+					fontFamily: 0,
+					italic: 0,
+					underline: 0,
+					strikeThrough: 0,
+					subscript: 0,
+					superscript: 0,
+					foreColor: 0,
+					backColor: 0,
+					link: 0,
+					list: 0,
+					justify: 0,
+					quote: 0,
+					image: 0,
+					table: 0,
+					video: 0,
+					code: 0,
+					codeView: 0
 				}
 			}
 		},
@@ -566,7 +591,7 @@
 					return {}
 				}
 			},
-			//自定义菜单项图标
+			//菜单项图标配置
 			menuIcons: {
 				type: Object,
 				default: function() {
@@ -589,9 +614,27 @@
 			pasteText: {
 				type: Boolean,
 				default: false
+			},
+			//自定义菜单项序列
+			menuIndex:{
+				type:Object,
+				default:function(){
+					return {}
+				}
 			}
 		},
 		computed: {
+			//菜单项序列排序后返回的map对象
+			computedMenuIndex(){
+				const map = new Map()
+				for(let key in this.defaultMenuIndex){
+					map.set(key,this.defaultMenuIndex[key])
+				}
+				const arr = Array.from(map).sort((a,b)=>{
+					return a[1] - b[1]
+				})
+				return new Map(arr.map(i => [i[0], i[1]]))
+			},
 			//是否显示指定菜单项
 			showMenuItem() {
 				return key => {
@@ -713,6 +756,8 @@
 		methods: {
 			//初始化
 			init() {
+				//将自定义菜单项序列配置与默认配置整合
+				this.defaultMenuIndex = this.initOption(this.defaultMenuIndex,this.menuIndex)
 				//将自定义的菜单项浮层配置与默认配置整合
 				this.defaultLayerProps = this.initOption(this.defaultLayerProps, this.layerProps)
 				//将自定义的菜单栏配置与默认配置整合

@@ -1,7 +1,7 @@
 <template>
 	<m-button square @click="change">Button</m-button>
 	<div>value：{{value}}</div>
-	<m-editor placeholder="请输入" v-model="value"></m-editor>
+	<m-editor :menu-index="{custom:-1,list:2}" before :menus="{custom:['a','b']}" :menu-icons="{custom:'user'}" v-model="value" placeholder="请输入"></m-editor>
 	<div style="width: 6rem;margin: 1rem;">
 		
 	</div>

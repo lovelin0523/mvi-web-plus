@@ -26,7 +26,7 @@
 			:wrapper-class="editor.defaultLayerProps.wrapperClass" :timeout="editor.defaultLayerProps.timeout"
 			:show-triangle="editor.defaultLayerProps.showTriangle" :animation="editor.defaultLayerProps.animation"
 			:shadow="editor.defaultLayerProps.shadow" :border="editor.defaultLayerProps.border"
-			:border-color="editor.defaultLayerProps.borderColor" :background="editor.defaultLayerProps.background"
+			:border-color="editor.defaultLayerProps.borderColor" background="#fff"
 			:closable="editor.trigger=='click'" :target="`[data-id='mvi-editor-target-${uid}-${value}']`"
 			:root="`[data-id='mvi-editor-root-${uid}-${value}']`">
 			<div class="mvi-editor-layer">
