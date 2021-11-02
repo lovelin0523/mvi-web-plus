@@ -2,7 +2,7 @@
 	<m-button square @click="change">Button</m-button>
 	<div>value：{{value}}</div>
 	<div class="mvi-px-4">
-		<m-progress strokeWidth="1rem" :value="value"></m-progress>
+		<m-editor></m-editor>
 	</div>
 	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;overflow: hidden;">
 		<!-- <div style="height: 10rem;"></div> -->

@@ -608,7 +608,10 @@
 			//激活颜色设定
 			activeColor: {
 				type: String,
-				default: '#0b73de'
+				default: '#0b73de',
+				validator(value) {
+					return $dap.common.matchingText(value,'hex')
+				}
 			},
 			//纯文本粘贴
 			pasteText: {
@@ -1020,8 +1023,10 @@
 				if (this.disabled) {
 					return
 				}
-				if (this.border && this.activeColor) {
+				if (this.border && this.activeColor && this.$refs.content) {
 					this.$refs.content.style.borderColor = this.activeColor
+					const rgb = $dap.color.hex2rgb(this.activeColor)
+					this.$refs.content.style.boxShadow = `0 0 0.16rem rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.5)`
 				}
 				this.changeActive()
 				this.$nextTick(() => {
@@ -1038,6 +1043,7 @@
 				}
 				if (this.border && this.activeColor && this.$refs.content) {
 					this.$refs.content.style.borderColor = ''
+					this.$refs.content.style.boxShadow = ''
 				}
 				this.changeActive()
 				this.$nextTick(() => {
@@ -1325,7 +1331,9 @@
 			overflow-y: auto;
 			font-size: @font-size-default;
 			color: @font-color-default;
-			transition: border-color 600ms;
+			transition: border-color 600ms,box-shadow 600ms;
+			-webkit-transition: border-color 600ms,box-shadow 600ms;
+			box-shadow: none;
 
 			&.mvi-editor-content-auto {
 				height: auto;
