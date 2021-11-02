@@ -1,9 +1,8 @@
 <template>
 	<m-button square @click="change">Button</m-button>
 	<div>value：{{value}}</div>
-	<m-editor :menu-index="{custom:-1,list:2}" before :menus="{custom:['a','b']}" :menu-icons="{custom:'user'}" v-model="value" placeholder="请输入"></m-editor>
-	<div style="width: 6rem;margin: 1rem;">
-		
+	<div class="mvi-px-4">
+		<m-progress strokeWidth="1rem" :value="value"></m-progress>
 	</div>
 	<div id="root" style="position: relative;width: 7rem;height: 10rem;border: 1px solid #000000;overflow: hidden;">
 		<!-- <div style="height: 10rem;"></div> -->
@@ -23,7 +22,7 @@
 		data() {
 			return {
 				show: false,
-				value: '',
+				value: 100,
 				active: 0,
 				page: 1,
 				color:'#f30',
@@ -109,7 +108,8 @@
 		mounted() {},
 		methods: {
 			change(e) {
-				this.show = !this.show
+				//this.show = !this.show
+				this.value-=10
 			},
 			shown(e) {
 				console.log(e)

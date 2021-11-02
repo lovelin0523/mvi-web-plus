@@ -95,8 +95,8 @@
 			progressBarStyle() {
 				let style = {}
 				if (this.animation) {
-					style.transition = 'width ' + this.timeout + 'ms'
-					style.webkitTransition = 'width ' + this.timeout + 'ms'
+					style.transition = 'width ' + this.timeout + 'ms,border-radius ' + this.timeout + 'ms'
+					style.webkitTransition = 'width ' + this.timeout + 'ms,border-radius ' + this.timeout + 'ms'
 				}
 				if (this.color) {
 					style.backgroundColor = this.color
@@ -174,17 +174,7 @@
 		width: 100%;
 		height: 100%;
 		background-color: @info-normal;
-		border-radius: @radius-default;
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-
-	.mvi-progress-bar.mvi-progress-radius-square {
-		border-radius: 0;
-	}
-
-	.mvi-progress-bar.mvi-progress-radius-round {
-		border-radius: @radius-round;
+		border-radius: inherit;
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 	}
