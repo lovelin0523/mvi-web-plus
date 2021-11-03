@@ -1230,17 +1230,17 @@
 			//代码视图粘贴事件
 			codeViewPaste(event) {
 				event.preventDefault()
-				this.doPasetText()
+				this.doPasetText(event)
 			},
 			//编辑器粘贴事件
-			contentPaste(e) {
+			contentPaste(event) {
 				if (this.pasteText) {
 					event.preventDefault()
-					this.doPasetText()
+					this.doPasetText(event)
 				}
 			},
 			//纯文本粘贴处理
-			doPasetText() {
+			doPasetText(event) {
 				let text = ''
 				let clip = (event.originalEvent || event).clipboardData
 				//兼容针对于opera ie等浏览器
