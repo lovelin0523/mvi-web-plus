@@ -1,7 +1,7 @@
-import loading from "./loading"
+import loading from './loading'
 
 loading.install = app => {
-	app.component(loading.name, loading)
+    app.component(loading.name, loading)
 }
 
 export default loading

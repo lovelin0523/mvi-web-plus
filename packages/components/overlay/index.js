@@ -1,7 +1,7 @@
-import overlay from "./overlay"
+import overlay from './overlay'
 
 overlay.install = app => {
-	app.component(overlay.name, overlay)
+    app.component(overlay.name, overlay)
 }
 
 export default overlay

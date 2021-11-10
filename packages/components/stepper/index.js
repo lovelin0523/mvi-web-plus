@@ -1,7 +1,7 @@
-import stepper from "./stepper"
+import stepper from './stepper'
 
 stepper.install = app => {
-	app.component(stepper.name, stepper)
+    app.component(stepper.name, stepper)
 }
 
 export default stepper

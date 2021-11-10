@@ -1,7 +1,7 @@
-import verify from "./verify"
+import verify from './verify'
 
 verify.install = app => {
-	app.component(verify.name, verify)
+    app.component(verify.name, verify)
 }
 
 export default verify

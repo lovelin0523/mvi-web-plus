@@ -1,6 +1,6 @@
-import select from "./select"
+import select from './select'
 select.install = app => {
-	app.component(select.name, select)
+    app.component(select.name, select)
 }
 
 export default select

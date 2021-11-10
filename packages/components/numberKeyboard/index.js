@@ -1,7 +1,7 @@
-import numberKeyboard from "./numberKeyboard"
+import numberKeyboard from './numberKeyboard'
 
 numberKeyboard.install = app => {
-	app.component(numberKeyboard.name, numberKeyboard)
+    app.component(numberKeyboard.name, numberKeyboard)
 }
 
 export default numberKeyboard

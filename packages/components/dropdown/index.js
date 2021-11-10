@@ -1,7 +1,7 @@
-import dropdown from "./dropdown"
+import dropdown from './dropdown'
 
 dropdown.install = app => {
-	app.component(dropdown.name, dropdown)
+    app.component(dropdown.name, dropdown)
 }
 
 export default dropdown

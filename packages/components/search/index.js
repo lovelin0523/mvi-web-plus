@@ -1,7 +1,7 @@
-import search from "./search"
+import search from './search'
 
 search.install = app => {
-	app.component(search.name, search)
+    app.component(search.name, search)
 }
 
 export default search

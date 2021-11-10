@@ -1,7 +1,7 @@
-import slider from "./slider"
+import slider from './slider'
 
 slider.install = app => {
-	app.component(slider.name, slider)
+    app.component(slider.name, slider)
 }
 
 export default slider

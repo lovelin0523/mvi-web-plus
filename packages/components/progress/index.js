@@ -1,7 +1,7 @@
-import progress from "./progress"
+import progress from './progress'
 
 progress.install = app => {
-	app.component(progress.name, progress)
+    app.component(progress.name, progress)
 }
 
 export default progress

@@ -1,7 +1,7 @@
-import tooltip from "./tooltip"
+import tooltip from './tooltip'
 
 tooltip.install = app => {
-	app.component(tooltip.name, tooltip)
+    app.component(tooltip.name, tooltip)
 }
 
 export default tooltip

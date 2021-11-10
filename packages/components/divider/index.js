@@ -1,7 +1,7 @@
-import divider from "./divider"
+import divider from './divider'
 
 divider.install = app => {
-	app.component(divider.name, divider)
+    app.component(divider.name, divider)
 }
 
 export default divider

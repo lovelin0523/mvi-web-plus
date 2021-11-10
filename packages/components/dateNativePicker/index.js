@@ -1,7 +1,7 @@
-import dateNativePicker from "./dateNativePicker"
+import dateNativePicker from './dateNativePicker'
 
 dateNativePicker.install = app => {
-	app.component(dateNativePicker.name, dateNativePicker)
+    app.component(dateNativePicker.name, dateNativePicker)
 }
 
 export default dateNativePicker

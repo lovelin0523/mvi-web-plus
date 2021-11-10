@@ -1,7 +1,7 @@
-import switchComponent from "./switch"
+import switchComponent from './switch'
 
 switchComponent.install = app => {
-	app.component(switchComponent.name, switchComponent)
+    app.component(switchComponent.name, switchComponent)
 }
 
 export default switchComponent

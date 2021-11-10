@@ -1,7 +1,7 @@
-import checkbox from "./checkbox.vue"
+import checkbox from './checkbox.vue'
 
 checkbox.install = app => {
-	app.component(checkbox.name, checkbox)
+    app.component(checkbox.name, checkbox)
 }
 
 export default checkbox

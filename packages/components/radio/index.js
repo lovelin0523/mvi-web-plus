@@ -1,7 +1,7 @@
-import radio from "./radio"
+import radio from './radio'
 
 radio.install = app => {
-	app.component(radio.name, radio)
+    app.component(radio.name, radio)
 }
 
 export default radio

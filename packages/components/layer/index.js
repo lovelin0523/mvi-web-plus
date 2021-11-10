@@ -1,7 +1,7 @@
-import layer from "./layer"
+import layer from './layer'
 
 layer.install = app => {
-	app.component(layer.name, layer)
+    app.component(layer.name, layer)
 }
 
 export default layer
