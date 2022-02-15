@@ -150,6 +150,9 @@ export default {
         }
     },
     computed: {
+		$$el(){
+			return this.$refs.overlay.$$el
+		},
         computedValue: {
             set(value) {
                 this.$emit('update:modelValue', value)

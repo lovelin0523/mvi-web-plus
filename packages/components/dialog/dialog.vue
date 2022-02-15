@@ -1,5 +1,5 @@
 <template>
-    <m-modal :model-value="show" :footer-padding="false" @hide="modalHide" @hidding="modalHidding" @hidden="modalHidden" :width="computedWidth" :z-index="computedZIndex" :radius="computedRadius" :use-padding="computedUsePadding" :animation="computedAnimation" @show="modalShow" @showing="modalShowing" @shown="modalShown" :timeout="computedTimeout" :overlay-color="computedOverlayColor" :mount-el="computedMountEl">
+    <m-modal ref="modal" :model-value="show" :footer-padding="false" @hide="modalHide" @hidding="modalHidding" @hidden="modalHidden" :width="computedWidth" :z-index="computedZIndex" :radius="computedRadius" :use-padding="computedUsePadding" :animation="computedAnimation" @show="modalShow" @showing="modalShowing" @shown="modalShown" :timeout="computedTimeout" :overlay-color="computedOverlayColor" :mount-el="computedMountEl">
         <template v-if="computedTitle || (computedIos && computedMessage)" #title>
             <div v-html="computedTitle" v-if="computedTitle" class="mvi-dialog-title"></div>
             <div v-if="computedMessage && computedIos" v-html="computedMessage" class="mvi-dialog-ios-content"></div>
@@ -130,6 +130,9 @@ export default {
         }
     },
     computed: {
+		$$el(){
+			return this.$refs.modal.$$el
+		},
         computedTitle() {
             if (typeof this.title == 'string') {
                 return this.title

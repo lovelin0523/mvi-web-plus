@@ -21,6 +21,7 @@ export default {
             value: 100,
             active: 0,
             page: 1,
+			images:[],
             color: '#f30',
             date: new Date(),
             tabs: [
@@ -108,8 +109,7 @@ export default {
     mounted() {},
     methods: {
         change(e) {
-            //this.show = !this.show
-            this.value -= 10
+            this.$Alert('hello')
         },
         shown(e) {
             console.log(e)

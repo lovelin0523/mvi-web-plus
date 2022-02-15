@@ -177,6 +177,9 @@ export default {
         }
     },
     computed: {
+		$$el(){
+			return this.$refs.overlay.$$el
+		},
         iconType() {
             let type = 'times'
             if ($dap.common.isObject(this.timesIcon)) {

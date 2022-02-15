@@ -1,5 +1,5 @@
 <template>
-    <m-popup :model-value="show" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex" :timeout="timeout" :placement="placement" :round="round" :use-padding="usePadding" :mount-el="mountEl">
+    <m-popup ref="popup" :model-value="show" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex" :timeout="timeout" :placement="placement" :round="round" :use-padding="usePadding" :mount-el="mountEl">
         <div class="mvi-dropdown">
             <div :disabled="itemDisabled(item) || null" :class="dropdownItemClass(item, index)" v-for="(item, index) in options" :key="'item-'+index" @click="doSelect(item, index)" :style="dropdownItemStyle(item, index)">
                 <div class="mvi-dropdown-item-label">
@@ -116,6 +116,9 @@ export default {
         }
     },
     computed: {
+		$$el(){
+			return this.$refs.popup.$$el
+		},
         selectIconType() {
             let type = 'success'
             if ($dap.common.isObject(this.selectIcon)) {

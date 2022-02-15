@@ -1,5 +1,5 @@
 <template>
-    <m-overlay :color="computedOverlayColor" @hidden="toastHidden" :model-value="show" :use-padding="computedUsePadding" :zIndex="computedZIndex" fade :mount-el="computedMountEl" @shown="toastShown">
+    <m-overlay ref="overlay" :color="computedOverlayColor" @hidden="toastHidden" :model-value="show" :use-padding="computedUsePadding" :zIndex="computedZIndex" fade :mount-el="computedMountEl" @shown="toastShown">
         <div :class="['mvi-toast',computedMessage?'':'mvi-toast-iconless']" :style="toastStyle" v-bind="$attrs">
             <div class="mvi-toast-icon">
                 <m-loading :color="computedColor || '#fff'" v-if="computedType=='loading' && (!computedIcon.type && !computedIcon.url)" :type="0" :size="computedIcon.size" />
@@ -92,6 +92,9 @@ export default {
         }
     },
     computed: {
+		$$el(){
+			return this.$refs.overlay.$$el
+		},
         computedUsePadding() {
             if (typeof this.usePadding == 'boolean') {
                 return this.usePadding

@@ -1,5 +1,5 @@
 <template>
-    <m-overlay :model-value="modelValue" @show="overlayShow" @hide="overlayHide" :use-padding="usePadding" :z-index="zIndex" @click.self="hide" :color="overlayColor || null" :timeout="timeout" :mount-el="mountEl">
+    <m-overlay ref="overlay" :model-value="modelValue" @show="overlayShow" @hide="overlayHide" :use-padding="usePadding" :z-index="zIndex" @click.self="hide" :color="overlayColor || null" :timeout="timeout" :mount-el="mountEl">
         <transition :name="'mvi-slide-'+placement" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" @before-leave="beforeLeave" @leave="leave" @after-leave="afterLeave">
             <!-- 弹出层 -->
             <div v-if="firstShow" v-show="popupShow" :class="popupClass" :style="popupStyle" v-bind="$attrs">
@@ -130,6 +130,9 @@ export default {
         }
     },
     computed: {
+		$$el(){
+			return this.$refs.overlay.$$el
+		},
         iconType() {
             let type = 'times'
             if ($dap.common.isObject(this.timesIcon)) {

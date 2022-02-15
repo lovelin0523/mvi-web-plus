@@ -1,5 +1,5 @@
 <template>
-    <m-modal v-model="show" :footer-padding="false" @hide="modalHide" @hidding="modalHidding" @hidden="modalHidden" :width="computedWidth" :z-index="computedZIndex" :radius="computedRadius" :use-padding="computedUsePadding" :animation="computedAnimation" @show="modalShow" @showing="modalShowing" @shown="modalShown" :timeout="computedTimeout" :overlay-color="computedOverlayColor" :mount-el="computedMountEl">
+    <m-modal ref="modal" v-model="show" :footer-padding="false" @hide="modalHide" @hidding="modalHidding" @hidden="modalHidden" :width="computedWidth" :z-index="computedZIndex" :radius="computedRadius" :use-padding="computedUsePadding" :animation="computedAnimation" @show="modalShow" @showing="modalShowing" @shown="modalShown" :timeout="computedTimeout" :overlay-color="computedOverlayColor" :mount-el="computedMountEl">
         <template v-if="computedTitle" #title>
             <div v-html="computedTitle" class="mvi-dialog-title"></div>
             <m-icon class="mvi-dialog-close" v-if="computedShowTimes" @click="cancelFun" type="times"></m-icon>
@@ -116,6 +116,9 @@ export default {
         }
     },
     computed: {
+		$$el(){
+			return this.$refs.modal.$$el
+		},
         computedMountEl() {
             if (typeof this.mountEl == 'string' && this.mountEl) {
                 return this.mountEl

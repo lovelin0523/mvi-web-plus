@@ -4,6 +4,9 @@ import mvi from '../packages'
 const app = createApp(App)
 app.use(mvi)
 app.mount('#app')
+app.config.globalProperties.dialogComponentWatch = function(eventName,type,el){
+	console.log(eventName,type,el)
+}
 /* import Px from "../packages/components/px/px"
 app.config.globalProperties.dialogComponentWatch = function(name,type,el){
 	if(name == 'show'){

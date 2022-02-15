@@ -128,7 +128,12 @@ export default {
             }
         }
     },
-    components: {
+    computed:{
+		$$el(){
+			return this.$refs.overlay.$$el
+		}
+	},
+	components: {
         mOverlay,
         mSwiper,
         mSwiperSlide,

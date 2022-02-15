@@ -1,5 +1,5 @@
 <template>
-    <m-popup :model-value="modelValue" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex" :timeout="timeout" placement="bottom" :round="round" :use-padding="usePadding" :mount-el="mountEl">
+    <m-popup ref="popup" :model-value="modelValue" @overlay-click="hide" :overlay-color="overlayColor" :z-index="zIndex" :timeout="timeout" placement="bottom" :round="round" :use-padding="usePadding" :mount-el="mountEl">
         <div class="mvi-acionsheet">
             <div class="mvi-acionsheet-title" v-if="title" :style="{color:titleColor || ''}">
                 <span v-text="title"></span>
@@ -127,6 +127,9 @@ export default {
         }
     },
     computed: {
+		$$el(){
+			return this.$refs.popup.$$el
+		},
         iconType() {
             return icon => {
                 let type = null
