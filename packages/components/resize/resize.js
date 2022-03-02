@@ -414,8 +414,10 @@ class Resize {
                                 event: e,
                                 area: Resize.AREA.LEFTTOP,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -433,7 +435,9 @@ class Resize {
                             area: Resize.AREA.LEFTTOP,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -451,8 +455,10 @@ class Resize {
                                 area: Resize.AREA.LEFTBOTTOM,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -469,7 +475,9 @@ class Resize {
                             area: Resize.AREA.LEFTBOTTOM,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -487,8 +495,10 @@ class Resize {
                                 area: Resize.AREA.RIGHTTOP,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -505,7 +515,9 @@ class Resize {
                             area: Resize.AREA.RIGHTTOP,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -523,8 +535,10 @@ class Resize {
                                 area: Resize.AREA.RIGHTBOTTOM,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -540,7 +554,9 @@ class Resize {
                             area: Resize.AREA.RIGHTBOTTOM,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -554,8 +570,10 @@ class Resize {
                                 area: Resize.AREA.LEFT,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -565,7 +583,9 @@ class Resize {
                             area: Resize.AREA.LEFT,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -583,8 +603,10 @@ class Resize {
                                 area: Resize.AREA.RIGHT,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -593,7 +615,9 @@ class Resize {
                             area: Resize.AREA.RIGHT,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -607,8 +631,10 @@ class Resize {
                                 area: Resize.AREA.TOP,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -618,7 +644,9 @@ class Resize {
                             area: Resize.AREA.TOP,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -636,8 +664,10 @@ class Resize {
                                 area: Resize.AREA.BOTTOM,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -646,7 +676,9 @@ class Resize {
                             area: Resize.AREA.BOTTOM,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -663,8 +695,10 @@ class Resize {
                                 area: Resize.AREA.LEFT,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -674,7 +708,9 @@ class Resize {
                             area: Resize.AREA.LEFT,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -692,8 +728,10 @@ class Resize {
                                 area: Resize.AREA.RIGHT,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -702,7 +740,9 @@ class Resize {
                             area: Resize.AREA.RIGHT,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -719,8 +759,10 @@ class Resize {
                                 area: Resize.AREA.TOP,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -730,7 +772,9 @@ class Resize {
                             area: Resize.AREA.TOP,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
@@ -748,8 +792,10 @@ class Resize {
                                 area: Resize.AREA.BOTTOM,
                                 event: e,
                                 width: this.$el.offsetWidth,
-                                height: this.$el.offsetHeight
-                            }) == false
+                                height: this.$el.offsetHeight,
+								moveX:moveX,
+								moveY:moveY
+                            }) === false
                         ) {
                             return
                         }
@@ -758,7 +804,9 @@ class Resize {
                             area: Resize.AREA.BOTTOM,
                             event: e,
                             width: this.$el.offsetWidth,
-                            height: this.$el.offsetHeight
+                            height: this.$el.offsetHeight,
+							moveX:moveX,
+							moveY:moveY
                         })
                     }
                 }
