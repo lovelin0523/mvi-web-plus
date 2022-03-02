@@ -122,6 +122,7 @@ class Drag {
             this.$el.style.cursor = 'move'
             //监听事件，监听刚开始拖动触发
             this.beforedrag({
+				event:e,
                 target: this.$el,
                 container: this.$container,
                 placement: $dap.element.getElementPoint(
@@ -151,6 +152,7 @@ class Drag {
                 if (this.draggableX || this.draggableY) {
                     //监听事件
                     this.drag({
+						event:e,
                         target: this.$el,
                         container: this.$container,
                         placement: $dap.element.getElementPoint(
@@ -171,6 +173,7 @@ class Drag {
                 this.$el.style.cursor = ''
                 //监听事件
                 this.dragged({
+					event:e,
                     target: this.$el,
                     container: this.$container,
                     placement: $dap.element.getElementPoint(
@@ -195,6 +198,7 @@ class Drag {
             this.$el.style.cursor = 'move'
             //监听事件，监听刚开始拖动触发
             this.beforedrag({
+				event:e,
                 target: this.$el,
                 container: this.$container,
                 placement: $dap.element.getElementPoint(
@@ -221,6 +225,7 @@ class Drag {
                 if (this.draggableX || this.draggableY) {
                     //监听事件
                     this.drag({
+						event:e,
                         target: this.$el,
                         container: this.$container,
                         placement: $dap.element.getElementPoint(
@@ -241,6 +246,7 @@ class Drag {
                 this.$el.style.cursor = ''
                 //监听事件
                 this.dragged({
+					event:e,
                     target: this.$el,
                     container: this.$container,
                     placement: $dap.element.getElementPoint(
