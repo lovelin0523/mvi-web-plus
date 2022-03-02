@@ -118,7 +118,7 @@ class Resize {
         }
 
         //设置可拖动的范围
-        this._setRange()
+        this.setRange()
 
         //设置拖动事件
         this._setOn()
@@ -128,7 +128,7 @@ class Resize {
     }
 
     //设置可拖动的范围
-    _setRange() {
+    setRange() {
         let range = this.$el.getBoundingClientRect()
         if (this.draggableX && this.draggableY) {
             this.leftRange = {
@@ -920,7 +920,7 @@ class Resize {
                     })
                 }
             }
-            this._setRange()
+            this.setRange()
         }
     }
 
@@ -978,25 +978,25 @@ class Resize {
     //设置水平方向不可拖拽改变大小
     disabledDragX() {
         this.draggableX = false
-        this._setRange()
+        this.setRange()
     }
 
     //设置垂直方向不可拖拽改变大小
     disabledDragY() {
         this.draggableY = false
-        this._setRange()
+        this.setRange()
     }
 
     //设置水平方向可拖拽改变大小
     enabledDragX() {
         this.draggableX = true
-        this._setRange()
+        this.setRange()
     }
 
     //设置垂直方向可拖拽改变大小
     enabledDragY() {
         this.draggableY = true
-        this._setRange()
+        this.setRange()
     }
 }
 
