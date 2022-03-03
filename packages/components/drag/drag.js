@@ -208,7 +208,7 @@ class Drag {
             })
         })
         //鼠标移动
-        $dap.event.on(document.body, `mousemove.drag_${this.guid}`, e => {
+        $dap.event.on(document.documentElement, `mousemove.drag_${this.guid}`, e => {
             if (this.draggable) {
                 if (!this.draggableX && !this.draggableY) {
                     return
@@ -237,7 +237,7 @@ class Drag {
             }
         })
         //鼠标松开后，拖拽状态更改为false，触发监听事件
-        $dap.event.on(document.body, `mouseup.drag_${this.guid}`, e => {
+        $dap.event.on(document.documentElement, `mouseup.drag_${this.guid} mouseleave.drag_${this.guid}`, e => {
             if (this.draggable) {
                 if (!this.draggableX && !this.draggableY) {
                     return
@@ -258,11 +258,11 @@ class Drag {
         })
     }
 
-    //移除该指令绑定在body上的事件
+    //移除该指令绑定在documentElement上的事件
     _setOff() {
         $dap.event.off(
-            document.body,
-            `mousemove.drag_${this.guid} mouseup.drag_${this.guid}`
+            document.documentElement,
+            `mousemove.drag_${this.guid} mouseup.drag_${this.guid} mouseleave.drag_${this.guid}`
         )
     }
 

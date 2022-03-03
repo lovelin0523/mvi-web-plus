@@ -995,21 +995,21 @@ class Resize {
             this.startY = e.pageY
             this._down(e)
         })
-        $dap.event.on(document.body, `mousemove.resize_${this.guid}`, e => {
+        $dap.event.on(document.documentElement, `mousemove.resize_${this.guid}`, e => {
             let endX = e.pageX
             let endY = e.pageY
             this._move(e, endX, endY)
         })
-        $dap.event.on(document.body, `mouseup.resize_${this.guid}`, e => {
+        $dap.event.on(document.documentElement, `mouseup.resize_${this.guid} mouseleave.resize_${this.guid}`, e => {
             this._leave(e)
         })
     }
 
-    //移除body上的拖动事件
+    //移除documentElement上的拖动事件
     _setOff() {
         $dap.event.off(
-            document.body,
-            `mousemove.resize_${this.guid} mouseup.resize_${this.guid}`
+            document.documentElement,
+            `mousemove.resize_${this.guid} mouseup.resize_${this.guid} mouseleave.resize_${this.guid}`
         )
     }
 
