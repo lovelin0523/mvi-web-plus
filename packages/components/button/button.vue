@@ -1,10 +1,10 @@
 <template>
     <Button :disabled="disabled || null" :class="buttonClass" :style="btnStyle">
         <slot name="loading" v-if="loading && $slots.loading"></slot>
-        <span v-else-if="loading">
+        <template v-else-if="loading">
             <m-icon :type="iconType" :color="iconColor" :url="iconUrl" :spin="iconSpin" :size="iconSize" class="mvi-button-load-icon" />
-            {{loadText}}
-        </span>
+            <span v-if="loadText">{{loadText}}</span>
+        </template>
         <slot v-else></slot>
     </Button>
 </template>
@@ -202,11 +202,13 @@ export default {
     components: {
         Button: {
             render() {
+                const attrs = {}
+                if(this.$parent.tag.toLocaleUpperCase() == 'BUTTON'){
+                    attrs.type = this.$parent.nativeType
+                }
                 return h(
                     this.$parent.tag,
-                    {
-                        type: this.$parent.nativeType
-                    },
+                    attrs,
                     {
                         default: this.$slots.default
                     }
