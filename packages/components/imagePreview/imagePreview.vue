@@ -36,8 +36,10 @@ export default {
     data() {
         return {
             firstShow: false,
-            start: 0,
-            end: 0,
+            startX: 0,
+            startY: 0,
+            endX: 0,
+            endY: 0,
             //是否双指触摸
             isDoubleTouch: false,
             //双指触点距离
@@ -128,12 +130,12 @@ export default {
             }
         }
     },
-    computed:{
-		$$el(){
-			return this.$refs.overlay.$$el
-		}
-	},
-	components: {
+    computed: {
+        $$el() {
+            return this.$refs.overlay.$$el
+        }
+    },
+    components: {
         mOverlay,
         mSwiper,
         mSwiperSlide,
@@ -154,15 +156,17 @@ export default {
         },
         //pc端鼠标按下
         mouseDown(event) {
-            this.start = event.pageX
+            this.startX = event.pageX
+            this.startY = event.pageY
         },
         //pc端鼠标松开
         mouseUp(event) {
-            this.end = event.pageX
+            this.endX = event.pageX
+            this.endY = event.pageY
         },
         //关闭遮罩
         closeOverlay(e) {
-            if (this.start != this.end) {
+            if (this.startX != this.endX || this.startY != this.endY) {
                 return
             }
             this.scale = 1
