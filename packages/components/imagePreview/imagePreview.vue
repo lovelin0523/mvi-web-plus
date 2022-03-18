@@ -2,7 +2,7 @@
     <m-overlay ref="overlay" :model-value="modelValue" color="#000" :fade="false" @showing="overlayShowing" :z-index="zIndex" :use-padding="usePadding" :mountEl="mountEl">
         <m-swiper v-if="firstShow" class="mvi-image-preview-swiper" :initial-slide="active" show-indicators ref="swiper" @change="swiperChange" :show-control="showControl" :fade="fade" :control-class="controlClass" :touchable="enableTouch">
             <m-swiper-slide v-for="(item,index) in images" :key="'image-'+index" class="mvi-preview-container">
-                <m-rich-image ref="richImages" @close-preview="closeOverlay" @disable-swiper-touch="enableTouch=false" @enable-swiper-touch="enableTouch=true" :src="item" :error-icon="errorIcon" :load-icon="loadIcon"></m-rich-image>
+                <m-rich-image :ref="el=>imageRefs[index]=el" @close-preview="closeOverlay" @disable-swiper-touch="enableTouch=false" @enable-swiper-touch="enableTouch=true" :src="item" :error-icon="errorIcon" :load-icon="loadIcon"></m-rich-image>
             </m-swiper-slide>
             <template #indicators="data">
                 <div class="mvi-image-preview-page" v-if="showPage">
@@ -34,7 +34,8 @@ export default {
     data() {
         return {
             firstShow: false,
-            enableTouch:true
+            enableTouch:true,
+            imageRefs:[]
         }
     },
     emits: ['update:modelValue', 'change'],
@@ -137,16 +138,16 @@ export default {
         },
         //关闭遮罩
         closeOverlay(e) {
-            this.$refs.richImages.forEach(richImage=>{
+            for(let richImage of this.imageRefs){
                 richImage.reset()
-            })
+            }
             this.$emit('update:modelValue', false)
         },
         //图片变更
         swiperChange(active) {
-            this.$refs.richImages.forEach(richImage=>{
+            for(let richImage of this.imageRefs){
                 richImage.reset()
-            })
+            }
             this.$emit('change', active)
         }
     }
