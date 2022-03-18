@@ -1,8 +1,8 @@
 <template>
     <m-overlay ref="overlay" :model-value="modelValue" color="#000" :fade="false" @showing="overlayShowing" :z-index="zIndex" :use-padding="usePadding" :mountEl="mountEl">
-        <m-swiper v-if="firstShow" class="mvi-image-preview-swiper" :initial-slide="active" show-indicators ref="swiper" @change="swiperChange" @mousedown="mouseDown" @mouseup="mouseUp" :show-control="showControl" :fade="fade" :touchable="!isDoubleTouch" :control-class="controlClass">
-            <m-swiper-slide v-for="(item,index) in images" :key="'image-'+index" @wheel="wheelImage(index,$event)" @touchstart="prviewTouchStart(index,$event)" @touchmove="previewTouchMove(index,$event)" @touchend="previewTouchend(index,$event)" :id="'mvi-preview-slide-'+index" class="mvi-preview-container">
-                <m-image :error-icon="errorIcon" :load-icon="loadIcon" @click="closeOverlay" class="mvi-image-preview" :src="item" fit="response" :ref="el=>imageRefs[index]=el"></m-image>
+        <m-swiper v-if="firstShow" class="mvi-image-preview-swiper" :initial-slide="active" show-indicators ref="swiper" @change="swiperChange" :show-control="showControl" :fade="fade" :control-class="controlClass" :touchable="enableTouch">
+            <m-swiper-slide v-for="(item,index) in images" :key="'image-'+index" class="mvi-preview-container">
+                <m-rich-image ref="richImages" @close-preview="closeOverlay" @disable-swiper-touch="enableTouch=false" @enable-swiper-touch="enableTouch=true" :src="item" :error-icon="errorIcon" :load-icon="loadIcon"></m-rich-image>
             </m-swiper-slide>
             <template #indicators="data">
                 <div class="mvi-image-preview-page" v-if="showPage">
@@ -25,29 +25,16 @@
 </template>
 
 <script>
-import { getCurrentInstance } from 'vue'
-import $dap from 'dap-util'
 import mOverlay from '../overlay/overlay'
 import mSwiper from '../swiper/swiper.vue'
 import mSwiperSlide from '../swiper/swiper-slide'
-import mImage from '../image/image'
+import mRichImage from "./richImage"
 export default {
     name: 'm-image-preview',
     data() {
         return {
             firstShow: false,
-            startX: 0,
-            startY: 0,
-            endX: 0,
-            endY: 0,
-            //是否双指触摸
-            isDoubleTouch: false,
-            //双指触点距离
-            touchDistance: 0,
-            //缩放比例
-            scale: 1,
-            //image组件对象数组
-            imageRefs: []
+            enableTouch:true
         }
     },
     emits: ['update:modelValue', 'change'],
@@ -139,13 +126,7 @@ export default {
         mOverlay,
         mSwiper,
         mSwiperSlide,
-        mImage
-    },
-    setup() {
-        const instance = getCurrentInstance()
-        return {
-            uid: instance.uid
-        }
+        mRichImage
     },
     methods: {
         //遮罩层显示时
@@ -154,130 +135,20 @@ export default {
                 this.firstShow = true
             }
         },
-        //pc端鼠标按下
-        mouseDown(event) {
-            this.startX = event.pageX
-            this.startY = event.pageY
-        },
-        //pc端鼠标松开
-        mouseUp(event) {
-            this.endX = event.pageX
-            this.endY = event.pageY
-        },
         //关闭遮罩
         closeOverlay(e) {
-            if (this.startX != this.endX || this.startY != this.endY) {
-                return
-            }
-            this.scale = 1
-            this.imageRefs.forEach(image => {
-                image.$el.style.transform = ''
+            this.$refs.richImages.forEach(richImage=>{
+                richImage.reset()
             })
             this.$emit('update:modelValue', false)
         },
         //图片变更
         swiperChange(active) {
-            this.scale = 1
-            this.imageRefs.forEach(image => {
-                image.$el.style.transform = ''
+            this.$refs.richImages.forEach(richImage=>{
+                richImage.reset()
             })
             this.$emit('change', active)
-        },
-        //滚轮
-        wheelImage(index, event) {
-            //正值向下滚，负值向上滚
-            let deltaY = event.deltaY
-            //图片元素
-            let el = this.imageRefs[index].$el
-            //向下滚，缩小图片
-            if (deltaY > 0) {
-                if (this.scale > 0.5) {
-                    this.scale -= 0.1
-                }
-            }
-            //向上滚，放大图片
-            else {
-                if (this.scale < 2) {
-                    this.scale += 0.1
-                }
-            }
-            el.style.transform = `scale(${this.scale})`
-        },
-        //双指触摸事件
-        prviewTouchStart(index, event) {
-            if (event.touches.length == 2) {
-                this.isDoubleTouch = true
-                this.touchDistance = this.getDistance(
-                    event.touches[0],
-                    event.touches[1]
-                )
-            } else {
-                this.isDoubleTouch = false
-            }
-        },
-        //双指移动事件
-        previewTouchMove(index, event) {
-            if (event.touches.length == 2 && this.isDoubleTouch) {
-                if (event.cancelable) {
-                    event.preventDefault()
-                }
-                //图片元素
-                let el = this.$refs.images[index].$el
-                let distance = this.getDistance(
-                    event.touches[0],
-                    event.touches[1]
-                )
-                //缩小
-                if (distance < this.touchDistance) {
-                    if (this.scale > 0.5) {
-                        this.scale = $dap.number.add(
-                            this.scale,
-                            $dap.number.divide(
-                                $dap.number.subtract(
-                                    distance,
-                                    this.touchDistance
-                                ),
-                                el.offsetWidth
-                            )
-                        )
-                    }
-                }
-                //放大
-                else {
-                    if (this.scale < 2) {
-                        this.scale = $dap.number.add(
-                            this.scale,
-                            $dap.number.divide(
-                                $dap.number.subtract(
-                                    distance,
-                                    this.touchDistance
-                                ),
-                                el.offsetWidth
-                            )
-                        )
-                    }
-                }
-                el.style.transform = `scale(${this.scale})`
-                this.touchDistance = distance
-            }
-        },
-        //双指触摸松开事件
-        previewTouchend(index, event) {
-            if (this.isDoubleTouch) {
-                setTimeout(() => {
-                    this.isDoubleTouch = false
-                }, 300)
-            }
-        },
-        //获取两点间距离
-        getDistance(p1, p2) {
-            let x = p2.pageX - p1.pageX
-            let y = p2.pageY - p1.pageY
-            return Math.sqrt(x * x + y * y)
         }
-    },
-    beforeUnmount() {
-        $dap.event.off(window, `resize.imagePreview_${this.uid}`)
     }
 }
 </script>

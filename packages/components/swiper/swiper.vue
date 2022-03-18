@@ -823,16 +823,18 @@ export default {
                         clearInterval(this.timer)
                         this.timer = null
                     }
-                    this.transform = $dap.number.subtract(
-                        this.transform,
-                        this.slideSize
-                    )
-                    setTimeout(() => {
-                        this.slideDone().then(() => {
-                            this.apiDoSlide = false
-                            resolve()
-                        })
-                    }, this.speed)
+                    this.addTransition().then(() => {
+                        this.transform = $dap.number.subtract(
+                            this.transform,
+                            this.slideSize
+                        )
+                        setTimeout(() => {
+                            this.slideDone().then(() => {
+                                this.apiDoSlide = false
+                                resolve()
+                            })
+                        }, this.speed)
+                    })
                 }
             })
         },
@@ -890,16 +892,18 @@ export default {
                         clearInterval(this.timer)
                         this.timer = null
                     }
-                    this.transform = $dap.number.add(
-                        this.transform,
-                        this.slideSize
-                    )
-                    setTimeout(() => {
-                        this.slideDone().then(() => {
-                            this.apiDoSlide = false
-                            resolve()
-                        })
-                    }, this.speed)
+                    this.addTransition().then(() => {
+                        this.transform = $dap.number.add(
+                            this.transform,
+                            this.slideSize
+                        )
+                        setTimeout(() => {
+                            this.slideDone().then(() => {
+                                this.apiDoSlide = false
+                                resolve()
+                            })
+                        }, this.speed)
+                    })
                 }
             })
         },
