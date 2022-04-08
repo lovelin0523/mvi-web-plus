@@ -1370,50 +1370,107 @@ export default {
                 if (clip.files.length > 0) {
                     event.preventDefault()
                     for (let file of clip.files) {
-                        const arr = file.name.split('.')
-                        const suffix = arr[arr.length - 1]
-                        const isImage =
-                            this.defaultUploadImageProps.allowedFileType.some(
-                                item => {
-                                    return (
-                                        item.toLocaleUpperCase() ==
-                                        suffix.toLocaleUpperCase()
+                        const isImage = this.judgeSuffix(
+                            file.name,
+                            this.defaultUploadImageProps.allowedFileType
+                        )
+                        const isVideo = this.judgeSuffix(
+                            file.name,
+                            this.defaultUploadVideoProps.allowedFileType
+                        )
+                        //是图片或者视频
+                        if (isImage || isVideo) {
+                            const minSize = isImage
+                                ? this.defaultUploadImageProps.minSize
+                                : this.defaultUploadVideoProps.minSize
+                            const maxSize = isImage
+                                ? this.defaultUploadImageProps.maxSize
+                                : this.defaultUploadVideoProps.maxSize
+                            //判断文件大小
+                            if (file.size / 1024 > maxSize && maxSize > 0) {
+                                if (
+                                    typeof this.uploadImageError == 'function'
+                                ) {
+                                    this.uploadImageError(
+                                        102,
+                                        '文件' +
+                                            file.name +
+                                            '超出文件最大值限定',
+                                        file
                                     )
-                                }
-                            )
-                        const isVideo =
-                            this.defaultUploadVideoProps.allowedFileType.some(
-                                item => {
-                                    return (
-                                        item.toLocaleUpperCase() ==
-                                        suffix.toLocaleUpperCase()
-                                    )
-                                }
-                            )
-                        //使用base64
-                        if (this.useBase64) {
-                            $dap.file.dataFileToBase64(file).then(url => {
-                                if (isImage) {
-                                    this.insertImage(url)
-                                } else if (isVideo) {
-                                    this.insertVideo(url)
                                 } else {
-                                    this.$emit('file-paste', file)
+                                    this.$msgbox({
+                                        message:
+                                            '文件' +
+                                            file.name +
+                                            '超出文件最大值限定',
+                                        animation: 'scale'
+                                    })
                                 }
-                            })
-                        }
-                        //自定义上传
-                        else {
-                            if (isImage) {
-                                this.$emit('upload-image', [file])
-                            } else if (isVideo) {
-                                this.$emit('upload-video', [file])
-                            } else {
-                                this.$emit('file-paste', file)
+                                return
                             }
+                            if (file.size / 1024 < minSize && minSize > 0) {
+                                if (
+                                    typeof this.uploadImageError == 'function'
+                                ) {
+                                    this.uploadImageError(
+                                        103,
+                                        '文件' +
+                                            file.name +
+                                            '没有达到文件最小值限定',
+                                        file
+                                    )
+                                } else {
+                                    this.$msgbox({
+                                        message:
+                                            '文件' +
+                                            file.name +
+                                            '没有达到文件最小值限定',
+                                        animation: 'scale'
+                                    })
+                                }
+                                return
+                            }
+                            //使用base64
+                            if (this.useBase64) {
+                                $dap.file.dataFileToBase64(file).then(url => {
+                                    if (isImage) {
+                                        this.insertImage(url)
+                                    } else if (isVideo) {
+                                        this.insertVideo(url)
+                                    }
+                                })
+                            }
+                            //自定义上传
+                            else {
+                                if (isImage) {
+                                    this.$emit('upload-image', [file])
+                                } else if (isVideo) {
+                                    this.$emit('upload-video', [file])
+                                }
+                            }
+                        }
+                        //其他文件
+                        else {
+                            this.$emit('file-paste', file)
                         }
                     }
                 }
+            }
+        },
+        //判断粘贴文件后缀是否符合
+        judgeSuffix(fileName, allowedFileType) {
+            //获取文件后缀
+            let suffix = fileName.substr(fileName.lastIndexOf('.') + 1)
+            if (allowedFileType.length == 0) {
+                return true
+            } else {
+                //转为小写
+                suffix = suffix.toLocaleLowerCase()
+                for (let i = 0; i < allowedFileType.length; i++) {
+                    allowedFileType[i] = allowedFileType[i].toLocaleLowerCase()
+                }
+                return allowedFileType.includes(suffix)
             }
         }
     }
