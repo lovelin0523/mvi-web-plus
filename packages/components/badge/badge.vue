@@ -76,7 +76,17 @@ export default {
             if (this.dot) {
                 this.$el.style.padding = 0
             } else {
-                if (this.$el.offsetWidth >= this.$el.offsetHeight) {
+                const width = Number(
+                    parseFloat(
+                        $dap.element.getCssStyle(this.$el, 'width')
+                    ).toFixed(2)
+                )
+                const height = Number(
+                    parseFloat(
+                        $dap.element.getCssStyle(this.$el, 'height')
+                    ).toFixed(2)
+                )
+                if (width >= height) {
                     if (this.size == 'large') {
                         this.$el.style.padding = '0 0.15rem'
                     } else {
