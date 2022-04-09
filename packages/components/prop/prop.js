@@ -38,7 +38,9 @@ class Prop {
     //设置高度的方法
     _set() {
         //宽度
-        this.width = this.$el.offsetWidth
+        this.width = Number(
+            parseFloat($dap.element.getCssStyle(this.$el, 'width')).toFixed(2)
+        )
         //比例系数乘以宽度获得高度
         this.height = this.width * this.ratio
         this.$el.style.height = this.height + 'px'

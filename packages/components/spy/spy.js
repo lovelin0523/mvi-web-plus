@@ -84,7 +84,8 @@ class Spy {
             if (
                 offsetLeft2 >= 0 &&
                 offsetLeft1 <= this.$root.offsetWidth &&
-                offsetTop2 >= 0 && offsetTop1 <= this.$root.offsetHeight
+                offsetTop2 >= 0 &&
+                offsetTop1 <= this.$root.offsetHeight
             ) {
                 //元素开始进入
                 if (!this.triggerTag.before) {
@@ -101,7 +102,8 @@ class Spy {
             if (
                 offsetLeft1 >= 0 &&
                 offsetLeft2 <= this.$root.offsetWidth &&
-                offsetTop1 >= 0 && offsetTop2 <= this.$root.offsetHeight
+                offsetTop1 >= 0 &&
+                offsetTop2 <= this.$root.offsetHeight
             ) {
                 //元素完全进入
                 if (!this.triggerTag.after) {

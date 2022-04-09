@@ -155,76 +155,79 @@ class Upload {
             if (this.disabled) {
                 return
             }
-            let files = this.$selectInput.files
+            let files = [...this.$selectInput.files]
+            this.$selectInput.value = ''
             //选择的文件不追加，则清空文件数组
             if (!this.append) {
                 this.files = []
             }
             let length = files.length
+            let isAllAccord = true
             for (let i = 0; i < length; i++) {
-                //如果append判断文件重复
-                if (this.append && this.files.length > 0) {
-                    let flag = false
-                    this.files.forEach((f, index) => {
-                        if (
-                            f.name == files[i].name &&
-                            f.size == files[i].size
-                        ) {
-                            flag = true
-                        }
-                    })
-                    if (!flag) {
-                        this.files.push(files[i])
-                    }
-                } else {
-                    this.files.push(files[i])
-                }
                 //判断后缀
                 if (!this._judgeSuffix(files[i].name)) {
-                    this.files = []
-                    this.error(
-                        101,
+                    this.error.apply(this, [
+                        Upload.ERRORTYPE.FILE_SUFFIX_ERROR,
                         '文件' + files[i].name + '不符合规定的文件后缀类型',
                         files[i]
-                    )
-                    return
+                    ])
+                    isAllAccord = false
+                    break
                 }
-                //判断文件大小
+                //超出文件最大值
                 if (files[i].size / 1024 > this.maxSize && this.maxSize > 0) {
-                    this.files = []
-                    this.error(
-                        102,
+                    this.error.apply(this, [
+                        Upload.ERRORTYPE.FILE_MAXSIZE_ERROR,
                         '文件' + files[i].name + '超出文件最大值限定',
                         files[i]
-                    )
-                    return
+                    ])
+                    isAllAccord = false
+                    break
                 }
+                //没有达到最小值
                 if (files[i].size / 1024 < this.minSize && this.minSize > 0) {
-                    this.files = []
-                    this.error(
-                        103,
+                    this.error.apply(this, [
+                        Upload.ERRORTYPE.FILE_MINSIZE_ERROR,
                         '文件' + files[i].name + '没有达到文件最小值限定',
                         files[i]
-                    )
-                    return
+                    ])
+                    isAllAccord = false
+                    break
+                }
+                //超出最大数量限制
+                if (
+                    this.files.length + length > this.maxLength &&
+                    this.maxLength > 0
+                ) {
+                    this.error.apply(this, [
+                        Upload.ERRORTYPE.FILE_MAXLENGTH_ERROR,
+                        '文件数量超出限定的最大值'
+                    ])
+                    isAllAccord = false
+                    break
                 }
             }
-            //已过滤的文件数量判断
-            if (this.files.length > this.maxLength && this.maxLength > 0) {
-                this.files = []
-                this.error(104, '文件数量超出限定的最大值')
+            //条件未通过
+            if (!isAllAccord) {
                 return
             }
-            if (this.files.length < this.minLength && this.minLength > 0) {
-                this.files = []
-                this.error(105, '文件数量没有达到限定的最小值')
+            //文件数量没有达到最小值
+            if (
+                this.files.length + length < this.minLength &&
+                this.minLength > 0
+            ) {
+                this.error.apply(this, [
+                    Upload.ERRORTYPE.FILE_MINLENGTH_ERROR,
+                    '文件数量没有达到限定的最小值'
+                ])
                 return
             }
-            this.select(this.files, this.extra)
+            this.files = [...this.files, ...files]
+            this.select.apply(this, [[...this.files], { ...this.extra }])
         }
 
         //ready
-        this.ready(this)
+        this.ready.apply(this, [this])
     }
 
     //判断选择的文件是否符合规定的后缀格式
@@ -248,15 +251,16 @@ class Upload {
     //获取已经选择的文件
     getFiles() {
         return {
-            files: this.files,
-            extra: this.extra
+            files: [...this.files],
+            extra: { ...this.extra }
         }
     }
 
     //清空选择的文件
     clear() {
         this.files = []
-        this.select(this.files, this.extra)
+        this.$selectInput.value = ''
+        this.select.apply(this, [[...this.files], { ...this.extra }])
     }
 
     //禁用
@@ -270,6 +274,19 @@ class Upload {
         this.disabled = false
         this.$el.removeAttribute('disabled')
     }
+}
+
+Upload.ERRORTYPE = {
+    //文件后缀不符合
+    FILE_SUFFIX_ERROR: 101,
+    //超出最大文件尺寸限制
+    FILE_MAXSIZE_ERROR: 102,
+    //文件尺寸没有达到要求的最小值
+    FILE_MINSIZE_ERROR: 103,
+    //文件数量超出限制
+    FILE_MAXLENGTH_ERROR: 104,
+    //文件数量没有达到最小值
+    FILE_MINLENGTH_ERROR: 105
 }
 
 export default Upload
