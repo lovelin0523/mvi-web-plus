@@ -203,16 +203,12 @@ export default {
         Button: {
             render() {
                 const attrs = {}
-                if(this.$parent.tag.toLocaleUpperCase() == 'BUTTON'){
+                if (this.$parent.tag.toLocaleUpperCase() == 'BUTTON') {
                     attrs.type = this.$parent.nativeType
                 }
-                return h(
-                    this.$parent.tag,
-                    attrs,
-                    {
-                        default: this.$slots.default
-                    }
-                )
+                return h(this.$parent.tag, attrs, {
+                    default: this.$slots.default
+                })
             }
         },
         mIcon

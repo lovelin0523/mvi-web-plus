@@ -1,14 +1,14 @@
 <template>
     <div :data-id="'mvi-autocomplete-'+uid" :class="autocompleteClass" :disabled="disabled || null">
         <div :class="targetClass" :style="targetStyle" :data-id="'mvi-autocomplete-target-'+uid" ref="target">
-            <div @click="leftClick" v-if="leftIconType ||　leftIconUrl" class="mvi-autocomplete-left-icon">
+            <div @click="leftClick" v-if="leftIconType || leftIconUrl" class="mvi-autocomplete-left-icon">
                 <m-icon :type="leftIconType" :url="leftIconUrl" :spin="leftIconSpin" :size="leftIconSize" :color="leftIconColor" />
             </div>
             <input ref="input" @input="input" v-model="realValue" type="text" :placeholder="placeholder" :style="inputStyle" :name="name" @focus="inputFocus" @blur="inputBlur" :disabled="disabled || null" autocomplete="off" />
             <div @click="doClear" v-if="clearable" v-show="showClearIcon" class="mvi-autocomplete-clear" :style="clearStyle">
                 <m-icon type="times-o" />
             </div>
-            <div class="mvi-autocomplete-right-icon" v-if="rightIconType ||　rightIconUrl" @click="rightClick">
+            <div class="mvi-autocomplete-right-icon" v-if="rightIconType || rightIconUrl" @click="rightClick">
                 <m-icon :type="rightIconType" :url="rightIconUrl" :spin="rightIconSpin" :size="rightIconSize" :color="rightIconColor" />
             </div>
         </div>
@@ -589,7 +589,6 @@ export default {
         background-color: inherit;
         color: inherit;
         font-size: inherit;
-        vertical-align: middle;
 
         &::-webkit-input-placeholder,
         &::placeholder,

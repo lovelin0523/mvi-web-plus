@@ -89,6 +89,17 @@ export default {
 }
 
 //旋转
+@keyframes spin {
+    from {
+        transform: rotateZ(0deg);
+        transform-origin: center;
+    }
+
+    to {
+        transform: rotateZ(360deg);
+        transform-origin: center;
+    }
+}
 @-webkit-keyframes spin {
     from {
         transform: rotateZ(0deg);

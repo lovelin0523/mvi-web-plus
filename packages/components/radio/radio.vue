@@ -142,7 +142,7 @@ export default {
         mIcon
     },
     methods: {
-        change() {
+        change(event) {
             if (typeof this.modelValue == 'boolean') {
                 this.$emit('update:modelValue', event.target.checked)
                 this.$emit('change', event.target.checked)

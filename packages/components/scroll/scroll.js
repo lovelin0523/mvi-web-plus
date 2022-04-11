@@ -30,9 +30,9 @@ class Scroll {
         }
         $dap.element.scrollTopBottomTrigger(this.$el, res => {
             if (res.state == 'top') {
-                this.top(res.target)
+                this.top.apply(this, [res.target])
             } else {
-                this.bottom(res.target)
+                this.bottom.apply(this, [res.target])
             }
         })
     }

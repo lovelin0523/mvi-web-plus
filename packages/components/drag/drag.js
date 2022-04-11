@@ -102,7 +102,7 @@ class Drag {
         //设置拖拽事件
         this._setOn()
         //初始化回调
-        this.ready(this)
+        this.ready.apply(this, [this])
     }
 
     //设置拖拽事件
@@ -121,15 +121,17 @@ class Drag {
             this.draggable = true
             this.$el.style.cursor = 'move'
             //监听事件，监听刚开始拖动触发
-            this.beforedrag({
-				event:e,
-                target: this.$el,
-                container: this.$container,
-                placement: $dap.element.getElementPoint(
-                    this.$el,
-                    this.$container
-                )
-            })
+            this.beforedrag.apply(this, [
+                {
+                    event: e,
+                    target: this.$el,
+                    container: this.$container,
+                    placement: $dap.element.getElementPoint(
+                        this.$el,
+                        this.$container
+                    )
+                }
+            ])
         })
         //触摸移动
         $dap.event.on(this.$el, 'touchmove.drag', e => {
@@ -151,15 +153,17 @@ class Drag {
                 this._resize()
                 if (this.draggableX || this.draggableY) {
                     //监听事件
-                    this.drag({
-						event:e,
-                        target: this.$el,
-                        container: this.$container,
-                        placement: $dap.element.getElementPoint(
-                            this.$el,
-                            this.$container
-                        )
-                    })
+                    this.drag.apply(this, [
+                        {
+                            event: e,
+                            target: this.$el,
+                            container: this.$container,
+                            placement: $dap.element.getElementPoint(
+                                this.$el,
+                                this.$container
+                            )
+                        }
+                    ])
                 }
             }
         })
@@ -172,15 +176,17 @@ class Drag {
                 this.draggable = false
                 this.$el.style.cursor = ''
                 //监听事件
-                this.dragged({
-					event:e,
-                    target: this.$el,
-                    container: this.$container,
-                    placement: $dap.element.getElementPoint(
-                        this.$el,
-                        this.$container
-                    )
-                })
+                this.dragged.apply(this, [
+                    {
+                        event: e,
+                        target: this.$el,
+                        container: this.$container,
+                        placement: $dap.element.getElementPoint(
+                            this.$el,
+                            this.$container
+                        )
+                    }
+                ])
             }
         })
         //鼠标按下
@@ -197,65 +203,79 @@ class Drag {
             this.draggable = true
             this.$el.style.cursor = 'move'
             //监听事件，监听刚开始拖动触发
-            this.beforedrag({
-				event:e,
-                target: this.$el,
-                container: this.$container,
-                placement: $dap.element.getElementPoint(
-                    this.$el,
-                    this.$container
-                )
-            })
-        })
-        //鼠标移动
-        $dap.event.on(document.documentElement, `mousemove.drag_${this.guid}`, e => {
-            if (this.draggable) {
-                if (!this.draggableX && !this.draggableY) {
-                    return
-                }
-                let left = e.pageX - this.pageX
-                let top = e.pageY - this.pageY
-                if (this.draggableX) {
-                    this.$el.style.left = left + 'px'
-                }
-                if (this.draggableY) {
-                    this.$el.style.top = top + 'px'
-                }
-                this._resize()
-                if (this.draggableX || this.draggableY) {
-                    //监听事件
-                    this.drag({
-						event:e,
-                        target: this.$el,
-                        container: this.$container,
-                        placement: $dap.element.getElementPoint(
-                            this.$el,
-                            this.$container
-                        )
-                    })
-                }
-            }
-        })
-        //鼠标松开后，拖拽状态更改为false，触发监听事件
-        $dap.event.on(document.documentElement, `mouseup.drag_${this.guid} mouseleave.drag_${this.guid}`, e => {
-            if (this.draggable) {
-                if (!this.draggableX && !this.draggableY) {
-                    return
-                }
-                this.draggable = false
-                this.$el.style.cursor = ''
-                //监听事件
-                this.dragged({
-					event:e,
+            this.beforedrag.apply(this, [
+                {
+                    event: e,
                     target: this.$el,
                     container: this.$container,
                     placement: $dap.element.getElementPoint(
                         this.$el,
                         this.$container
                     )
-                })
-            }
+                }
+            ])
         })
+        //鼠标移动
+        $dap.event.on(
+            document.documentElement,
+            `mousemove.drag_${this.guid}`,
+            e => {
+                if (this.draggable) {
+                    if (!this.draggableX && !this.draggableY) {
+                        return
+                    }
+                    let left = e.pageX - this.pageX
+                    let top = e.pageY - this.pageY
+                    if (this.draggableX) {
+                        this.$el.style.left = left + 'px'
+                    }
+                    if (this.draggableY) {
+                        this.$el.style.top = top + 'px'
+                    }
+                    this._resize()
+                    if (this.draggableX || this.draggableY) {
+                        //监听事件
+                        this.drag.apply(this, [
+                            {
+                                event: e,
+                                target: this.$el,
+                                container: this.$container,
+                                placement: $dap.element.getElementPoint(
+                                    this.$el,
+                                    this.$container
+                                )
+                            }
+                        ])
+                    }
+                }
+            }
+        )
+        //鼠标松开后，拖拽状态更改为false，触发监听事件
+        $dap.event.on(
+            document.documentElement,
+            `mouseup.drag_${this.guid} mouseleave.drag_${this.guid}`,
+            e => {
+                if (this.draggable) {
+                    if (!this.draggableX && !this.draggableY) {
+                        return
+                    }
+                    this.draggable = false
+                    this.$el.style.cursor = ''
+                    //监听事件
+                    this.dragged.apply(this, [
+                        {
+                            event: e,
+                            target: this.$el,
+                            container: this.$container,
+                            placement: $dap.element.getElementPoint(
+                                this.$el,
+                                this.$container
+                            )
+                        }
+                    ])
+                }
+            }
+        )
     }
 
     //移除该指令绑定在documentElement上的事件
@@ -388,14 +408,16 @@ class Drag {
     //移动元素到指定位置
     dragTo(left, top) {
         return new Promise((resolve, reject) => {
-            this.beforedrag({
-                target: this.$el,
-                container: this.$container,
-                placement: $dap.element.getElementPoint(
-                    this.$el,
-                    this.$container
-                )
-            })
+            this.beforedrag.apply(this, [
+                {
+                    target: this.$el,
+                    container: this.$container,
+                    placement: $dap.element.getElementPoint(
+                        this.$el,
+                        this.$container
+                    )
+                }
+            ])
             if (this.draggableX) {
                 this.$el.style.left = left + 'px'
             }
@@ -411,7 +433,7 @@ class Drag {
                     this.$container
                 )
             }
-            this.dragged(options)
+            this.dragged.apply(this, [options])
             resolve(options)
         })
     }

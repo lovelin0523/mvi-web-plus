@@ -2,7 +2,7 @@
     <div v-if="type == 0" class="mvi-loading" :style="{width:size,height:size}">
         <div v-for="(item,index) in new Array(12)" :key="'mvi-loading-'+index" :style="loadingStyle"></div>
     </div>
-    <div v-else-if="type==1" class="mvi-loading2" :style="{width:size,height:size}">
+    <div v-else-if="type == 1" class="mvi-loading2" :style="{width:size,height:size}">
         <div :style="loading2Style"></div>
     </div>
 </template>
@@ -23,7 +23,7 @@ export default {
         },
         //类型
         type: {
-            type: Number,
+            type: [Number, String],
             default: 0,
             validator(value) {
                 return value == 0 || value == 1

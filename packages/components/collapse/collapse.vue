@@ -86,7 +86,6 @@ export default {
 .mvi-collapse {
     display: block;
     width: 100%;
-    vertical-align: middle;
     background-color: #fff;
 }
 </style>

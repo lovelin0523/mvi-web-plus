@@ -1,5 +1,5 @@
 <template>
-    <m-editor v-model="value" @file-paste="paste"></m-editor>
+    <div style="width: 1rem;height: 1rem;background-color: #000000;position: absolute;" v-resize="options"></div>
 </template>
 
 <script>
@@ -8,7 +8,11 @@ export default {
     name: 'App',
     data() {
         return {
-            value: ''
+            options: {
+                beforeResize: data => {
+                    console.log('beforeResize', data)
+                }
+            }
         }
     },
     methods: {

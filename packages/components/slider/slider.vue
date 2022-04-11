@@ -16,7 +16,6 @@ export default {
     name: 'm-slider',
     data() {
         return {
-            btn: null,
             drag: null,
             isdrag: false
         }
@@ -116,9 +115,6 @@ export default {
                 style.width = `calc(${this.barHeight} * 2)`
                 style.height = `calc(${this.barHeight} * 2)`
             }
-            if (this.btn) {
-                this.setBtnOffset()
-            }
             return style
         },
         sliderClass() {
@@ -135,7 +131,7 @@ export default {
         }
     },
     mounted() {
-        this.btn = this.$refs.btn
+        this.setBtnOffset()
         this.drag = new Drag(this.$refs.btn, {
             container: this.$el,
             mode: 'on',

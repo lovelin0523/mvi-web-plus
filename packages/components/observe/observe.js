@@ -63,13 +63,13 @@ class Observe {
                         mutationList[i].type == 'attributes' &&
                         this.attributes
                     ) {
-                        this.attributesChange(
+                        this.attributesChange.apply(this, [
                             mutationList[i].attributeName,
                             this.$el.getAttribute(
                                 mutationList[i].attributeName
                             ),
                             mutationList[i].oldValue
-                        )
+                        ])
                     }
                     //监听子节点变动
                     else if (
@@ -78,12 +78,12 @@ class Observe {
                     ) {
                         for (let node of mutationList[i].addedNodes) {
                             if ($dap.element.isElement(node)) {
-                                this.childNodesChange(node, null)
+                                this.childNodesChange.apply(this, [node, null])
                             }
                         }
                         for (let node of mutationList[i].removedNodes) {
                             if ($dap.element.isElement(node)) {
-                                this.childNodesChange(null, node)
+                                this.childNodesChange.apply(this, [null, node])
                             }
                         }
                     }

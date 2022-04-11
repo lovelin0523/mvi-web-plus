@@ -950,7 +950,6 @@ export default {
         background-color: inherit;
         color: inherit;
         font-size: inherit;
-        vertical-align: middle;
         height: 100%;
         line-height: 1.5;
         resize: none;

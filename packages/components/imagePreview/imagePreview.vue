@@ -28,14 +28,14 @@
 import mOverlay from '../overlay/overlay'
 import mSwiper from '../swiper/swiper.vue'
 import mSwiperSlide from '../swiper/swiper-slide'
-import mRichImage from "./richImage"
+import mRichImage from './richImage'
 export default {
     name: 'm-image-preview',
     data() {
         return {
             firstShow: false,
-            enableTouch:true,
-            imageRefs:[]
+            enableTouch: true,
+            imageRefs: []
         }
     },
     emits: ['update:modelValue', 'change'],
@@ -138,14 +138,14 @@ export default {
         },
         //关闭遮罩
         closeOverlay(e) {
-            for(let richImage of this.imageRefs){
+            for (let richImage of this.imageRefs) {
                 richImage.reset()
             }
             this.$emit('update:modelValue', false)
         },
         //图片变更
         swiperChange(active) {
-            for(let richImage of this.imageRefs){
+            for (let richImage of this.imageRefs) {
                 richImage.reset()
             }
             this.$emit('change', active)

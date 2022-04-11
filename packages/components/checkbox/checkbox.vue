@@ -147,7 +147,7 @@ export default {
         mIcon
     },
     methods: {
-        change() {
+        change(event) {
             if (Array.isArray(this.modelValue)) {
                 let arr = [...this.modelValue]
                 //勾选且不包含

@@ -44,7 +44,6 @@ import divider from './divider'
 import roll from './roll'
 import panel from './panel'
 import steps from './steps'
-import verify from './verify'
 import label from './label'
 import swiper from './swiper'
 import tabs from './tabs'
@@ -114,7 +113,6 @@ export default {
     roll,
     panel,
     steps,
-    verify,
     label,
     swiper,
     tabs,

@@ -189,7 +189,7 @@ export default {
     margin: 0;
     padding: 0;
     transition: transform 0.3s cubic-bezier(0.3, 1.05, 0.4, 1.05);
-    -webkit-transform: transform 0.3s cubic-bezier(0.3, 1.05, 0.4, 1.05);
+    -webkit-transition: transform 0.3s cubic-bezier(0.3, 1.05, 0.4, 1.05);
 }
 
 .mvi-switch-el.mvi-switch-el-checked {
