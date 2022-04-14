@@ -116,9 +116,9 @@ export default {
         }
     },
     computed: {
-		$$el(){
-			return this.$refs.modal.$$el
-		},
+        $$el() {
+            return this.$refs.modal.$$el
+        },
         computedMountEl() {
             if (typeof this.mountEl == 'string' && this.mountEl) {
                 return this.mountEl
@@ -522,7 +522,6 @@ export default {
     color: @font-color-default;
     font-size: @font-size-default;
     background-color: #fff;
-    vertical-align: middle;
     padding: 0 @mp-sm;
 
     &::placeholder,
@@ -565,9 +564,6 @@ export default {
 
     .mvi-dialog-cancel {
         margin-right: @mp-md;
-    }
-
-    .mvi-dialog-ok {
     }
 }
 </style>

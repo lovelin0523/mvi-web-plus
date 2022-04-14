@@ -457,7 +457,6 @@ export default {
     width: 25%;
     display: block;
     text-align: center;
-    vertical-align: middle;
     padding: @mp-xs;
 }
 
