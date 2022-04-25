@@ -41,10 +41,15 @@ export default {
             }
         }
     },
+    data() {
+        return {
+            ios: $dap.platform.os().ios
+        }
+    },
     methods: {
         //触发日期选择弹窗
         trigger() {
-            if ($dap.common.judgeAccessTerminalBrowser('ios')) {
+            if (this.ios) {
                 this.$el.focus()
             } else {
                 this.$el.click()
@@ -52,7 +57,7 @@ export default {
         },
         //IOS下选择日期
         selectDateForIOS() {
-            if ($dap.common.judgeAccessTerminalBrowser('ios')) {
+            if (this.ios) {
                 let date = this.dateParse(this.$el.value)
                 if (date) {
                     if (this.min) {
@@ -76,7 +81,7 @@ export default {
         },
         //安卓系统下选择日期
         selectDateForAndroid() {
-            if (!$dap.common.judgeAccessTerminalBrowser('ios')) {
+            if (!this.ios) {
                 let date = this.dateParse(this.$el.value)
                 if (date) {
                     if (this.min) {

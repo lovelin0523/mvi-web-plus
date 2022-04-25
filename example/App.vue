@@ -1,5 +1,6 @@
 <template>
-    <div style="width: 1rem;height: 1rem;background-color: #000000;position: absolute;" v-resize="options"></div>
+    <m-button type="success" form-control @click="selectDate">选择日期</m-button>
+    <m-date-native-picker ref="datepicker" type="time" v-model="date"></m-date-native-picker>
 </template>
 
 <script>
@@ -8,16 +9,22 @@ export default {
     name: 'App',
     data() {
         return {
-            options: {
-                beforeResize: data => {
-                    console.log('beforeResize', data)
+            page: 1,
+            date: new Date(),
+            active: 0,
+            show: false,
+            value: '',
+            options: [
+                {
+                    label: 'LOL',
+                    value: '0'
                 }
-            }
+            ]
         }
     },
     methods: {
-        paste(e) {
-            console.log(e)
+        selectDate() {
+            this.$refs.datepicker.trigger()
         }
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "mvi-web-plus",
-    "version": "1.4.1",
+    "version": "1.4.4",
     "private": false,
     "author": "lingkai",
     "main": "packages/index",
@@ -30,6 +30,6 @@
         "url": "https://github.com/lovelin0523/mvi-web-plus"
     },
     "dependencies": {
-        "dap-util": "^1.0.1"
+        "dap-util": "^1.2.0"
     }
 }
