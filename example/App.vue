@@ -4,7 +4,6 @@
 </template>
 
 <script>
-import { ref, reactive, inject } from 'vue'
 export default {
     name: 'App',
     data() {
