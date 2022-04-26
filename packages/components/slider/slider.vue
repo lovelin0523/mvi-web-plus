@@ -170,6 +170,11 @@ export default {
             this.$nextTick(() => {
                 this.setBtnOffset()
             })
+        },
+        modelValue(newValue) {
+            if (!this.isdrag) {
+                this.setBtnOffset()
+            }
         }
     },
     methods: {
