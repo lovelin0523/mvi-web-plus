@@ -271,7 +271,6 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    vertical-align: middle;
 
     & > .mvi-icon {
         margin-right: @mp-sm;
