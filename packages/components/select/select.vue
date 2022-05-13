@@ -1,9 +1,11 @@
 <template>
     <div :data-id="'mvi-select-' + uid" :class="selectClass" :disabled="disabled || null">
-        <div :data-id="'mvi-select-target-' + uid" :class="targetClass" :style="targetStyle" ref="target" @click="trigger" :disabled="disabled || null">
+        <div @mouseenter="hoverIn" @mouseleave="hoverOut" :data-id="'mvi-select-target-' + uid" :class="targetClass" :style="targetStyle" ref="target" @click="trigger" :disabled="disabled || null">
             <span :class="['mvi-select-label',selectLabel ? '' : 'mvi-select-label-placeholder']" :data-placeholder="placeholder" v-html="selectLabel"></span>
+            <!-- 清除图标 -->
+            <m-icon @click="doClear" class="mvi-clear-icon" type="times-o" v-if="clearable" v-show="showClearIcon"></m-icon>
             <!-- 下拉图标 -->
-            <m-icon :class="iconClass" :type="icon" />
+            <m-icon v-show="!showClearIcon" :class="iconClass" :type="icon" />
         </div>
         <m-layer v-model="focus" :target="`[data-id='mvi-select-target-${uid}']`" :root="`[data-id='mvi-select-${uid}']`" :placement="placement" :offset="offset" :fixed="fixed" :fixed-auto="fixedAuto" :z-index="zIndex" closable :show-triangle="false" :wrapper-class="wrapperClass" :animation="animation" :timeout="timeout" shadow :border="false" @showing="layerShow" ref="layer">
             <div class="mvi-select-menu" ref="menu" :style="menuStyle">
@@ -24,9 +26,10 @@ import mIcon from '../icon/icon'
 import mLayer from '../layer/layer'
 export default {
     name: 'm-select',
-    emits: ['update:modelValue', 'change'],
+    emits: ['update:modelValue', 'change', 'clear'],
     data() {
         return {
+            hover: false,
             //是否点击达到了获取焦点效果
             focus: false,
             target: null
@@ -173,6 +176,11 @@ export default {
         selectedIcon: {
             type: [String, Object],
             default: null
+        },
+        //显示清除图标
+        clearable: {
+            type: Boolean,
+            default: false
         }
     },
     setup() {
@@ -316,6 +324,26 @@ export default {
                 }
             }
             return color
+        },
+        showClearIcon() {
+            //多选
+            if (this.multiple) {
+                if (this.modelValue.length != 0 && this.hover) {
+                    return true
+                }
+                return false
+            } else {
+                if (
+                    this.modelValue === null ||
+                    this.modelValue === undefined ||
+                    isNaN(this.modelValue) ||
+                    !this.hover
+                ) {
+                    return false
+                } else {
+                    return true
+                }
+            }
         }
     },
     components: {
@@ -323,6 +351,31 @@ export default {
         mIcon
     },
     methods: {
+        //鼠标移入下拉选框
+        hoverIn() {
+            this.hover = true
+        },
+        //鼠标移出下拉选框
+        hoverOut() {
+            this.hover = false
+        },
+        //点击清除
+        doClear(e) {
+            e.stopPropagation()
+            if (this.disabled) {
+                return
+            }
+            if (!this.clearable) {
+                return
+            }
+            if (this.multiple) {
+                this.$emit('update:modelValue', [])
+                this.$emit('clear', [])
+            } else {
+                this.$emit('update:modelValue', null)
+                this.$emit('clear', null)
+            }
+        },
         //layer显示前进行宽度设置
         layerShow() {
             if (this.width) {
@@ -416,7 +469,8 @@ export default {
             padding: 0 @mp-sm*3 0 @mp-sm;
         }
 
-        .mvi-select-icon {
+        .mvi-select-icon,
+        .mvi-clear-icon {
             right: @mp-sm;
             font-size: @font-size-small;
         }
@@ -429,7 +483,8 @@ export default {
             padding: 0 @mp-md*3 0 @mp-md;
         }
 
-        .mvi-select-icon {
+        .mvi-select-icon,
+        .mvi-clear-icon {
             right: @mp-md;
             font-size: @font-size-default;
         }
@@ -442,7 +497,8 @@ export default {
             padding: 0 @mp-lg*3 0 @mp-lg;
         }
 
-        .mvi-select-icon {
+        .mvi-select-icon,
+        .mvi-clear-icon {
             right: @mp-lg;
             font-size: @font-size-h6;
         }
@@ -541,6 +597,17 @@ export default {
     &.mvi-select-active {
         transform: rotate(180deg);
     }
+}
+
+.mvi-clear-icon {
+    position: absolute;
+    top: auto;
+    color: inherit;
+    opacity: 0.6;
+    transition: opacity 200ms;
+    -ms-transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
+    -moz-transition: opacity 200ms;
 }
 
 .mvi-select-menu {

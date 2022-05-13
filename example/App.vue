@@ -1,6 +1,8 @@
 <template>
-    <m-slider v-model="value"></m-slider>
-    <m-slider v-model="value"></m-slider>
+    <div>
+        {{value}}
+        <m-select placement="bottom-end" style="width:5rem;margin:4rem auto;" @change="change" clearable placeholder="请选择" v-model="value" :options="options" showTriangle width="3rem"></m-select>
+    </div>
 </template>
 
 <script>
@@ -8,10 +10,24 @@ export default {
     name: 'App',
     data() {
         return {
-            value: 20
+            value: '',
+            options: [
+                {
+                    label: '安徽',
+                    value: 10
+                },
+                {
+                    label: '江苏',
+                    value: 20
+                }
+            ]
         }
     },
-    methods: {}
+    methods: {
+        change(res) {
+            console.log(res)
+        }
+    }
 }
 </script>
 
