@@ -299,7 +299,6 @@ export default {
                     this.modelValue === '' ||
                     this.modelValue === null ||
                     this.modelValue === undefined ||
-                    isNaN(this.modelValue) ||
                     !this.hover
                 ) {
                     return false
