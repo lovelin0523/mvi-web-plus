@@ -1,7 +1,10 @@
 <template>
     <div>
-        {{value}}
-        <m-select placement="bottom-end" style="width:5rem;margin:4rem auto;" @change="change" clearable placeholder="请选择" v-model="value" :options="options" showTriangle width="3rem"></m-select>
+        <m-select :layer-props="{width:'3rem',showTriangle:true,border:true,shadow:false,zIndex:1000}" style="width:5rem;margin:4rem auto;" @change="change" clearable placeholder="请选择" v-model="value" :options="options"></m-select>
+        <m-autocomplete :layer-props="{showTriangle:true,border:true,borderColor:'#f30',background:'#f30'}" style="width:5rem;margin:4rem auto;" clearable placeholder="请选择" v-model="value" :list="['1','2']"></m-autocomplete>
+        <m-date-chooser :layer-props="{width:'9rem',showTriangle:true,border:true,shadow:false}" style="width:5rem;margin:4rem auto;" block v-model="date">
+            <m-field :model-value="date.toString()"></m-field>
+        </m-date-chooser>
     </div>
 </template>
 
@@ -11,6 +14,7 @@ export default {
     data() {
         return {
             value: '',
+            date: new Date(),
             options: [
                 {
                     label: '安徽',

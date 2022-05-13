@@ -3,7 +3,7 @@
         <div class="mvi-date-chooser-target" :data-id="`mvi-date-chooser-target-${uid}`" ref="target" @click="clickCalendar">
             <slot></slot>
         </div>
-        <m-layer :target="`[data-id='mvi-date-chooser-target-${uid}']`" :root="`[data-id='mvi-date-chooser-${uid}']`" v-model="show" :placement="placement" :fixed="fixed" :fixed-auto="fixedAuto" :offset="offset" :z-index="zIndex" :wrapper-class="wrapperClass" :shadow="shadow" :border="border" :animation="animation" :border-color="borderColor" :timeout="timeout" :closable="closable" :show-triangle="showTriangle" @showing="layerShow" ref="layer">
+        <m-layer :target="`[data-id='mvi-date-chooser-target-${uid}']`" :root="`[data-id='mvi-date-chooser-${uid}']`" v-model="show" :placement="layerRealProps.placement" :fixed="layerRealProps.fixed" :fixed-auto="layerRealProps.fixedAuto" :offset="layerRealProps.offset" :z-index="layerRealProps.zIndex" :wrapper-class="layerRealProps.wrapperClass" :shadow="layerRealProps.shadow" :border="layerRealProps.border" :animation="layerRealProps.animation" :border-color="layerRealProps.borderColor" :timeout="layerRealProps.timeout" :closable="closable" :show-triangle="layerRealProps.showTriangle" @showing="layerShow" ref="layer">
             <div class="mvi-date-chooser-layer" ref="panel">
                 <div class="mvi-date-chooser-header">
                     <div class="mvi-date-chooser-header-left">
@@ -65,70 +65,12 @@ export default {
             type: Boolean,
             default: false
         },
-        //layer位置
-        placement: {
-            type: String,
-            default: 'bottom-start'
-        },
-        //layer的fixed
-        fixed: {
-            type: Boolean,
-            default: false
-        },
-        //layer适配transform父容器
-        fixedAuto: {
-            type: Boolean,
-            default: false
-        },
-        //layer的width
-        width: {
-            type: String,
-            default: null
-        },
-        //layer的z-index
-        zIndex: {
-            type: Number,
-            default: 400
-        },
-        //layer的offset
-        offset: {
-            type: String,
-            default: '0.2rem'
-        },
-        //layer的额外样式
-        wrapperClass: {
-            type: String,
-            default: null
-        },
-        //layer是否显示阴影
-        shadow: {
-            type: Boolean,
-            default: true
-        },
-        //layer是否有边框
-        border: {
-            type: Boolean,
-            default: false
-        },
-        //layer的边框颜色
-        borderColor: {
-            type: String,
-            default: '#eee'
-        },
-        //layer显示与隐藏动画
-        animation: {
-            type: String,
-            default: null
-        },
-        //layer动画时长
-        timeout: {
-            type: Number,
-            default: 300
-        },
-        //layer是否显示三角
-        showTriangle: {
-            type: Boolean,
-            default: false
+        //layer组件参数
+        layerProps: {
+            type: Object,
+            default: function () {
+                return {}
+            }
         },
         //点击其他地方是否关闭日历
         closable: {
@@ -282,6 +224,46 @@ export default {
             } else {
                 return this.modelValue.getFullYear() >= this.endYear
             }
+        },
+        layerRealProps() {
+            return {
+                placement: this.layerProps.placement
+                    ? this.layerProps.placement
+                    : 'bottom-start',
+                fixed:
+                    typeof this.layerProps.fixed == 'boolean'
+                        ? this.layerProps.fixed
+                        : false,
+                fixedAuto:
+                    typeof this.layerProps.fixedAuto == 'boolean'
+                        ? this.layerProps.fixedAuto
+                        : false,
+                width: this.layerProps.width,
+                zIndex: $dap.number.isNumber(this.layerProps.zIndex)
+                    ? this.layerProps.zIndex
+                    : 400,
+                offset: this.layerProps.offset
+                    ? this.layerProps.offset
+                    : '0.2rem',
+                wrapperClass: this.layerProps.wrapperClass,
+                animation: this.layerProps.animation,
+                timeout: $dap.number.isNumber(this.layerProps.timeout)
+                    ? this.layerProps.timeout
+                    : 300,
+                showTriangle:
+                    typeof this.layerProps.showTriangle == 'boolean'
+                        ? this.layerProps.showTriangle
+                        : false,
+                shadow:
+                    typeof this.layerProps.shadow == 'boolean'
+                        ? this.layerProps.shadow
+                        : true,
+                border:
+                    typeof this.layerProps.border == 'boolean'
+                        ? this.layerProps.border
+                        : false,
+                borderColor: this.layerProps.borderColor
+            }
         }
     },
     components: {
@@ -305,8 +287,8 @@ export default {
     methods: {
         //悬浮层显示前进行宽度设置
         layerShow() {
-            if (this.width) {
-                this.$refs.panel.style.width = this.width
+            if (this.layerRealProps.width) {
+                this.$refs.panel.style.width = this.layerRealProps.width
             } else {
                 this.$refs.panel.style.width =
                     this.$refs.target.offsetWidth + 'px'

@@ -1326,100 +1326,98 @@ export default {
             ) {
                 return
             }
+            const targetWidth = this.getTargetEl().offsetWidth
+            const elWidth = this.$el.offsetWidth
+            const targetHeight = this.getTargetEl().offsetHeight
+            const elHeight = this.$el.offsetHeight
+            const triWidth = this.$refs.triangle.$el.offsetWidth
+            const triHeight = this.$refs.triangle.$el.offsetHeight
             if (this.realPlacement == 'bottom-start') {
                 this.$refs.triangle.$el.style.top = 'auto'
                 this.$refs.triangle.$el.style.right = 'auto'
                 this.$refs.triangle.$el.style.bottom = '100%'
                 this.$refs.triangle.$el.style.left =
-                    this.getTargetEl().offsetWidth / 2 -
-                    this.$refs.triangle.$el.offsetWidth / 2 +
+                    (targetWidth > elWidth ? elWidth : targetWidth) / 2 -
+                    triWidth / 2 +
                     'px'
             } else if (this.realPlacement == 'bottom') {
                 this.$refs.triangle.$el.style.top = 'auto'
                 this.$refs.triangle.$el.style.right = 'auto'
                 this.$refs.triangle.$el.style.bottom = '100%'
                 this.$refs.triangle.$el.style.left =
-                    this.$el.offsetWidth / 2 -
-                    this.$refs.triangle.$el.offsetWidth / 2 +
-                    'px'
+                    elWidth / 2 - triWidth / 2 + 'px'
             } else if (this.realPlacement == 'bottom-end') {
                 this.$refs.triangle.$el.style.top = 'auto'
                 this.$refs.triangle.$el.style.left = 'auto'
                 this.$refs.triangle.$el.style.bottom = '100%'
                 this.$refs.triangle.$el.style.right =
-                    this.getTargetEl().offsetWidth / 2 -
-                    this.$refs.triangle.$el.offsetWidth / 2 +
+                    (targetWidth > elWidth ? targetWidth : elWidth) / 2 -
+                    triWidth / 2 +
                     'px'
             } else if (this.realPlacement == 'top-start') {
                 this.$refs.triangle.$el.style.top = '100%'
                 this.$refs.triangle.$el.style.right = 'auto'
                 this.$refs.triangle.$el.style.bottom = 'auto'
                 this.$refs.triangle.$el.style.left =
-                    this.getTargetEl().offsetWidth / 2 -
-                    this.$refs.triangle.$el.offsetWidth / 2 +
+                    (targetWidth > elWidth ? elWidth : targetWidth) / 2 -
+                    triWidth / 2 +
                     'px'
             } else if (this.realPlacement == 'top') {
                 this.$refs.triangle.$el.style.top = '100%'
                 this.$refs.triangle.$el.style.right = 'auto'
                 this.$refs.triangle.$el.style.bottom = 'auto'
                 this.$refs.triangle.$el.style.left =
-                    this.$el.offsetWidth / 2 -
-                    this.$refs.triangle.$el.offsetWidth / 2 +
-                    'px'
+                    elWidth / 2 - triWidth / 2 + 'px'
             } else if (this.realPlacement == 'top-end') {
                 this.$refs.triangle.$el.style.top = '100%'
                 this.$refs.triangle.$el.style.left = 'auto'
                 this.$refs.triangle.$el.style.bottom = 'auto'
                 this.$refs.triangle.$el.style.right =
-                    this.getTargetEl().offsetWidth / 2 -
-                    this.$refs.triangle.$el.offsetWidth / 2 +
+                    (targetWidth > elWidth ? elWidth : targetWidth) / 2 -
+                    triWidth / 2 +
                     'px'
             } else if (this.realPlacement == 'left-start') {
                 this.$refs.triangle.$el.style.left = '100%'
                 this.$refs.triangle.$el.style.right = 'auto'
                 this.$refs.triangle.$el.style.top =
-                    this.getTargetEl().offsetHeight / 2 -
-                    this.$refs.triangle.$el.offsetHeight / 2 +
+                    (targetHeight > elHeight ? elHeight : targetHeight) / 2 -
+                    triHeight / 2 +
                     'px'
                 this.$refs.triangle.$el.style.bottom = 'auto'
             } else if (this.realPlacement == 'left') {
                 this.$refs.triangle.$el.style.left = '100%'
                 this.$refs.triangle.$el.style.right = 'auto'
                 this.$refs.triangle.$el.style.top =
-                    this.$el.offsetHeight / 2 -
-                    this.$refs.triangle.$el.offsetHeight / 2 +
-                    'px'
+                    elHeight / 2 - triHeight / 2 + 'px'
                 this.$refs.triangle.$el.style.bottom = 'auto'
             } else if (this.realPlacement == 'left-end') {
                 this.$refs.triangle.$el.style.left = '100%'
                 this.$refs.triangle.$el.style.right = 'auto'
                 this.$refs.triangle.$el.style.bottom =
-                    this.getTargetEl().offsetHeight / 2 -
-                    this.$refs.triangle.$el.offsetHeight / 2 +
+                    (targetHeight > elHeight ? elHeight : targetHeight) / 2 -
+                    triHeight / 2 +
                     'px'
                 this.$refs.triangle.$el.style.top = 'auto'
             } else if (this.realPlacement == 'right-start') {
                 this.$refs.triangle.$el.style.right = '100%'
                 this.$refs.triangle.$el.style.left = 'auto'
                 this.$refs.triangle.$el.style.top =
-                    this.getTargetEl().offsetHeight / 2 -
-                    this.$refs.triangle.$el.offsetHeight / 2 +
+                    (targetHeight > elHeight ? elHeight : targetHeight) / 2 -
+                    triHeight / 2 +
                     'px'
                 this.$refs.triangle.$el.style.bottom = 'auto'
             } else if (this.realPlacement == 'right') {
                 this.$refs.triangle.$el.style.right = '100%'
                 this.$refs.triangle.$el.style.left = 'auto'
                 this.$refs.triangle.$el.style.top =
-                    this.$el.offsetHeight / 2 -
-                    this.$refs.triangle.$el.offsetHeight / 2 +
-                    'px'
+                    elHeight / 2 - triHeight / 2 + 'px'
                 this.$refs.triangle.$el.style.bottom = 'auto'
             } else if (this.realPlacement == 'right-end') {
                 this.$refs.triangle.$el.style.right = '100%'
                 this.$refs.triangle.$el.style.left = 'auto'
                 this.$refs.triangle.$el.style.bottom =
-                    this.getTargetEl().offsetHeight / 2 -
-                    this.$refs.triangle.$el.offsetHeight / 2 +
+                    (targetHeight > elHeight ? elHeight : targetHeight) / 2 -
+                    triHeight / 2 +
                     'px'
                 this.$refs.triangle.$el.style.top = 'auto'
             }
