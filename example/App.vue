@@ -1,10 +1,6 @@
 <template>
     <div>
-        <m-select :layer-props="{width:'3rem',showTriangle:true,border:true,shadow:false,zIndex:1000}" style="width:5rem;margin:4rem auto;" @change="change" clearable placeholder="请选择" v-model="value" :options="options"></m-select>
-        <m-autocomplete :layer-props="{showTriangle:true,border:true,borderColor:'#f30',background:'#f30'}" style="width:5rem;margin:4rem auto;" clearable placeholder="请选择" v-model="value" :list="['1','2']"></m-autocomplete>
-        <m-date-chooser :layer-props="{width:'9rem',showTriangle:true,border:true,shadow:false}" style="width:5rem;margin:4rem auto;" block v-model="date">
-            <m-field :model-value="date.toString()"></m-field>
-        </m-date-chooser>
+        <m-stepper v-model="value" :digit="2" :step="0.01"></m-stepper>
     </div>
 </template>
 
@@ -13,7 +9,7 @@ export default {
     name: 'App',
     data() {
         return {
-            value: '',
+            value: 0.12,
             date: new Date(),
             options: [
                 {
