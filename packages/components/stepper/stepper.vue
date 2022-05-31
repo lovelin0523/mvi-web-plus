@@ -17,7 +17,7 @@ import $dap from 'dap-util'
 import mIcon from '../icon/icon'
 export default {
     name: 'm-stepper',
-    emits: ['update:modelValue', 'change'],
+    emits: ['update:modelValue'],
     props: {
         //输入框的值
         modelValue: {
