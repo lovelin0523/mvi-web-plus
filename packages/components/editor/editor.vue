@@ -780,6 +780,25 @@ export default {
                 }
             }
             return style
+        },
+        //图标配置值
+        computedMenuIcons() {
+            let menuIcons = {}
+            Object.keys(this.defaultMenuIcons).forEach(key => {
+                //是对象
+                if ($dap.common.isObject(this.defaultMenuIcons[key])) {
+                    menuIcons[key] = {
+                        custom: this.defaultMenuIcons[key].custom,
+                        value: this.defaultMenuIcons[key].value
+                    }
+                } else {
+                    menuIcons[key] = {
+                        custom: false,
+                        value: this.defaultMenuIcons[key]
+                    }
+                }
+            })
+            return menuIcons
         }
     },
     provide() {
