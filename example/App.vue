@@ -1,7 +1,8 @@
 <template>
     <div>
-        <m-stepper v-model="value" :digit="2" :step="0.01"></m-stepper>
+        {{value}}
     </div>
+    <m-editor ref="editor" :menu-icons="{custom:'user'}" :menu-index="{custom:1}" :tooltips="{custom:'自定义'}" :menus="{custom:true}" @custom="change" v-model="value"></m-editor>
 </template>
 
 <script>
@@ -9,7 +10,7 @@ export default {
     name: 'App',
     data() {
         return {
-            value: 0.12,
+            value: '',
             date: new Date(),
             options: [
                 {
@@ -26,6 +27,9 @@ export default {
     methods: {
         change(res) {
             console.log(res)
+            this.$refs.editor.insertHtml(
+                '<img src="https://www.mvi-web.cn/mvi-resources/images/mvi_image_8_1624705387875.jpg"/>'
+            )
         }
     }
 }

@@ -1491,6 +1491,32 @@ export default {
                 }
                 return allowedFileType.includes(suffix)
             }
+        },
+        //插入HTML
+        insertHtml(html) {
+            if (this.disabled) {
+                return
+            }
+            if (!this.$refs.content) {
+                return
+            }
+            if (!html) {
+                return
+            }
+            document.execCommand('insertHtml', false, html)
+        },
+        //插入文本
+        insertText(text) {
+            if (this.disabled) {
+                return
+            }
+            if (!this.$refs.content) {
+                return
+            }
+            if (!text) {
+                return
+            }
+            document.execCommand('insertText', false, text)
         }
     }
 }
