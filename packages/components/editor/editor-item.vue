@@ -76,8 +76,11 @@
                 </div>
                 <!-- 其他 -->
                 <div v-else>
-                    <div class="mvi-editor-el" v-for="(item,index) in menu" @click="doSelect(item)" :key="'mvi-editor-el-'+index">
-                        <m-icon class="mvi-editor-el-icon" v-if="item.icon" :type="item.icon" />
+                    <div class="mvi-editor-el" v-for="(item,index) in menu" @click="doSelect(item,index)" :key="'mvi-editor-el-'+index">
+                        <template v-if="item.icon">
+                            <i class="mvi-editor-el-icon" v-if="item.icon.custom" :class="item.icon.value"></i>
+                            <m-icon v-else class="mvi-editor-el-icon" :type="item.icon.value" />
+                        </template>
                         <span v-text="item.label"></span>
                     </div>
                 </div>
@@ -279,7 +282,7 @@ export default {
             }
         },
         //菜单项下拉选择
-        doSelect(item) {
+        doSelect(item, index) {
             if (this.editor.disabled) {
                 return
             }
@@ -323,6 +326,10 @@ export default {
                 //背景色
                 case 'backColor':
                     document.execCommand('hiliteColor', false, item.value)
+                    break
+                //设置字体大小
+                case 'fontSize':
+                    document.execCommand('fontSize', false, index + 1)
                     break
                 //自定义操作
                 default:
@@ -857,8 +864,10 @@ export default {
         }
 
         .mvi-editor-el {
-            display: block;
-            padding: @mp-sm @mp-md;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: @mp-sm @mp-lg;
             white-space: nowrap;
             font-size: @font-size-default;
             color: @font-color-sub;
@@ -871,7 +880,7 @@ export default {
             }
 
             .mvi-editor-el-icon {
-                margin-right: @mp-sm;
+                margin-right: @mp-xs;
             }
         }
 

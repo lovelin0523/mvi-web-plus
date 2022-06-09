@@ -1,12 +1,12 @@
 <template>
     <div class="mvi-editor">
-        <div class="mvi-editor-menus" :style="{ border: border ? '' : 'none' }" v-if="showMenus" :disabled="disabled || null">
+        <div ref="menus" class="mvi-editor-menus" :style="{ border: border ? '' : 'none' }" v-if="showMenus" :disabled="disabled || null">
             <template v-for="(item,index) in computedMenuIndex">
                 <m-editor-item v-if="showMenuItem(item[0])" :value="item[0]" :menu="computedMenus[item[0]]" :ref="el=>menuRefs[index]=el" :key="'mvi-editor-menu-' + index">
                 </m-editor-item>
             </template>
         </div>
-        <div class="mvi-editor-body">
+        <div ref="body" class="mvi-editor-body">
             <div v-if="codeViewShow" v-text="initalHtml" key="code" :contenteditable="!disabled || null" :style="codeViewStyle" :class="codeViewClass" ref="codeView" @blur="codeViewBlur" @focus="codeViewFocus" @input="codeViewInput" @keydown="tabDown" @paste="codeViewPaste"></div>
             <div v-else ref="content" @blur="contentBlur" @focus="contentFocus" @click="changeActive" @input="contentInput" :class="contentClass" key="content" @keydown="tabDown" :contenteditable="!disabled || null" :style="contentStyle" v-html="initalHtml" :data-placeholder="placeholder" @paste="contentPaste"></div>
         </div>
@@ -16,6 +16,7 @@
 <script>
 import $dap from 'dap-util'
 import editorItem from './editor-item'
+import Observe from '../observe/observe'
 export default {
     name: 'm-editor',
     data() {
@@ -104,15 +105,6 @@ export default {
                         value: 'p'
                     }
                 ],
-                //字体
-                fontFamily: [
-                    'PingFang SC',
-                    'Helvetica Neue',
-                    'kaiTi',
-                    'Microsoft YaHei',
-                    'Arial',
-                    'sans-serif'
-                ],
                 //加粗
                 bold: true,
                 //斜体
@@ -125,6 +117,46 @@ export default {
                 subscript: true,
                 //上标
                 superscript: true,
+                //字体
+                fontFamily: [
+                    'PingFang SC',
+                    'Helvetica Neue',
+                    'kaiTi',
+                    'Microsoft YaHei',
+                    'Arial',
+                    'sans-serif'
+                ],
+                //字号
+                fontSize: [
+                    {
+                        label: '12px',
+                        value: '0.24rem'
+                    },
+                    {
+                        label: '14px',
+                        value: '0.28rem'
+                    },
+                    {
+                        label: '16px',
+                        value: '0.32rem'
+                    },
+                    {
+                        label: '20px',
+                        value: '0.4rem'
+                    },
+                    {
+                        label: '28px',
+                        value: '0.56rem'
+                    },
+                    {
+                        label: '36px',
+                        value: '0.72rem'
+                    },
+                    {
+                        label: '48px',
+                        value: '0.96rem'
+                    }
+                ],
                 //字体颜色
                 foreColor: [
                     '#000000',
@@ -346,13 +378,14 @@ export default {
                 selectAll: '全选',
                 divider: '分割线',
                 tag: '标签',
-                fontFamily: '字体',
                 bold: '加粗',
                 italic: '斜体',
                 underline: '下划线',
                 strikeThrough: '删除线',
                 subscript: '下标',
                 superscript: '上标',
+                fontFamily: '字体',
+                fontSize: '字号',
                 foreColor: '字体颜色',
                 backColor: '背景色',
                 list: '列表',
@@ -445,12 +478,13 @@ export default {
                 divider: 'divider',
                 tag: 'font-title',
                 bold: 'bold',
-                fontFamily: 'font',
                 italic: 'italic',
                 underline: 'underline',
                 strikeThrough: 'strikethrough',
                 subscript: 'subscript',
                 superscript: 'superscript',
+                fontFamily: 'font',
+                fontSize: 'font-size',
                 foreColor: 'color-picker',
                 backColor: 'brush',
                 link: 'link',
@@ -472,12 +506,13 @@ export default {
                 divider: 0,
                 tag: 0,
                 bold: 0,
-                fontFamily: 0,
                 italic: 0,
                 underline: 0,
                 strikeThrough: 0,
                 subscript: 0,
                 superscript: 0,
+                fontFamily: 0,
+                fontSize: 0,
                 foreColor: 0,
                 backColor: 0,
                 link: 0,
@@ -703,8 +738,19 @@ export default {
                                 label: item.label,
                                 value: item.value
                             }
-                            if (item.icon) {
-                                obj.icon = item.icon
+                            if ($dap.common.isObject(item.icon)) {
+                                obj.icon = {
+                                    custom: item.icon.custom,
+                                    value: item.icon.value
+                                }
+                            } else if (
+                                typeof item.icon == 'string' &&
+                                item.icon
+                            ) {
+                                obj.icon = {
+                                    custom: false,
+                                    value: item.icon
+                                }
                             }
                             newArray.push(obj)
                         } else if (
@@ -810,7 +856,10 @@ export default {
         mEditorItem: editorItem
     },
     mounted() {
+        //初始化
         this.init()
+        //监听dom
+        this.domListener()
     },
     watch: {
         modelValue(newValue) {
@@ -880,6 +929,11 @@ export default {
             })
             if (this.autofocus) {
                 this.collapseToEnd()
+            }
+            if (this.defaultMenus.fontSize.length > 7) {
+                throw new Error(
+                    'The maximum length of fontSize cannot exceed 7'
+                )
             }
         },
         //对外提供的用以插入图片的api
@@ -1492,7 +1546,7 @@ export default {
                 return allowedFileType.includes(suffix)
             }
         },
-        //插入HTML
+        //对外提供的用以插入HTML片段的api
         insertHtml(html) {
             if (this.disabled) {
                 return
@@ -1505,7 +1559,7 @@ export default {
             }
             document.execCommand('insertHtml', false, html)
         },
-        //插入文本
+        //对外提供的用以插入文本的api
         insertText(text) {
             if (this.disabled) {
                 return
@@ -1517,6 +1571,52 @@ export default {
                 return
             }
             document.execCommand('insertText', false, text)
+        },
+        //监听dom设置字体
+        domListener() {
+            const observe = new Observe(this.$refs.body, {
+                attributes: false,
+                childList: true,
+                subtree: true,
+                childNodesChange: (addNode, removeNode) => {
+                    if (addNode) {
+                        const fontSize = addNode.style.fontSize
+                        switch (fontSize) {
+                            case 'x-small':
+                                addNode.style.fontSize =
+                                    this.defaultMenus.fontSize[0].value
+                                break
+                            case 'small':
+                                addNode.style.fontSize =
+                                    this.defaultMenus.fontSize[1].value
+                                break
+                            case 'medium':
+                                addNode.style.fontSize =
+                                    this.defaultMenus.fontSize[2].value
+                                break
+                            case 'large':
+                                addNode.style.fontSize =
+                                    this.defaultMenus.fontSize[3].value
+                                break
+                            case 'x-large':
+                                addNode.style.fontSize =
+                                    this.defaultMenus.fontSize[4].value
+                                break
+                            case 'xx-large':
+                                addNode.style.fontSize =
+                                    this.defaultMenus.fontSize[5].value
+                                break
+                            case 'xxx-large':
+                                addNode.style.fontSize =
+                                    this.defaultMenus.fontSize[6].value
+                                break
+                            default:
+                                break
+                        }
+                    }
+                }
+            })
+            observe.init()
         }
     }
 }

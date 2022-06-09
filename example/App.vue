@@ -2,7 +2,7 @@
     <div>
         {{value}}
     </div>
-    <m-editor ref="editor" :menu-icons="{custom:'user'}" :menu-index="{custom:1}" :tooltips="{custom:'自定义'}" :menus="{custom:true}" @custom="change" v-model="value"></m-editor>
+    <m-editor ref="editor" :menu-icons="{custom:'user'}" :menu-index="{custom:1}" :tooltips="{custom:'自定义'}" :menus="{custom:true,codeView:true,fontSize:[{label:'12px',value:'12px',icon:{custom:true,value:'fa fa-home'}}]}" @custom="change" v-model="value"></m-editor>
 </template>
 
 <script>
