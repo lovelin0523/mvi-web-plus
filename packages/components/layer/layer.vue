@@ -1351,7 +1351,7 @@ export default {
                 this.$refs.triangle.$el.style.left = 'auto'
                 this.$refs.triangle.$el.style.bottom = '100%'
                 this.$refs.triangle.$el.style.right =
-                    (targetWidth > elWidth ? targetWidth : elWidth) / 2 -
+                    (targetWidth > elWidth ? elWidth : targetWidth) / 2 -
                     triWidth / 2 +
                     'px'
             } else if (this.realPlacement == 'top-start') {
