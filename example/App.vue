@@ -2,7 +2,7 @@
     <div>
         {{value}}
     </div>
-    <m-editor ref="editor" :menu-icons="{custom:'user'}" :menu-index="{custom:1}" :tooltips="{custom:'自定义'}" :menus="{custom:true,codeView:true,fontSize:[{label:'12px',value:'12px',icon:{custom:true,value:'fa fa-home'}}]}" @custom="change" v-model="value"></m-editor>
+    <m-editor ref="editor" :menu-icons="{custom:'user'}" :menu-index="{custom:1}" :tooltips="{custom:'自定义'}" :menus="{custom:true,codeView:true,fontSize:[{label:'12px',value:'12px',icon:{custom:true,value:'fa fa-home'}}]}" @custom="change" v-model="value" :custom-active="customActive"></m-editor>
 </template>
 
 <script>
@@ -26,10 +26,20 @@ export default {
     },
     methods: {
         change(res) {
-            console.log(res)
             this.$refs.editor.insertHtml(
-                '<img src="https://www.mvi-web.cn/mvi-resources/images/mvi_image_8_1624705387875.jpg"/>'
+                '<div data-v="1" class="mvi-bg-success mvi-p-4"></div>'
             )
+        },
+        customActive(key, node) {
+            if (key === 'custom') {
+                console.log(
+                    this.$refs.editor.getCompareTagForAttr(node, 'data-v', '1')
+                )
+                if (this.$refs.editor.compareAttribute(node, 'data-v', '1')) {
+                    return true
+                }
+                return false
+            }
         }
     }
 }

@@ -1348,6 +1348,34 @@ export default {
                 return false
             }
         },
+        //判断某个节点是否在指定属性下，可对外提供
+        compareAttribute(el, attrName, attrVal) {
+            if (!$dap.element.isElement(el)) {
+                return false
+            }
+            if (!this.$refs.content) {
+                return false
+            }
+            if ($dap.element.isContains(this.$refs.content, el)) {
+                if (el.hasAttribute(attrName)) {
+                    if (attrVal) {
+                        if (el.getAttribute(attrName) === attrVal) {
+                            return true
+                        }
+                        return false
+                    }
+                    return true
+                } else {
+                    return this.compareAttribute(
+                        el.parentNode,
+                        attrName,
+                        attrVal
+                    )
+                }
+            } else {
+                return false
+            }
+        },
         //根据标签名获取某个节点，可对外提供
         getCompareTag(el, tag) {
             if (!$dap.element.isElement(el)) {
@@ -1382,6 +1410,34 @@ export default {
                         el.parentNode,
                         cssName,
                         cssValue
+                    )
+                }
+            } else {
+                return null
+            }
+        },
+        //根据属性或者属性值获取某个节点，可对外提供
+        getCompareTagForAttribute(el, attrName, attrVal) {
+            if (!$dap.element.isElement(el)) {
+                return null
+            }
+            if (!this.$refs.content) {
+                return null
+            }
+            if ($dap.element.isContains(this.$refs.content, el)) {
+                if (el.hasAttribute(attrName)) {
+                    if (attrVal) {
+                        if (el.getAttribute(attrName) === attrVal) {
+                            return el
+                        }
+                        return null
+                    }
+                    return el
+                } else {
+                    return this.getCompareTagForAttribute(
+                        el.parentNode,
+                        attrName,
+                        attrVal
                     )
                 }
             } else {
