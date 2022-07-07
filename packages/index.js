@@ -12,6 +12,7 @@ import components from './components'
 //注册组件和工具类
 const install = app => {
     if (install.installed) return
+    install.installed = true
     app.config.globalProperties.$dap = dap
     app.provide('$dap', dap)
     Object.values(components).map(component => {
